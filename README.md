@@ -43,7 +43,13 @@ On a Mac you can install SBT (Scala Build Tool) with homebrew:
 $ brew install sbt@1
 ```
 
-## Running the Server
+## Running
+
+At the IDEA start screen, open the `epsilonsecurity/` folder. Try compiling the project. SBT may spend a long time downloading resources—be patient.
+
+If all is successful, select 'SBT Run' from the configurations drop down and hit the Run button to launch the server. You will see SBT's output in the integrated console. Go to [`localhost:9000`](localhost:9000) to see your handiwork. The first load may take a while, as SBT is lazily compiling your web page. 
+
+### Command Line
 
 tl;dr call `sbt run` from the `epsilonsecurity` directory
 
@@ -58,3 +64,36 @@ From the interactive prompt, calling `run` will start up the server. You can now
 After a server start-up, the first page load will take a while. This is because Play is compiling the necessary resources lazily; future reloads (on this running instance) will be essentially instantaneous. 
 
 Hitting enter again will stop the server and drop you back to the SBT console. Hit `<Control-C>` to exit back to your own shell.  
+
+
+## Trouble Shooting:
+
+> **SBT is stuck!**
+
+Be patient; any time you clean SBT's caches—and the first time it's launched—it will have to download a lot of our project's dependencies. It may not give much feedback, but it's probably doing something. 
+
+> **My web page is loading forever!**
+
+By the time you read this, it's probably done loading. Play/SBT compile sources lazily so that you can prototype features faster. The initial compilation only does the bare-minimum required to launch the server, after that it will only compile pages as requested. Subsequent reloads will be instaneous. 
+
+> **Relaunching the server over and over again is tedious!**
+
+Stop reloading the server. Keep it running and let SBT auto-compile your sources as you save them. This will create another long page load, but at least you don't have recompile the whole server. 
+
+> **I'm getting weird errors from SBT!**
+
+IDEs are very complicated and sometimes errors can occur. Your first trouble-shooting step should be to go to `epsilonsecurity/` from the command-line and try running SBT from there. 
+
+Additionally, don't let multiple instances of the server run simultaneously; that's a recipe for distaster. 
+
+> **I'm _still_ getting weird errors from SBT!**
+
+Build systems, like IDEs, are also complicated. Stop the server and recursively delete every single `target/` folder under `epsilonsecurity`. The next launch will require SBT to redownload its cached dependencies. 
+
+> **SBT says there's no project!**
+
+Run SBT from the `epsilonsecurity/` folder, not from our project root. 
+
+> **I'm having other issues!**
+
+Google the issue. Check StackOverflow. Then go to the most relevant Slack channel and ask with as much pertinent detail as possible. 
