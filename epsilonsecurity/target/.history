@@ -1,0 +1,12 @@
+run
+clean
+blah
+help
+exit
+help
+sbt
+run
+log
+doc
+run
+exit

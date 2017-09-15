@@ -1,0 +1,62 @@
+<h2>Command line instructions</h2>
+
+<p><code>
+git clone git@csil-git1.cs.surrey.sfu.ca:apa53/373-Epsilon.git
+cd 373-Epsilon
+</code></p>
+
+<p>Don't forget to setup your identity:</p>
+
+<p><code>
+git config --global user.name "Boaty McBoatface"
+git config --global user.email "mcface@sfu.ca"
+</code></p>
+
+<p>If you actively develop with a different name/email you can use the <code>--local</code> flag to only set this email for this git repo.</p>
+
+<h2>Installation</h2>
+
+<h3>Requirements</h3>
+
+<ol>
+<li>Java 1.8</li>
+<li>SBT </li>
+</ol>
+
+<h4>Java 1.8</h4>
+
+<p>If you don't have Java 1.8 already installed, go ahead and download that from the Oracle website. </p>
+
+<h4>SBT</h4>
+
+<p>Follow the instructions on the <a href="http://www.scala-sbt.org/download.html">website</a>. For the lazy:</p>
+
+<p>If you're using Ubuntu:</p>
+
+<pre><code>echo "deb https://dl.bintray.com/sbt/debian /" | sudo tee -a /etc/apt/sources.list.d/sbt.list
+sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 2EE0EA64E40A89B84B2DF73499E82A75642AC823
+sudo apt-get update
+sudo apt-get install sbt
+</code></pre>
+
+<p>On a Mac you can install SBT (Scala Build Tool) with homebrew:</p>
+
+<p><code>
+$ brew install sbt@1
+</code></p>
+
+<h2>Running the Server</h2>
+
+<p>tl;dr call <code>sbt run</code> from the <code>epsilonsecurity</code> directory</p>
+
+<h3>Details</h3>
+
+<p>SBT can be run interactively. If you type <code>sbt</code> in your console it will load up the project in the current directory. From here, you can type commands, such as <code>run</code>, <code>clean</code>, and <code>exit</code>. </p>
+
+<p>The first time you run SBT it may appear to be doing nothing—it is in fact downloading the internet. Either have faith or call it with the <code>-v</code> flag. </p>
+
+<p>From the interactive prompt, calling <code>run</code> will start up the server. You can now go to <a href="localhost:9000"><code>localhost:9000</code></a> to see your handiwork. </p>
+
+<p>After a server start-up, the first page load will take a while. This is because Play is compiling the necessary resources lazily; future reloads (on this running instance) will be essentially instantaneous. </p>
+
+<p>Hitting enter again will stop the server and drop you back to the SBT console. Hit <code>&lt;Control-C&gt;</code> to exit back to your own shell.  </p>

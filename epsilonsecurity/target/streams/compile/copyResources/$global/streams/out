@@ -1,0 +1,4 @@
+[0m[[0mdebug[0m] [0mCopy resource mappings: [0m
+[0m[[0mdebug[0m] [0m	(/Users/alexpopov/Documents/School/373-Epsilon/epsilonsecurity/conf/application.conf,/Users/alexpopov/Documents/School/373-Epsilon/epsilonsecurity/target/scala-2.12/classes/application.conf)[0m
+[0m[[0mdebug[0m] [0m	(/Users/alexpopov/Documents/School/373-Epsilon/epsilonsecurity/conf/logback.xml,/Users/alexpopov/Documents/School/373-Epsilon/epsilonsecurity/target/scala-2.12/classes/logback.xml)[0m
+[0m[[0mdebug[0m] [0m	(/Users/alexpopov/Documents/School/373-Epsilon/epsilonsecurity/conf/routes,/Users/alexpopov/Documents/School/373-Epsilon/epsilonsecurity/target/scala-2.12/classes/routes)[0m
