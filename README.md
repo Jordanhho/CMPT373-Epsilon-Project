@@ -20,15 +20,24 @@ If you actively develop with a different name/email you can use the `--local` fl
 ### Requirements
 
   1. Java 1.8
-  2. SBT 
 
 #### Java 1.8
 
 If you don't have Java 1.8 already installed, go ahead and download that from the Oracle website. 
 
-#### SBT
+## Running
 
-Follow the instructions on the [website](http://www.scala-sbt.org/download.html). For the lazy:
+At the IDEA start screen, open the `epsilonsecurity/` folder. Try compiling the project. SBT may spend a long time downloading resources—be patient.
+
+If all is successful, select 'SBT Run' from the configurations drop down and hit the Run button to launch the server. You will see SBT's output in the integrated console. Go to [`localhost:9000`](localhost:9000) to see your handiwork. The first load may take a while, as SBT is lazily compiling your web page. 
+
+### Command Line
+
+tl;dr call `sbt run` from the `epsilonsecurity` directory
+
+### Details
+
+First you will need to install SBT. Follow the instructions on the [website](http://www.scala-sbt.org/download.html). For the lazy:
 
 If you're using Ubuntu:
 
@@ -43,17 +52,6 @@ On a Mac you can install SBT (Scala Build Tool) with homebrew:
 $ brew install sbt@1
 ```
 
-## Running
-
-At the IDEA start screen, open the `epsilonsecurity/` folder. Try compiling the project. SBT may spend a long time downloading resources—be patient.
-
-If all is successful, select 'SBT Run' from the configurations drop down and hit the Run button to launch the server. You will see SBT's output in the integrated console. Go to [`localhost:9000`](localhost:9000) to see your handiwork. The first load may take a while, as SBT is lazily compiling your web page. 
-
-### Command Line
-
-tl;dr call `sbt run` from the `epsilonsecurity` directory
-
-### Details
 
 SBT can be run interactively. If you type `sbt` in your console it will load up the project in the current directory. From here, you can type commands, such as `run`, `clean`, and `exit`. 
 
@@ -66,7 +64,7 @@ After a server start-up, the first page load will take a while. This is because 
 Hitting enter again will stop the server and drop you back to the SBT console. Hit `<Control-C>` to exit back to your own shell.  
 
 
-## Trouble Shooting:
+## Troubleshooting:
 
 > **SBT is stuck!**
 
