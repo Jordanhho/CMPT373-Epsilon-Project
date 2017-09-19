@@ -1,5 +1,11 @@
-@()
+@(trash: List[Garbage])
 
 @main("373") {
   <h1>Congratulations, you launched the Epsilon Security server!</h1>
+<p>@trash</p>
+@for(item <- trash) {
+<h3>@item.key</h3>
+<h2>@item.string</h2>
+<h1>@item.number</h1>
+}
 }
