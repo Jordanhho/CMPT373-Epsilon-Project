@@ -70,7 +70,7 @@ Hitting enter again will stop the server and drop you back to the SBT console. H
 To log into our Virtual Machine you must first have `ssh` installed. In the command-line run:
 
 ```
-ssh SFU_ID@@cmpt373-1177e.cmpt.sfu.ca
+ssh SFU_ID@cmpt373-1177e.cmpt.sfu.ca
 ```
 
 Where you fill in `SFU_ID`. 
