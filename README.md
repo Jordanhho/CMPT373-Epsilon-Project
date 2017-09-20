@@ -63,6 +63,42 @@ After a server start-up, the first page load will take a while. This is because 
 
 Hitting enter again will stop the server and drop you back to the SBT console. Hit `<Control-C>` to exit back to your own shell.  
 
+## Virtual Machine
+
+### Login
+
+To log into our Virtual Machine you must first have `ssh` installed. In the command-line run:
+
+```
+ssh SFU_ID@@cmpt373-1177e.cmpt.sfu.ca
+```
+
+Where you fill in `SFU_ID`. 
+
+You will be prompted on whether you want to permenantly add the host to your known hosts. Say yes. 
+
+Then enter your password. 
+
+### Cloning our Project
+
+Your fresh account does not yet have an SSH key. Generate it by running
+
+```
+ssh-keygen -t rsa -C "YOUR_EMAIL"
+```
+Unless you know what you're doing, just leave it with the default name. 
+
+You will then be prompted to enter a password. Do not leave this field blank; enter a password. 
+
+Next, add your public key to your GitLab profile:
+
+```
+cat ~/.ssh/id_rsa.pub
+```
+
+Copy the entirety of this output and add it to your profile. 
+
+Now you're ready to `git clone` as described at the top of this document. 
 
 ## Troubleshooting:
 
@@ -95,3 +131,4 @@ Run SBT from the `epsilonsecurity/` folder, not from our project root.
 > **I'm having other issues!**
 
 Google the issue. Check StackOverflow. Then go to the most relevant Slack channel and ask with as much pertinent detail as possible. 
+
