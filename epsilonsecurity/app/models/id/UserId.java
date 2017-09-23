@@ -1,4 +1,6 @@
-package models;
+package models.id;
+
+import models.UserIdable;
 
 import javax.annotation.Nonnull;
 

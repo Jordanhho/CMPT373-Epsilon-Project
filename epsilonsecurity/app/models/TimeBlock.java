@@ -7,6 +7,11 @@ public class TimeBlock {
     public Date startTime;
     public Date endTime;
 
+    public TimeBlock(Date startTime, Date endTime) {
+
+    }
+
+
     // TODO: requires initializer
 
     public Duration getDuration() {
