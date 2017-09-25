@@ -1,10 +1,16 @@
 package models.roles;
 
 import models.id.RoleId;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import io.ebean.*;
 
 import javax.annotation.Nonnull;
 
-public class Role {
+@Entity
+public class Role extends Model {
+
+    @Id
     @Nonnull private RoleId id;
     @Nonnull private String name;
 
@@ -22,4 +28,6 @@ public class Role {
     public String getName() {
         return name;
     }
+
+    public static Finder<Integer, Role> find = new Finder<>(Role.class);
 }

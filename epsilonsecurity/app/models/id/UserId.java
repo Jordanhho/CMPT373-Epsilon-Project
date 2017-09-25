@@ -1,5 +1,6 @@
 package models.id;
 
+import models.DatabaseId;
 import models.UserIdable;
 
 import javax.annotation.Nonnull;

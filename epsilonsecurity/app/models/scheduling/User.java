@@ -4,9 +4,19 @@ import models.UserIdable;
 import models.id.RoleId;
 import models.id.UserId;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import io.ebean.*;
+
+
 import javax.annotation.Nonnull;
 
-public class User implements UserIdable{
+
+
+@Entity
+public class User implements UserIdable extends Model
+{
+    @Id
     @Nonnull private UserId id;
     @Nonnull private RoleId roleId;
     @Nonnull private String contactEmail;
@@ -51,4 +61,6 @@ public class User implements UserIdable{
     public String getPhotoURL() {
         return photoURL;
     }
+
+    public static Finder<Integer, User> find = new Finder<>(User.class);
 }

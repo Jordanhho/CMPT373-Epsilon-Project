@@ -4,12 +4,15 @@ import models.TimeBlock;
 import models.UserIdable;
 import models.id.RecurringAvailabilityId;
 import models.id.UserId;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import io.ebean.*;
 
 import javax.annotation.Nonnull;
 import java.util.Date;
-
-public class RecurringAvailability implements UserIdable {
-
+@Entity
+public class RecurringAvailability implements UserIdable extends Model {
+    @Id
     @Nonnull private RecurringAvailabilityId id;
     @Nonnull private UserId userId;
 
@@ -51,4 +54,7 @@ public class RecurringAvailability implements UserIdable {
     public TimeBlock getShiftTimeBlock() {
         return shiftTimeBlock;
     }
+
+    public static Finder<Integer, RecurringAvailability> find = new Finder<>(RecurringAvailability.class);
+
 }

@@ -1,10 +1,16 @@
 package models.roles;
 
 import models.id.PermissionId;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import io.ebean.*;
 
 import javax.annotation.Nonnull;
 
-public class Permission {
+@Entity
+public class Permission extends Model {
+
+    @Id
     @Nonnull private PermissionId id;
     @Nonnull private String name;
 
@@ -22,4 +28,6 @@ public class Permission {
     public String getName() {
         return name;
     }
+
+    public static Finder<Integer, Permission> find = new Finder<>(Permission.class);
 }

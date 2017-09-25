@@ -4,10 +4,15 @@ import models.TimeBlock;
 import models.id.ShiftId;
 
 import javax.annotation.Nonnull;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import io.ebean.*;
 
-public class Shift {
+@Entity
+public class Shift extends Model {
 
     // Fields
+    @Id
     @Nonnull private ShiftId id;
     @Nonnull private TimeBlock timeBlock;
     @Nonnull private boolean wasPresent;
@@ -44,4 +49,5 @@ public class Shift {
     //        copy.eventId = Optional.of(shiftID);
     //        return copy;
     //    }
+    public static Finder<Integer, Shift> find = new Finder<>(Shift.class);
 }

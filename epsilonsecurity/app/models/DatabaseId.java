@@ -2,6 +2,8 @@ package models;
 
 import javax.annotation.Nonnull;
 
+
+
 public abstract class DatabaseId {
     @Nonnull protected long rawId;
 

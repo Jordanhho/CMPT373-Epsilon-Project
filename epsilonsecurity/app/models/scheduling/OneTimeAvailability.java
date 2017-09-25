@@ -4,11 +4,15 @@ import models.TimeBlock;
 import models.UserIdable;
 import models.id.OneTimeAvailabilityId;
 import models.id.UserId;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import io.ebean.*;
 
 import javax.annotation.Nonnull;
 
-public class OneTimeAvailability implements UserIdable {
-
+@Entity
+public class OneTimeAvailability implements UserIdable extends Model {
+    @Id
     @Nonnull private OneTimeAvailabilityId id;
     @Nonnull private UserId userId;
     @Nonnull private TimeBlock timeBlock;
@@ -26,4 +30,7 @@ public class OneTimeAvailability implements UserIdable {
     public TimeBlock getTimeBlock() {
         return timeBlock;
     }
+
+    public static Finder<Integer, OneTimeAvailability> find = new Finder<>(OneTimeAvailability.class);
+
 }
