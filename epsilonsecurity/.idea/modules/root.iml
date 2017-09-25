@@ -129,5 +129,28 @@
     <orderEntry type="library" name="SBT: ch.qos.logback:logback-core:1.2.3:jar" level="project" />
     <orderEntry type="library" name="SBT: ch.qos.logback:logback-classic:1.2.3:jar" level="project" />
     <orderEntry type="library" scope="TEST" name="SBT: cglib:cglib-nodep:3.2.4:jar" level="project" />
+    <orderEntry type="library" name="SBT: com.googlecode.usc:jdbcdslog:1.0.6.2:jar" level="project" />
+    <orderEntry type="library" name="SBT: com.h2database:h2:1.4.193:jar" level="project" />
+    <orderEntry type="library" name="SBT: com.jolbox:bonecp:0.8.0.RELEASE:jar" level="project" />
+    <orderEntry type="library" name="SBT: com.typesafe.play:play-ebean_2.12:4.0.2:jar" level="project" />
+    <orderEntry type="library" name="SBT: com.typesafe.play:play-enhancer:1.1.0:jar" level="project" />
+    <orderEntry type="library" name="SBT: com.typesafe.play:play-java-jdbc_2.12:2.6.3:jar" level="project" />
+    <orderEntry type="library" name="SBT: com.typesafe.play:play-jdbc-api_2.12:2.6.3:jar" level="project" />
+    <orderEntry type="library" name="SBT: com.typesafe.play:play-jdbc-evolutions_2.12:2.6.0:jar" level="project" />
+    <orderEntry type="library" name="SBT: com.typesafe.play:play-jdbc_2.12:2.6.3:jar" level="project" />
+    <orderEntry type="library" name="SBT: com.zaxxer:HikariCP:2.6.3:jar" level="project" />
+    <orderEntry type="library" name="SBT: io.ebean:ebean:10.3.1:jar" level="project" />
+    <orderEntry type="library" name="SBT: io.ebean:ebean-agent:10.3.1:jar" level="project" />
+    <orderEntry type="library" name="SBT: io.ebean:ebean-annotation:2.3:jar" level="project" />
+    <orderEntry type="library" name="SBT: io.ebean:ebean-dbmigration:10.1.8:jar" level="project" />
+    <orderEntry type="library" name="SBT: io.ebean:persistence-api:2.2.1:jar" level="project" />
+    <orderEntry type="library" name="SBT: org.antlr:antlr4-runtime:4.6:jar" level="project" />
+    <orderEntry type="library" name="SBT: org.avaje:avaje-classpath-scanner:2.2.2:jar" level="project" />
+    <orderEntry type="library" name="SBT: org.avaje:avaje-classpath-scanner-api:2.2:jar" level="project" />
+    <orderEntry type="library" name="SBT: org.avaje:avaje-datasource:2.1.1:jar" level="project" />
+    <orderEntry type="library" name="SBT: org.avaje:avaje-datasource-api:1.1:jar" level="project" />
+    <orderEntry type="library" name="SBT: org.jetbrains:annotations:13.0:jar" level="project" />
+    <orderEntry type="library" name="SBT: org.xerial:sqlite-jdbc:3.8.6:jar" level="project" />
+    <orderEntry type="library" name="SBT: tyrex:tyrex:1.0.1:jar" level="project" />
   </component>
 </module>
