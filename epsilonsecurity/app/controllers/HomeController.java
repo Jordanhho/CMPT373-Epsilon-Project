@@ -1,6 +1,4 @@
 package controllers;
-
-import models.SomeModel;
 import play.mvc.*;
 
 /**
@@ -19,15 +17,4 @@ public class HomeController extends Controller {
         return ok(views.html.index.render());
     }
 
-    public Result create() {
-        // Save entry into the database
-        new SomeModel().save();
-        return ok(views.html.index.render());
-    }
-
-    public Result delete(Integer id) {
-        SomeModel someModel = SomeModel.find.byId(id);
-        someModel.delete();
-        return ok(views.html.index.render());
-    }
 }
