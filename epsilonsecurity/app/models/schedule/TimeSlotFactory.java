@@ -1,49 +1,55 @@
 package models.schedule;
 
-import org.joda.time.DateTime;
-import org.joda.time.Duration;
+import java.time.Instant;
+import java.time.Duration;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.temporal.ChronoField;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import static java.time.temporal.ChronoUnit.MINUTES;
+
 public class TimeSlotFactory {
 
-    public static TimeSlot newTimeSlotFrom(DateTime from) {
+    public static TimeSlot newTimeSlotFrom(Instant from) {
         return new TimeSlot(quantize(from));
     }
 
     // TODO: assertions, e.g. to > from and count > 0
 
-    public static List<TimeSlot> newTimeSlots(DateTime from, DateTime to) {
-        DateTime quantizedStart = quantize(from);
-        DateTime quantizedEnd = quantize(to);
-        Duration duration = new Duration(quantizedStart, quantizedEnd);
-        int minutesBetween = (int) duration.getStandardMinutes();
-        int count = minutesBetween % TimeSlot.QUANTIZATION_MINUTES;
+    public static List<TimeSlot> newTimeSlots(Instant from, Instant to) {
+        Instant quantizedStart = quantize(from);
+        Instant quantizedEnd = quantize(to);
+        Duration duration = Duration.between(quantizedStart, quantizedEnd);
+        int minutesBetween = (int) duration.get(MINUTES);
+        int count = minutesBetween / TimeSlot.QUANTIZATION_MINUTES;
         return newTimeSlots(quantizedStart, count);
     }
 
-    public static List<TimeSlot> newTimeSlots(DateTime from, int count) {
+    public static List<TimeSlot> newTimeSlots(Instant from, int count) {
         List<TimeSlot> timeSlots = IntStream.range(0, count)
                 .mapToObj( offset -> {
-                    DateTime start = from.plusMinutes(offset * TimeSlot.QUANTIZATION_MINUTES);
+                    Instant start = from.plus(offset * TimeSlot.QUANTIZATION_MINUTES, MINUTES);
                     return new TimeSlot(start);
                 })
                 .collect(Collectors.toList());
         return timeSlots;
     }
 
-    private static DateTime quantize(DateTime dateTime) {
+    private static Instant quantize(Instant instant) {
         int quantization = TimeSlot.QUANTIZATION_MINUTES;
-        int minuteOfDay = dateTime.minuteOfHour().get();
-        int offsetAmount = minuteOfDay % TimeSlot.QUANTIZATION_MINUTES;
+        int minuteOfHour = LocalDateTime.ofInstant(instant, ZoneId.systemDefault()).getMinute(); // TODO: hacky, fix this
+        int offsetAmount = minuteOfHour % TimeSlot.QUANTIZATION_MINUTES;
         int threshold = quantization / 2;
         if (offsetAmount <= threshold) {
-            return dateTime.minusMinutes(offsetAmount);
+            return instant.minus(offsetAmount, MINUTES);
         } else {
             int advanceAmount = quantization - offsetAmount;
-            return dateTime.plusMinutes(advanceAmount);
+            return instant.plus(advanceAmount, MINUTES);
         }
     }
 

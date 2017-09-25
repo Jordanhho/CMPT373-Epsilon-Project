@@ -1,25 +1,28 @@
 package models.schedule;
 
-import org.joda.time.DateTime;
-
+import java.time.Instant;
 import javax.annotation.Nonnull;
+
+import static java.time.temporal.ChronoUnit.MINUTES;
 
 public class TimeSlot {
 
     public static int QUANTIZATION_MINUTES = 15;
 
     @Nonnull
-    private DateTime start;
+    private Instant start;
 
-    protected TimeSlot(@Nonnull DateTime start) {
+    protected TimeSlot(@Nonnull Instant start) {
         this.start = start;
     }
 
-    public DateTime getEnd() {
-        return start.plusMinutes(QUANTIZATION_MINUTES);
+    @Nonnull
+    public Instant getEnd() {
+        return start.plus(QUANTIZATION_MINUTES, MINUTES);
     }
 
-    public DateTime getStart() {
+    @Nonnull
+    public Instant getStart() {
         return start;
     }
 

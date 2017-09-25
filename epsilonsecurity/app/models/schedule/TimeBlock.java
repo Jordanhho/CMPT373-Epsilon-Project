@@ -1,13 +1,13 @@
 package models.schedule;
 
-import org.joda.time.DateTime;
-
 import java.time.Duration;
+import java.time.Instant;
+
 import java.util.List;
 
 public class TimeBlock {
-    public DateTime start;
-    public DateTime end;
+    public Instant start;
+    public Instant end;
 
     // TODO: requires initializer
 
