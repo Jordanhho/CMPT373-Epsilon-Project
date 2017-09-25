@@ -14,8 +14,7 @@ import javax.annotation.Nonnull;
 
 
 @Entity
-public class User extends Model implements UserIdable
-{
+public class User extends Model implements UserIdable {
     @Id
     @Nonnull private UserId id;
     @Nonnull private RoleId roleId;
