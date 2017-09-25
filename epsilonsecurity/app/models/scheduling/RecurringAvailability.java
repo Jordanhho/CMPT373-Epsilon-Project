@@ -11,7 +11,7 @@ import io.ebean.*;
 import javax.annotation.Nonnull;
 import java.util.Date;
 @Entity
-public class RecurringAvailability implements UserIdable extends Model {
+public class RecurringAvailability extends Model implements UserIdable {
     @Id
     @Nonnull private RecurringAvailabilityId id;
     @Nonnull private UserId userId;

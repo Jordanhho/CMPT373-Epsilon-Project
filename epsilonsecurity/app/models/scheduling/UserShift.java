@@ -12,7 +12,7 @@ import javax.annotation.Nonnull;
 
 
 @Entity
-public class UserShift implements UserIdable extends Model {
+public class UserShift extends Model implements UserIdable {
 
     @Id
     @Nonnull private UserShiftId id;
