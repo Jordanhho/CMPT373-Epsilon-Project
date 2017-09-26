@@ -6,6 +6,10 @@
 .idea/**/tasks.xml
 .idea/dictionaries
 
+*.iml
+.idea/modules/root.iml
+.idea/modules/root-build.iml
+
 # Sensitive or high-churn files:
 .idea/**/dataSources/
 .idea/**/dataSources.ids
