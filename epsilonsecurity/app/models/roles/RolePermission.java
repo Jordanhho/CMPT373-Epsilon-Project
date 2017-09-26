@@ -3,8 +3,10 @@ package models.roles;
 import models.id.PermissionId;
 import models.id.RoleId;
 import models.id.RolePermissionId;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
+
 import io.ebean.*;
 
 import javax.annotation.Nonnull;
@@ -13,9 +15,12 @@ import javax.annotation.Nonnull;
 public class RolePermission extends Model {
 
     @Id
-    @Nonnull private RolePermissionId id;
-    @Nonnull private RoleId roleId;
-    @Nonnull private PermissionId permissionId;
+    @Nonnull
+    private RolePermissionId id;
+    @Nonnull
+    private RoleId roleId;
+    @Nonnull
+    private PermissionId permissionId;
 
     public RolePermission(@Nonnull RolePermissionId id, @Nonnull RoleId roleId, @Nonnull PermissionId permissionId) {
         this.id = id;

@@ -6,6 +6,7 @@ import models.id.ShiftId;
 import javax.annotation.Nonnull;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+
 import io.ebean.*;
 
 @Entity
@@ -13,9 +14,12 @@ public class Shift extends Model {
 
     // Fields
     @Id
-    @Nonnull private ShiftId id;
-    @Nonnull private TimeBlock timeBlock;
-    @Nonnull private boolean wasPresent;
+    @Nonnull
+    private ShiftId id;
+    @Nonnull
+    private TimeBlock timeBlock;
+    @Nonnull
+    private boolean wasPresent;
 
     // Constructors
     @Nonnull

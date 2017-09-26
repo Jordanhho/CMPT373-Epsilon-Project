@@ -6,35 +6,45 @@ import models.id.UserId;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+
 import io.ebean.*;
 
 
 import javax.annotation.Nonnull;
 
 
-
 @Entity
 public class User extends Model implements UserIdable {
-    @Id
-    @Nonnull private UserId id;
-    @Nonnull private RoleId roleId;
-    @Nonnull private String contactEmail;
-    @Nonnull private String sfuEmail;
-    @Nonnull private String phoneNumer;
-    @Nonnull private String photoURL;
 
-    public User(@Nonnull UserId id, @Nonnull RoleId roleId, @Nonnull String contactEmail, @Nonnull String sfuEmail, @Nonnull String phoneNumer, @Nonnull String photoURL) {
+    @Id
+    @Nonnull
+    private UserId id;
+    @Nonnull
+    private RoleId roleId;
+    @Nonnull
+    private String contactEmail;
+    @Nonnull
+    private String sfuEmail;
+    @Nonnull
+    private String phoneNumber;
+    @Nonnull
+    private String photoURL;
+
+    public User(@Nonnull UserId id, @Nonnull RoleId roleId, @Nonnull String contactEmail, @Nonnull String sfuEmail,
+                @Nonnull String phoneNumber, @Nonnull String photoURL) {
         this.id = id;
         this.roleId = roleId;
         this.contactEmail = contactEmail;
         this.sfuEmail = sfuEmail;
-        this.phoneNumer = phoneNumer;
+        this.phoneNumber = phoneNumber;
         this.photoURL = photoURL;
     }
 
     @Nonnull
     @Override
-    public UserId getUserId() { return id; }
+    public UserId getUserId() {
+        return id;
+    }
 
     @Nonnull
     public RoleId getRoleId() {
@@ -52,8 +62,8 @@ public class User extends Model implements UserIdable {
     }
 
     @Nonnull
-    public String getPhoneNumer() {
-        return phoneNumer;
+    public String getPhoneNumber() {
+        return phoneNumber;
     }
 
     @Nonnull

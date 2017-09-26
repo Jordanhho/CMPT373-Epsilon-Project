@@ -11,6 +11,7 @@ import io.ebean.*;
 import javax.annotation.Nonnull;
 @Entity
 public class OneTimeUnavailibility extends Model implements UserIdable {
+
     @Id
     @Nonnull private OneTimeAvailabilityId id;
     @Nonnull private UserId userId;

@@ -1,8 +1,10 @@
 package models.roles;
 
 import models.id.RoleId;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
+
 import io.ebean.*;
 
 import javax.annotation.Nonnull;
@@ -11,8 +13,10 @@ import javax.annotation.Nonnull;
 public class Role extends Model {
 
     @Id
-    @Nonnull private RoleId id;
-    @Nonnull private String name;
+    @Nonnull
+    private RoleId id;
+    @Nonnull
+    private String name;
 
     public Role(@Nonnull RoleId id, @Nonnull String name) {
         this.id = id;
