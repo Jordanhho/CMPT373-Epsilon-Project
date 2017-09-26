@@ -1,7 +1,5 @@
 package models.roles;
 
-import models.id.PermissionId;
-
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
@@ -14,17 +12,17 @@ public class Permission extends Model {
 
     @Id
     @Nonnull
-    private PermissionId id;
+    private Integer id;
     @Nonnull
     private String name;
 
-    public Permission(@Nonnull PermissionId id, @Nonnull String name) {
+    public Permission(@Nonnull Integer id, @Nonnull String name) {
         this.id = id;
         this.name = name;
     }
 
     @Nonnull
-    public PermissionId getId() {
+    public Integer getId() {
         return id;
     }
 

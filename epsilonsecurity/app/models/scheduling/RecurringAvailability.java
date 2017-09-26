@@ -1,9 +1,6 @@
 package models.scheduling;
 
 import models.TimeBlock;
-import models.UserIdable;
-import models.id.RecurringAvailabilityId;
-import models.id.UserId;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -14,26 +11,26 @@ import javax.annotation.Nonnull;
 import java.util.Date;
 
 @Entity
-public class RecurringAvailability extends Model implements UserIdable {
+public class RecurringAvailability extends Model {
 
     @Id
     @Nonnull
-    private RecurringAvailabilityId id;
+    private Integer id;
     @Nonnull
-    private UserId userId;
+    private Integer userId;
 
     @Nonnull
     private Date day;
     @Nonnull
-    private int frequency;
+    private Integer frequency;
 
     @Nonnull
     private TimeBlock recurTimeBlock;
     @Nonnull
     private TimeBlock shiftTimeBlock;
 
-    public RecurringAvailability(@Nonnull RecurringAvailabilityId id, @Nonnull UserId userId, @Nonnull Date day,
-                                 @Nonnull int frequency, @Nonnull TimeBlock recurTimeBlock,
+    public RecurringAvailability(@Nonnull Integer id, @Nonnull Integer userId, @Nonnull Date day,
+                                 @Nonnull Integer frequency, @Nonnull TimeBlock recurTimeBlock,
                                  @Nonnull TimeBlock shiftTimeBlock) {
         this.id = id;
         this.userId = userId;
@@ -43,11 +40,11 @@ public class RecurringAvailability extends Model implements UserIdable {
         this.shiftTimeBlock = shiftTimeBlock;
     }
 
-    public RecurringAvailabilityId getId() {
+    public Integer getId() {
         return id;
     }
 
-    public UserId getUserId() {
+    public Integer getUserId() {
         return userId;
     }
 
@@ -55,7 +52,7 @@ public class RecurringAvailability extends Model implements UserIdable {
         return day;
     }
 
-    public int getFrequency() {
+    public Integer getFrequency() {
         return frequency;
     }
 

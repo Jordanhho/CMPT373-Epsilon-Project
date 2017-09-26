@@ -1,33 +1,31 @@
 package models.scheduling;
 
 import models.TimeBlock;
-import models.UserIdable;
-import models.id.OneTimeAvailabilityId;
-import models.id.UserId;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import io.ebean.*;
 
 import javax.annotation.Nonnull;
 @Entity
-public class OneTimeUnavailibility extends Model implements UserIdable {
+public class OneTimeUnavailibility extends Model {
 
     @Id
-    @Nonnull private OneTimeAvailabilityId id;
-    @Nonnull private UserId userId;
+    @Nonnull private Integer id;
+    @Nonnull private Integer userId;
     @Nonnull private TimeBlock timeBlock;
 
-    public OneTimeUnavailibility(@Nonnull OneTimeAvailabilityId id, @Nonnull UserId userId, @Nonnull TimeBlock timeBlock) {
+    public OneTimeUnavailibility(@Nonnull Integer id, @Nonnull Integer userId, @Nonnull TimeBlock timeBlock) {
         this.id = id;
         this.userId = userId;
         this.timeBlock = timeBlock;
     }
 
-    public OneTimeAvailabilityId getId() {
+    public Integer getId() {
         return id;
     }
 
-    public UserId getUserId() { return userId; }
+    public Integer getUserId() { return userId; }
 
     public TimeBlock getTimeBlock() {
         return timeBlock;

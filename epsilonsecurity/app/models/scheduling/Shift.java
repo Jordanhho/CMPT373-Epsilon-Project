@@ -1,7 +1,6 @@
 package models.scheduling;
 
 import models.TimeBlock;
-import models.id.ShiftId;
 
 import javax.annotation.Nonnull;
 import javax.persistence.Entity;
@@ -15,7 +14,7 @@ public class Shift extends Model {
     // Fields
     @Id
     @Nonnull
-    private ShiftId id;
+    private Integer id;
     @Nonnull
     private TimeBlock timeBlock;
     @Nonnull
@@ -24,7 +23,7 @@ public class Shift extends Model {
     // Constructors
     @Nonnull
 
-    public Shift(@Nonnull TimeBlock timeBlock, @Nonnull ShiftId id, @Nonnull boolean wasPresent) {
+    public Shift(@Nonnull TimeBlock timeBlock, @Nonnull Integer id, @Nonnull boolean wasPresent) {
         this.timeBlock = timeBlock;
         this.id = id;
         this.wasPresent = wasPresent;
@@ -32,7 +31,7 @@ public class Shift extends Model {
     // Getters= eventId;
 
     @Nonnull
-    public ShiftId getId() {
+    public Integer getId() {
         return id;
     }
 

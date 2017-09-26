@@ -1,9 +1,5 @@
 package models.scheduling;
 
-import models.UserIdable;
-import models.id.RoleId;
-import models.id.UserId;
-
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
@@ -14,13 +10,13 @@ import javax.annotation.Nonnull;
 
 
 @Entity
-public class User extends Model implements UserIdable {
+public class User extends Model {
 
     @Id
     @Nonnull
-    private UserId id;
+    private Integer id;
     @Nonnull
-    private RoleId roleId;
+    private Integer roleId;
     @Nonnull
     private String contactEmail;
     @Nonnull
@@ -30,7 +26,7 @@ public class User extends Model implements UserIdable {
     @Nonnull
     private String photoURL;
 
-    public User(@Nonnull UserId id, @Nonnull RoleId roleId, @Nonnull String contactEmail, @Nonnull String sfuEmail,
+    public User(@Nonnull Integer id, @Nonnull Integer roleId, @Nonnull String contactEmail, @Nonnull String sfuEmail,
                 @Nonnull String phoneNumber, @Nonnull String photoURL) {
         this.id = id;
         this.roleId = roleId;
@@ -41,13 +37,12 @@ public class User extends Model implements UserIdable {
     }
 
     @Nonnull
-    @Override
-    public UserId getUserId() {
+    public Integer getUserId() {
         return id;
     }
 
     @Nonnull
-    public RoleId getRoleId() {
+    public Integer getRoleId() {
         return roleId;
     }
 

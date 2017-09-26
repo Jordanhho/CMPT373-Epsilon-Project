@@ -1,9 +1,6 @@
 package models.scheduling;
 
 import models.TimeBlock;
-import models.UserIdable;
-import models.id.OneTimeAvailabilityId;
-import models.id.UserId;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -13,25 +10,24 @@ import io.ebean.*;
 import javax.annotation.Nonnull;
 
 @Entity
-public class OneTimeAvailability extends Model implements UserIdable {
+public class OneTimeAvailability extends Model {
 
     @Id
     @Nonnull
-    private OneTimeAvailabilityId id;
+    private Integer id;
     @Nonnull
-    private UserId userId;
+    private Integer userId;
     @Nonnull
     private TimeBlock timeBlock;
 
-    public OneTimeAvailability(@Nonnull OneTimeAvailabilityId id, @Nonnull UserId userId, @Nonnull TimeBlock timeBlock) {
+    public OneTimeAvailability(@Nonnull Integer id, @Nonnull Integer userId, @Nonnull TimeBlock timeBlock) {
         this.id = id;
         this.userId = userId;
         this.timeBlock = timeBlock;
     }
 
     @Nonnull
-    @Override
-    public UserId getUserId() {
+    public Integer getUserId() {
         return userId;
     }
 

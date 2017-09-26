@@ -1,7 +1,5 @@
 package models.roles;
 
-import models.id.RoleId;
-
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
@@ -14,17 +12,17 @@ public class Role extends Model {
 
     @Id
     @Nonnull
-    private RoleId id;
+    private Integer id;
     @Nonnull
     private String name;
 
-    public Role(@Nonnull RoleId id, @Nonnull String name) {
+    public Role(@Nonnull Integer id, @Nonnull String name) {
         this.id = id;
         this.name = name;
     }
 
     @Nonnull
-    public RoleId getId() {
+    public Integer getId() {
         return id;
     }
 

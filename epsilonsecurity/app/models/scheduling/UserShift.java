@@ -1,10 +1,5 @@
 package models.scheduling;
 
-import models.UserIdable;
-import models.id.ShiftId;
-import models.id.UserId;
-import models.id.UserShiftId;
-
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
@@ -14,35 +9,34 @@ import javax.annotation.Nonnull;
 
 
 @Entity
-public class UserShift extends Model implements UserIdable {
+public class UserShift extends Model {
 
     @Id
     @Nonnull
-    private UserShiftId id;
+    private Integer id;
     @Nonnull
-    private UserId userId;
+    private Integer userId;
     @Nonnull
-    private ShiftId shiftId;
+    private Integer shiftId;
 
-    public UserShift(@Nonnull UserShiftId id, @Nonnull UserId userId, @Nonnull ShiftId shiftId) {
+    public UserShift(@Nonnull Integer id, @Nonnull Integer userId, @Nonnull Integer shiftId) {
         this.id = id;
         this.userId = userId;
         this.shiftId = shiftId;
     }
 
     @Nonnull
-    public UserShiftId getId() {
+    public Integer getId() {
         return id;
     }
 
     @Nonnull
-    public ShiftId getShiftId() {
+    public Integer getShiftId() {
         return shiftId;
     }
 
     @Nonnull
-    @Override
-    public UserId getUserId() {
+    public Integer getUserId() {
         return userId;
     }
 
