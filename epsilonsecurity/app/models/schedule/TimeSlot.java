@@ -10,7 +10,7 @@ public class TimeSlot {
     public static int QUANTIZATION_MINUTES = 15;
 
     @Nonnull
-    private Instant start;
+    private final Instant start;
 
     protected TimeSlot(@Nonnull Instant start) {
         this.start = start;
@@ -32,6 +32,6 @@ public class TimeSlot {
             return false;
         }
         TimeSlot other = (TimeSlot) obj;
-        return this.getStart().equals(other.getStart());
+        return this.start.equals(other.start);
     }
 }
