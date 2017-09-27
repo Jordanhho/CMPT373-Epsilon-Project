@@ -2,15 +2,15 @@ package models.schedule;
 
 import models.UserId;
 
-import java.time.Instant;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import models.UserIdable;
 import org.javatuples.KeyValue;
 
 public class Schedule {
 
-    private Map<TimeBlock, Set<UserId>> userTimeBlocks = new HashMap<>();
+    private Map<TimeBlock, Set<UserIdable>> userTimeBlocks = new HashMap<>();
 
     public Schedule() {
     }
@@ -24,13 +24,13 @@ public class Schedule {
     public void assignUserToTimeBlock(UserId user, TimeBlock timeBlock) {
         // TODO:
         // precondition: check that shift exists
-        Set<UserId> users = getUsersForTimeBlock(timeBlock);
+        Set<UserIdable> users = getUsersForTimeBlock(timeBlock);
         users.add(user);
         putUsersForTimeBlock(users, timeBlock);
     }
 
     public void removeUserFromTimeBlock(UserId user, TimeBlock timeBlock) {
-        Set<UserId> users = getUsersForTimeBlock(timeBlock);
+        Set<UserIdable> users = getUsersForTimeBlock(timeBlock);
         users.remove(user);
         putUsersForTimeBlock(users, timeBlock);
     }
@@ -55,19 +55,19 @@ public class Schedule {
             })
             .map( timeBlockUserId -> {
                 TimeBlock timeBlock = timeBlockUserId.getKey();
-                UserId userId = timeBlockUserId.getValue();
-                return new Shift(userId, timeBlock, Optional.empty());
+                UserIdable user = timeBlockUserId.getValue();
+                return new Shift(user.getUserId(), timeBlock, Optional.empty());
             })
             .collect(Collectors.toSet());
 
         return shifts;
     }
 
-    private Set<UserId> getUsersForTimeBlock(TimeBlock timeBlock) {
+    private Set<UserIdable> getUsersForTimeBlock(TimeBlock timeBlock) {
         return userTimeBlocks.get(timeBlock);
     }
 
-    private void putUsersForTimeBlock(Set<UserId> users, TimeBlock timeBlock) {
+    private void putUsersForTimeBlock(Set<UserIdable> users, TimeBlock timeBlock) {
         userTimeBlocks.put(timeBlock, users);
     }
 
