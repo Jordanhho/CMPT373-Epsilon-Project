@@ -12,10 +12,12 @@ public class Schedule {
 
     private Map<TimeBlock, Set<UserId>> userTimeBlocks = new HashMap<>();
 
-    public void createTimeBlock(Instant start, Instant end) {
+    public Schedule() {
+    }
+
+    public void createTimeBlock(TimeBlock timeBlock) {
         // TODO:
         // precondition: this time block does not yet exist (check)
-        TimeBlock timeBlock = new TimeBlock(start, end);
         userTimeBlocks.put(timeBlock, new HashSet<>());
     }
 
@@ -33,22 +35,22 @@ public class Schedule {
         putUsersForTimeBlock(users, timeBlock);
     }
 
-    public List<TimeBlock> getTimeBlocks() {
-        return new ArrayList<TimeBlock>(userTimeBlocks.keySet());
+    public Set<TimeBlock> getTimeBlocks() {
+        return userTimeBlocks.keySet();
     }
 
-    public void removeTimeBlock(TimeBlock timeBlock) {
-        userTimeBlocks.remove(timeBlock);
+    public boolean removeTimeBlock(TimeBlock timeBlock) {
+        Object result = userTimeBlocks.remove(timeBlock);
+        return result != null;
     }
 
     public Set<Shift> getShifts() {
-        List<Map.Entry<TimeBlock, Set<UserId>>> entriesList = new ArrayList<>(userTimeBlocks.entrySet());
-
-        Set<Shift> shifts = entriesList.stream()
+        Set<Shift> shifts = userTimeBlocks.entrySet()
+            .stream()
             .map( x -> KeyValue.with(x.getKey(), x.getValue()))
             .flatMap( keyValue -> {
-                List<UserId> userIds = new ArrayList<UserId>(keyValue.getValue());
-                return userIds.stream()
+                return keyValue.getValue()
+                    .stream()
                     .map( userId -> KeyValue.with(keyValue.getKey(), userId) );
             })
             .map( timeBlockUserId -> {

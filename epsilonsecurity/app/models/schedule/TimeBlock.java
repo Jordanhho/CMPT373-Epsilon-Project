@@ -6,40 +6,46 @@ import java.sql.Time;
 import java.time.Duration;
 import java.time.Instant;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static java.time.temporal.ChronoUnit.MINUTES;
 
 public class TimeBlock {
-    public final Instant start;
-    public final Instant end;
+
+    private final List<TimeSlot> timeSlots;
 
     public Duration getDuration() {
-        return Duration.between(start, end);
+        return null; // TODO: Unimplemented
     }
 
     public List<TimeSlot> getTimeSlots() {
-        return TimeSlotFactory.newTimeSlots(start, end);
+        return this.timeSlots;
     }
 
     // TODO: quantize? Figure out exactly how this should work and at what access level
     protected TimeBlock(Instant start, Instant end) {
         // make sure end is after start?
-        this.start = start;
-        this.end = end;
+        this.timeSlots = TimeSlotFactory.newTimeSlots(start, end);
+    }
+
+    protected TimeBlock(List<TimeSlot> timeSlots) {
+        // TODO:
+        // precondition: sorted
+        this.timeSlots = timeSlots;
     }
 
     @NotNull
     public static TimeBlock single(Instant start) {
-        return new TimeBlock(start, start.plus(TimeSlot.QUANTIZATION_MINUTES, MINUTES));
+        return new TimeBlock(Arrays.asList(TimeSlotFactory.newTimeSlotFrom(start)));
     }
 
     @Override
     public boolean equals(Object obj) {
+        if (obj == null) { return false; }
         if ((obj instanceof TimeBlock) == false) { return false; }
         TimeBlock other = (TimeBlock) obj;
-        boolean sameStart = other.start.equals(this.start);
-        boolean sameEnd = other.end.equals(this.end);
-        return sameStart && sameEnd;
+        return this.timeSlots.equals(other.timeSlots);
     }
 }
