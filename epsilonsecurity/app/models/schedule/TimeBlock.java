@@ -18,4 +18,9 @@ public class TimeBlock {
     public List<TimeSlot> getTimeSlots() {
         return TimeSlotFactory.newTimeSlots(start, end);
     }
+
+    public TimeBlock(Instant start, Instant end) {
+        this.start = start;
+        this.end = end;
+    }
 }
