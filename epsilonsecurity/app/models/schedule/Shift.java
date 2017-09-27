@@ -1,14 +1,13 @@
 package models.schedule;
 
 import models.EventId;
-import models.TimeBlock;
 import models.UserId;
 import models.UserIdable;
 
 import javax.annotation.Nonnull;
 import java.util.Optional;
 
-public class Event
+public class Shift
         implements UserIdable {
 
     // Fields
@@ -18,7 +17,7 @@ public class Event
 
     // Constructors
     @Nonnull
-    public Event(@Nonnull UserIdable userIDable, @Nonnull TimeBlock timeBlock, @Nonnull Optional<EventId> eventId) {
+    public Shift(@Nonnull UserIdable userIDable, @Nonnull TimeBlock timeBlock, @Nonnull Optional<EventId> eventId) {
         this.userId = userIDable.getUserId();
         this.timeBlock = timeBlock;
         this.eventId = eventId;
@@ -37,16 +36,16 @@ public class Event
 
     // Immutable updater
     @Nonnull
-    public Event settingEventId(EventId eventId) {
-        Event copy = this.copy(this);
+    public Shift settingEventId(EventId eventId) {
+        Shift copy = this.copy(this);
         copy.eventId = Optional.of(eventId);
         return copy;
     }
 
     // Private Interface
     @Nonnull
-    private Event copy(@Nonnull Event event) {
-        return new Event(event.userId, event.timeBlock, event.eventId);
+    private Shift copy(@Nonnull Shift shift) {
+        return new Shift(shift.userId, shift.timeBlock, shift.eventId);
     }
 
 }
