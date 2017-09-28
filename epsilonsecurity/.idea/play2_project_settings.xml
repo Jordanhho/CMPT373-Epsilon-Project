@@ -14,7 +14,7 @@
           <value>
             <ProjectSettingsEntry>
               <option name="sourceDir" value="$PROJECT_DIR$/app" />
-              <option name="confDir" value="$PROJECT_DIR$/app" />
+              <option name="confDir" value="C:\Users\Nova\Downloads\CMPT373\373-Epsilon\epsilonsecurity\app" />
               <option name="templateImports">
                 <list>
                   <option value="_root_.play.twirl.api.TwirlFeatureImports._" />
@@ -45,7 +45,7 @@
                   <option value="play.libs.F" />
                 </list>
               </option>
-              <option name="uri" value="$PROJECT_DIR$" />
+              <option name="uri" value="/C:/Users/Nova/Downloads/CMPT373/373-Epsilon/epsilonsecurity" />
             </ProjectSettingsEntry>
           </value>
         </entry>
