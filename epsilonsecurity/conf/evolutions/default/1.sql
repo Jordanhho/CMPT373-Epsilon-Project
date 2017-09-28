@@ -3,86 +3,96 @@
 
 # --- !Ups
 
-create table one_time_availability (
+create table db_one_time_availability (
   id                            integer not null,
   user_id                       integer,
-  constraint pk_one_time_availability primary key (id)
+  time_start                    integer,
+  time_end                      integer,
+  constraint pk_db_one_time_availability primary key (id)
 );
 
-create table one_time_unavailibility (
+create table db_one_time_unavailibility (
   id                            integer not null,
   user_id                       integer,
-  constraint pk_one_time_unavailibility primary key (id)
+  time_start                    integer,
+  time_end                      integer,
+  constraint pk_db_one_time_unavailibility primary key (id)
 );
 
-create table permission (
+create table db_permission (
   id                            integer not null,
   name                          varchar(255),
-  constraint pk_permission primary key (id)
+  constraint pk_db_permission primary key (id)
 );
 
-create table recurring_availability (
+create table db_recurring_availability (
   id                            integer not null,
   user_id                       integer,
   day                           timestamp,
   frequency                     integer,
-  constraint pk_recurring_availability primary key (id)
+  recur_time_start_block        integer,
+  recur_time_end_block          integer,
+  shift_time_start_block        integer,
+  shift_time_end_block          integer,
+  constraint pk_db_recurring_availability primary key (id)
 );
 
-create table role (
+create table db_role (
   id                            integer not null,
   name                          varchar(255),
-  constraint pk_role primary key (id)
+  constraint pk_db_role primary key (id)
 );
 
-create table role_permission (
+create table db_role_permission (
   id                            integer not null,
   role_id                       integer,
   permission_id                 integer not null,
-  constraint pk_role_permission primary key (id)
+  constraint pk_db_role_permission primary key (id)
 );
 
-create table shift (
+create table db_shift (
   id                            integer not null,
+  time_start                    integer,
+  time_end                      integer,
   was_present                   integer(1) default 0 not null,
-  constraint pk_shift primary key (id)
+  constraint pk_db_shift primary key (id)
 );
 
-create table user (
+create table db_user (
   id                            integer not null,
   role_id                       integer,
   contact_email                 varchar(255),
   sfu_email                     varchar(255),
   phone_number                  varchar(255),
   photo_url                     varchar(255),
-  constraint pk_user primary key (id)
+  constraint pk_db_user primary key (id)
 );
 
-create table user_shift (
+create table db_user_shift (
   id                            integer not null,
   user_id                       integer,
   shift_id                      integer,
-  constraint pk_user_shift primary key (id)
+  constraint pk_db_user_shift primary key (id)
 );
 
 
 # --- !Downs
 
-drop table if exists one_time_availability;
+drop table if exists db_one_time_availability;
 
-drop table if exists one_time_unavailibility;
+drop table if exists db_one_time_unavailibility;
 
-drop table if exists permission;
+drop table if exists db_permission;
 
-drop table if exists recurring_availability;
+drop table if exists db_recurring_availability;
 
-drop table if exists role;
+drop table if exists db_role;
 
-drop table if exists role_permission;
+drop table if exists db_role_permission;
 
-drop table if exists shift;
+drop table if exists db_shift;
 
-drop table if exists user;
+drop table if exists db_user;
 
-drop table if exists user_shift;
+drop table if exists db_user_shift;
 

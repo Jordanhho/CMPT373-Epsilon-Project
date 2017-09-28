@@ -1,8 +1,11 @@
 package models.databaseModel.scheduling;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+
 import io.ebean.*;
+
 import javax.annotation.Nonnull;
 
 /**
@@ -12,6 +15,7 @@ import javax.annotation.Nonnull;
 public class DbUser extends Model {
 
     @Id
+    @GeneratedValue
     @Nonnull
     private Integer id;
     @Nonnull
@@ -25,19 +29,23 @@ public class DbUser extends Model {
     @Nonnull
     private String photoURL;
 
+
+
     /**
      * The Constructor for DbUser
-     * @param id   the user Id
-     * @param roleId   the role Id of the user
-     * @param contactEmail    the contact Email of the User, Note: If the user selects their SFU email as their contact email, it should be the same value as sfu email
-     * @param sfuEmail        the sfu Email of the user
+     * <p>
+     * id           the user Id
+     * roleId       the role Id of the user
+     *
+     * @param contactEmail the contact Email of the User, Note: If the user selects their SFU email as their contact email, it should be the same value as sfu email
+     * @param sfuEmail     the sfu Email of the user
      * @param phoneNumber  the phone number of the user
-     * @param photoURL   the url to the photo of that user
+     * @param photoURL     the url to the photo of that user
      */
-    public DbUser(@Nonnull Integer id, @Nonnull Integer roleId, @Nonnull String contactEmail, @Nonnull String sfuEmail,
+
+    public DbUser(@Nonnull String contactEmail, @Nonnull String sfuEmail,
                   @Nonnull String phoneNumber, @Nonnull String photoURL) {
-        this.id = id;
-        this.roleId = roleId;
+        this.roleId = -1;
         this.contactEmail = contactEmail;
         this.sfuEmail = sfuEmail;
         this.phoneNumber = phoneNumber;
@@ -52,6 +60,10 @@ public class DbUser extends Model {
     @Nonnull
     public Integer getRoleId() {
         return roleId;
+    }
+
+    public void setRoleId(@Nonnull Integer roleId) {
+        this.roleId = roleId;
     }
 
     @Nonnull

@@ -1,4 +1,5 @@
 package controllers;
+import models.databaseModel.helpers.UserDbHelper;
 import play.mvc.*;
 
 
@@ -11,7 +12,6 @@ import play.mvc.*;
  */
 public class HomeController extends Controller {
 
-
     /**
      * An action that renders an HTML page with a welcome message.
      * The configuration in the <code>routes</code> file means that
@@ -19,11 +19,12 @@ public class HomeController extends Controller {
      * <code>GET</code> request with a path of <code>/</code>.
      */
     public Result index() {
+//        UserDbHelper.createDbUser("three", "four", "five", "six");
+//        UserDbHelper.deleteDbUserById(1);
+//        DbUser dbUser = UserDbHelper.readDbUserById(1);
+//        System.out.println(dbUser.getRoleId());
         return ok(views.html.index.render());
     }
-
-
-
 
 }
 

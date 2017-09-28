@@ -9,27 +9,3 @@ GET        /                    controllers.HomeController.index
 GET        /assets/*file        controllers.Assets.versioned(path="/public", file: Asset)
 
 
-
-
-
-#rest API added routes
-
-GET / controllers.HomeController.listUsers()
-
-#Gets user from Int ID
-POST /: controllers.HomeController.retrieve(id:Int)
-
-
-#Creates a user
-POST / controllers.HomeController.create()
-
-
-#Updates User
-PUT / controllers.HomeController.update()
-
-#Deletes user from Int ID
-DELETE /:id controllers.HomeController.delete(id:int)
-
-
-#Gets
-#GET /assets/*file controllers.Assets.versioned(path="/public", file: Asset)
