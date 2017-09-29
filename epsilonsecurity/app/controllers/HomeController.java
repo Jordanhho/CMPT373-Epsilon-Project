@@ -1,9 +1,8 @@
 package controllers;
-import models.databaseModel.helpers.UserDbHelper;
 import models.databaseModel.scheduling.DbUser;
 import play.mvc.*;
 
-import static models.databaseModel.helpers.UserDbHelper.createDbUser;
+import static models.databaseModel.helpers.DbUserHelper.createDbUser;
 
 
 /**
@@ -22,9 +21,9 @@ public class HomeController extends Controller {
      */
     //public Result index(String path) {
       public Result index() {
-//        UserDbHelper.createDbUser("three", "four", "five", "six");
-//        UserDbHelper.deleteDbUserById(1);
-//        DbUser dbUser = UserDbHelper.readDbUserById(1);
+//        DbUserHelper.createDbUser("three", "four", "five", "six");
+//        DbUserHelper.deleteDbUserById(1);
+//        DbUser dbUser = DbUserHelper.readDbUserById(1);
 //        System.out.println(dbUser.getRoleId());
         return ok(views.html.index.render());
     }
