@@ -5,9 +5,9 @@ import models.databaseModel.scheduling.DbUser;
 
 import java.util.List;
 
-public final class UserDbHelper {
+public final class DbUserHelper {
 
-    private UserDbHelper() {
+    private DbUserHelper() {
 
     }
 
@@ -21,7 +21,6 @@ public final class UserDbHelper {
         dbUser.save();
     }
 
-
     public static void deleteDbUserById(Integer id) {
         DbUser dbUser = readDbUserById(id);
         dbUser.delete();
@@ -29,6 +28,18 @@ public final class UserDbHelper {
 
     public static DbUser readDbUserById(Integer id) {
         DbUser dbUser = DbUser.find.byId(id);
+        return dbUser;
+    }
+
+    public static DbUser readDbUserBySfuEmail(String sfuEmail){
+        DbUser dbUser = DbUser.find.query().where().eq("sfu_email",
+                sfuEmail).findOne();
+        return dbUser;
+    }
+
+    public static DbUser readDbUserByContactEmail(String contactEmail){
+        DbUser dbUser = DbUser.find.query().where().eq("contact_email",
+                contactEmail).findOne();
         return dbUser;
     }
 
