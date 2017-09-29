@@ -2,6 +2,7 @@ package models.databaseModel.scheduling;
 
 import javax.annotation.Nonnull;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 import io.ebean.*;
@@ -14,6 +15,7 @@ public class DbShift extends Model {
 
     // Fields
     @Id
+    @GeneratedValue
     @Nonnull
     private Integer id;
 
@@ -28,13 +30,12 @@ public class DbShift extends Model {
 
     /**
      * The Constructor of this Shift
-     * @param id  the Id of the shift
+     * id  the Id of the shift
      * @param timeStart   the start time of the shift
      * @param timeEnd     the end time of the shift
      * @param wasPresent  if the user was present for this shift
      */
-    public DbShift(@Nonnull Integer id, @Nonnull Integer timeStart, @Nonnull Integer timeEnd, @Nonnull boolean wasPresent) {
-        this.id = id;
+    public DbShift(Integer timeStart, Integer timeEnd, boolean wasPresent) {
         this.timeStart = timeStart;
         this.timeEnd = timeEnd;
         this.wasPresent = wasPresent;

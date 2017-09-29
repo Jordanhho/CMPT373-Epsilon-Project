@@ -1,6 +1,7 @@
 package models.databaseModel.scheduling;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import io.ebean.*;
 
@@ -10,9 +11,10 @@ import javax.annotation.Nonnull;
  * Java Object for DbOneTimeUnavailibility Table with unavailbility event id, user id and time block -> start and finish time of event
  */
 @Entity
-public class DbOneTimeUnavailibility extends Model {
+public class DbOneTimeUnavailability extends Model {
 
     @Id
+    @GeneratedValue
     @Nonnull
     private Integer id;
 
@@ -27,13 +29,12 @@ public class DbOneTimeUnavailibility extends Model {
 
     /**
      * The constructor for the OneTimeUnavailibility
-     * @param id the id of this OneTimeUnavailibility
+     * id the id of this OneTimeUnavailibility
      * @param userId the user id of this OneTimeUnavailibility
      * @param timeStart the time start of this OneTimeUnavailibility
      * @param timeEnd the time end of this OneTimeUnavailibility
      */
-    public DbOneTimeUnavailibility(@Nonnull Integer id, @Nonnull Integer userId, @Nonnull Integer timeStart, @Nonnull Integer timeEnd) {
-        this.id = id;
+    public DbOneTimeUnavailability(@Nonnull Integer userId, @Nonnull Integer timeStart, @Nonnull Integer timeEnd) {
         this.userId = userId;
         this.timeStart = timeStart;
         this.timeEnd = timeEnd;
@@ -69,6 +70,6 @@ public class DbOneTimeUnavailibility extends Model {
                 '}';
     }
 
-    public static Finder<Integer, DbOneTimeUnavailibility> find = new Finder<>(DbOneTimeUnavailibility.class);
+    public static Finder<Integer, DbOneTimeUnavailability> find = new Finder<>(DbOneTimeUnavailability.class);
 
 }

@@ -1,6 +1,7 @@
 package models.databaseModel.roles;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 import io.ebean.*;
@@ -15,6 +16,7 @@ import javax.annotation.Nonnull;
 public class DbPermission extends Model {
 
     @Id
+    @GeneratedValue
     @Nonnull
     private Integer id;
 
@@ -23,11 +25,10 @@ public class DbPermission extends Model {
 
     /**
      * Constructor for Permission table
-     * @param id  the id of the permission
+     * Id  the id of the permission
      * @param name  the name of this permission
      */
-    public DbPermission(@Nonnull Integer id, @Nonnull String name) {
-        this.id = id;
+    public DbPermission(@Nonnull String name) {
         this.name = name;
     }
 

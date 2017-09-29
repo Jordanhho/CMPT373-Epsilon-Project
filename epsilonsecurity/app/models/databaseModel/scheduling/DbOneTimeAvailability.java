@@ -1,6 +1,7 @@
 package models.databaseModel.scheduling;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 import io.ebean.*;
@@ -14,6 +15,7 @@ import javax.annotation.Nonnull;
 public class DbOneTimeAvailability extends Model {
 
     @Id
+    @GeneratedValue
     @Nonnull
     private Integer id;
     @Nonnull
@@ -27,13 +29,12 @@ public class DbOneTimeAvailability extends Model {
 
     /**
      * The constructor of the OneTimeAvailibility table
-     * @param id the id of this OneTimeAvailibility
+     * the id of this OneTimeAvailibility
      * @param userId the user Id that uses this OneTimeAvailibility
      * @param timeStart  the start time of this OneTimeAvailibility
      * @param timeEnd  the end time of this OneTimeAvailibility
      */
-    public DbOneTimeAvailability(@Nonnull Integer id, @Nonnull Integer userId, @Nonnull Integer timeStart, @Nonnull Integer timeEnd) {
-        this.id = id;
+    public DbOneTimeAvailability(@Nonnull Integer userId, @Nonnull Integer timeStart, @Nonnull Integer timeEnd) {
         this.userId = userId;
         this.timeStart = timeStart;
         this.timeEnd = timeEnd;

@@ -1,6 +1,7 @@
 package models.databaseModel.scheduling;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import io.ebean.*;
 import javax.annotation.Nonnull;
@@ -12,6 +13,7 @@ import javax.annotation.Nonnull;
 public class DbUserShift extends Model {
 
     @Id
+    @GeneratedValue
     @Nonnull
     private Integer id;
     @Nonnull
@@ -21,12 +23,11 @@ public class DbUserShift extends Model {
 
     /**
      * The Constructor of this UserShift
-     * @param id  the id of this userShift
+     * id  the id of this userShift
      * @param userId   the id of the user for this userShift
      * @param shiftId   the id of the shift for this userShift
      */
-    public DbUserShift(@Nonnull Integer id, @Nonnull Integer userId, @Nonnull Integer shiftId) {
-        this.id = id;
+    public DbUserShift(@Nonnull Integer userId, @Nonnull Integer shiftId) {
         this.userId = userId;
         this.shiftId = shiftId;
     }

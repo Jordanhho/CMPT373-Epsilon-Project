@@ -1,6 +1,7 @@
 package models.databaseModel.scheduling;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 import io.ebean.*;
@@ -11,7 +12,7 @@ import java.util.Date;
 
 
 /**
- * Java Object for DbRecurringAvailability Table with DbRecurringAvailability event id, user id
+ * Java Object for DbPermissionHelper Table with DbPermissionHelper event id, user id
  * timeBlock-> start and finish time of event of recurrence and shift time event
  * The day of event
  * Frequency of how often this event occurs,
@@ -20,6 +21,7 @@ import java.util.Date;
 public class DbRecurringAvailability extends Model {
 
     @Id
+    @GeneratedValue
     @Nonnull
     private Integer id;
 
@@ -46,7 +48,7 @@ public class DbRecurringAvailability extends Model {
 
     /**
      * The constructor of RecurringAvailability
-     * @param id the id of ths RecurringAvailability
+     * id the id of ths RecurringAvailability
      * @param userId  the user Id for this RecurringAvailability
      * @param day  the day of this RecurringAvailability
      * @param frequency  the frequency of how often this RecurringAvailability occurs
@@ -55,7 +57,7 @@ public class DbRecurringAvailability extends Model {
      * @param shiftTimeStartBlock  the time start of this shift
      * @param shiftTimeEndBlock  the time end of this shift
      */
-    public DbRecurringAvailability(@Nonnull Integer id,
+    public DbRecurringAvailability(
                                    @Nonnull Integer userId,
                                    @Nonnull Date day,
                                    @Nonnull Integer frequency,
@@ -63,7 +65,6 @@ public class DbRecurringAvailability extends Model {
                                    @Nonnull Integer recurTimeEndBlock,
                                    @Nonnull Integer shiftTimeStartBlock,
                                    @Nonnull Integer shiftTimeEndBlock) {
-        this.id = id;
         this.userId = userId;
         this.day = day;
         this.frequency = frequency;
@@ -115,7 +116,7 @@ public class DbRecurringAvailability extends Model {
 
     @Override
     public String toString() {
-        return "DbRecurringAvailability{" +
+        return "DbPermissionHelper{" +
                 "id=" + id +
                 ", userId=" + userId +
                 ", day=" + day +
