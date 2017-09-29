@@ -1,7 +1,13 @@
 package controllers;
+import ch.qos.logback.core.db.DBHelper;
+import models.databaseModel.helpers.DbShiftHelper;
+import models.databaseModel.scheduling.DbShift;
 import models.databaseModel.scheduling.DbUser;
 import play.mvc.*;
 
+import java.util.List;
+
+import static models.databaseModel.helpers.DbShiftHelper.readDbShiftByTime;
 import static models.databaseModel.helpers.DbUserHelper.createDbUser;
 
 
@@ -25,7 +31,15 @@ public class HomeController extends Controller {
 //        DbUserHelper.deleteDbUserById(1);
 //        DbUser dbUser = DbUserHelper.readDbUserById(1);
 //        System.out.println(dbUser.getRoleId());
-        return ok(views.html.index.render());
+          //DbShiftHelper.createDbShift(1000, 2000);
+          //DbShiftHelper.createDbShift(1000, 2000);
+          //DbShiftHelper.createDbShift(2000, 3000);
+          /*List<DbShift> shifts = DbShiftHelper.readDbShiftByTime(1000, 2000);
+          System.out.println(shifts.size());*/
+          /*DbShiftHelper.deleteShiftById(1);
+          DbShiftHelper.deleteShiftById(2);
+          DbShiftHelper.deleteShiftById(3);*/
+          return ok(views.html.index.render());
     }
 
     public Result listUsers() {

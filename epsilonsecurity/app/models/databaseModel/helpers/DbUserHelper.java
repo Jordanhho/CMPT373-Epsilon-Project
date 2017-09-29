@@ -3,22 +3,16 @@ package models.databaseModel.helpers;
 
 import models.databaseModel.scheduling.DbUser;
 
-import javax.annotation.Nonnull;
 import java.util.List;
 
-/**
- * CRUD operations for DbUser class
- */
 public final class DbUserHelper {
 
     private DbUserHelper() {
 
     }
 
-    public static void createDbUser(@Nonnull String contactEmail,
-                                    @Nonnull String sfuEmail,
-                                    @Nonnull String phoneNumber,
-                                    @Nonnull  String photoURL) {
+    public static void createDbUser(String contactEmail, String sfuEmail,
+                                    String phoneNumber, String photoURL) {
         DbUser dbUser = new DbUser(
                 contactEmail,
                 sfuEmail,
@@ -27,24 +21,23 @@ public final class DbUserHelper {
         dbUser.save();
     }
 
-
-    public static void deleteDbUserById(@Nonnull Integer id) {
+    public static void deleteDbUserById(Integer id) {
         DbUser dbUser = readDbUserById(id);
         dbUser.delete();
     }
 
-    public static DbUser readDbUserById(@Nonnull Integer id) {
+    public static DbUser readDbUserById(Integer id) {
         DbUser dbUser = DbUser.find.byId(id);
         return dbUser;
     }
 
-    public static DbUser readDbUserBySfuEmail(@Nonnull String sfuEmail){
+    public static DbUser readDbUserBySfuEmail(String sfuEmail){
         DbUser dbUser = DbUser.find.query().where().eq("sfu_email",
                 sfuEmail).findOne();
         return dbUser;
     }
 
-    public static DbUser readDbUserByContactEmail(@Nonnull String contactEmail){
+    public static DbUser readDbUserByContactEmail(String contactEmail){
         DbUser dbUser = DbUser.find.query().where().eq("contact_email",
                 contactEmail).findOne();
         return dbUser;

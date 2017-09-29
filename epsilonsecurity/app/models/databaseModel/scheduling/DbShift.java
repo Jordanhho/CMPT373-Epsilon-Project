@@ -33,12 +33,13 @@ public class DbShift extends Model {
      * id  the Id of the shift
      * @param timeStart   the start time of the shift
      * @param timeEnd     the end time of the shift
-     * @param wasPresent  if the user was present for this shift
+     * wasPresent  if the user was present for this shift
      */
-    public DbShift(Integer timeStart, Integer timeEnd, boolean wasPresent) {
+    public DbShift(@Nonnull Integer timeStart, @Nonnull Integer timeEnd) {
+        //wasPresent are set with temporary values
         this.timeStart = timeStart;
         this.timeEnd = timeEnd;
-        this.wasPresent = wasPresent;
+        this.wasPresent = true;
     }
 
     @Nonnull
@@ -54,6 +55,10 @@ public class DbShift extends Model {
     @Nonnull
     public Integer getTimeEnd() {
         return timeEnd;
+    }
+
+    public void setWasPresent(boolean wasPresent){
+        this.wasPresent = wasPresent;
     }
 
     @Nonnull
