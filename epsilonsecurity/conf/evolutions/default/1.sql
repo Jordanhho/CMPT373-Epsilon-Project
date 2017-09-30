@@ -81,6 +81,13 @@ create table db_user_shift (
   constraint pk_db_user_shift primary key (id)
 );
 
+create table db_user_team (
+  id                            integer not null,
+  team_id                       integer,
+  user_id                       integer,
+  constraint pk_db_user_team primary key (id)
+);
+
 
 # --- !Downs
 
@@ -103,4 +110,6 @@ drop table if exists db_team;
 drop table if exists db_user;
 
 drop table if exists db_user_shift;
+
+drop table if exists db_user_team;
 
