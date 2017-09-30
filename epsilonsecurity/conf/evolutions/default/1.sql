@@ -11,12 +11,12 @@ create table db_one_time_availability (
   constraint pk_db_one_time_availability primary key (id)
 );
 
-create table db_one_time_unavailibility (
+create table db_one_time_unavailability (
   id                            integer not null,
   user_id                       integer,
   time_start                    integer,
   time_end                      integer,
-  constraint pk_db_one_time_unavailibility primary key (id)
+  constraint pk_db_one_time_unavailability primary key (id)
 );
 
 create table db_permission (
@@ -80,7 +80,7 @@ create table db_user_shift (
 
 drop table if exists db_one_time_availability;
 
-drop table if exists db_one_time_unavailibility;
+drop table if exists db_one_time_unavailability;
 
 drop table if exists db_permission;
 
