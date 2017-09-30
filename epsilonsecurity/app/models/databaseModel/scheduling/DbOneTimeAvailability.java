@@ -1,5 +1,6 @@
 package models.databaseModel.scheduling;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -13,6 +14,10 @@ import javax.annotation.Nonnull;
  */
 @Entity
 public class DbOneTimeAvailability extends Model {
+
+    private static final String COLUMN_USER_TEAM_ID = "user_team_id";
+    private static final String COLUMN_TIME_START = "time_start";
+    private static final String COLUMN_TIME_END = "time_end";
 
     @Id
     @GeneratedValue
@@ -30,9 +35,10 @@ public class DbOneTimeAvailability extends Model {
     /**
      * The constructor of the OneTimeAvailibility table
      * the id of this OneTimeAvailibility
-     * @param userId the user Id that uses this OneTimeAvailibility
-     * @param timeStart  the start time of this OneTimeAvailibility
-     * @param timeEnd  the end time of this OneTimeAvailibility
+     *
+     * @param userId    the user Id that uses this OneTimeAvailibility
+     * @param timeStart the start time of this OneTimeAvailibility
+     * @param timeEnd   the end time of this OneTimeAvailibility
      */
     public DbOneTimeAvailability(@Nonnull Integer userId, @Nonnull Integer timeStart, @Nonnull Integer timeEnd) {
         this.userId = userId;
@@ -46,16 +52,19 @@ public class DbOneTimeAvailability extends Model {
     }
 
     @Nonnull
+    @Column(name = COLUMN_USER_TEAM_ID)
     public Integer getUserId() {
         return userId;
     }
 
     @Nonnull
+    @Column(name = COLUMN_TIME_START)
     public Integer getTimeStart() {
         return timeStart;
     }
 
     @Nonnull
+    @Column(name = COLUMN_TIME_END)
     public Integer getTimeEnd() {
         return timeEnd;
     }

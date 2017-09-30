@@ -3,6 +3,7 @@ package models.databaseModel.scheduling;
 import io.ebean.Finder;
 import io.ebean.Model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -12,6 +13,8 @@ import javax.annotation.Nonnull;
 
 @Entity
 public class DbTeam extends Model {
+
+    public static final String COLUMN_NAME = "name";
 
     @Id
     @GeneratedValue
@@ -31,6 +34,7 @@ public class DbTeam extends Model {
     }
 
     @Nonnull
+    @Column(name = COLUMN_NAME)
     public String getName() {
         return name;
     }

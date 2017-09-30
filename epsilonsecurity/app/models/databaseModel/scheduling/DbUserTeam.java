@@ -4,12 +4,16 @@ import io.ebean.Finder;
 import io.ebean.Model;
 
 import javax.annotation.Nonnull;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 @Entity
 public class DbUserTeam extends Model {
+
+    public static final String COLUMN_TEAM_ID = "team_id";
+    public static final String COLUMN_USER_ID = "user_id";
 
     @Id
     @GeneratedValue
@@ -33,11 +37,13 @@ public class DbUserTeam extends Model {
     }
 
     @Nonnull
+    @Column(name = COLUMN_TEAM_ID)
     public Integer getTeamId() {
         return teamId;
     }
 
     @Nonnull
+    @Column(name = COLUMN_USER_ID)
     public Integer getUserId() {
         return userId;
     }
