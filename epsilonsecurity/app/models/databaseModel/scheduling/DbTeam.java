@@ -1,14 +1,17 @@
 package models.databaseModel.scheduling;
 
 import io.ebean.Finder;
+import io.ebean.Model;
 
-import javax.annotation.Nonnull;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
+import javax.annotation.Nonnull;
+
+
 @Entity
-public class DbTeam {
+public class DbTeam extends Model {
 
     @Id
     @GeneratedValue
