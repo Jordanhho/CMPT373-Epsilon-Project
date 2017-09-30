@@ -32,13 +32,13 @@ public final class DbUserHelper {
     }
 
     public static DbUser readDbUserBySfuEmail(String sfuEmail){
-        DbUser dbUser = DbUser.find.query().where().eq("sfu_email",
+        DbUser dbUser = DbUser.find.query().where().eq(DbUser.COLUMN_SFU_EMAIL,
                 sfuEmail).findOne();
         return dbUser;
     }
 
     public static DbUser readDbUserByContactEmail(String contactEmail){
-        DbUser dbUser = DbUser.find.query().where().eq("contact_email",
+        DbUser dbUser = DbUser.find.query().where().eq(DbUser.COLUMN_CONTACT_EMAIL,
                 contactEmail).findOne();
         return dbUser;
     }

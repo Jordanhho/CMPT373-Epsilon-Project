@@ -1,5 +1,6 @@
 package models.databaseModel.scheduling;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -13,6 +14,12 @@ import javax.annotation.Nonnull;
  */
 @Entity
 public class DbUser extends Model {
+
+    public static final String COLUMN_ROLE_ID = "role_id";
+    public static final String COLUMN_CONTACT_EMAIL = "contact_email";
+    public static final String COLUMN_SFU_EMAIL = "sfu_email";
+    public static final String COLUMN_PHONE_NUMBER = "phone_number";
+    public static final String COLUMN_PHOTO_URL = "photo_url";
 
     @Id
     @GeneratedValue
@@ -30,14 +37,14 @@ public class DbUser extends Model {
     private String photoURL;
 
 
-
     /**
      * The Constructor for DbUser
      * <p>
      * id           the user Id
      * roleId       the role Id of the user
      *
-     * @param contactEmail the contact Email of the User, Note: If the user selects their SFU email as their contact email, it should be the same value as sfu email
+     * @param contactEmail the contact Email of the User, Note: If the user selects their SFU email as their
+     *                     contact email, it should be the same value as sfu email
      * @param sfuEmail     the sfu Email of the user
      * @param phoneNumber  the phone number of the user
      * @param photoURL     the url to the photo of that user
@@ -58,6 +65,7 @@ public class DbUser extends Model {
     }
 
     @Nonnull
+    @Column(name = COLUMN_ROLE_ID)
     public Integer getRoleId() {
         return roleId;
     }
@@ -67,21 +75,25 @@ public class DbUser extends Model {
     }
 
     @Nonnull
+    @Column(name = COLUMN_CONTACT_EMAIL)
     public String getContactEmail() {
         return contactEmail;
     }
 
     @Nonnull
+    @Column(name = COLUMN_SFU_EMAIL)
     public String getSfuEmail() {
         return sfuEmail;
     }
 
     @Nonnull
+    @Column(name = COLUMN_PHONE_NUMBER)
     public String getPhoneNumber() {
         return phoneNumber;
     }
 
     @Nonnull
+    @Column(name = COLUMN_PHOTO_URL)
     public String getPhotoURL() {
         return photoURL;
     }
