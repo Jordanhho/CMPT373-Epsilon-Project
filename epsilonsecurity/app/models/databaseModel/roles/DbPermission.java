@@ -1,5 +1,6 @@
 package models.databaseModel.roles;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -10,10 +11,12 @@ import javax.annotation.Nonnull;
 
 
 /**
- *  Java Object for DbPermission Table with permission Id and name of position
+ * Java Object for DbPermission Table with permission Id and name of position
  */
 @Entity
 public class DbPermission extends Model {
+
+    private static final String COLUMN_NAME = "name";
 
     @Id
     @GeneratedValue
@@ -26,7 +29,8 @@ public class DbPermission extends Model {
     /**
      * Constructor for Permission table
      * Id  the id of the permission
-     * @param name  the name of this permission
+     *
+     * @param name the name of this permission
      */
     public DbPermission(@Nonnull String name) {
         this.name = name;
@@ -38,6 +42,7 @@ public class DbPermission extends Model {
     }
 
     @Nonnull
+    @Column(name = COLUMN_NAME)
     public String getName() {
         return name;
     }

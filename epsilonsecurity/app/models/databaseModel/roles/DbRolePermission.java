@@ -1,5 +1,6 @@
 package models.databaseModel.roles;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -13,6 +14,9 @@ import javax.annotation.Nonnull;
  */
 @Entity
 public class DbRolePermission extends Model {
+
+    private static final String COLUMN_ROLE_ID = "role_id";
+    private static final String COLUMN_PERMISSION_ID = "permission_id";
 
     @Id
     @GeneratedValue
@@ -28,8 +32,9 @@ public class DbRolePermission extends Model {
     /**
      * The constructor of the RolePermission table
      * Id  the id of the RolePermission
-     * @param roleId  the role Id of the RolePermission
-     * @param permissionId  the permission Id of the RolePermission
+     *
+     * @param roleId       the role Id of the RolePermission
+     * @param permissionId the permission Id of the RolePermission
      */
     public DbRolePermission(@Nonnull Integer roleId, @Nonnull Integer permissionId) {
         this.roleId = roleId;
@@ -42,11 +47,13 @@ public class DbRolePermission extends Model {
     }
 
     @Nonnull
+    @Column(name = COLUMN_ROLE_ID)
     public Integer getRoleId() {
         return roleId;
     }
 
     @Nonnull
+    @Column(name = COLUMN_PERMISSION_ID)
     public Integer getPermissionId() {
         return permissionId;
     }

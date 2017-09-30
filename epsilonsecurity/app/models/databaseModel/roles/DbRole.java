@@ -1,5 +1,6 @@
 package models.databaseModel.roles;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -14,6 +15,8 @@ import javax.annotation.Nonnull;
 @Entity
 public class DbRole extends Model {
 
+    private static final String COLUMN_NAME = "name";
+
     @Id
     @GeneratedValue
     @Nonnull
@@ -25,7 +28,8 @@ public class DbRole extends Model {
     /**
      * The constructor for the role table
      * id  the id of the role
-     * @param name   the name of the role
+     *
+     * @param name the name of the role
      */
     public DbRole(@Nonnull String name) {
         this.name = name;
@@ -37,6 +41,7 @@ public class DbRole extends Model {
     }
 
     @Nonnull
+    @Column(name = COLUMN_NAME)
     public String getName() {
         return name;
     }
