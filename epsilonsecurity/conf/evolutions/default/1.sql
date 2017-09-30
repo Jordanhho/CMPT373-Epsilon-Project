@@ -58,6 +58,12 @@ create table db_shift (
   constraint pk_db_shift primary key (id)
 );
 
+create table db_team (
+  id                            integer not null,
+  name                          varchar(255),
+  constraint pk_db_team primary key (id)
+);
+
 create table db_user (
   id                            integer not null,
   role_id                       integer,
@@ -91,6 +97,8 @@ drop table if exists db_role;
 drop table if exists db_role_permission;
 
 drop table if exists db_shift;
+
+drop table if exists db_team;
 
 drop table if exists db_user;
 
