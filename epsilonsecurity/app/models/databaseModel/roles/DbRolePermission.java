@@ -43,6 +43,7 @@ public class DbRolePermission extends Model {
      * @param teamId       the team id of the RolePermission
      * @param roleId       the role Id of the RolePermission
      * @param permissionId the permission Id of the RolePermission
+     * @param level        the permission level of the RolePermission
      */
     public DbRolePermission(@Nonnull Integer teamId, @Nonnull Integer roleId, @Nonnull Integer permissionId,
                             @Nonnull Level level) {
