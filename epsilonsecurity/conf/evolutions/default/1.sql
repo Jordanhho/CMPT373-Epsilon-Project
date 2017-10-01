@@ -5,7 +5,7 @@
 
 create table db_one_time_availability (
   id                            integer not null,
-  user_id                       integer,
+  user_team_id                  integer,
   time_start                    integer,
   time_end                      integer,
   constraint pk_db_one_time_availability primary key (id)
@@ -13,10 +13,18 @@ create table db_one_time_availability (
 
 create table db_one_time_unavailability (
   id                            integer not null,
-  user_id                       integer,
+  user_team_id                  integer,
   time_start                    integer,
   time_end                      integer,
   constraint pk_db_one_time_unavailability primary key (id)
+);
+
+create table db_one_time_unavailibility (
+  id                            integer not null,
+  user_id                       integer,
+  time_start                    integer,
+  time_end                      integer,
+  constraint pk_db_one_time_unavailibility primary key (id)
 );
 
 create table db_permission (
@@ -27,11 +35,10 @@ create table db_permission (
 
 create table db_recurring_availability (
   id                            integer not null,
-  user_id                       integer,
+  user_team_id                  integer,
   day                           timestamp,
   frequency                     integer,
   recur_time_start_block        integer,
-  recur_time_end_block          integer,
   shift_time_start_block        integer,
   shift_time_end_block          integer,
   constraint pk_db_recurring_availability primary key (id)
@@ -94,6 +101,8 @@ create table db_user_team (
 drop table if exists db_one_time_availability;
 
 drop table if exists db_one_time_unavailability;
+
+drop table if exists db_one_time_unavailibility;
 
 drop table if exists db_permission;
 

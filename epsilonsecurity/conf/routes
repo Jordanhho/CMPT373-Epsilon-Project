@@ -11,23 +11,23 @@ GET     /                           controllers.HomeController.index
 
 
 # rest API added routes
-GET         / controllers.HomeController.listUsers()
+GET         / controllers.UserController.listUsers()
 
 # call test function
 GET        /user/create/$contactEmail<[a-z]+@[a-z]+.[a-z]+> controllers.HomeController.test(contactEmail: String)
 
 #Gets user from Int ID
-POST        /$id<[0-9]+> controllers.HomeController.retrieve(id: Int)
+POST        /$id<[0-9]+> controllers.UserController.retrieveUser(id: Int)
 
 #Creates a user
-GET        /user/create/$contactEmail<[a-z]+@[a-z]+.[a-z]+>/$sfuEmail<[a-z]+@sfu.ca>/$phoneNumber<[0-9]+>             controllers.HomeController.create(contactEmail: String, sfuEmail: String, phoneNumber: String)
-
+#GET        /user/create/$contactEmail<[a-z]+@[a-z]+.[a-z]+>/$sfuEmail<[a-z]+@sfu.ca>/$phoneNumber<[0-9]+>             controllers.UserController.createUser(contactEmail: String, sfuEmail: String, phoneNumber: String)
+POST        /user/create/            controllers.UserController.createUser()
 
 #Updates User
-PATCH         /user/update/$id<[0-9]+> controllers.HomeController.update(id: Int)
+PATCH         /user/update/$id<[0-9]+> controllers.UserController.updateUser(id: Int)
 
 #Deletes user from Int ID
-DELETE      /user/delete/$id<[0-9]+> controllers.HomeController.delete(id: Int)
+DELETE      /user/delete/$id<[0-9]+> controllers.UserController.deleteUser(id: Int)
 
 #Gets
 #GET        /assets/*file controllers.Assets.versioned(path="/public", file: Asset)
