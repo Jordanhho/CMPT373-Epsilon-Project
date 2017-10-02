@@ -2,11 +2,7 @@
 <project version="4">
   <component name="DBNavigator.Project.DataEditorManager">
     <record-view-column-sorting-type value="BY_INDEX" />
-<<<<<<< HEAD
     <value-preview-text-wrapping value="false" />
-=======
-    <value-preview-text-wrapping value="true" />
->>>>>>> master
     <value-preview-pinned value="false" />
   </component>
   <component name="DBNavigator.Project.DataExportManager">
@@ -136,10 +132,7 @@
     <dataset-grid-settings>
       <general>
         <enable-zooming value="true" />
-<<<<<<< HEAD
         <enable-column-tooltip value="true" />
-=======
->>>>>>> master
       </general>
       <sorting>
         <nulls-first value="true" />
@@ -369,10 +362,7 @@
         <debug-execution-timeout value="600" />
         <focus-result value="false" />
         <prompt-execution value="false" />
-<<<<<<< HEAD
         <target-connection value="ASK" />
-=======
->>>>>>> master
       </statement-execution>
       <script-execution>
         <command-line-interfaces />
