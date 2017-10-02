@@ -128,7 +128,4 @@ project/plugins/project/
 .history
 .cache
 .lib/
-<<<<<<< HEAD
 *.sql
-=======
->>>>>>> master
