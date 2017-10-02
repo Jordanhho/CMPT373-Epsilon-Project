@@ -41,10 +41,8 @@ public class UserShiftController extends Controller {
         return ok();
     }
 
-    public Result retrieveUserShift() {
-        Form<DbUser> userForm = formFactory.form(DbUser.class).bindFromRequest();
-        DbUser targetUser = userForm.get();
-
+    public Result retrieveUserShift(String sfuEmail) {
+        DbUser targetUser = readDbUserBySfuEmail(sfuEmail);
         List<DbUserShift> dbUserShift = readAllDbUserShift();
         int i = 0;
         while(i < dbUserShift.size()) {
