@@ -21,15 +21,19 @@ POST        /$id<[0-9]+> controllers.UserController.retrieveUser(id: Int)
 
 #Creates a user
 #GET        /user/create/$contactEmail<[a-z]+@[a-z]+.[a-z]+>/$sfuEmail<[a-z]+@sfu.ca>/$phoneNumber<[0-9]+>             controllers.UserController.createUser(contactEmail: String, sfuEmail: String, phoneNumber: String)
-POST        /user/create/            controllers.UserController.createUser()
+GET         /user/create/            controllers.UserController.createUser()
+POST        /user/create/submit      controllers.UserController.createUserSubmit()
 
 #Updates User
 PATCH         /user/update/$id<[0-9]+> controllers.UserController.updateUser(id: Int)
 
-#Deletes user from Int ID
-DELETE      /user/delete/$id<[0-9]+> controllers.UserController.deleteUser(id: Int)
+#Deletes user from SFU email
+DELETE      /user/delete/$sfuEmail<[a-z_]+@sfu.ca> controllers.UserController.deleteUser(sfuEmail: String)
 
 #Gets
 #GET        /assets/*file controllers.Assets.versioned(path="/public", file: Asset)
+
+#Creates a UserShift
+POST        /shift/assign/              controllers.UserShiftController.createUserShift()
 
 

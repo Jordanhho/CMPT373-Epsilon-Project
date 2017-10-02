@@ -8,6 +8,8 @@ import play.data.FormFactory;
 
 
 import static models.databaseModel.helpers.DbUserHelper.createDbUser;
+import static models.databaseModel.helpers.DbUserHelper.deleteDbUserById;
+import static models.databaseModel.helpers.DbUserHelper.readDbUserBySfuEmail;
 
 
 public class UserController extends Controller {
@@ -41,7 +43,9 @@ public class UserController extends Controller {
         return ok();
     }
 
-    public Result deleteUser(int id) {
+    public Result deleteUser(String sfuEmail) {
+        DbUser targetUser = readDbUserBySfuEmail(sfuEmail);
+        deleteDbUserById(targetUser.getUserId());
         return ok();
     }
 

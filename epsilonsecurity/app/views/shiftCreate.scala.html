@@ -1,0 +1,13 @@
+@(DBUserForm : Form[DbUser]) {
+get DBUserForm
+
+@import helper.
+
+@layout("Create Shift") {
+<h1>Create Shift</h1>
+@helper.form(action = routes.UserShiftController.createUserShift()){
+    @helper.inputText(DBUserFrom("sfuEmail"))
+    @helper.inputText(DBUserFrom("startTime"))
+    @helper.inputText(DBUserFrom("endTime"))
+        <br>
+       <input type = "submit" value = "Create Shift">

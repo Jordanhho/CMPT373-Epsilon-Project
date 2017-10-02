@@ -4,6 +4,7 @@ import play.mvc.*;
 import models.databaseModel.helpers.DbShiftHelper;
 
 public class ShiftController extends Controller {
+
     public Result listShifts() {
         return ok();
     }
