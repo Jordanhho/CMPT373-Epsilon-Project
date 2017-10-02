@@ -129,3 +129,4 @@ project/plugins/project/
 .cache
 .lib/
 *.sql
+*.db
