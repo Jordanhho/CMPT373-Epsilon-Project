@@ -2,9 +2,12 @@ package models.databaseModel.helpers;
 
 
 
+import io.ebean.Expr;
 import models.databaseModel.scheduling.DbOneTimeUnavailability;
+import models.databaseModel.scheduling.DbUser;
 
 import javax.annotation.Nonnull;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -17,8 +20,8 @@ public final class DbOneTimeUnavailabilityHelper {
 
     }
 
-    public static void createDbOneTimeUnavailability(@Nonnull Integer userId, @Nonnull Integer timeStart, @Nonnull Integer timeEnd) {
-        DbOneTimeUnavailability dbOneTimeUnavailability = new DbOneTimeUnavailability(userId, timeStart, timeEnd);
+    public static void createDbOneTimeUnavailability(@Nonnull Integer userTeamId, @Nonnull Integer timeStart, @Nonnull Integer timeEnd) {
+        DbOneTimeUnavailability dbOneTimeUnavailability = new DbOneTimeUnavailability(userTeamId, timeStart, timeEnd);
         dbOneTimeUnavailability.save();
     }
 
@@ -37,4 +40,15 @@ public final class DbOneTimeUnavailabilityHelper {
         List<DbOneTimeUnavailability> dbOneTimeUnavailability = DbOneTimeUnavailability.find.all();
         return dbOneTimeUnavailability;
     }
+
+    public static List<DbOneTimeUnavailability> readDbOneTimeUnavailabilityByTimeRange(@Nonnull Integer timeStart, @Nonnull Integer timeEnd){
+        List<DbOneTimeUnavailability> dbOneTimeUnavailabilityList = DbOneTimeUnavailability.find.query().where()
+                .disjunction()
+                .add(Expr.ge(DbOneTimeUnavailability.COLUMN_TIME_START, timeStart))
+                .add(Expr.le(DbOneTimeUnavailability.COLUMN_TIME_END, timeEnd))
+                .findList();
+        return dbOneTimeUnavailabilityList;
+    }
+
+
 }

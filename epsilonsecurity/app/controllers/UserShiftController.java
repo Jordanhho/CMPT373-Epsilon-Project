@@ -7,7 +7,6 @@ import play.mvc.*;
 import models.databaseModel.scheduling.DbUser;
 import models.databaseModel.scheduling.DbShift;
 import models.databaseModel.scheduling.DbUserShift;
-import models.databaseModel.scheduling.DbUserShiftForm;
 
 
 import java.util.List;
@@ -47,7 +46,7 @@ public class UserShiftController extends Controller {
         int i = 0;
         while(i < dbUserShift.size()) {
             DbUserShift currentUserShift = dbUserShift.get(i);
-            if(!targetUser.getUserId().equals(currentUserShift.getUserId())) {
+            if(!targetUser.getUserId().equals(currentUserShift.getUserTeamId())) {
                 dbUserShift.remove(i);
             }
             i++;

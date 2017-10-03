@@ -27,6 +27,8 @@ public class DbUser extends Model {
     private Integer id;
     @Nonnull
     private Integer roleId;
+
+    //TODO ADD IN NAME (FIRST NAME, MIDDLE NAME, LAST NAME, NICKNAME, GLHF)
     @Nonnull
     private String contactEmail;
     @Nonnull

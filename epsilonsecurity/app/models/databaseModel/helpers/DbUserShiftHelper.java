@@ -1,9 +1,12 @@
 package models.databaseModel.helpers;
 
 
+import models.databaseModel.scheduling.DbUser;
 import models.databaseModel.scheduling.DbUserShift;
+import models.databaseModel.scheduling.DbUserTeam;
 
 import javax.annotation.Nonnull;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -15,8 +18,8 @@ public final class DbUserShiftHelper {
 
     }
 
-    public static void createDbUserShift(@Nonnull Integer userId, @Nonnull Integer shiftId) {
-        DbUserShift dbUserShift = new DbUserShift(userId, shiftId);
+    public static void createDbUserShift(@Nonnull Integer userShiftId, @Nonnull Integer shiftId) {
+        DbUserShift dbUserShift = new DbUserShift(userShiftId, shiftId);
         dbUserShift.save();
     }
 
@@ -35,4 +38,22 @@ public final class DbUserShiftHelper {
         List<DbUserShift> dbUserShift = DbUserShift.find.all();
         return dbUserShift;
     }
+
+
+    public static List<DbUser> readUserByShiftId(@Nonnull Integer shiftId) {
+        List<DbUserShift> dbUserShiftList = DbUserShift.find.query().where().eq(DbUserShift.COLUMN_SHIFT_ID, shiftId).findList();
+
+        List<DbUserTeam> dbUserTeamList = new ArrayList<>();
+        for(DbUserShift dbUserShift : dbUserShiftList) {
+            dbUserTeamList.add(DbUserTeamHelper.readDbUserTeamById(dbUserShift.getUserTeamId()));
+        }
+
+        List<DbUser> dbUserList = new ArrayList<>();
+        for(DbUserTeam dbUserTeam : dbUserTeamList){
+            dbUserList.add(DbUser.find.byId(dbUserTeam.getUserId()));
+        }
+        return dbUserList;
+    }
+
+
 }
