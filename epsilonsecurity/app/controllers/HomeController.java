@@ -1,13 +1,7 @@
 package controllers;
-import ch.qos.logback.core.db.DBHelper;
-import models.databaseModel.helpers.DbShiftHelper;
-import models.databaseModel.scheduling.DbShift;
 import models.databaseModel.scheduling.DbUser;
 import play.mvc.*;
 
-import java.util.List;
-
-import static models.databaseModel.helpers.DbShiftHelper.readDbShiftByTime;
 import static models.databaseModel.helpers.DbUserHelper.createDbUser;
 
 
