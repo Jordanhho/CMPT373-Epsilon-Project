@@ -3,33 +3,34 @@
 # ~~~~
 
 # Map static resources from the /public folder to the /assets URL path
-GET        /assets/*file        controllers.Assets.versioned(path="/public", file: Asset)
+GET         /assets/*file                                      controllers.Assets.versioned(path="/public", file: Asset)
 
 # All other routes that lead to an invalid page. Show home page for now, should be
-#GET        /*path               controllers.HomeController.index(path: String)
-GET     /                           controllers.HomeController.index
+#GET        /*path                                            controllers.HomeController.index(path: String)
+GET         /                                                 controllers.HomeController.index
 
 
 # rest API added routes
-GET         / controllers.HomeController.listUsers()
+GET         /                                                  controllers.UserController.listUsers()
 
-# call test function
-GET        /user/create/$contactEmail<[a-z]+@[a-z]+.[a-z]+> controllers.HomeController.test(contactEmail: String)
+# Call test function
+GET         /user/create/$contactEmail<[a-z]+@[a-z]+.[a-z]+>   controllers.HomeController.test(contactEmail: String)
 
-#Gets user from Int ID
-POST        /$id<[0-9]+> controllers.HomeController.retrieve(id: Int)
+# Gets user from Int ID
+GET        /$id<[0-9]+>                                        controllers.UserController.retrieveUser(id: Int)
 
-#Creates a user
-GET        /user/create/$contactEmail<[a-z]+@[a-z]+.[a-z]+>/$sfuEmail<[a-z]+@sfu.ca>/$phoneNumber<[0-9]+>             controllers.HomeController.create(contactEmail: String, sfuEmail: String, phoneNumber: String)
+# Creates a user
+POST        /user/create/                                      controllers.UserController.createUser()
 
+# Updates User
+PATCH       /user/update/$id<[0-9]+>                           controllers.UserController.updateUser(id: Int)
 
-#Updates User
-PATCH         /user/update/$id<[0-9]+> controllers.HomeController.update(id: Int)
+# Deletes user by SFU email
+DELETE      /user/delete/$sfuEmail<[a-z_]+@sfu.ca>             controllers.UserController.deleteUser(sfuEmail: String)
 
-#Deletes user from Int ID
-DELETE      /user/delete/$id<[0-9]+> controllers.HomeController.delete(id: Int)
+# Creates a UserShift
+POST        /shifts/assign/                                    controllers.UserShiftController.createUserShift()
 
-#Gets
-#GET        /assets/*file controllers.Assets.versioned(path="/public", file: Asset)
-
+# Retrieves all shifts tied to a User
+GET         /user/shifts/$sfuEmail<[a-z_]+@sfu.ca>             controllers.UserShiftController.retrieveUserShift(sfuEmail: String)
 
