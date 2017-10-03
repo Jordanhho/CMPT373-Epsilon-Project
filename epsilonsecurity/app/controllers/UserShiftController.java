@@ -1,5 +1,8 @@
 package controllers;
+
 import com.google.inject.Inject;
+import models.databaseModel.helpers.DbUserHelper;
+import models.databaseModel.helpers.DbUserShiftHelper;
 import models.databaseModel.scheduling.DbUserShiftForm;
 import play.data.Form;
 import play.data.FormFactory;
@@ -11,6 +14,7 @@ import models.databaseModel.scheduling.DbUserShiftForm;
 
 
 import java.util.List;
+import java.util.Map;
 
 import static models.databaseModel.helpers.DbShiftHelper.readDbShiftByTime;
 import static models.databaseModel.helpers.DbUserHelper.readDbUserBySfuEmail;
@@ -22,40 +26,27 @@ public class UserShiftController extends Controller {
     @Inject
     FormFactory formFactory;
 
-    private static int SHIFT_LIST_INDEX = 0;
-
-    public Result listUserShifts() {
-        return ok();
-    }
-
     public Result createUserShift() {
-        Form<DbUserShiftForm> userShiftForm = formFactory.form(DbUserShiftForm.class).bindFromRequest();
-        DbUserShiftForm newUserShift = userShiftForm.get();
+        final Map<String, String[]> values = request().body().asFormUrlEncoded();
 
-        DbUser targetUser = readDbUserBySfuEmail(newUserShift.getSfuEmail());
-        DbShift targetShift = readDbShiftByTime(
-                newUserShift.getTimeStart(),
-                newUserShift.getTimeEnd()).get(SHIFT_LIST_INDEX);
+        Integer userId = Integer.parseInt(values.get("userId")[0]);
+        Integer shiftId = Integer.parseInt(values.get("shiftId")[0]);
 
-        createDbUserShift(targetUser.getUserId(), targetShift.getId());
+        DbUserShiftHelper.createDbUserShift(userId, shiftId);
         return ok();
     }
 
-    public Result retrieveUserShift(String sfuEmail) {
-        DbUser targetUser = readDbUserBySfuEmail(sfuEmail);
-        List<DbUserShift> dbUserShift = readAllDbUserShift();
-        int i = 0;
-        while(i < dbUserShift.size()) {
-            DbUserShift currentUserShift = dbUserShift.get(i);
-            if(!targetUser.getUserId().equals(currentUserShift.getUserId())) {
-                dbUserShift.remove(i);
-            }
-            i++;
+    public Result retrieveUserShift(Integer userId) {
+        List<DbUserShift> dbUserShiftList = DbUserShiftHelper.readDbUserByShiftId(userId);
+
+        for (DbUserShift dbUserShift : dbUserShiftList) {
+            System.out.println(dbUserShift.getUserId());
         }
+
         return ok();
     }
 
-    public Result deleteUserShift() {
+    public Result deleteUserShift(Integer userId) {
         return ok();
     }
 }

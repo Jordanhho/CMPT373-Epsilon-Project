@@ -35,4 +35,14 @@ public final class DbUserShiftHelper {
         List<DbUserShift> dbUserShift = DbUserShift.find.all();
         return dbUserShift;
     }
+
+    public static List<DbUserShift> readDbUserByShiftId(Integer userId) {
+        List<DbUserShift> dbUserShiftList = DbUserShift.find
+                .query()
+                .where()
+                .eq(DbUserShift.COLUMN_USER_ID, userId)
+                .findList();
+
+        return dbUserShiftList;
+    }
 }

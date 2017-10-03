@@ -28,10 +28,14 @@ PUT           /user/:id                                               controller
 # Deletes DbUser by SFU email
 DELETE        /user/:id                                               controllers.UserController.deleteUser(id: String)
 
-# Creates a UserShift
-POST          /shifts/assign/                                         controllers.UserShiftController.createUserShift()
 
-# Retrieves all shifts tied to a User
-GET           /user/shifts/$sfuEmail<[a-z_]+@sfu.ca>                  controllers.UserShiftController.retrieveUserShift(sfuEmail: String)
+# Creates a UserShift
+POST          /user/shifts/                                           controllers.UserShiftController.createUserShift()
+
+# Read all shifts tied to a user id
+GET           /user/shifts/:id                                        controllers.UserShiftController.retrieveUserShift(id: Integer)
+
+# Delete UserShift by user id
+DELETE        /user/shifts/:id                                        controllers.UserShiftController.deleteUserShift(id: Integer)
 
 
