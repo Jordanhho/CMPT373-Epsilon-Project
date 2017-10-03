@@ -18,8 +18,8 @@ public final class DbUserShiftHelper {
 
     }
 
-    public static void createDbUserShift(@Nonnull Integer userShiftId, @Nonnull Integer shiftId) {
-        DbUserShift dbUserShift = new DbUserShift(userShiftId, shiftId);
+    public static void createDbUserShift(@Nonnull Integer userTeamId, @Nonnull Integer shiftId) {
+        DbUserShift dbUserShift = new DbUserShift(userTeamId, shiftId);
         dbUserShift.save();
     }
 

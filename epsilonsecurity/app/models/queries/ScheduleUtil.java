@@ -28,7 +28,7 @@ public class ScheduleUtil {
         for(DbOneTimeAvailability oneTimeAvailability : oneTimeAvailabilityList){
             list2.add(DbUserTeam.find.byId(oneTimeAvailability.getUserTeamId()));
         }
-
+        //return all unavailibilities in range
         List<DbOneTimeUnavailability> oneTimeUnavailabilityList = DbOneTimeUnavailabilityHelper.readDbOneTimeUnavailabilityByTimeRange(timeStart, timeEnd);
 
         List<DbUserTeam> list3 = new ArrayList<>();
@@ -48,17 +48,21 @@ public class ScheduleUtil {
 
         //combine list1 & list2
         //then subtract list3 & list4
+
+        System.out.println("list 1 size " + list1.size());
+        System.out.println("list 2 size " + list2.size());
+        System.out.println("list 3 size " + list3.size());
+        System.out.println("list 4 size " + list4.size());
+
         List<DbUser> dbUserList = new ArrayList<>();
 
         Set<DbUserTeam> filteredList = new LinkedHashSet<>(list1);
         filteredList.addAll(list2);
         filteredList.removeAll(list3);
         filteredList.removeAll(list4);
-
         for (DbUserTeam userTeam : filteredList){
             dbUserList.add(DbUserHelper.readDbUserById(userTeam.getUserId()));
         }
-
         return dbUserList;
     }
 

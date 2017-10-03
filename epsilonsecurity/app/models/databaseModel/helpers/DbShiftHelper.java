@@ -17,7 +17,7 @@ public final class DbShiftHelper {
     }
 
     public static void createDbShift(@Nonnull Integer timeStart, @Nonnull Integer timeEnd) {
-        DbShift dbShift = new DbShift(timeStart, timeStart);
+        DbShift dbShift = new DbShift(timeStart, timeEnd);
         dbShift.save();
     }
 
@@ -29,8 +29,8 @@ public final class DbShiftHelper {
     public static List<DbShift> readDbShiftByTime(Integer timeStart, Integer timeEnd){
         List<DbShift> dbShiftList = DbShift.find.query().where()
                 .disjunction()
-                .add(Expr.ge(DbShift.COLUMN_TIME_START, timeStart))
-                .add(Expr.le(DbShift.COLUMN_TIME_END, timeEnd))
+                .add(Expr.between(DbShift.COLUMN_TIME_START, DbShift.COLUMN_TIME_END, timeStart))
+                .add(Expr.between(DbShift.COLUMN_TIME_START, DbShift.COLUMN_TIME_END, timeEnd))
                 .findList();
         return dbShiftList;
     }

@@ -1,5 +1,6 @@
 package controllers;
 import models.databaseModel.helpers.*;
+import models.databaseModel.scheduling.DbOneTimeAvailability;
 import models.databaseModel.scheduling.DbUser;
 import models.databaseModel.scheduling.DbUserShift;
 import models.queries.ScheduleUtil;
@@ -25,33 +26,12 @@ public class HomeController extends Controller {
     //public Result index(String path) {
       public Result index() {
           //test database
-          /*DbUserHelper.createDbUser("", "", "", "");
+/*
           DbUserHelper.createDbUser("", "", "", "");
           DbUserHelper.createDbUser("", "", "", "");
           DbUserHelper.createDbUser("", "", "", "");
-
-
-          DbShiftHelper.createDbShift(700, 1000);
-          DbShiftHelper.createDbShift(1200, 1500);
-          DbShiftHelper.createDbShift(1600, 1900);
-          DbShiftHelper.createDbShift(2200, 2300);
-
-          DbOneTimeAvailabilityHelper.createDbOneTimeAvailability(1,1600, 1900);
-          DbOneTimeAvailabilityHelper.createDbOneTimeAvailability(2,1600, 1900);
-          DbOneTimeAvailabilityHelper.createDbOneTimeAvailability(3,1600, 1900);
-          DbOneTimeAvailabilityHelper.createDbOneTimeAvailability(4,1600, 1900);
-
-
-          DbUserShiftHelper.createDbUserShift(1, 1);
-          DbUserShiftHelper.createDbUserShift(2, 2);
-          DbUserShiftHelper.createDbUserShift(3, 3);
-          DbUserShiftHelper.createDbUserShift(4, 4);
-
-          DbOneTimeUnavailabilityHelper.createDbOneTimeUnavailability(1, 700, 1000);
-          DbOneTimeUnavailabilityHelper.createDbOneTimeUnavailability(2, 1600, 1900);
-          DbOneTimeUnavailabilityHelper.createDbOneTimeUnavailability(3, 1200, 1500);
-          DbOneTimeUnavailabilityHelper.createDbOneTimeUnavailability(4, 2100, 2300);*/
-
+          DbUserHelper.createDbUser("", "", "", "");
+          DbUserHelper.createDbUser("", "", "", "");
 
           DbUserTeamHelper.createDbUserTeam(1, 1);
           DbUserTeamHelper.createDbUserTeam(1, 2);
@@ -59,27 +39,39 @@ public class HomeController extends Controller {
           DbUserTeamHelper.createDbUserTeam(1, 4);
           DbUserTeamHelper.createDbUserTeam(1, 5);
 
-
-          DbUserHelper.createDbUser("", "", "", "");
-
-
-          DbShiftHelper.createDbShift(700, 1000);
-
-
-          DbOneTimeAvailabilityHelper.createDbOneTimeAvailability(1,1600, 1630);
-
-
-
+          DbUserShiftHelper.createDbUserShift(1, 1);
+          DbUserShiftHelper.createDbUserShift(2, 2);
+          DbUserShiftHelper.createDbUserShift(3, 3);
+          DbUserShiftHelper.createDbUserShift(4, 4);
           DbUserShiftHelper.createDbUserShift(5, 5);
 
+          DbShiftHelper.createDbShift(700, 1000);
+          DbShiftHelper.createDbShift(1200, 1500);
+          DbShiftHelper.createDbShift(1600, 1900);
+          DbShiftHelper.createDbShift(2200, 2300);
+          DbShiftHelper.createDbShift(2200, 2300);
 
-          DbOneTimeUnavailabilityHelper.createDbOneTimeUnavailability(5, 700, 1000);
+          DbOneTimeAvailabilityHelper.createDbOneTimeAvailability(1,1600, 1900);
+          DbOneTimeAvailabilityHelper.createDbOneTimeAvailability(2,1600, 1900);
+          DbOneTimeAvailabilityHelper.createDbOneTimeAvailability(3,1600, 1900);
+          DbOneTimeAvailabilityHelper.createDbOneTimeAvailability(4,1600, 1900);
+          DbOneTimeAvailabilityHelper.createDbOneTimeAvailability(4,1600, 1630);
 
+          DbOneTimeUnavailabilityHelper.createDbOneTimeUnavailability(1, 700, 1000);
+          DbOneTimeUnavailabilityHelper.createDbOneTimeUnavailability(2, 1600, 1900);
+          DbOneTimeUnavailabilityHelper.createDbOneTimeUnavailability(3, 1200, 1500);
+          DbOneTimeUnavailabilityHelper.createDbOneTimeUnavailability(4, 2100, 2300);
+          DbOneTimeUnavailabilityHelper.createDbOneTimeUnavailability(5, 2100, 2300);*/
 
           List<DbUser> dbUsers = ScheduleUtil.queryUsersBasedOnAvailiability(1, 1530, 1700);
           System.out.println("HI");
+          System.out.println("Time Range: 1530 - 1700");
           for(DbUser user : dbUsers){
               System.out.println("Available user" + user.getUserId());
+              System.out.println("Time Range: "
+                      + DbOneTimeAvailabilityHelper.readDbOneTimeAvailabilityById(user.getUserId()).getTimeStart()
+                      + " - "
+                      + DbOneTimeAvailabilityHelper.readDbOneTimeAvailabilityById(user.getUserId()).getTimeEnd());
           }
         return ok(views.html.index.render());
     }
@@ -90,7 +82,6 @@ public class HomeController extends Controller {
         System.out.println(contactEmail);
         return ok(contactEmail);
     }
-
 
     // todo: create invalid query request function (all paths in routes file)
 }

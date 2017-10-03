@@ -15,7 +15,7 @@ import javax.annotation.Nonnull;
 @Entity
 public class DbUserShift extends Model {
 
-    public static final String COLUMN_USER_TEAM_ID = "user_id";
+    public static final String COLUMN_USER_TEAM_ID = "user_team_id";
     public static final String COLUMN_SHIFT_ID = "shift_id";
 
     @Id

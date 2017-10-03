@@ -41,8 +41,8 @@ public final class DbOneTimeAvailabilityHelper {
     public static List<DbOneTimeAvailability> readDbOneTimeAvailabilityByTimeRange(@Nonnull Integer timeStart, @Nonnull Integer timeEnd){
         List<DbOneTimeAvailability> dbOneTimeAvailabilityList = DbOneTimeAvailability.find.query().where()
                 .disjunction()
-                .add(Expr.ge(DbOneTimeAvailability.COLUMN_TIME_START, timeStart))
-                .add(Expr.le(DbOneTimeAvailability.COLUMN_TIME_END, timeEnd))
+                .add(Expr.between(DbOneTimeAvailability.COLUMN_TIME_START, DbOneTimeAvailability.COLUMN_TIME_END, timeStart))
+                .add(Expr.between(DbOneTimeAvailability.COLUMN_TIME_START, DbOneTimeAvailability.COLUMN_TIME_END, timeEnd))
                 .findList();
         return dbOneTimeAvailabilityList;
     }
