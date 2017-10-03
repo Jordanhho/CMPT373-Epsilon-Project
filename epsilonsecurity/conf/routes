@@ -20,7 +20,7 @@ GET         /user/create/$contactEmail<[a-z]+@[a-z]+.[a-z]+>   controllers.HomeC
 GET        /$id<[0-9]+>                                        controllers.UserController.retrieveUser(id: Int)
 
 # Creates a user
-POST        /user/create/                                      controllers.UserController.createUser()
+POST        /user/                                    controllers.UserController.createUser()
 
 # Updates User
 PATCH       /user/update/$id<[0-9]+>                           controllers.UserController.updateUser(id: Int)
