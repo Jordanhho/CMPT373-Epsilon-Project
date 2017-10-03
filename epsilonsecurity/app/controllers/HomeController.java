@@ -16,12 +16,8 @@ public class HomeController extends Controller {
      * this method will be called when the application receives a
      * <code>GET</code> request with a path of <code>/</code>.
      */
-    //public Result index(String path) {
+
       public Result index() {
-//        UserDbHelper.createDbUser("three", "four", "five", "six");
-//        UserDbHelper.deleteDbUserById(1);
-//        DbUser dbUser = UserDbHelper.readDbUserById(1);
-//        System.out.println(dbUser.getRoleId());
         return ok(views.html.index.render());
     }
 
