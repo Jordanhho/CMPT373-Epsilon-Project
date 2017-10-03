@@ -4,5 +4,6 @@ public enum Level {
     ADMIN,
     SUPERVISOR,
     TEAMLEAD,
-    USER;
+    EMPLOYEE,
+    VOLUNTEER
 }
