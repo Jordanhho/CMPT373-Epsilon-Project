@@ -60,21 +60,20 @@ Hitting enter again will stop the server and drop you back to the SBT console. H
 .
 ├── README.md
 ├── docs/
-├── epsilonsecurity/
-│   ├── app/
-│   ├── build.sbt
-│   ├── conf/
-│   │   ├── application.conf
-│   │   └── routes
-│   ├── logs/
-│   ├── project/
-│   ├── public
-│   │   ├── images
-│   │   ├── javascripts
-│   │   └── stylesheets
-│   ├── target
-│   └── test
-└── ui-mockup/
+└── epsilonsecurity/
+    ├── app/
+    ├── build.sbt
+    ├── conf/
+    │   ├── application.conf
+    │   └── routes
+    ├── logs/
+    ├── project/
+    ├── public/
+    │   ├── images/
+    │   ├── javascripts/
+    │   └── stylesheets/
+    ├── target/
+    └── test/
 ```
 
 `docs`: folder containing high-level project documentation such as requirements documents, schema and class diagrams, etc. 
