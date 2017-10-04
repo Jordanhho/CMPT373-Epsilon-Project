@@ -15,6 +15,13 @@ public final class DbRolePermissionHelper {
 
     }
 
+    /**
+     * creates a DbRolePermission from teamId, roleId, permissionId, level
+     * @param teamId
+     * @param roleId
+     * @param permissionId
+     * @param level
+     */
     public static void createDbRolePermission(@Nonnull Integer teamId,
                                               @Nonnull Integer roleId,
                                               @Nonnull Integer permissionId,
@@ -23,17 +30,29 @@ public final class DbRolePermissionHelper {
         dbRolePermission.save();
     }
 
-
+    /**
+     * deletes a DbRolePermission by DbRolePermissionId
+     * @param id
+     */
     public static void deleteDbRolePermissionById(@Nonnull Integer id) {
         DbRolePermission dbRolePermission = readDbRolePermissionById(id);
         dbRolePermission.delete();
     }
 
+    /**
+     * finds a DbRolePermission by DbRolePermissionId
+     * @param id
+     * @return
+     */
     public static DbRolePermission readDbRolePermissionById(@Nonnull Integer id) {
         DbRolePermission dbRolePermission = DbRolePermission.find.byId(id);
         return dbRolePermission;
     }
 
+    /**
+     * returns a list of all DbRolePermission
+     * @return
+     */
     public static List<DbRolePermission> readAllDbRolePermission() {
         List<DbRolePermission> dbRolePermission = DbRolePermission.find.all();
         return dbRolePermission;

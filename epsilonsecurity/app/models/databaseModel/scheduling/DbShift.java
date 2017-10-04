@@ -14,15 +14,25 @@ import io.ebean.*;
 @Entity
 public class DbShift extends Model {
 
+    public static final String COLUMN_NAME = "name";
     public static final String COLUMN_TIME_START = "time_start";
     public static final String COLUMN_TIME_END = "time_end";
     public static final String COLUMN_WAS_PRESENT = "was_present";
+
+
+    public static final String FORM_COLUMN_NAME = "name";
+    public static final String FORM_COLUMN_TIME_START = "timeStart";
+    public static final String FORM_COLUMN_TIME_END = "timeEnd";
+    public static final String FORM_COLUMN_WAS_PRESENT = "wasPresent";
 
     // Fields
     @Id
     @GeneratedValue
     @Nonnull
     private Integer id;
+
+    @Nonnull
+    String name;
 
     @Nonnull
     private Integer timeStart;
@@ -41,8 +51,9 @@ public class DbShift extends Model {
      * @param timeEnd   the end time of the shift
      *                  wasPresent  if the user was present for this shift
      */
-    public DbShift(@Nonnull Integer timeStart, @Nonnull Integer timeEnd) {
+    public DbShift(@Nonnull String name, @Nonnull Integer timeStart, @Nonnull Integer timeEnd) {
         //wasPresent are set with temporary values
+        this.name = name;
         this.timeStart = timeStart;
         this.timeEnd = timeEnd;
         this.wasPresent = true;
@@ -51,6 +62,12 @@ public class DbShift extends Model {
     @Nonnull
     public Integer getId() {
         return id;
+    }
+
+    @Nonnull
+    @Column(name = COLUMN_NAME)
+    public String getName() {
+        return name;
     }
 
     @Nonnull

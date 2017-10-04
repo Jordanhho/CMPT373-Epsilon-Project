@@ -4,10 +4,7 @@ import io.ebean.Finder;
 import io.ebean.Model;
 
 import javax.annotation.Nonnull;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class DbUserTeam extends Model {
@@ -37,13 +34,13 @@ public class DbUserTeam extends Model {
     }
 
     @Nonnull
-    @Column(name = COLUMN_TEAM_ID)
+    @Column(name = COLUMN_TEAM_ID, unique = true)
     public Integer getTeamId() {
         return teamId;
     }
 
     @Nonnull
-    @Column(name = COLUMN_USER_ID)
+    @Column(name = COLUMN_USER_ID, unique = true)
     public Integer getUserId() {
         return userId;
     }
@@ -58,4 +55,6 @@ public class DbUserTeam extends Model {
     }
 
     public static Finder<Integer, DbUserTeam> find = new Finder<>(DbUserTeam.class);
+
+
 }
