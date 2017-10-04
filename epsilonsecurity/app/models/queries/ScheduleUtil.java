@@ -18,48 +18,51 @@ import java.util.Set;
  */
 public class ScheduleUtil {
 
-
+    //Search for available users based on teamId, start and end time of shift
     public static List<DbUser> queryUsersBasedOnAvailiability(Integer teamId, Integer timeStart, Integer timeEnd) {
-        List<DbUserTeam> list1 = DbUserTeam.find.query().where().eq(DbUserTeam.COLUMN_TEAM_ID, teamId).findList();
-
+        //find all users in right team/location
+        List<DbUserTeam> userTeamListByLocation = DbUserTeam.find.query().where().eq(DbUserTeam.COLUMN_TEAM_ID, teamId).findList();
+        //find all availability in right time range
         List<DbOneTimeAvailability> oneTimeAvailabilityList = DbOneTimeAvailabilityHelper.readDbOneTimeAvailabilityByTimeRange(timeStart, timeEnd);
 
-        List<DbUserTeam> list2 = new ArrayList<>();
+        List<DbUserTeam> userTeamListByAvailability = new ArrayList<>();
         for(DbOneTimeAvailability oneTimeAvailability : oneTimeAvailabilityList){
-            list2.add(DbUserTeam.find.byId(oneTimeAvailability.getUserTeamId()));
+            userTeamListByAvailability.add(DbUserTeam.find.byId(oneTimeAvailability.getUserTeamId()));
         }
-        //return all unavailibilities in range
+        //return all unavailability in range
         List<DbOneTimeUnavailability> oneTimeUnavailabilityList = DbOneTimeUnavailabilityHelper.readDbOneTimeUnavailabilityByTimeRange(timeStart, timeEnd);
 
-        List<DbUserTeam> list3 = new ArrayList<>();
+        List<DbUserTeam> userTeamListByUnavailability = new ArrayList<>();
         for(DbOneTimeUnavailability oneTimeUnavailability : oneTimeUnavailabilityList){
-            list3.add(DbUserTeam.find.byId(oneTimeUnavailability.getUserTeamId()));
+            if(oneTimeUnavailability.getUserTeamId().equals(teamId)){
+                userTeamListByUnavailability.add(DbUserTeam.find.byId(oneTimeUnavailability.getUserTeamId()));
+            }
         }
 
+        //return all shifts in range
         List<DbShift> shifts = DbShiftHelper.readDbShiftByTime(timeStart, timeEnd);
         List<DbUserShift> userShiftList = new ArrayList<>();
         for(DbShift shift : shifts){
             userShiftList.add(DbUserShift.find.query().where().eq(DbUserShift.COLUMN_SHIFT_ID, shift.getId()).findOne());
         }
-        List<DbUserTeam> list4 = new ArrayList<>();
+        List<DbUserTeam> userTeamListByShift = new ArrayList<>();
+
         for(DbUserShift userShift : userShiftList){
-            list4.add(DbUserTeam.find.byId(userShift.getUserTeamId()));
+            userTeamListByShift.add(DbUserTeam.find.byId(userShift.getUserTeamId()));
         }
 
         //combine list1 & list2
         //then subtract list3 & list4
-
-        System.out.println("list 1 size " + list1.size());
-        System.out.println("list 2 size " + list2.size());
-        System.out.println("list 3 size " + list3.size());
-        System.out.println("list 4 size " + list4.size());
-
         List<DbUser> dbUserList = new ArrayList<>();
 
-        Set<DbUserTeam> filteredList = new LinkedHashSet<>(list1);
-        filteredList.addAll(list2);
-        filteredList.removeAll(list3);
-        filteredList.removeAll(list4);
+        Set<DbUserTeam> filteredList = new LinkedHashSet<>(userTeamListByAvailability);
+
+        //find intersection of userTeam list by location and time range
+        filteredList.retainAll(userTeamListByLocation);
+
+        //remove elements with in time-range unavailability and shift time
+        filteredList.removeAll(userTeamListByUnavailability);
+        filteredList.removeAll(userTeamListByShift);
         for (DbUserTeam userTeam : filteredList){
             dbUserList.add(DbUserHelper.readDbUserById(userTeam.getUserId()));
         }

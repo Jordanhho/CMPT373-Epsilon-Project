@@ -61,18 +61,19 @@ public class HomeController extends Controller {
           DbOneTimeUnavailabilityHelper.createDbOneTimeUnavailability(2, 1600, 1900);
           DbOneTimeUnavailabilityHelper.createDbOneTimeUnavailability(3, 1200, 1500);
           DbOneTimeUnavailabilityHelper.createDbOneTimeUnavailability(4, 2100, 2300);
-          DbOneTimeUnavailabilityHelper.createDbOneTimeUnavailability(5, 2100, 2300);*/
-
-          List<DbUser> dbUsers = ScheduleUtil.queryUsersBasedOnAvailiability(1, 1530, 1700);
+          DbOneTimeUnavailabilityHelper.createDbOneTimeUnavailability(5, 2100, 2300);
+          Integer timeStart = 1930;
+          Integer timeEnd = 2300;
+          List<DbUser> dbUsers = ScheduleUtil.queryUsersBasedOnAvailiability(1, timeStart, timeEnd);
           System.out.println("HI");
-          System.out.println("Time Range: 1530 - 1700");
+          System.out.println("Search for time Range:" + timeStart + " - " + timeEnd);
           for(DbUser user : dbUsers){
               System.out.println("Available user" + user.getUserId());
               System.out.println("Time Range: "
                       + DbOneTimeAvailabilityHelper.readDbOneTimeAvailabilityById(user.getUserId()).getTimeStart()
                       + " - "
                       + DbOneTimeAvailabilityHelper.readDbOneTimeAvailabilityById(user.getUserId()).getTimeEnd());
-          }
+          }*/
         return ok(views.html.index.render());
     }
 
