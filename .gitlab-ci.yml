@@ -13,10 +13,13 @@ before_script:
   - apt-get update -yqq
   - apt-get install sbt -yqq
   # Log the sbt version
-  - sbt sbt-version
+  - cd epsilonsecurity
+  - echo MADE IT
+  - sbt -Djline.terminal=jline.UnsupportedTerminal version
+  - echo PRINTED VERSION
 
 test:
   script:
     # Execute your project's tests
-    - cd epsilonsecurity/
-    - sbt clean test
+    - pwd
+    - sbt -Djline.terminal=jline.UnsupportedTerminal clean test
