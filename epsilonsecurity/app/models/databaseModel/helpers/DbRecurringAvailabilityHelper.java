@@ -16,6 +16,16 @@ public final class DbRecurringAvailabilityHelper {
 
     }
 
+    /**
+     * creates a DbRecurringAvailability from userId, Day, Frequency, recurTimeStartBlock, recurTimeEndBlock, shiftTimeStartBlock, shiftTimeEndBlock
+     * @param userId
+     * @param day
+     * @param frequency
+     * @param recurTimeStartBlock
+     * @param recurTimeEndBlock
+     * @param shiftTimeStartBlock
+     * @param shiftTimeEndBlock
+     */
     public static void createDbRecurringAvailability(@Nonnull Integer userId,
                                                      @Nonnull Date day,
                                                      @Nonnull Integer frequency,
@@ -27,17 +37,29 @@ public final class DbRecurringAvailabilityHelper {
         dbRecurringAvailability.save();
     }
 
-
+    /**
+     * deletes a DbRecurringAvailability by DbRecurringAvailabilityId
+     * @param id
+     */
     public static void deleteDbRecurringAvailabilityById(Integer id) {
         DbRecurringAvailability dbRecurringAvailability = readDbRecurringAvailabilityById(id);
         dbRecurringAvailability.delete();
     }
 
+    /**
+     * finds a DbRecurringAvailability by DbRecurringAvailabilityId
+     * @param id
+     * @return
+     */
     public static DbRecurringAvailability readDbRecurringAvailabilityById(Integer id) {
         DbRecurringAvailability dbRecurringAvailability = DbRecurringAvailability.find.byId(id);
         return dbRecurringAvailability;
     }
 
+    /**
+     * returns a list of all DbRecurringAvailability
+     * @return
+     */
     public static List<DbRecurringAvailability> readAllDbRecurringAvailability() {
         List<DbRecurringAvailability> dbRecurringAvailability = DbRecurringAvailability.find.all();
         return dbRecurringAvailability;

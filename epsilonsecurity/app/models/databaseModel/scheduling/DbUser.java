@@ -6,6 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 import io.ebean.*;
+import io.ebean.annotation.NotNull;
 
 import javax.annotation.Nonnull;
 
