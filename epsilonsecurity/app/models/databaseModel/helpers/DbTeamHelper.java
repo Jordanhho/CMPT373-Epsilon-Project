@@ -1,5 +1,6 @@
 package models.databaseModel.helpers;
 
+import models.databaseModel.scheduling.DbShiftName;
 import models.databaseModel.scheduling.DbTeam;
 
 import javax.annotation.Nonnull;
@@ -24,8 +25,28 @@ public final class DbTeamHelper {
         dbTeam.delete();
     }
 
+    public static void deleteDbTeamByName(@Nonnull String name) {
+        DbTeam dbTeam = DbTeam.find
+                .query()
+                .where()
+                .eq(DbTeam.COLUMN_NAME, name)
+                .findOne();
+
+        dbTeam.delete();
+    }
+
     public static DbTeam readDbTeamById(@Nonnull Integer id) {
         DbTeam dbTeam = DbTeam.find.byId(id);
+        return dbTeam;
+    }
+
+    public static DbTeam readDbTeamByName(@Nonnull String name) {
+        DbTeam dbTeam = DbTeam.find
+                .query()
+                .where()
+                .eq(DbTeam.COLUMN_NAME, name)
+                .findOne();
+
         return dbTeam;
     }
 

@@ -3,16 +3,17 @@ package models.databaseModel.scheduling;
 import io.ebean.Finder;
 import io.ebean.Model;
 
+import javax.annotation.Nonnull;
 import javax.persistence.*;
 
-import javax.annotation.Nonnull;
-
 @Table(
-        uniqueConstraints = @UniqueConstraint(columnNames = {DbTeam.COLUMN_NAME})
+        uniqueConstraints = @UniqueConstraint(
+                columnNames = {DbShiftName.COLUMN_NAME}
+        )
 )
 
 @Entity
-public class DbTeam extends Model {
+public class DbShiftName extends Model {
 
     public static final String COLUMN_NAME = "name";
 
@@ -24,7 +25,7 @@ public class DbTeam extends Model {
     @Nonnull
     private String name;
 
-    public DbTeam(@Nonnull String name) {
+    public DbShiftName(@Nonnull String name) {
         this.name = name;
     }
 
@@ -39,13 +40,6 @@ public class DbTeam extends Model {
         return name;
     }
 
-    @Override
-    public String toString() {
-        return "DbTeam{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                '}';
-    }
+    public static Finder<Integer, DbShiftName> find = new Finder<>(DbShiftName.class);
 
-    public static Finder<Integer, DbTeam> find = new Finder<>(DbTeam.class);
 }

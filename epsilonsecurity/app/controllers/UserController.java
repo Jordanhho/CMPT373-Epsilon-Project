@@ -3,8 +3,6 @@ package controllers;
 import com.google.inject.Inject;
 import models.databaseModel.helpers.DbUserHelper;
 import models.databaseModel.scheduling.DbUser;
-import play.data.DynamicForm;
-import play.data.Form;
 import play.mvc.*;
 import play.data.FormFactory;
 
@@ -17,18 +15,6 @@ import static models.databaseModel.helpers.DbUserHelper.readDbUserBySfuEmail;
 
 
 public class UserController extends Controller {
-
-    @Inject
-    FormFactory formFactory;
-
-    public Result listUsers() {
-        return ok();
-    }
-
-    public Result testFunction(String name) {
-        System.out.println(name);
-        return ok();
-    }
 
     public Result createUser() {
         final Map<String, String[]> values = request().body().asFormUrlEncoded();

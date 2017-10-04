@@ -4,10 +4,13 @@ import io.ebean.Finder;
 import io.ebean.Model;
 
 import javax.annotation.Nonnull;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
+
+@Table(
+        uniqueConstraints = @UniqueConstraint(
+                columnNames = {DbUserTeam.COLUMN_TEAM_ID, DbUserTeam.COLUMN_USER_ID}
+        )
+)
 
 @Entity
 public class DbUserTeam extends Model {

@@ -3,39 +3,61 @@
 # ~~~~
 
 # Map static resources from the /public folder to the /assets URL path
-GET           /assets/*file                                           controllers.Assets.versioned(path="/public", file: Asset)
+GET           /assets/*file                      controllers.Assets.versioned(path="/public", file: Asset)
 
-# All other routes that lead to an invalid page. Show home page for now, should be
-#GET        /*path                                            controllers.HomeController.index(path: String)
-GET           /                                                       controllers.HomeController.index
+# All other routes that lead to an invalid page.
+GET           /                                  controllers.HomeController.index
 
+#
+# DbUser
+#
 
-# rest API added routes
-GET           /                                                       controllers.UserController.listUsers()
+# Create a DbUser
+POST          /user/                             controllers.UserController.createUser()
 
-# Call test function
-GET           /user/create/$contactEmail<[a-z]+@[a-z]+.[a-z]+>        controllers.HomeController.test(contactEmail: String)
+# Read DbUser by sfuEmail
+GET           /user/:sfuEmail                    controllers.UserController.retrieveUser(sfuEmail: String)
 
-# Creates a DbUser
-POST          /users/                                                 controllers.UserController.createUser()
+# Update DbUser by sfuEmail
+PUT           /user/:sfuEmail                    controllers.UserController.updateUser(sfuEmail: String)
 
-# Read DbUser from by sfuEmail
-GET           /users/:id                                              controllers.UserController.retrieveUser(id: String)
-
-# Updates DbUser
-PUT           /user/:id                                               controllers.UserController.updateUser(id: String)
-
-# Deletes DbUser by SFU email
-DELETE        /user/:id                                               controllers.UserController.deleteUser(id: String)
+# Delete DbUser by sfuEmail
+DELETE        /user/:sfuEmail                    controllers.UserController.deleteUser(sfuEmail: String)
 
 
-# Creates a UserShift
-POST          /user/shifts/                                           controllers.UserShiftController.createUserShift()
+#
+# DbUserShift
+#
 
-# Read all shifts tied to a user id
-GET           /user/shifts/:id                                        controllers.UserShiftController.retrieveUserShift(id: Integer)
+# Create a UserShift
+POST          /user/shift/                       controllers.UserShiftController.createUserShift()
 
-# Delete UserShift by user id
-DELETE        /user/shifts/:id                                        controllers.UserShiftController.deleteUserShift(id: Integer)
+# Read UserShift by userId
+GET           /user/shift/:userId                controllers.UserShiftController.retrieveUserShift(userId: Integer)
+
+# Delete UserShift by userId
+DELETE        /user/shift/:userId                controllers.UserShiftController.deleteUserShift(userId: Integer)
+
+
+#
+# DbShiftName
+#
+
+# Create a ShiftName
+POST          /user/shift/name                   controllers.ShiftNameController.createShiftName()
+
+# Delete ShiftName by shiftName
+DELETE        /user/shift/name/:shiftName        controllers.ShiftNameController.deleteShiftName(shiftName: String)
+
+
+#
+# DbTeam
+#
+
+# Create a DbTeam
+POST          /team                              controllers.TeamController.createTeam()
+
+# Delete DbTeam by teamName
+DELETE        /team/:teamName                    controllers.TeamController.deleteTeamByName(teamName: String)
 
 

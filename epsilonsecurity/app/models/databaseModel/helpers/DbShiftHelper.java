@@ -16,8 +16,8 @@ public final class DbShiftHelper {
     private DbShiftHelper() {
     }
 
-    public static void createDbShift(@Nonnull Integer timeStart, @Nonnull Integer timeEnd) {
-        DbShift dbShift = new DbShift(timeStart, timeEnd);
+    public static void createDbShift(@Nonnull String name, @Nonnull Integer timeStart, @Nonnull Integer timeEnd) {
+        DbShift dbShift = new DbShift(name, timeStart, timeEnd);
         dbShift.save();
     }
 
