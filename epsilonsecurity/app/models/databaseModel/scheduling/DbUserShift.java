@@ -15,15 +15,18 @@ import javax.annotation.Nonnull;
 @Entity
 public class DbUserShift extends Model {
 
-    public static final String COLUMN_USER_ID = "user_id";
+    public static final String COLUMN_USER_TEAM_ID = "user_team_id";
     public static final String COLUMN_SHIFT_ID = "shift_id";
+
+    public static final String FORM_USER_ID = "userId";
+    public static final String FORM_SHIFT_ID = "shiftId";
 
     @Id
     @GeneratedValue
     @Nonnull
     private Integer id;
     @Nonnull
-    private Integer userId;
+    private Integer userTeamId;
     @Nonnull
     private Integer shiftId;
 
@@ -31,11 +34,11 @@ public class DbUserShift extends Model {
      * The Constructor of this UserShift
      * id  the id of this userShift
      *
-     * @param userId  the id of the user for this userShift
+     * @param userTeamId  the id of the userTeam for this userShift
      * @param shiftId the id of the shift for this userShift
      */
-    public DbUserShift(@Nonnull Integer userId, @Nonnull Integer shiftId) {
-        this.userId = userId;
+    public DbUserShift(@Nonnull Integer userTeamId, @Nonnull Integer shiftId) {
+        this.userTeamId = userTeamId;
         this.shiftId = shiftId;
     }
 
@@ -45,9 +48,9 @@ public class DbUserShift extends Model {
     }
 
     @Nonnull
-    @Column(name = COLUMN_USER_ID)
-    public Integer getUserId() {
-        return userId;
+    @Column(name = COLUMN_USER_TEAM_ID)
+    public Integer getUserTeamId() {
+        return userTeamId;
     }
 
     @Nonnull
@@ -60,7 +63,7 @@ public class DbUserShift extends Model {
     public String toString() {
         return "DbUserShift{" +
                 "id=" + id +
-                ", userId=" + userId +
+                ", userTeamId=" + userTeamId +
                 ", shiftId=" + shiftId +
                 '}';
     }

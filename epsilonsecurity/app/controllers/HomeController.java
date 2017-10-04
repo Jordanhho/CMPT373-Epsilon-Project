@@ -21,15 +21,6 @@ public class HomeController extends Controller {
         return ok(views.html.index.render());
     }
 
-
-    // can be used to test a certain field, replace passed in argument with whatever you need to test
-    public Result test(String contactEmail) {
-        System.out.println(contactEmail);
-        return ok(contactEmail);
-    }
-
-
-    // todo: create invalid query request function (all paths in routes file)
 }
 
 

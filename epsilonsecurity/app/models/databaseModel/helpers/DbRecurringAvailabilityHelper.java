@@ -1,5 +1,6 @@
 package models.databaseModel.helpers;
 
+import models.databaseModel.scheduling.Day;
 import models.databaseModel.scheduling.DbRecurringAvailability;
 
 import javax.annotation.Nonnull;
@@ -27,7 +28,7 @@ public final class DbRecurringAvailabilityHelper {
      * @param shiftTimeEndBlock
      */
     public static void createDbRecurringAvailability(@Nonnull Integer userId,
-                                                     @Nonnull Date day,
+                                                     @Nonnull Day day,
                                                      @Nonnull Integer frequency,
                                                      @Nonnull Integer recurTimeStartBlock,
                                                      @Nonnull Integer recurTimeEndBlock,

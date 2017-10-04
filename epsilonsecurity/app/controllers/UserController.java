@@ -1,42 +1,23 @@
 package controllers;
 
-import com.google.inject.Inject;
 import models.databaseModel.helpers.DbUserHelper;
 import models.databaseModel.scheduling.DbUser;
-import play.data.DynamicForm;
-import play.data.Form;
-import play.mvc.*;
-import play.data.FormFactory;
-
+import play.mvc.Controller;
+import play.mvc.Result;
 
 import java.util.Map;
-
-import static models.databaseModel.helpers.DbUserHelper.createDbUser;
-import static models.databaseModel.helpers.DbUserHelper.deleteDbUserById;
-import static models.databaseModel.helpers.DbUserHelper.readDbUserBySfuEmail;
 
 
 public class UserController extends Controller {
 
-    @Inject
-    FormFactory formFactory;
-
-    public Result listUsers() {
-        return ok();
-    }
-
-    public Result testFunction(String name) {
-        System.out.println(name);
-        return ok();
-    }
-
     public Result createUser() {
+
         final Map<String, String[]> values = request().body().asFormUrlEncoded();
 
-        String contactEmail = values.get("contactEmail")[0];
-        String sfuEmail = values.get("sfuEmail")[0];
-        String phoneNumber = values.get("phoneNumber")[0];
-        String photoURL = values.get("photoURL")[0];
+        String contactEmail = values.get(DbUser.FORM_CONTACT_EMAIL)[0];
+        String sfuEmail = values.get(DbUser.FORM_SFU_EMAIL)[0];
+        String phoneNumber = values.get(DbUser.FORM_PHONE_NUMBER)[0];
+        String photoURL = values.get(DbUser.FORM_PHOTO_URL)[0];
 
         DbUserHelper.createDbUser(contactEmail, sfuEmail, phoneNumber, photoURL);
 
@@ -44,8 +25,6 @@ public class UserController extends Controller {
     }
 
     public Result retrieveUser(String sfuEmail) {
-        DbUser targetUser = readDbUserBySfuEmail(sfuEmail);
-        System.out.println("Retrieved user with " + targetUser.getSfuEmail());
         return ok();
     }
 
@@ -53,10 +32,15 @@ public class UserController extends Controller {
         return ok();
     }
 
-    public Result deleteUser(String sfuEmail) {
-        DbUser targetUser = readDbUserBySfuEmail(sfuEmail);
-        deleteDbUserById(targetUser.getUserId());
-        System.out.println("Deleted user with " + targetUser.getSfuEmail());
+    public Result deleteUser() {
+
+        final Map<String, String[]> values = request().body().asFormUrlEncoded();
+
+        String sfuEmail = values.get(DbUser.FORM_SFU_EMAIL)[0];
+
+        DbUser targetUser = DbUserHelper.readDbUserBySfuEmail(sfuEmail);
+        DbUserHelper.deleteDbUserById(targetUser.getUserId());
+
         return ok();
     }
 

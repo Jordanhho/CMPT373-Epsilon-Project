@@ -17,12 +17,13 @@ public final class DbShiftHelper {
     }
 
     /**
-     * creates a DbShift from timeStart, timeEnd
+     * creates a DbShift from name, timeStart, timeEnd
+     * @param name
      * @param timeStart
      * @param timeEnd
      */
-    public static void createDbShift(@Nonnull Integer timeStart, @Nonnull Integer timeEnd) {
-        DbShift dbShift = new DbShift(timeStart, timeEnd);
+    public static void createDbShift(@Nonnull String name, @Nonnull Integer timeStart, @Nonnull Integer timeEnd) {
+        DbShift dbShift = new DbShift(name, timeStart, timeEnd);
         dbShift.save();
     }
 
@@ -45,8 +46,8 @@ public final class DbShiftHelper {
     public static List<DbShift> readDbShiftByTime(Integer timeStart, Integer timeEnd){
         List<DbShift> dbShiftList = DbShift.find.query().where()
                 .disjunction()
-                .add(Expr.eq("time_start", timeStart))
-                .add(Expr.eq("time_end", timeEnd))
+                .add(Expr.between(DbShift.COLUMN_TIME_START, DbShift.COLUMN_TIME_END, timeStart))
+                .add(Expr.between(DbShift.COLUMN_TIME_START, DbShift.COLUMN_TIME_END, timeEnd))
                 .findList();
         return dbShiftList;
     }
@@ -68,4 +69,6 @@ public final class DbShiftHelper {
         List<DbShift> dbShift = DbShift.find.all();
         return dbShift;
     }
+
+
 }

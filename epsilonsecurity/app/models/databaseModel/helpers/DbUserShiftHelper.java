@@ -1,7 +1,8 @@
 package models.databaseModel.helpers;
 
-
+import io.ebean.Expr;
 import models.databaseModel.scheduling.DbUserShift;
+import models.databaseModel.scheduling.DbUserTeam;
 
 import javax.annotation.Nonnull;
 import java.util.List;
@@ -27,20 +28,29 @@ public final class DbUserShiftHelper {
 
     /**
      * Deletes a UserShift by UserShiftId
-     * @param id
+     * @param userId
+     * @param shiftId
      */
-    public static void deleteDbUserShiftById(@Nonnull Integer id) {
-        DbUserShift dbUserShift = readDbUserShiftById(id);
+    public static void deleteDbUserShiftByUserIdAndShiftId(@Nonnull Integer userId, @Nonnull Integer shiftId) {
+        DbUserShift dbUserShift = readDbUserShiftById(userId, shiftId);
         dbUserShift.delete();
     }
 
     /**
-     * finds a DbUserShift by UserShiftId
-     * @param id
+     * inds a DbUserShift by UserShiftId
+     * @param userId
+     * @param shiftId
      * @return
      */
-    public static DbUserShift readDbUserShiftById(@Nonnull Integer id) {
-        DbUserShift dbUserShift = DbUserShift.find.byId(id);
+    public static DbUserShift readDbUserShiftById(@Nonnull Integer userId, @Nonnull Integer shiftId) {
+        DbUserShift dbUserShift = DbUserShift.find
+                .query()
+                .where()
+                .conjunction()
+                .add(Expr.eq(DbUserShift.COLUMN_USER_ID, userId))
+                .add(Expr.eq(DbUserShift.COLUMN_SHIFT_ID, shiftId))
+                .findOne();
+
         return dbUserShift;
     }
 

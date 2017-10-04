@@ -15,16 +15,16 @@ import javax.annotation.Nonnull;
 @Entity
 public class DbOneTimeAvailability extends Model {
 
-    private static final String COLUMN_USER_TEAM_ID = "user_team_id";
-    private static final String COLUMN_TIME_START = "time_start";
-    private static final String COLUMN_TIME_END = "time_end";
+    public static final String COLUMN_USER_TEAM_ID = "user_team_id";
+    public static final String COLUMN_TIME_START = "time_start";
+    public static final String COLUMN_TIME_END = "time_end";
 
     @Id
     @GeneratedValue
     @Nonnull
     private Integer id;
     @Nonnull
-    private Integer userId;
+    private Integer userTeamId;
 
     @Nonnull
     private Integer timeStart;
@@ -36,12 +36,12 @@ public class DbOneTimeAvailability extends Model {
      * The constructor of the OneTimeAvailibility table
      * the id of this OneTimeAvailibility
      *
-     * @param userId    the user Id that uses this OneTimeAvailibility
+     * @param userTeamId    the user Id that uses this OneTimeAvailibility
      * @param timeStart the start time of this OneTimeAvailibility
      * @param timeEnd   the end time of this OneTimeAvailibility
      */
-    public DbOneTimeAvailability(@Nonnull Integer userId, @Nonnull Integer timeStart, @Nonnull Integer timeEnd) {
-        this.userId = userId;
+    public DbOneTimeAvailability(@Nonnull Integer userTeamId, @Nonnull Integer timeStart, @Nonnull Integer timeEnd) {
+        this.userTeamId = userTeamId;
         this.timeStart = timeStart;
         this.timeEnd = timeEnd;
     }
@@ -53,8 +53,8 @@ public class DbOneTimeAvailability extends Model {
 
     @Nonnull
     @Column(name = COLUMN_USER_TEAM_ID)
-    public Integer getUserId() {
-        return userId;
+    public Integer getUserTeamId() {
+        return userTeamId;
     }
 
     @Nonnull
@@ -73,7 +73,7 @@ public class DbOneTimeAvailability extends Model {
     public String toString() {
         return "DbOneTimeAvailability{" +
                 "id=" + id +
-                ", userId=" + userId +
+                ", userTeamId=" + userTeamId +
                 ", timeStart=" + timeStart +
                 ", timeEnd=" + timeEnd +
                 '}';
