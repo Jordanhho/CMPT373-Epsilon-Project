@@ -1,38 +1,26 @@
 package controllers;
 
-import com.google.inject.Inject;
-import models.databaseModel.helpers.DbUserHelper;
 import models.databaseModel.helpers.DbUserShiftHelper;
-import models.databaseModel.scheduling.DbUserShiftForm;
-import play.data.Form;
-import play.data.FormFactory;
-import play.mvc.*;
-import models.databaseModel.scheduling.DbUser;
-import models.databaseModel.scheduling.DbShift;
 import models.databaseModel.scheduling.DbUserShift;
-import models.databaseModel.scheduling.DbUserShiftForm;
-
+import play.mvc.Controller;
+import play.mvc.Result;
 
 import java.util.List;
 import java.util.Map;
 
-import static models.databaseModel.helpers.DbShiftHelper.readDbShiftByTime;
-import static models.databaseModel.helpers.DbUserHelper.readDbUserBySfuEmail;
-import static models.databaseModel.helpers.DbUserShiftHelper.createDbUserShift;
-import static models.databaseModel.helpers.DbUserShiftHelper.readAllDbUserShift;
-
 public class UserShiftController extends Controller {
 
-    @Inject
-    FormFactory formFactory;
-
     public Result createUserShift() {
-        final Map<String, String[]> values = request().body().asFormUrlEncoded();
 
-        Integer userId = Integer.parseInt(values.get("userId")[0]);
-        Integer shiftId = Integer.parseInt(values.get("shiftId")[0]);
+        final Map<String, String[]> formValues = request().body().asFormUrlEncoded();
+
+        Integer userId = Integer.parseInt(
+                formValues.get(DbUserShift.FORM_USER_ID)[0]);
+        Integer shiftId = Integer.parseInt(
+                formValues.get(DbUserShift.FORM_SHIFT_ID)[0]);
 
         DbUserShiftHelper.createDbUserShift(userId, shiftId);
+
         return ok();
     }
 
@@ -46,7 +34,17 @@ public class UserShiftController extends Controller {
         return ok();
     }
 
-    public Result deleteUserShift(Integer userId) {
+    public Result deleteUserShift() {
+
+        final Map<String, String[]> formValues = request().body().asFormUrlEncoded();
+
+        Integer userId = Integer.parseInt(
+                formValues.get(DbUserShift.FORM_USER_ID)[0]);
+        Integer shiftId = Integer.parseInt(
+                formValues.get(DbUserShift.FORM_SHIFT_ID)[0]);
+
+        DbUserShiftHelper.deleteDbUserShiftByUserIdAndShiftId(userId, shiftId);
+
         return ok();
     }
 }

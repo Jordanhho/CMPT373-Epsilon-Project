@@ -1,17 +1,15 @@
 package models.databaseModel.scheduling;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 import io.ebean.*;
 
 import javax.annotation.Nonnull;
 
 /**
- * Java Object for DbUser Table with DbUser id, user id, role ID, contact email, sfu email, phonenumber, photoURL
+ * Java Object for DbUser Table with DbUser id, user id, role ID, contact email, sfu email, phoneNumber, photoURL
  */
+
 @Entity
 public class DbUser extends Model {
 
@@ -20,6 +18,12 @@ public class DbUser extends Model {
     public static final String COLUMN_SFU_EMAIL = "sfu_email";
     public static final String COLUMN_PHONE_NUMBER = "phone_number";
     public static final String COLUMN_PHOTO_URL = "photo_url";
+
+    public static final String FORM_ROLE_ID = "roleId";
+    public static final String FORM_CONTACT_EMAIL = "contactEmail";
+    public static final String FORM_SFU_EMAIL = "sfuEmail";
+    public static final String FORM_PHONE_NUMBER = "phoneNumber";
+    public static final String FORM_PHOTO_URL = "photoURL";
 
     @Id
     @GeneratedValue
@@ -75,19 +79,19 @@ public class DbUser extends Model {
     }
 
     @Nonnull
-    @Column(name = COLUMN_CONTACT_EMAIL)
+    @Column(name = COLUMN_CONTACT_EMAIL, unique = true)
     public String getContactEmail() {
         return contactEmail;
     }
 
     @Nonnull
-    @Column(name = COLUMN_SFU_EMAIL)
+    @Column(name = COLUMN_SFU_EMAIL, unique = true)
     public String getSfuEmail() {
         return sfuEmail;
     }
 
     @Nonnull
-    @Column(name = COLUMN_PHONE_NUMBER)
+    @Column(name = COLUMN_PHONE_NUMBER, unique = true)
     public String getPhoneNumber() {
         return phoneNumber;
     }

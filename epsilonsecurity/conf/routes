@@ -3,26 +3,26 @@
 # ~~~~
 
 # Map static resources from the /public folder to the /assets URL path
-GET           /assets/*file                      controllers.Assets.versioned(path="/public", file: Asset)
+GET           /assets/*file              controllers.Assets.versioned(path="/public", file: Asset)
 
 # All other routes that lead to an invalid page.
-GET           /                                  controllers.HomeController.index
+GET           /                          controllers.HomeController.index
 
 #
 # DbUser
 #
 
 # Create a DbUser
-POST          /user/                             controllers.UserController.createUser()
+POST          /user                      controllers.UserController.createUser()
 
 # Read DbUser by sfuEmail
-GET           /user/:sfuEmail                    controllers.UserController.retrieveUser(sfuEmail: String)
+GET           /user/:sfuEmail            controllers.UserController.retrieveUser(sfuEmail: String)
 
 # Update DbUser by sfuEmail
-PUT           /user/:sfuEmail                    controllers.UserController.updateUser(sfuEmail: String)
+PUT           /user/:sfuEmail            controllers.UserController.updateUser(sfuEmail: String)
 
 # Delete DbUser by sfuEmail
-DELETE        /user/:sfuEmail                    controllers.UserController.deleteUser(sfuEmail: String)
+DELETE        /user                      controllers.UserController.deleteUser()
 
 
 #
@@ -30,13 +30,13 @@ DELETE        /user/:sfuEmail                    controllers.UserController.dele
 #
 
 # Create a UserShift
-POST          /user/shift/                       controllers.UserShiftController.createUserShift()
+POST          /user/shift                controllers.UserShiftController.createUserShift()
 
 # Read UserShift by userId
-GET           /user/shift/:userId                controllers.UserShiftController.retrieveUserShift(userId: Integer)
+GET           /user/shift/:userId        controllers.UserShiftController.retrieveUserShift(userId: Integer)
 
 # Delete UserShift by userId
-DELETE        /user/shift/:userId                controllers.UserShiftController.deleteUserShift(userId: Integer)
+DELETE        /user/shift                controllers.UserShiftController.deleteUserShift()
 
 
 #
@@ -44,10 +44,10 @@ DELETE        /user/shift/:userId                controllers.UserShiftController
 #
 
 # Create a ShiftName
-POST          /user/shift/name                   controllers.ShiftNameController.createShiftName()
+POST          /user/shift/name           controllers.ShiftNameController.createShiftName()
 
 # Delete ShiftName by shiftName
-DELETE        /user/shift/name/:shiftName        controllers.ShiftNameController.deleteShiftName(shiftName: String)
+DELETE        /user/shift/name           controllers.ShiftNameController.deleteShiftName()
 
 
 #
@@ -55,9 +55,9 @@ DELETE        /user/shift/name/:shiftName        controllers.ShiftNameController
 #
 
 # Create a DbTeam
-POST          /team                              controllers.TeamController.createTeam()
+POST          /team                      controllers.TeamController.createTeam()
 
 # Delete DbTeam by teamName
-DELETE        /team/:teamName                    controllers.TeamController.deleteTeamByName(teamName: String)
+DELETE        /team                      controllers.TeamController.deleteTeamByName()
 
 

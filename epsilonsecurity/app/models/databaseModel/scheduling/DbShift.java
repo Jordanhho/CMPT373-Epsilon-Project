@@ -25,7 +25,8 @@ public class DbShift extends Model {
     @Nonnull
     private Integer id;
 
-    @Nonnull String name;
+    @Nonnull
+    String name;
 
     @Nonnull
     private Integer timeStart;

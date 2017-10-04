@@ -7,14 +7,12 @@ import javax.persistence.*;
 
 import javax.annotation.Nonnull;
 
-@Table(
-        uniqueConstraints = @UniqueConstraint(columnNames = {DbTeam.COLUMN_NAME})
-)
-
 @Entity
 public class DbTeam extends Model {
 
     public static final String COLUMN_NAME = "name";
+
+    public static final String FORM_NAME = "name";
 
     @Id
     @GeneratedValue
@@ -34,7 +32,7 @@ public class DbTeam extends Model {
     }
 
     @Nonnull
-    @Column(name = COLUMN_NAME)
+    @Column(name = COLUMN_NAME, unique = true)
     public String getName() {
         return name;
     }

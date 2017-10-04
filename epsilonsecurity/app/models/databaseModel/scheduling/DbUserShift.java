@@ -18,6 +18,9 @@ public class DbUserShift extends Model {
     public static final String COLUMN_USER_ID = "user_id";
     public static final String COLUMN_SHIFT_ID = "shift_id";
 
+    public static final String FORM_USER_ID = "userId";
+    public static final String FORM_SHIFT_ID = "shiftId";
+
     @Id
     @GeneratedValue
     @Nonnull

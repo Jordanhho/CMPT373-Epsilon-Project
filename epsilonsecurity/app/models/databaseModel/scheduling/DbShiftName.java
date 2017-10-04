@@ -6,16 +6,12 @@ import io.ebean.Model;
 import javax.annotation.Nonnull;
 import javax.persistence.*;
 
-@Table(
-        uniqueConstraints = @UniqueConstraint(
-                columnNames = {DbShiftName.COLUMN_NAME}
-        )
-)
-
 @Entity
 public class DbShiftName extends Model {
 
     public static final String COLUMN_NAME = "name";
+
+    public static final String FORM_NAME = "name";
 
     @Id
     @GeneratedValue
@@ -35,7 +31,7 @@ public class DbShiftName extends Model {
     }
 
     @Nonnull
-    @Column(name = COLUMN_NAME)
+    @Column(name = COLUMN_NAME, unique = true)
     public String getName() {
         return name;
     }

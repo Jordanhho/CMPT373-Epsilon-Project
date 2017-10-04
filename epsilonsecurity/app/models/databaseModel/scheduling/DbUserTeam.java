@@ -6,12 +6,6 @@ import io.ebean.Model;
 import javax.annotation.Nonnull;
 import javax.persistence.*;
 
-@Table(
-        uniqueConstraints = @UniqueConstraint(
-                columnNames = {DbUserTeam.COLUMN_TEAM_ID, DbUserTeam.COLUMN_USER_ID}
-        )
-)
-
 @Entity
 public class DbUserTeam extends Model {
 
@@ -40,13 +34,13 @@ public class DbUserTeam extends Model {
     }
 
     @Nonnull
-    @Column(name = COLUMN_TEAM_ID)
+    @Column(name = COLUMN_TEAM_ID, unique = true)
     public Integer getTeamId() {
         return teamId;
     }
 
     @Nonnull
-    @Column(name = COLUMN_USER_ID)
+    @Column(name = COLUMN_USER_ID, unique = true)
     public Integer getUserId() {
         return userId;
     }
