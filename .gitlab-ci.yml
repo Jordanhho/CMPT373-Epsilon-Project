@@ -20,4 +20,5 @@ before_script:
 test:
   script:
     # Execute your project's tests
+    - cd epsilonsecurity/
     - sbt clean test
