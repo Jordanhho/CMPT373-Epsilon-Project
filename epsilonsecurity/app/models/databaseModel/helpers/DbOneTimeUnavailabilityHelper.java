@@ -23,14 +23,12 @@ public final class DbOneTimeUnavailabilityHelper {
 
     /**
      * creates a DbOneTimeUnavailability from userId, timeStart, timeEnd
-     * @param userId
+     * @param userTeamId
      * @param timeStart
      * @param timeEnd
      */
-    public static void createDbOneTimeUnavailability(@Nonnull Integer userId, @Nonnull Integer timeStart, @Nonnull Integer timeEnd) {
-        DbOneTimeUnavailability dbOneTimeUnavailability = new DbOneTimeUnavailability(userId, timeStart, timeEnd);
-        dbOneTimeUnavailability.save();
-    }
+    public static void createDbOneTimeUnavailability(@Nonnull Integer userTeamId, @Nonnull Integer timeStart, @Nonnull Integer timeEnd) {
+        DbOneTimeUnavailability dbOneTimeUnavailability = new DbOneTimeUnavailability(userTeamId, timeStart, timeEnd);
 
     /**
      * deletes a DbOneTimeUnavailability from DbOneTimeUnavailabilityId
