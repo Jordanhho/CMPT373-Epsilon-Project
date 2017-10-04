@@ -44,14 +44,6 @@ public final class DbOneTimeAvailabilityHelper {
                 .add(Expr.between(DbOneTimeAvailability.COLUMN_TIME_START, DbOneTimeAvailability.COLUMN_TIME_END, timeStart))
                 .add(Expr.between(DbOneTimeAvailability.COLUMN_TIME_START, DbOneTimeAvailability.COLUMN_TIME_END, timeEnd))
                 .findList();
-        System.out.println("Hi2");
-        if(dbOneTimeAvailabilityList.size() > 0){
-            for(DbOneTimeAvailability oneTimeAvailability : dbOneTimeAvailabilityList){
-                System.out.println("Availability: " + oneTimeAvailability.getId() + " "
-                                                    + oneTimeAvailability.getTimeStart() + " "
-                                                    + oneTimeAvailability.getTimeEnd());
-            }
-        }
         return dbOneTimeAvailabilityList;
     }
 
@@ -62,6 +54,4 @@ public final class DbOneTimeAvailabilityHelper {
         }
         return dbUserList;
     }
-
-
 }
