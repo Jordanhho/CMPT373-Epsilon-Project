@@ -1,143 +1,147 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:p="http://www.evolus.vn/Namespace/Pencil" xmlns:html="http://www.w3.org/1999/xhtml">
 
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <title>team epsilon</title>
-    <link rel="stylesheet" href="Resources/SampleStyle.css" />
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>team epsilon</title>
+  <link rel="stylesheet" href="Resources/SampleStyle.css" />
 </head>
 
 <body>
+  <div class="Page" id="main_screen_page">
 
-    <div class="Page" id="main_screen_page">
+    <div class="ImageContainer"><img src="pages/main_screen.png" width="1280" height="720" usemap="#map_main_screen" /></div>
+    <map name="map_main_screen">
+      <area shape="rect" coords="55,320,107,342" href="#profile_list_page" title="Go to page 'profile list'" />
+      <area shape="rect" coords="40,114,105,136" href="#schedule_page" title="Go to page 'schedule'" />
+    </map>
+  </div>  <div style="height:4000px"></div>
+  <div class="Page" id="schedule_page">
 
-        <div class="ImageContainer"><img src="pages/main_screen.png" width="1280" height="720" usemap="#map_main_screen" /></div>
-        <map name="map_main_screen">
-            <area shape="rect" coords="55,320,107,342" href="#profile_list_page" title="Go to page 'profile list'" />
-            <area shape="rect" coords="40,114,105,136" href="#schedule_page" title="Go to page 'schedule'" />
-        </map>
-    </div>    <div style="height:4000px"></div>
-    <div class="Page" id="schedule_page">
+    <div class="ImageContainer"><img src="pages/schedule.png" width="1280" height="720" usemap="#map_schedule" /></div>
+    <map name="map_schedule">
+      <area shape="rect" coords="156.76300048828125,671.8525390625,183.606552124023,698.696105957031" href="#schedule_one_day_overlay_page" title="Go to page 'schedule - one day - overlay'" />
+      <area shape="rect" coords="-9,-63,141,87" href="#main_screen_page" title="Go to page 'main screen'" />
+      <area shape="rect" coords="146.79998779296875,366.20001220703125,222.643737792969,383.356262207031" href="#schedule_check_on_page" title="Go to page 'schedule - check on'" />
+      <area shape="rect" coords="293.6000061035156,86.83999633789062,431.52001953125,143.160003662109" href="#schedule_one_day_page" title="Go to page 'schedule - one day'" />
+    </map>
+  </div>  <div style="height:4000px"></div>
+  <div class="Page" id="schedule_check_on_page">
 
-        <div class="ImageContainer"><img src="pages/schedule.png" width="1280" height="720" usemap="#map_schedule" /></div>
-        <map name="map_schedule">
-            <area shape="rect" coords="-9,-63,141,87" href="#main_screen_page" title="Go to page 'main screen'" />
-            <area shape="rect" coords="146.79998779296875,367.20001220703125,222.643737792969,384.356262207031" href="#schedule_check_on_page" title="Go to page 'schedule - check on'" />
-            <area shape="rect" coords="293.6000061035156,86.83999633789062,431.52001953125,143.160003662109" href="#schedule_one_day_page" title="Go to page 'schedule - one day'" />
-        </map>
-    </div>    <div style="height:4000px"></div>
-    <div class="Page" id="schedule_check_on_page">
+    <div class="ImageContainer"><img src="pages/schedule_check_on.png" width="1280" height="720" usemap="#map_schedule_check_on" /></div>
+    <map name="map_schedule_check_on">
+      <area shape="rect" coords="156.76300048828125,671.8525390625,183.606552124023,698.696105957031" href="#schedule_one_day_overlay_page" title="Go to page 'schedule - one day - overlay'" />
+      <area shape="rect" coords="-9,-63,141,87" href="#main_screen_page" title="Go to page 'main screen'" />
+      <area shape="rect" coords="360.760009765625,350.6800231933594,431.195404052734,440.964813232422" href="#schedule_overlay_page" title="Go to page 'schedule - overlay'" />
+      <area shape="rect" coords="293.6000061035156,86.83999633789062,431.52001953125,143.160003662109" href="#schedule_one_day_page" title="Go to page 'schedule - one day'" />
+    </map>
+  </div>  <div style="height:4000px"></div>
+  <div class="Page" id="schedule_overlay_page">
 
-        <div class="ImageContainer"><img src="pages/schedule_check_on.png" width="1280" height="720" usemap="#map_schedule_check_on" /></div>
-        <map name="map_schedule_check_on">
-            <area shape="rect" coords="-9,-63,141,87" href="#main_screen_page" title="Go to page 'main screen'" />
-            <area shape="rect" coords="360.760009765625,350.6800231933594,431.195404052734,440.964813232422" href="#schedule_overlay_page" title="Go to page 'schedule - overlay'" />
-        </map>
-    </div>    <div style="height:4000px"></div>
-    <div class="Page" id="schedule_overlay_page">
+    <div class="ImageContainer"><img src="pages/schedule_overlay.png" width="1280" height="720" usemap="#map_schedule_overlay" /></div>
+    <map name="map_schedule_overlay">
+      <area shape="rect" coords="874,335,999.296875,367" href="#schedule_overlay_1_page" title="Go to page 'schedule - overlay (1)'" />
+      <area shape="rect" coords="-9,-63,141,87" href="#main_screen_page" title="Go to page 'main screen'" />
+      <area shape="rect" coords="157.76300048828125,671.8525390625,184.606552124023,698.696105957031" href="#schedule_one_day_overlay_page" title="Go to page 'schedule - one day - overlay'" />
+    </map>
+  </div>  <div style="height:4000px"></div>
+  <div class="Page" id="schedule_overlay_1_page">
 
-        <div class="ImageContainer"><img src="pages/schedule_overlay.png" width="1280" height="720" usemap="#map_schedule_overlay" /></div>
-        <map name="map_schedule_overlay">
-            <area shape="rect" coords="467,580,592,622" href="#schedule_check_on_page" title="Go to page 'schedule - check on'" />
-            <area shape="rect" coords="328,580,453,622" href="#schedule_check_on_page" title="Go to page 'schedule - check on'" />
-            <area shape="rect" coords="-9,-63,141,87" href="#main_screen_page" title="Go to page 'main screen'" />
-        </map>
-    </div>    <div style="height:4000px"></div>
-    <div class="Page" id="schedule_one_day_page">
+    <div class="ImageContainer"><img src="pages/schedule_overlay_1.png" width="1280" height="720" usemap="#map_schedule_overlay_1" /></div>
+    <map name="map_schedule_overlay_1">
+      <area shape="rect" coords="467,579,592,623" href="#schedule_check_on_page" title="Go to page 'schedule - check on'" />
+      <area shape="rect" coords="328,579,453,622" href="#schedule_check_on_page" title="Go to page 'schedule - check on'" />
+      <area shape="rect" coords="-9,-63,141,87" href="#main_screen_page" title="Go to page 'main screen'" />
+      <area shape="rect" coords="156.76300048828125,672.8525390625,183.606552124023,699.696105957031" href="#schedule_one_day_overlay_page" title="Go to page 'schedule - one day - overlay'" />
+    </map>
+  </div>  <div style="height:4000px"></div>
+  <div class="Page" id="schedule_one_day_page">
 
-        <div class="ImageContainer"><img src="pages/schedule_one_day.png" width="1280" height="720" usemap="#map_schedule_one_day" /></div>
-        <map name="map_schedule_one_day">
-            <area shape="rect" coords="401.3399658203125,143.8383331298828,426.932952880859,725.525344848633" href="#schedule_one_day_first_date_page" title="Go to page 'schedule - one day - first date'" />
-            <area shape="rect" coords="-9,-63,141,87" href="#main_screen_page" title="Go to page 'main screen'" />
-            <area shape="rect" coords="146.79998779296875,367.20001220703125,222.643737792969,384.356262207031" href="#schedule_check_on_page" title="Go to page 'schedule - check on'" />
-        </map>
-    </div>    <div style="height:4000px"></div>
-    <div class="Page" id="schedule_one_day_first_date_page">
+    <div class="ImageContainer"><img src="pages/schedule_one_day.png" width="1280" height="720" usemap="#map_schedule_one_day" /></div>
+    <map name="map_schedule_one_day">
+      <area shape="rect" coords="401.3399658203125,143.8383331298828,426.932952880859,725.525344848633" href="#schedule_one_day_first_date_page" title="Go to page 'schedule - one day - first date'" />
+      <area shape="rect" coords="-9,-63,141,87" href="#main_screen_page" title="Go to page 'main screen'" />
+      <area shape="rect" coords="146.79998779296875,366.20001220703125,222.643737792969,383.356262207031" href="#schedule_check_on_page" title="Go to page 'schedule - check on'" />
+    </map>
+  </div>  <div style="height:4000px"></div>
+  <div class="Page" id="schedule_one_day_first_date_page">
 
-        <div class="ImageContainer"><img src="pages/schedule_one_day_first_date.png" width="1280" height="720" usemap="#map_schedule_one_day_first_date" /></div>
-        <map name="map_schedule_one_day_first_date">
-            <area shape="rect" coords="401.3399658203125,143.8383331298828,426.932952880859,725.525344848633" href="#schedule_one_day_last_date_page" title="Go to page 'schedule - one day - last date'" />
-            <area shape="rect" coords="-9,-63,141,87" href="#main_screen_page" title="Go to page 'main screen'" />
-            <area shape="rect" coords="146.79998779296875,367.20001220703125,222.643737792969,384.356262207031" href="#schedule_check_on_page" title="Go to page 'schedule - check on'" />
-        </map>
-    </div>    <div style="height:4000px"></div>
-    <div class="Page" id="schedule_one_day_last_date_page">
+    <div class="ImageContainer"><img src="pages/schedule_one_day_first_date.png" width="1280" height="720" usemap="#map_schedule_one_day_first_date" /></div>
+    <map name="map_schedule_one_day_first_date">
+      <area shape="rect" coords="401.3399658203125,143.8383331298828,426.932952880859,725.525344848633" href="#schedule_one_day_last_date_page" title="Go to page 'schedule - one day - last date'" />
+      <area shape="rect" coords="-9,-63,141,87" href="#main_screen_page" title="Go to page 'main screen'" />
+      <area shape="rect" coords="146.79998779296875,366.20001220703125,222.643737792969,383.356262207031" href="#schedule_check_on_page" title="Go to page 'schedule - check on'" />
+    </map>
+  </div>  <div style="height:4000px"></div>
+  <div class="Page" id="schedule_one_day_last_date_page">
 
-        <div class="ImageContainer"><img src="pages/schedule_one_day_last_date.png" width="1280" height="720" usemap="#map_schedule_one_day_last_date" /></div>
-        <map name="map_schedule_one_day_last_date">
-            <area shape="rect" coords="400.76300048828125,109.85256958007812,427.606536865234,136.69612121582" href="#schedule_one_day_overlay_page" title="Go to page 'schedule - one day - overlay'" />
-            <area shape="rect" coords="-9,-63,141,87" href="#main_screen_page" title="Go to page 'main screen'" />
-            <area shape="rect" coords="146.79998779296875,367.20001220703125,222.643737792969,384.356262207031" href="#schedule_check_on_page" title="Go to page 'schedule - check on'" />
-        </map>
-    </div>    <div style="height:4000px"></div>
-    <div class="Page" id="schedule_one_day_overlay_page">
+    <div class="ImageContainer"><img src="pages/schedule_one_day_last_date.png" width="1280" height="720" usemap="#map_schedule_one_day_last_date" /></div>
+    <map name="map_schedule_one_day_last_date">
+      <area shape="rect" coords="400.76300048828125,109.85256958007812,427.606536865234,136.69612121582" href="#schedule_one_day_overlay_page" title="Go to page 'schedule - one day - overlay'" />
+      <area shape="rect" coords="-9,-63,141,87" href="#main_screen_page" title="Go to page 'main screen'" />
+      <area shape="rect" coords="146.79998779296875,366.20001220703125,222.643737792969,383.356262207031" href="#schedule_check_on_page" title="Go to page 'schedule - check on'" />
+    </map>
+  </div>  <div style="height:4000px"></div>
+  <div class="Page" id="schedule_one_day_overlay_page">
 
-        <div class="ImageContainer"><img src="pages/schedule_one_day_overlay.png" width="1280" height="720" usemap="#map_schedule_one_day_overlay" /></div>
-        <map name="map_schedule_one_day_overlay">
-            <area shape="rect" coords="467,580,592,622" href="#schedule_one_day_page" title="Go to page 'schedule - one day'" />
-            <area shape="rect" coords="328,580,453,622" href="#schedule_one_day_page" title="Go to page 'schedule - one day'" />
-            <area shape="rect" coords="-9,-63,141,87" href="#main_screen_page" title="Go to page 'main screen'" />
-            <area shape="rect" coords="146.79998779296875,367.20001220703125,222.643737792969,384.356262207031" href="#schedule_check_on_page" title="Go to page 'schedule - check on'" />
-        </map>
-    </div>    <div style="height:4000px"></div>
-    <div class="Page" id="profile_list_page">
+    <div class="ImageContainer"><img src="pages/schedule_one_day_overlay.png" width="1280" height="720" usemap="#map_schedule_one_day_overlay" /></div>
+    <map name="map_schedule_one_day_overlay">
+      <area shape="rect" coords="467,580,592,623" href="#schedule_one_day_page" title="Go to page 'schedule - one day'" />
+      <area shape="rect" coords="-9,-63,141,87" href="#main_screen_page" title="Go to page 'main screen'" />
+      <area shape="rect" coords="146.79998779296875,366.20001220703125,222.643737792969,383.356262207031" href="#schedule_check_on_page" title="Go to page 'schedule - check on'" />
+    </map>
+  </div>  <div style="height:4000px"></div>
+  <div class="Page" id="profile_list_page">
 
-        <div class="ImageContainer"><img src="pages/profile_list.png" width="1280" height="720" usemap="#map_profile_list" /></div>
-        <map name="map_profile_list">
-            <area shape="rect" coords="244,572,480.78125,604" href="#carson_page" title="Go to page 'Carson'" />
-            <area shape="rect" coords="40,114,105,136" href="#schedule_page" title="Go to page 'schedule'" />
-        </map>
-    </div>    <div style="height:4000px"></div>
-    <div class="Page" id="carson_page">
+    <div class="ImageContainer"><img src="pages/profile_list.png" width="1280" height="720" usemap="#map_profile_list" /></div>
+    <map name="map_profile_list">
+      <area shape="rect" coords="284,571,516.34375,604" href="#carson_page" title="Go to page 'Carson'" />
+      <area shape="rect" coords="40,114,105,136" href="#schedule_page" title="Go to page 'schedule'" />
+    </map>
+  </div>  <div style="height:4000px"></div>
+  <div class="Page" id="carson_page">
 
-        <div class="ImageContainer"><img src="pages/carson.png" width="1280" height="720" usemap="#map_carson" /></div>
-        <map name="map_carson">
-            <area shape="rect" coords="1121,238,1250.40002441406,281" href="#schedule_one_day_page" title="Go to page 'schedule - one day'" />
-            <area shape="rect" coords="1121,182,1250.40002441406,225" href="#carson_1_page" title="Go to page 'Carson (1)'" />
-            <area shape="rect" coords="40,114,105,136" href="#schedule_page" title="Go to page 'schedule'" />
-        </map>
-    </div>    <div style="height:4000px"></div>
-    <div class="Page" id="carson_1_page">
+    <div class="ImageContainer"><img src="pages/carson.png" width="1280" height="720" usemap="#map_carson" /></div>
+    <map name="map_carson">
+      <area shape="rect" coords="1121,239,1250.40002441406,282" href="#schedule_one_day_page" title="Go to page 'schedule - one day'" />
+      <area shape="rect" coords="1121,182,1250.40002441406,225" href="#carson_1_page" title="Go to page 'Carson (1)'" />
+      <area shape="rect" coords="40,114,105,136" href="#schedule_page" title="Go to page 'schedule'" />
+    </map>
+  </div>  <div style="height:4000px"></div>
+  <div class="Page" id="carson_1_page">
 
-        <div class="ImageContainer"><img src="pages/carson_1.png" width="1280" height="720" usemap="#map_carson_1" /></div>
-        <map name="map_carson_1">
-            <area shape="rect" coords="1121,238,1250.40002441406,281" href="#schedule_one_day_page" title="Go to page 'schedule - one day'" />
-            <area shape="rect" coords="1121,182,1250.40002441406,225" href="#carson_page" title="Go to page 'Carson'" />
-            <area shape="rect" coords="40,114,105,136" href="#schedule_page" title="Go to page 'schedule'" />
-        </map>
-    </div>    <div style="height:4000px"></div>
-    <div class="Page" id="availability_surrey_page">
+    <div class="ImageContainer"><img src="pages/carson_1.png" width="1280" height="720" usemap="#map_carson_1" /></div>
+    <map name="map_carson_1">
+      <area shape="rect" coords="1121,239,1251,282" href="#schedule_one_day_page" title="Go to page 'schedule - one day'" />
+      <area shape="rect" coords="1121,182,1250.40002441406,225" href="#carson_page" title="Go to page 'Carson'" />
+      <area shape="rect" coords="40,114,105,136" href="#schedule_page" title="Go to page 'schedule'" />
+    </map>
+  </div>  <div style="height:4000px"></div>
+  <div class="Page" id="availability_surrey_page">
 
-        <div class="ImageContainer"><img src="pages/availability_surrey.png" width="1280" height="720" usemap="#map_availability_surrey" /></div>
-        <map name="map_availability_surrey">
-            <area shape="rect" coords="153,592,269,634" href="#schedule_one_day_page" title="Go to page 'schedule - one day'" />
-            <area shape="rect" coords="153,641,269,683" href="#schedule_one_day_page" title="Go to page 'schedule - one day'" />
-            <area shape="rect" coords="-9,-63,141,87" href="#main_screen_page" title="Go to page 'main screen'" />
-            <area shape="rect" coords="293.6000061035156,86.83999633789062,431.52001953125,143.160003662109" href="#schedule_one_day_page" title="Go to page 'schedule - one day'" />
-        </map>
-    </div>
-    <div style="height:4000px"></div>
-    <div class="Page" id="availability_drop_down_page">
+    <div class="ImageContainer"><img src="pages/availability_surrey.png" width="1280" height="720" usemap="#map_availability_surrey" /></div>
+    <map name="map_availability_surrey">
+      <area shape="rect" coords="-9,-63,141,87" href="#main_screen_page" title="Go to page 'main screen'" />
+      <area shape="rect" coords="293.6000061035156,86.83999633789062,431.52001953125,143.160003662109" href="#schedule_one_day_page" title="Go to page 'schedule - one day'" />
+    </map>
+  </div>  <div style="height:4000px"></div>
+  <div class="Page" id="availability_drop_down_page">
 
-        <div class="ImageContainer"><img src="pages/availability_drop_down.png" width="1280" height="720" usemap="#map_availability_drop_down" /></div>
-        <map name="map_availability_drop_down">
-            <area shape="rect" coords="163.5,199.5,255.807403564453,266.965698242188" href="#availability_surrey_page" title="Go to page 'availability - Surrey'" />
-            <area shape="rect" coords="153,592,269,634" href="#schedule_one_day_page" title="Go to page 'schedule - one day'" />
-            <area shape="rect" coords="153,641,269,683" href="#schedule_one_day_page" title="Go to page 'schedule - one day'" />
-            <area shape="rect" coords="-9,-63,141,87" href="#main_screen_page" title="Go to page 'main screen'" />
-            <area shape="rect" coords="293.6000061035156,86.83999633789062,431.52001953125,143.160003662109" href="#schedule_one_day_page" title="Go to page 'schedule - one day'" />
-        </map>
-    </div>    <div style="height:4000px"></div>
-    <div class="Page" id="availability_page">
+    <div class="ImageContainer"><img src="pages/availability_drop_down.png" width="1280" height="720" usemap="#map_availability_drop_down" /></div>
+    <map name="map_availability_drop_down">
+      <area shape="rect" coords="163.5,199.5,255.807403564453,266.965698242188" href="#availability_surrey_page" title="Go to page 'availability - Surrey'" />
+      <area shape="rect" coords="-9,-63,141,87" href="#main_screen_page" title="Go to page 'main screen'" />
+      <area shape="rect" coords="293.6000061035156,86.83999633789062,431.52001953125,143.160003662109" href="#schedule_one_day_page" title="Go to page 'schedule - one day'" />
+    </map>
+  </div>  <div style="height:4000px"></div>
+  <div class="Page" id="availability_page">
 
-        <div class="ImageContainer"><img src="pages/availability.png" width="1280" height="720" usemap="#map_availability" /></div>
-        <map name="map_availability">
-            <area shape="rect" coords="153,592,269,634" href="#schedule_one_day_page" title="Go to page 'schedule - one day'" />
-            <area shape="rect" coords="153,641,269,683" href="#schedule_one_day_page" title="Go to page 'schedule - one day'" />
-            <area shape="rect" coords="-9,-63,141,87" href="#main_screen_page" title="Go to page 'main screen'" />
-            <area shape="rect" coords="163.60000610351562,168,256.400024414062,201" href="#availability_drop_down_page" title="Go to page 'availability - drop down'" />
-            <area shape="rect" coords="293.6000061035156,86.83999633789062,431.52001953125,143.160003662109" href="#schedule_one_day_page" title="Go to page 'schedule - one day'" />
-        </map>
-    </div>    <div style="height:4000px"></div>
+    <div class="ImageContainer"><img src="pages/availability.png" width="1280" height="720" usemap="#map_availability" /></div>
+    <map name="map_availability">
+      <area shape="rect" coords="-9,-63,141,87" href="#main_screen_page" title="Go to page 'main screen'" />
+      <area shape="rect" coords="163.60000610351562,168,256.400024414062,201" href="#availability_drop_down_page" title="Go to page 'availability - drop down'" />
+      <area shape="rect" coords="293.6000061035156,86.83999633789062,431.52001953125,143.160003662109" href="#schedule_one_day_page" title="Go to page 'schedule - one day'" />
+    </map>
+  </div>  <div style="height:1000px"></div>
 </body>
 
 </html>
