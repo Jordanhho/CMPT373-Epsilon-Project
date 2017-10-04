@@ -28,7 +28,7 @@ public class UserShiftController extends Controller {
         List<DbUserShift> dbUserShiftList = DbUserShiftHelper.readDbUserByShiftId(userId);
 
         for (DbUserShift dbUserShift : dbUserShiftList) {
-            System.out.println(dbUserShift.getUserId());
+            System.out.println(dbUserShift.getUserTeamId());
         }
 
         return ok();

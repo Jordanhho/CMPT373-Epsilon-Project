@@ -39,7 +39,7 @@ public final class DbTeamHelper {
 
     /**
      * Deletes a DbTeam by name
-     * @param id
+     * @param name
      */
     public static void deleteDbTeamByName(@Nonnull String name) {
         DbTeam dbTeam = DbTeam.find

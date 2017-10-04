@@ -47,7 +47,7 @@ public final class DbUserShiftHelper {
                 .query()
                 .where()
                 .conjunction()
-                .add(Expr.eq(DbUserShift.COLUMN_USER_ID, userId))
+                .add(Expr.eq(DbUserShift.COLUMN_USER_TEAM_ID, userId))
                 .add(Expr.eq(DbUserShift.COLUMN_SHIFT_ID, shiftId))
                 .findOne();
 
@@ -72,7 +72,7 @@ public final class DbUserShiftHelper {
         List<DbUserShift> dbUserShiftList = DbUserShift.find
                 .query()
                 .where()
-                .eq(DbUserShift.COLUMN_USER_ID, userId)
+                .eq(DbUserShift.COLUMN_USER_TEAM_ID, userId)
                 .findList();
 
         return dbUserShiftList;
