@@ -32,8 +32,12 @@ public final class DbShiftHelper {
      * @param id
      * @return
      */
-    public static DbShift readDbShiftById(@Nonnull Integer id) {
-        DbShift dbShift = DbShift.find.byId(id);
+    public static DbShift readDbShiftByName(@Nonnull String shiftName) {
+        DbShift dbShift = DbShift.find
+                .query()
+                .where()
+                .eq(DbShift.FORM_COLUMN_NAME, shiftName)
+                .findOne();
         return dbShift;
     }
 
@@ -56,8 +60,8 @@ public final class DbShiftHelper {
      * deletes a DbShift by DbShiftId
      * @param id
      */
-    public static void deleteDbShiftById(@Nonnull Integer id) {
-        DbShift dbShift = readDbShiftById(id);
+    public static void deleteDbShiftByName(@Nonnull String name) {
+        DbShift dbShift = readDbShiftByName(name);
         dbShift.delete();
     }
 
@@ -69,6 +73,5 @@ public final class DbShiftHelper {
         List<DbShift> dbShift = DbShift.find.all();
         return dbShift;
     }
-
 
 }

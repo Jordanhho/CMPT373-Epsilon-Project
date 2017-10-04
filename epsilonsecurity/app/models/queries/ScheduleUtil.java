@@ -6,7 +6,6 @@ import models.databaseModel.helpers.DbOneTimeUnavailabilityHelper;
 import models.databaseModel.helpers.DbShiftHelper;
 import models.databaseModel.helpers.DbUserHelper;
 import models.databaseModel.scheduling.*;
-import models.schedule.Shift;
 
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
@@ -16,7 +15,7 @@ import java.util.Set;
 /**
  * Schedule Util class for table queries
  */
-public class ScheduleUtil {
+public final class ScheduleUtil {
 
     //Search for available users based on teamId, start and end time of shift
     public static List<DbUser> queryUsersBasedOnAvailiability(Integer teamId, Integer timeStart, Integer timeEnd) {
@@ -68,11 +67,6 @@ public class ScheduleUtil {
         }
         return dbUserList;
     }
-
-
-
-
-
 
 }
 

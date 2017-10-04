@@ -19,6 +19,12 @@ public class DbShift extends Model {
     public static final String COLUMN_TIME_END = "time_end";
     public static final String COLUMN_WAS_PRESENT = "was_present";
 
+
+    public static final String FORM_COLUMN_NAME = "name";
+    public static final String FORM_COLUMN_TIME_START = "timeStart";
+    public static final String FORM_COLUMN_TIME_END = "timeEnd";
+    public static final String FORM_COLUMN_WAS_PRESENT = "wasPresent";
+
     // Fields
     @Id
     @GeneratedValue

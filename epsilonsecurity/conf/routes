@@ -3,26 +3,26 @@
 # ~~~~
 
 # Map static resources from the /public folder to the /assets URL path
-GET           /assets/*file              controllers.Assets.versioned(path="/public", file: Asset)
+GET           /assets/*file                             controllers.Assets.versioned(path="/public", file: Asset)
 
 # All other routes that lead to an invalid page.
-GET           /                          controllers.HomeController.index
+GET           /                                         controllers.HomeController.index
 
 #
 # DbUser
 #
 
 # Create a DbUser
-POST          /user                      controllers.UserController.createUser()
+POST          /user                                     controllers.UserController.createUser()
 
 # Read DbUser by sfuEmail
-GET           /user/:sfuEmail            controllers.UserController.retrieveUser(sfuEmail: String)
+GET           /user/:sfuEmail                           controllers.UserController.retrieveUser(sfuEmail: String)
 
 # Update DbUser by sfuEmail
-PUT           /user/:sfuEmail            controllers.UserController.updateUser(sfuEmail: String)
+PUT           /user/:sfuEmail                           controllers.UserController.updateUser(sfuEmail: String)
 
 # Delete DbUser by sfuEmail
-DELETE        /user                      controllers.UserController.deleteUser()
+DELETE        /user                                     controllers.UserController.deleteUser()
 
 
 #
@@ -30,13 +30,13 @@ DELETE        /user                      controllers.UserController.deleteUser()
 #
 
 # Create a UserShift
-POST          /user/shift                controllers.UserShiftController.createUserShift()
+POST          /user/shift                               controllers.UserShiftController.createUserShift()
 
 # Read UserShift by userId
-GET           /user/shift/:userId        controllers.UserShiftController.retrieveUserShift(userId: Integer)
+GET           /user/shift/:userId                       controllers.UserShiftController.retrieveUserShift(userId: Integer)
 
 # Delete UserShift by userId
-DELETE        /user/shift                controllers.UserShiftController.deleteUserShift()
+DELETE        /user/shift                               controllers.UserShiftController.deleteUserShift()
 
 
 #
@@ -44,10 +44,10 @@ DELETE        /user/shift                controllers.UserShiftController.deleteU
 #
 
 # Create a ShiftName
-POST          /user/shift/name           controllers.ShiftNameController.createShiftName()
+POST          /user/shift/name                          controllers.ShiftNameController.createShiftName()
 
 # Delete ShiftName by shiftName
-DELETE        /user/shift/name           controllers.ShiftNameController.deleteShiftName()
+DELETE        /user/shift/name                          controllers.ShiftNameController.deleteShiftName()
 
 
 #
@@ -55,9 +55,32 @@ DELETE        /user/shift/name           controllers.ShiftNameController.deleteS
 #
 
 # Create a DbTeam
-POST          /team                      controllers.TeamController.createTeam()
+POST          /team                                     controllers.TeamController.createTeam()
 
 # Delete DbTeam by teamName
-DELETE        /team                      controllers.TeamController.deleteTeamByName()
+DELETE        /team                                     controllers.TeamController.deleteTeamByName()
+
+#
+# DbTeam
+#
+
+# Create a DbTeam
+POST          /team                                     controllers.TeamController.createTeam()
+
+# Delete DbTeam by teamName
+DELETE        /team                                     controllers.TeamController.deleteTeamByName()
+
+#
+# Assign shift to a user
+#
+
+# List shifts for a specific user
+GET           /shift/:teamId/:timeStart/:timeEnd        controllers.ShiftController.readUsersAvailableForShift(teamId: Integer, timeStart: Integer, timeEnd: Integer)
+
+# Create a shift
+POST          /shift                                    controllers.ShiftController.createShift()
+
+# Delete a shift
+DELETE        /shift                                    controllers.ShiftController.deleteShift()
 
 
