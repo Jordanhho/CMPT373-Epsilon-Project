@@ -16,32 +16,62 @@ public final class DbShiftHelper {
     private DbShiftHelper() {
     }
 
-    public static void createDbShift(@Nonnull Integer timeStart, @Nonnull Integer timeEnd) {
-        DbShift dbShift = new DbShift(timeStart, timeEnd);
+    /**
+     * creates a DbShift from name, timeStart, timeEnd
+     * @param name
+     * @param timeStart
+     * @param timeEnd
+     */
+    public static void createDbShift(@Nonnull String name, @Nonnull Integer timeStart, @Nonnull Integer timeEnd) {
+        DbShift dbShift = new DbShift(name, timeStart, timeEnd);
         dbShift.save();
     }
 
-    public static DbShift readDbShiftById(@Nonnull Integer id) {
-        DbShift dbShift = DbShift.find.byId(id);
+    /**
+     * finds a DbShift by DbShiftId
+     * @param id
+     * @return
+     */
+    public static DbShift readDbShiftByName(@Nonnull String shiftName) {
+        DbShift dbShift = DbShift.find
+                .query()
+                .where()
+                .eq(DbShift.FORM_COLUMN_NAME, shiftName)
+                .findOne();
         return dbShift;
     }
 
-    public static List<DbShift> readDbShiftByTime(Integer startTime, Integer endTime){
+    /**
+     * returns a List of DBshift by timeStart, timeEnd
+     * @param timeStart
+     * @param timeEnd
+     * @return
+     */
+    public static List<DbShift> readDbShiftByTime(Integer timeStart, Integer timeEnd){
         List<DbShift> dbShiftList = DbShift.find.query().where()
                 .disjunction()
-                .add(Expr.eq("time_start", startTime))
-                .add(Expr.eq("time_end", endTime))
+                .add(Expr.between(DbShift.COLUMN_TIME_START, DbShift.COLUMN_TIME_END, timeStart))
+                .add(Expr.between(DbShift.COLUMN_TIME_START, DbShift.COLUMN_TIME_END, timeEnd))
                 .findList();
         return dbShiftList;
     }
 
-    public static void deleteDbShiftById(@Nonnull Integer id) {
-        DbShift dbShift = readDbShiftById(id);
+    /**
+     * deletes a DbShift by DbShiftId
+     * @param id
+     */
+    public static void deleteDbShiftByName(@Nonnull String name) {
+        DbShift dbShift = readDbShiftByName(name);
         dbShift.delete();
     }
 
+    /**
+     * returns a list of all DbShift
+     * @return
+     */
     public static List<DbShift> readAllDbShift() {
         List<DbShift> dbShift = DbShift.find.all();
         return dbShift;
     }
+
 }
