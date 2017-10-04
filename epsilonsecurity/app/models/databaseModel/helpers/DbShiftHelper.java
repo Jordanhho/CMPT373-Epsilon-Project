@@ -26,11 +26,11 @@ public final class DbShiftHelper {
         return dbShift;
     }
 
-    public static List<DbShift> readDbShiftByTime(Integer startTime, Integer endTime){
+    public static List<DbShift> readDbShiftByTime(Integer timeStart, Integer timeEnd){
         List<DbShift> dbShiftList = DbShift.find.query().where()
                 .disjunction()
-                .add(Expr.eq("time_start", startTime))
-                .add(Expr.eq("time_end", endTime))
+                .add(Expr.between(DbShift.COLUMN_TIME_START, DbShift.COLUMN_TIME_END, timeStart))
+                .add(Expr.between(DbShift.COLUMN_TIME_START, DbShift.COLUMN_TIME_END, timeEnd))
                 .findList();
         return dbShiftList;
     }
@@ -44,4 +44,6 @@ public final class DbShiftHelper {
         List<DbShift> dbShift = DbShift.find.all();
         return dbShift;
     }
+
+
 }

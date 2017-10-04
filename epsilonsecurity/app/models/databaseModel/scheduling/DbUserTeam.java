@@ -55,4 +55,6 @@ public class DbUserTeam extends Model {
     }
 
     public static Finder<Integer, DbUserTeam> find = new Finder<>(DbUserTeam.class);
+
+
 }

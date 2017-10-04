@@ -37,7 +37,7 @@ public class DbRecurringAvailability extends Model {
     private Integer userId;
 
     @Nonnull
-    private Date day;
+    private Day day;
 
     @Nonnull
     private Integer frequency;
@@ -68,7 +68,7 @@ public class DbRecurringAvailability extends Model {
      */
     public DbRecurringAvailability(
             @Nonnull Integer userId,
-            @Nonnull Date day,
+            @Nonnull Day day,
             @Nonnull Integer frequency,
             @Nonnull Integer recurTimeStartBlock,
             @Nonnull Integer recurTimeEndBlock,
@@ -96,7 +96,7 @@ public class DbRecurringAvailability extends Model {
 
     @Nonnull
     @Column(name = COLUMN_DAY)
-    public Date getDay() {
+    public Day getDay() {
         return day;
     }
 
@@ -135,7 +135,7 @@ public class DbRecurringAvailability extends Model {
         return "DbPermissionHelper{" +
                 "id=" + id +
                 ", userId=" + userId +
-                ", day=" + day +
+                ", day=" + day.toString() +
                 ", frequency=" + frequency +
                 ", recurTimeStartBlock=" + recurTimeStartBlock +
                 ", recurTimeEndBlock=" + recurTimeEndBlock +
