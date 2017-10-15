@@ -1,6 +1,6 @@
 <template>
-	<div id="not-found">
-		<h1>404 Not Found</h1>
+	<div id="my-feed">
+		<h1>TODO: My Feed Component</h1>
 	</div>
 </template>
 
@@ -11,12 +11,13 @@ export default {
 </script>
 
 <style scoped>
-#not-found {
+#my-feed {
 	background: white;
 	width: 100%;
+	height: 100%;
 	position: relative;
 }
-#not-found h1 {
+#my-feed h1 {
 	position: absolute;
 	left: 50%;
 	top: 50%;

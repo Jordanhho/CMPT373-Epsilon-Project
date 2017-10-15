@@ -1,6 +1,6 @@
 <template>
-	<div id="not-found">
-		<h1>404 Not Found</h1>
+	<div id="my-schedule">
+		<h1>TODO: My Schedule Component</h1>
 	</div>
 </template>
 
@@ -11,12 +11,12 @@ export default {
 </script>
 
 <style scoped>
-#not-found {
+#my-schedule {
 	background: white;
 	width: 100%;
 	position: relative;
 }
-#not-found h1 {
+#my-schedule h1 {
 	position: absolute;
 	left: 50%;
 	top: 50%;

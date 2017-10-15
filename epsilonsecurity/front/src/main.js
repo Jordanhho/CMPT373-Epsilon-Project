@@ -1,6 +1,8 @@
 import Vue from 'vue';
 import router from './router'
 import App from './components/App.vue';
+import Icon from 'vue-awesome/icons' //all the icons of font-awesome
+
 
 new Vue({
 	el: "#app-container",
