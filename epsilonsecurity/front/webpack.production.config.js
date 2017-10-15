@@ -11,33 +11,32 @@ module.exports = {
         filename: 'js.bundle.[hash].js'
     },
     module: {
-        rules: [
-            {
-                test: /\.js$/,
-                loader: 'babel-loader',
-                exclude: /node_modules/
-            },
-            {
-                test: /\.vue$/,
-                loader: 'vue-loader',
-                options: {
-                }
-            },
-            {
-                test:  /\.s[a|c]ss$/,
-                use: ExtractTextPlugin.extract({
-                    fallback: 'style-loader',
-                    use: ['css-loader', 'sass-loader']
-                })
-            },
-            {
-                test: /\.(png|jpg|gif|svg)$/,
-                loader: 'file-loader',
-                options: {
-                    name: '[name].[ext]?[hash]'
-                }
-            }
-        ]
+			rules: [
+				{
+					test: /\.js$/,
+					loader: 'babel-loader',
+					exclude: /node_modules/
+				},
+				{
+					test: /\.vue$/,
+					loader: 'vue-loader',
+					options: {}
+				},
+				{
+					test:  /\.s[a|c]ss$/,
+					use: ExtractTextPlugin.extract({
+							fallback: 'style-loader',
+							use: ['css-loader', 'sass-loader']
+					})
+				},
+				{
+					test: /\.(png|jpg|gif|svg)$/,
+					loader: 'file-loader',
+					options: {
+							name: '[name].[ext]?[hash]'
+					}
+				}
+			]
     },
     plugins:[
         new webpack.DefinePlugin({

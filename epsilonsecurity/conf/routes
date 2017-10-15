@@ -1,8 +1,15 @@
-# Routes
-
-GET     			/                           							controllers.FrontController.index()
-
+# allow requests for static assets
 GET           /assets/*file                             controllers.Assets.versioned(path="/public", file: Asset)
+
+# redirect all other requests to the SPA page
+# ...except API requests with the prefix '/api'
+GET 					/$p<(?!api).*>														controllers.FrontController.index(p: String)
+
+# TODO: All API endpoints need to be like '/api/user'.
+# Or we could create our own custom router and use it
+# for any requests with the prefix '/api'. This might 
+# be the better long-term solution.
+# see: https://www.playframework.com/documentation/2.6.x/ScalaRouting#the-routes-file-syntax
 
 # ----------------------- USER APIs ----------------------
 
