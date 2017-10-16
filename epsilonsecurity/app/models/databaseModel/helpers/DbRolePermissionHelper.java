@@ -1,7 +1,7 @@
 package models.databaseModel.helpers;
 
 import models.databaseModel.roles.DbRolePermission;
-import models.databaseModel.scheduling.Level;
+import models.databaseModel.roles.AccessLevel;
 
 import javax.annotation.Nonnull;
 import java.util.List;
@@ -16,17 +16,17 @@ public final class DbRolePermissionHelper {
     }
 
     /**
-     * creates a DbRolePermission from teamId, roleId, permissionId, level
+     * creates a DbRolePermission from teamId, roleId, permissionId, accessLevel
      * @param teamId
      * @param roleId
      * @param permissionId
-     * @param level
+     * @param accessLevel
      */
     public static void createDbRolePermission(@Nonnull Integer teamId,
                                               @Nonnull Integer roleId,
                                               @Nonnull Integer permissionId,
-                                              @Nonnull Level level) {
-        DbRolePermission dbRolePermission = new DbRolePermission(teamId, roleId, permissionId, level);
+                                              @Nonnull AccessLevel accessLevel) {
+        DbRolePermission dbRolePermission = new DbRolePermission(teamId, roleId, permissionId, accessLevel);
         dbRolePermission.save();
     }
 

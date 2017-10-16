@@ -6,7 +6,7 @@
   <appender name="FILE" class="ch.qos.logback.core.FileAppender">
     <file>${application.home:-.}/logs/application.log</file>
     <encoder>
-      <pattern>%date [%level] from %logger in %thread - %message%n%xException</pattern>
+      <pattern>%date [%accessLevel] from %logger in %thread - %message%n%xException</pattern>
     </encoder>
   </appender>
 
@@ -24,16 +24,16 @@
     <appender-ref ref="STDOUT" />
   </appender>
 
-  <logger name="play" level="INFO" />
-  <logger name="application" level="DEBUG" />
+  <logger name="play" accessLevel="INFO" />
+  <logger name="application" accessLevel="DEBUG" />
 
   <!-- Off these ones as they are annoying, and anyway we manage configuration ourselves -->
-  <logger name="com.avaje.ebean.config.PropertyMapLoader" level="OFF" />
-  <logger name="com.avaje.ebeaninternal.server.core.XmlConfigLoader" level="OFF" />
-  <logger name="com.avaje.ebeaninternal.server.lib.BackgroundThread" level="OFF" />
-  <logger name="com.gargoylesoftware.htmlunit.javascript" level="OFF" />
+  <logger name="com.avaje.ebean.config.PropertyMapLoader" accessLevel="OFF" />
+  <logger name="com.avaje.ebeaninternal.server.core.XmlConfigLoader" accessLevel="OFF" />
+  <logger name="com.avaje.ebeaninternal.server.lib.BackgroundThread" accessLevel="OFF" />
+  <logger name="com.gargoylesoftware.htmlunit.javascript" accessLevel="OFF" />
 
-  <root level="WARN">
+  <root accessLevel="WARN">
     <appender-ref ref="ASYNCFILE" />
     <appender-ref ref="ASYNCSTDOUT" />
   </root>
