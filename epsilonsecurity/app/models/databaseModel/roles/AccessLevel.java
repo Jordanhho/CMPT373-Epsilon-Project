@@ -1,9 +1,9 @@
-package models.databaseModel.scheduling;
+package models.databaseModel.roles;
 
 /**
  * Permission levels for each position
  */
-public enum Level {
+public enum AccessLevel {
     ADMIN,
     SUPERVISOR,
     TEAMLEAD,

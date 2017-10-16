@@ -3,7 +3,6 @@ package models.databaseModel.roles;
 import javax.persistence.*;
 
 import io.ebean.*;
-import models.databaseModel.scheduling.Level;
 
 import javax.annotation.Nonnull;
 
@@ -16,7 +15,7 @@ public class DbRolePermission extends Model {
     private static final String COLUMN_TEAM_ID = "team_id";
     private static final String COLUMN_ROLE_ID = "role_id";
     private static final String COLUMN_PERMISSION_ID = "permission_id";
-    private static final String COLUMN_LEVEL = "level";
+    private static final String COLUMN_LEVEL = "accessLevel";
 
     @Id
     @GeneratedValue
@@ -34,7 +33,7 @@ public class DbRolePermission extends Model {
 
     @Enumerated(EnumType.STRING)
     @Nonnull
-    private Level level;
+    private AccessLevel accessLevel;
 
     /**
      * The constructor of the RolePermission table
@@ -43,14 +42,14 @@ public class DbRolePermission extends Model {
      * @param teamId       the team id of the RolePermission
      * @param roleId       the role Id of the RolePermission
      * @param permissionId the permission Id of the RolePermission
-     * @param level        the permission level of the RolePermission
+     * @param accessLevel        the permission accessLevel of the RolePermission
      */
     public DbRolePermission(@Nonnull Integer teamId, @Nonnull Integer roleId, @Nonnull Integer permissionId,
-                            @Nonnull Level level) {
+                            @Nonnull AccessLevel accessLevel) {
         this.teamId = teamId;
         this.roleId = roleId;
         this.permissionId = permissionId;
-        this.level = level;
+        this.accessLevel = accessLevel;
     }
 
     @Nonnull
@@ -78,8 +77,8 @@ public class DbRolePermission extends Model {
 
     @Nonnull
     @Column(name = COLUMN_LEVEL)
-    public Level getLevel() {
-        return level;
+    public AccessLevel getAccessLevel() {
+        return accessLevel;
     }
 
     @Override
@@ -89,7 +88,7 @@ public class DbRolePermission extends Model {
                 ", teamId=" + teamId +
                 ", roleId=" + roleId +
                 ", permissionId=" + permissionId +
-                ", level=" + level +
+                ", accessLevel=" + accessLevel +
                 '}';
     }
 
