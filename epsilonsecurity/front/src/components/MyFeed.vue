@@ -14,7 +14,7 @@ export default {
 #my-feed {
 	background: white;
 	width: 100%;
-	height: 100%;
+	/* height: 100%; */
 	position: relative;
 }
 #my-feed h1 {
