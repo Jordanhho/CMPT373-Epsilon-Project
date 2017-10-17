@@ -6,7 +6,7 @@ public class UserId
         extends DatabaseId
         implements UserIdable {
 
-    public UserId(long rawID) {
+    public UserId(int rawID) {
         super(rawID);
     }
 
