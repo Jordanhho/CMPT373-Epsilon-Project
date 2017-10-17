@@ -1,36 +1,79 @@
 <template>
-    <div id="hello">
-        <div id="images">
-            <img src="/assets/images/play.png" alt="Play Framework"> +
-            <img src="/assets/images/vue.png" alt="Vue.js">
-        </div>
-				<h1>Congratulations, you now have Vue playing well with Play!</h1>
-    </div>
+  <div id="app">
+		<app-header id="app-header" v-on:toggle="toggleSidenav"/>
+		<div id="content">
+			<side-nav id="side-nav" v-show="showSidenav"/>
+    	<router-view/>
+		</div>
+  </div>
 </template>
 
 <script>
-    export default {
+	import AppHeader from './AppHeader.vue'
+	import SideNav from './SideNav.vue'
 
-    }
+	export default {
+		name: 'app',
+		data() {
+			return {
+				showSidenav: true
+			}
+		},
+		methods: {
+			toggleSidenav() {
+				this.showSidenav = !(this.showSidenav)
+			}
+		},
+		components: {
+			'side-nav': SideNav,
+			'app-header': AppHeader
+		}
+	}
 </script>
 
-<style scoped lang="scss">
-    #hello {
-        width: 600px;
-        margin: 0 auto;
-        color: gray;
-        text-align: center;
-        position: relative;
-        top: 50%;
-        transform: translateY(-50%);
-    }
+<style>
+	* {
+		margin: 0;
+		padding: 0;
+		box-sizing: border-box;
+		outline: none;
+	}
+	html {
+		height: 100%;
+		width: 100%;
+	}
+	body {
+		height: 100%;
+	}
+	#app {
+		font-family: 'Avenir', Helvetica, Arial, sans-serif;
+		-webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
+		text-align: center;
+		color: #2c3e50;
+		display: flex;
+		flex-flow: column nowrap;
+		height: 100%;
+	}
+	#content {
+		background: black;
+		flex-grow: 1;
+		display: flex;
+		flex-flow: row nowrap;
+	}
+	#side-nav {
+		/* width: 200px; */
+		background: white;
+		flex-grow: 0;
+		flex-shrink: 0;
+	}
 
-    #images {
-        font-size: 2.3em;
-        font-weight: bold;
-        margin-bottom: 1em;
-        img {
-            height: 100px;
-        }
-    }
+	/* for tablets */
+	@media only screen and (min-width: 600px) {
+	}
+
+	/* for desktop */
+	@media only screen and (min-width: 768px) {
+
+	}
 </style>
