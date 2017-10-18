@@ -14,7 +14,7 @@ public class User implements UserIdable {
     private String photoUrl;
 
     protected User(DbUser dbUser) {
-        this.userId = dbUser.getUserId();
+        this.userId = new UserId(dbUser.getUserId());
         this.contactEmail = dbUser.getContactEmail();
         this.sfuEmail = dbUser.getSfuEmail();
         this.phoneNumber = dbUser.getPhoneNumber();

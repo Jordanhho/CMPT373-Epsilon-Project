@@ -3,14 +3,14 @@ package models;
 import javax.annotation.Nonnull;
 
 public abstract class DatabaseId {
-    @Nonnull protected int rawId;
+    @Nonnull protected Integer rawId;
 
     @Nonnull
-    public long getRawId() {
+    public Integer getRawId() {
         return rawId;
     }
 
-    public DatabaseId(int rawID) {
+    public DatabaseId(Integer rawID) {
         this.rawId = rawID;
     }
 }
