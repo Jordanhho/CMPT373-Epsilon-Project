@@ -7,7 +7,8 @@ public class StoreException extends Exception {
     private Reason reason;
 
     enum Reason {
-        ID_NOT_FOUND // TODO: add as they come up
+        ID_NOT_FOUND, // TODO: add as they come up
+        EXISTS
     }
 
     enum Table {
