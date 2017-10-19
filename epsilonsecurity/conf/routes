@@ -153,3 +153,24 @@ GET           /api/onetimeunavailability/:oneTimeUnavailabilityId        control
 
 # Delete DbOneTimeUnavailability by oneTimeUnavailabilityId
 DELETE        /api/onetimeunavailability/:oneTimeUnavailabilityId        controllers.OneTimeUnavailabilityController.deleteOneTimeUnavailability(oneTimeUnavailabilityId: Integer)
+
+
+#
+# DbRecurringAvailability
+#
+
+# List DbRecurringAvailability
+GET           /api/recurringavailability                                 controllers.RecurringAvailabilityController.listRecurringAvailability()
+
+# List all DbRecurringAvailability in a time range
+GET           /api/recurringavailability/:startTime/:endTime             controllers.RecurringAvailabilityController.readRecurringAvailabilitiesByTimeRange(startTime: Integer, endTime: Integer)
+
+# Create a DbRecurringAvailability
+POST          /api/recurringavailability                                 controllers.RecurringAvailabilityController.createRecurringAvailability()
+
+# Read DbRecurringAvailability by recurringAvailabilityId
+GET           /api/recurringavailability/:recurringAvailabilityId        controllers.RecurringAvailabilityController.retrieveRecurringAvailability(recurringAvailabilityId: Integer)
+
+# Delete DbRecurringAvailability by recurringAvailabilityId
+DELETE        /api/recurringavailability/:recurringAvailabilityId        controllers.RecurringAvailabilityController.deleteRecurringAvailability(recurringAvailabilityId: Integer)
+
