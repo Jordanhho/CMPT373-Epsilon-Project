@@ -120,15 +120,18 @@ DELETE        /api/role/:roleId                                      controllers
 #
 
 # List DbOneTimeAvailability
-GET           /api/onetimeavailability                               controllers.RoleController.listRole()
+GET           /api/onetimeavailability                               controllers.OneTimeAvailabilityController.listOneTimeAvailability()
+
+# List all DbOneTimeAvailability in a time range
+GET           /api/onetimeavailability/:startTime/:endTime           controllers.OneTimeAvailabilityController.readOneTimeAvailabilitiesByTimeRange(startTime: Integer, endTime: Integer)
 
 # Create a DbOneTimeAvailability
-POST          /api/onetimeavailability                               controllers.RoleController.createRole()
+POST          /api/onetimeavailability                               controllers.OneTimeAvailabilityController.createOneTimeAvailability()
 
 # Read DbOneTimeAvailability by oneTimeAvailabilityId
-GET           /api/onetimeavailability/:oneTimeAvailabilityId        controllers.RoleController.retrieveRole(oneTimeAvailabilityId: Integer)
+GET           /api/onetimeavailability/:oneTimeAvailabilityId        controllers.OneTimeAvailabilityController.retrieveOneTimeAvailability(oneTimeAvailabilityId: Integer)
 
 # Delete DbOneTimeAvailability by oneTimeAvailabilityId
-DELETE        /api/onetimeavailability/:oneTimeAvailabilityId        controllers.RoleController.deleteRole(oneTimeAvailabilityId: Integer)
+DELETE        /api/onetimeavailability/:oneTimeAvailabilityId        controllers.OneTimeAvailabilityController.deleteOneTimeAvailability(oneTimeAvailabilityId: Integer)
 
 

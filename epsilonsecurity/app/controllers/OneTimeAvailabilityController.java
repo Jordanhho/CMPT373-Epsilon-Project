@@ -6,7 +6,7 @@ import models.databaseModel.helpers.DbOneTimeAvailabilityHelper;
 
 public class OneTimeAvailabilityController extends Controller {
 
-    //    TODO: Implement functionality of OneTimeAvailabilityController
+//    TODO: Implement functionality of OneTimeAvailabilityController
     public Result listOneTimeAvailability() {
         return ok();
     }
@@ -20,6 +20,10 @@ public class OneTimeAvailabilityController extends Controller {
     }
 
     public Result deleteOneTimeAvailability(Integer oneTimeAvailabilityId) {
+        return ok();
+    }
+
+    public Result readOneTimeAvailabilitiesByTimeRange(Integer timeStart, Integer timeEnd) {
         return ok();
     }
 }
