@@ -37,7 +37,7 @@ POST          /user/shift                               controllers.UserShiftCon
 GET           /user/shift/:userId                       controllers.UserShiftController.retrieveUserShift(userId: Integer)
 
 # Delete UserShift by userId
-DELETE        /user/shift                               controllers.UserShiftController.deleteUserShift()
+DELETE        /user/shift                               controllers.UserShiftController.deleteUserShifts()
 
 
 #
