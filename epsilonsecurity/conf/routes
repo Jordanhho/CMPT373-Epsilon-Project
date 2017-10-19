@@ -116,6 +116,23 @@ DELETE        /api/role/:roleId                                          control
 
 
 #
+# DbRolePermission
+#
+
+# List DbRolePermission
+GET           /api/rolepermission                                        controllers.RolePermissionController.listRolePermission()
+
+# Create a DbRolePermission
+POST          /api/rolepermission                                        controllers.RolePermissionController.createRolePermission()
+
+# Read DbRolePermission by rolePermissionId
+GET           /api/rolepermission/:rolePermissionId                      controllers.RolePermissionController.retrieveRolePermission(rolePermissionId: Integer)
+
+# Delete DbRolePermission by rolePermissionId
+DELETE        /api/rolepermission/:rolePermissionId                      controllers.RolePermissionController.deleteRolePermission(rolePermissionId: Integer)
+
+
+#
 # DbOneTimeAvailability
 #
 
@@ -173,4 +190,5 @@ GET           /api/recurringavailability/:recurringAvailabilityId        control
 
 # Delete DbRecurringAvailability by recurringAvailabilityId
 DELETE        /api/recurringavailability/:recurringAvailabilityId        controllers.RecurringAvailabilityController.deleteRecurringAvailability(recurringAvailabilityId: Integer)
+
 
