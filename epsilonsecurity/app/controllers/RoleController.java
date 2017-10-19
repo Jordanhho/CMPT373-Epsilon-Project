@@ -15,11 +15,11 @@ public class RoleController extends Controller {
         return ok();
     }
 
-    public Result retrieveRole(Integer RoleId) {
+    public Result retrieveRole(Integer roleId) {
         return ok();
     }
 
-    public Result deleteRole(Integer RoleId) {
+    public Result deleteRole(Integer roleId) {
         return ok();
     }
 }
