@@ -14,7 +14,8 @@ public class TeamController extends Controller {
 
     private final FormFactory formFactory;
 
-    @Inject TeamController(FormFactory formFactory) {
+    @Inject
+    TeamController(FormFactory formFactory) {
         this.formFactory = formFactory;
     }
 
