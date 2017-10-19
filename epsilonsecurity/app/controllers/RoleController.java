@@ -19,7 +19,7 @@ public class RoleController extends Controller {
         return ok();
     }
 
-    public Result deleteRole(Integer roleId) {
+    public Result deleteRole() {
         return ok();
     }
 }

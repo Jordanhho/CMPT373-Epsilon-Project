@@ -46,6 +46,23 @@ DELETE        /api/user/shift                                            control
 
 
 #
+# DbUserTeam
+#
+
+# List DbUserTeam
+GET           /api/userteam                                              controllers.UserTeamController.listUserTeam()
+
+# Create a DbUserTeam
+POST          /api/user/team                                             controllers.UserTeamController.createUserTeam()
+
+# Read DbUserTeam by userId and teamId
+GET           /api/user/team/:userId/:teamId                             controllers.UserTeamController.retrieveUserTeam(userId: Integer, teamId: Integer)
+
+# Delete DbUserTeam by userId and teamId
+DELETE        /api/user/team                                             controllers.UserTeamController.deleteUserTeam()
+
+
+#
 # DbShiftName
 #
 
@@ -95,7 +112,7 @@ POST          /api/permission                                            control
 GET           /api/permission/:permissionId                              controllers.PermissionController.retrievePermission(permissionId: Integer)
 
 # Delete DbPermission by permissionId
-DELETE        /api/permission/:permissionId                              controllers.PermissionController.deletePermission(permissionId: Integer)
+DELETE        /api/permission                                            controllers.PermissionController.deletePermission()
 
 
 #
@@ -112,7 +129,7 @@ POST          /api/role                                                  control
 GET           /api/role/:roleId                                          controllers.RoleController.retrieveRole(roleId: Integer)
 
 # Delete DbRole by roleId
-DELETE        /api/role/:roleId                                          controllers.RoleController.deleteRole(roleId: Integer)
+DELETE        /api/role                                                  controllers.RoleController.deleteRole()
 
 
 #
@@ -123,13 +140,13 @@ DELETE        /api/role/:roleId                                          control
 GET           /api/rolepermission                                        controllers.RolePermissionController.listRolePermission()
 
 # Create a DbRolePermission
-POST          /api/rolepermission                                        controllers.RolePermissionController.createRolePermission()
+POST          /api/role/permission                                        controllers.RolePermissionController.createRolePermission()
 
 # Read DbRolePermission by rolePermissionId
-GET           /api/rolepermission/:rolePermissionId                      controllers.RolePermissionController.retrieveRolePermission(rolePermissionId: Integer)
+GET           /api/role/permission/:rolePermissionId                      controllers.RolePermissionController.retrieveRolePermission(rolePermissionId: Integer)
 
 # Delete DbRolePermission by rolePermissionId
-DELETE        /api/rolepermission/:rolePermissionId                      controllers.RolePermissionController.deleteRolePermission(rolePermissionId: Integer)
+DELETE        /api/role/permission                                        controllers.RolePermissionController.deleteRolePermission()
 
 
 #
@@ -149,7 +166,7 @@ POST          /api/onetimeavailability                                   control
 GET           /api/onetimeavailability/:oneTimeAvailabilityId            controllers.OneTimeAvailabilityController.retrieveOneTimeAvailability(oneTimeAvailabilityId: Integer)
 
 # Delete DbOneTimeAvailability by oneTimeAvailabilityId
-DELETE        /api/onetimeavailability/:oneTimeAvailabilityId            controllers.OneTimeAvailabilityController.deleteOneTimeAvailability(oneTimeAvailabilityId: Integer)
+DELETE        /api/onetimeavailability                                   controllers.OneTimeAvailabilityController.deleteOneTimeAvailability()
 
 
 #
@@ -169,7 +186,7 @@ POST          /api/onetimeunavailability                                 control
 GET           /api/onetimeunavailability/:oneTimeUnavailabilityId        controllers.OneTimeUnavailabilityController.retrieveOneTimeUnavailability(oneTimeUnavailabilityId: Integer)
 
 # Delete DbOneTimeUnavailability by oneTimeUnavailabilityId
-DELETE        /api/onetimeunavailability/:oneTimeUnavailabilityId        controllers.OneTimeUnavailabilityController.deleteOneTimeUnavailability(oneTimeUnavailabilityId: Integer)
+DELETE        /api/onetimeunavailability                                 controllers.OneTimeUnavailabilityController.deleteOneTimeUnavailability()
 
 
 #
@@ -189,6 +206,6 @@ POST          /api/recurringavailability                                 control
 GET           /api/recurringavailability/:recurringAvailabilityId        controllers.RecurringAvailabilityController.retrieveRecurringAvailability(recurringAvailabilityId: Integer)
 
 # Delete DbRecurringAvailability by recurringAvailabilityId
-DELETE        /api/recurringavailability/:recurringAvailabilityId        controllers.RecurringAvailabilityController.deleteRecurringAvailability(recurringAvailabilityId: Integer)
+DELETE        /api/recurringavailability                                 controllers.RecurringAvailabilityController.deleteRecurringAvailability()
 
 
