@@ -1,9 +1,8 @@
 <template>
   <div id = "profile-main">
-
       <div id = "top-bar">
-        <h1>{{userName}} </h1>
-            <span id= "space"></span>
+            <span id= "user-name">{{userName}} </span>
+            <span class= "top-bar-spacer">&nbsp</span>
             <button>
             <icon name= "toggle-down" id="expand"></icon>
             </button>
@@ -28,7 +27,7 @@ export default {
         return {
             userName: 'Ada Lovelace',
             userPhoto: 'http://lorempixel.com/100/100/people',
-            text: 'Space'
+            text: 'Space #2'
         }
     },
     components: {
@@ -48,29 +47,35 @@ export default {
     }
     #top-bar{
         background: red;
-        height: auto;
+        height: 20%;
         width: 100%;
         margin-top: 10%;
         flex-flow: row nowrap;
+        position: relative;
     }
-    #top-bar h1{
+    #user-name{
         height: 100%;
-        width: 40%;
+        width: 20%;
         background: green;
-        position: relative;
-        left: 0;
-        top: 0;
+        position: absolute;
+        left: 5%;
     }
-    #span{
-        position: relative;
-        width: 50%;
-        top: 0;
-        left: 40;    
+    .top-bar-spacer{
+        background: pink;
+        width: 40%;
+        height: 100%;
+        position: absolute;
+        left: 25%;
+        display: block;
     }
 
     #top-bar button{
         background: blue;
-        position: relative;
+        /* border: none; */
+        font-size: 50%;
+        position: absolute;
+        height: 100%;
+        left: 66%;
     }
 
     #spacer{

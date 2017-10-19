@@ -84,6 +84,7 @@ public final class DbUserHelper {
      */
     public static List<DbUser> readAllDbUsers() {
         List<DbUser> dbUsers = DbUser.find.all();
+        
         return dbUsers;
     }
 
