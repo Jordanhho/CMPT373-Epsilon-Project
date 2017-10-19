@@ -1,11 +1,11 @@
 package models.databaseModel.scheduling;
 
-import javax.persistence.*;
+import io.ebean.Finder;
+import io.ebean.Model;
 
-import io.ebean.*;
-import io.ebean.annotation.NotNull;
-
-import javax.annotation.Nonnull;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 
 /**
  * Java Object for DbUser Table with DbUser id, user id, role ID, contact email, sfu email, phoneNumber, photoURL
@@ -14,107 +14,84 @@ import javax.annotation.Nonnull;
 @Entity
 public class DbUser extends Model {
 
-    public static final String COLUMN_ROLE_ID = "role_id";
-    public static final String COLUMN_CONTACT_EMAIL = "contact_email";
-    public static final String COLUMN_SFU_EMAIL = "sfu_email";
-    public static final String COLUMN_PHONE_NUMBER = "phone_number";
-    public static final String COLUMN_PHOTO_URL = "photo_url";
-
-    public static final String FORM_ROLE_ID = "roleId";
-    public static final String FORM_CONTACT_EMAIL = "contactEmail";
-    public static final String FORM_SFU_EMAIL = "sfuEmail";
-    public static final String FORM_PHONE_NUMBER = "phoneNumber";
-    public static final String FORM_PHOTO_URL = "photoURL";
-
     @Id
-    @GeneratedValue
-    @Nonnull
     private Integer id;
-    @Nonnull
-    private Integer roleId;
 
-    //TODO ADD IN NAME (FIRST NAME, MIDDLE NAME, LAST NAME, NICKNAME, GLHF)
-    @Nonnull
+    @Column(columnDefinition = "integer default -1")
+    public Integer roleId = -1;
+
+    @Column(nullable = false)
     private String contactEmail;
-    @Nonnull
+
+    @Column(nullable = false, unique = true)
     private String sfuEmail;
-    @Nonnull
+
+    @Column(nullable = false)
     private String phoneNumber;
-    @Nonnull
+
+    @Column(nullable = false)
     private String photoURL;
 
+    public DbUser() {
+        // Required empty constructor for FormFactory
+    }
 
-    /**
-     * The Constructor for DbUser
-     * <p>
-     * id           the user Id
-     * roleId       the role Id of the user
-     *
-     * @param contactEmail the contact Email of the User, Note: If the user selects their SFU email as their
-     *                     contact email, it should be the same value as sfu email
-     * @param sfuEmail     the sfu Email of the user
-     * @param phoneNumber  the phone number of the user
-     * @param photoURL     the url to the photo of that user
-     */
-
-    public DbUser(@Nonnull String contactEmail, @Nonnull String sfuEmail,
-                  @Nonnull String phoneNumber, @Nonnull String photoURL) {
-        this.roleId = -1;
+    public DbUser(String contactEmail,
+                  String sfuEmail,
+                  String phoneNumber,
+                  String photoURL) {
         this.contactEmail = contactEmail;
         this.sfuEmail = sfuEmail;
         this.phoneNumber = phoneNumber;
         this.photoURL = photoURL;
     }
 
-    @Nonnull
-    public Integer getUserId() {
+    public Integer getId() {
         return id;
     }
 
-    @Nonnull
-    @Column(name = COLUMN_ROLE_ID)
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
     public Integer getRoleId() {
         return roleId;
     }
 
-    public void setRoleId(@Nonnull Integer roleId) {
+    public void setRoleId(Integer roleId) {
         this.roleId = roleId;
     }
 
-    @Nonnull
-    @Column(name = COLUMN_CONTACT_EMAIL, unique = true)
     public String getContactEmail() {
         return contactEmail;
     }
 
-    @Nonnull
-    @Column(name = COLUMN_SFU_EMAIL, unique = true)
+    public void setContactEmail(String contactEmail) {
+        this.contactEmail = contactEmail;
+    }
+
     public String getSfuEmail() {
         return sfuEmail;
     }
 
-    @Nonnull
-    @Column(name = COLUMN_PHONE_NUMBER, unique = true)
+    public void setSfuEmail(String sfuEmail) {
+        this.sfuEmail = sfuEmail;
+    }
+
     public String getPhoneNumber() {
         return phoneNumber;
     }
 
-    @Nonnull
-    @Column(name = COLUMN_PHOTO_URL)
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
     public String getPhotoURL() {
         return photoURL;
     }
 
-    @Override
-    public String toString() {
-        return "DbUser{" +
-                "id=" + id +
-                ", roleId=" + roleId +
-                ", contactEmail='" + contactEmail + '\'' +
-                ", sfuEmail='" + sfuEmail + '\'' +
-                ", phoneNumber='" + phoneNumber + '\'' +
-                ", photoURL='" + photoURL + '\'' +
-                '}';
+    public void setPhotoURL(String photoURL) {
+        this.photoURL = photoURL;
     }
 
     public static Finder<Integer, DbUser> find = new Finder<>(DbUser.class);
