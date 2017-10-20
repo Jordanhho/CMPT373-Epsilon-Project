@@ -1,8 +1,8 @@
 package models.databaseModel.helpers;
 
 import models.databaseModel.roles.DbRole;
+import models.databaseModel.roles.query.QDbRole;
 
-import javax.annotation.Nonnull;
 import java.util.List;
 
 /**
@@ -14,21 +14,11 @@ public final class DbRoleHelper {
 
     }
 
-    /**
-     * creates a DbRole from name
-     * @param name
-     */
-    public static void createDbRole(@Nonnull String name) {
-        DbRole dbRole = new DbRole(name);
+    public static void createDbRole(DbRole dbRole) {
         dbRole.save();
     }
 
-    /**
-     * deletes a DbRole by DbRoleId
-     * @param id
-     */
-    public static void deleteDbRoleById(@Nonnull Integer id) {
-        DbRole dbRole = readDbRoleById(id);
+    public static void deleteDbRoleById(DbRole dbRole) {
         dbRole.delete();
     }
 
@@ -37,8 +27,12 @@ public final class DbRoleHelper {
      * @param id
      * @return
      */
-    public static DbRole readDbRoleById(@Nonnull Integer id) {
-        DbRole dbRole = DbRole.find.byId(id);
+    public static DbRole readDbRoleById(Integer id) {
+        DbRole dbRole = new QDbRole()
+                .id
+                .eq(id)
+                .findUnique();
+
         return dbRole;
     }
 
@@ -47,7 +41,9 @@ public final class DbRoleHelper {
      * @return
      */
     public static List<DbRole> readAllDbRole() {
-        List<DbRole> dbRole = DbRole.find.all();
-        return dbRole;
+        List<DbRole> dbRoleList = new QDbRole()
+                .findList();
+
+        return dbRoleList;
     }
 }
