@@ -45,7 +45,9 @@ public final class DbUserHelper {
     }
 
     public static List<DbUser> readAllDbUsers() {
-        List<DbUser> dbUsers = DbUser.find.all();
+        List<DbUser> dbUsers = new QDbUser()
+                .findList();
+
         return dbUsers;
     }
 }
