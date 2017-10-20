@@ -3,8 +3,9 @@ package models.databaseModel.scheduling;
 import io.ebean.Finder;
 import io.ebean.Model;
 
-import javax.annotation.Nonnull;
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 
 @Entity
 public class DbShiftName extends Model {
@@ -15,7 +16,7 @@ public class DbShiftName extends Model {
     @Column(nullable = false)
     private String name;
 
-    public DbShiftName(@Nonnull String name) {
+    public DbShiftName(String name) {
         this.name = name;
     }
 
