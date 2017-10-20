@@ -7,7 +7,7 @@ import models.databaseModel.helpers.DbOneTimeUnavailabilityHelper;
 public class OneTimeUnavailabilityController extends Controller {
 
 //    TODO: Implement functionality of OneTimeUnavailabilityController
-    public Result listOneTimeUnavailability() {
+    public Result listOneTimeUnavailabilities() {
         return ok();
     }
 

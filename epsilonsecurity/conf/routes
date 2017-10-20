@@ -18,6 +18,9 @@ GET           /$p<(?!api).*>                                             control
 # DbUser
 #
 
+# List DbUsers
+GET           /api/user                                                  controllers.UserController.listUsers()
+
 # Create a DbUser
 POST          /api/user                                                  controllers.UserController.createUser()
 
@@ -35,13 +38,17 @@ DELETE        /api/user                                                  control
 # DbUserShift
 #
 
-# Create a UserShift
+# List DbUserShifts
+# TODO: make all DbUserTeam routes "usershift" or "user/shift"
+GET           /api/usershift                                             controllers.UserShiftController.listUserShifts()
+
+# Create a DbUserShift
 POST          /api/user/shift                                            controllers.UserShiftController.createUserShift()
 
-# Read UserShift by userId
+# Read DbUserShift by userId
 GET           /api/user/shift/:userId                                    controllers.UserShiftController.retrieveUserShift(userId: Integer)
 
-# Delete UserShift by userId
+# Delete DbUserShift by userId
 DELETE        /api/user/shift                                            controllers.UserShiftController.deleteUserShift()
 
 
@@ -49,8 +56,9 @@ DELETE        /api/user/shift                                            control
 # DbUserTeam
 #
 
-# List DbUserTeam
-GET           /api/userteam                                              controllers.UserTeamController.listUserTeam()
+# List DbUserTeams
+# TODO: make all DbUserTeam routes "userteam" or "user/team"
+GET           /api/userteam                                              controllers.UserTeamController.listUserTeams()
 
 # Create a DbUserTeam
 POST          /api/user/team                                             controllers.UserTeamController.createUserTeam()
@@ -66,10 +74,12 @@ DELETE        /api/user/team                                             control
 # DbShiftName
 #
 
-# Create a ShiftName
+# TODO: list route for DbShiftName
+
+# Create a DbShiftName
 POST          /api/user/shift/name                                       controllers.ShiftNameController.createShiftName()
 
-# Delete ShiftName by shiftName
+# Delete DbShiftName by shiftName
 DELETE        /api/user/shift/name                                       controllers.ShiftNameController.deleteShiftName()
 
 
@@ -77,8 +87,14 @@ DELETE        /api/user/shift/name                                       control
 # DbTeam
 #
 
+# List DbTeams
+GET           /api/team                                                  controllers.TeamController.listTeams()
+
 # Create a DbTeam
 POST          /api/team                                                  controllers.TeamController.createTeam()
+
+# Read DbTeam by teamName
+GET           /api/team/:teamName                                        controllers.TeamController.retrieveTeamByName(teamName: String)
 
 # Delete DbTeam by teamName
 DELETE        /api/team                                                  controllers.TeamController.deleteTeamByName()
@@ -88,13 +104,16 @@ DELETE        /api/team                                                  control
 # DbShift
 #
 
-# List shifts for a specific user
+# List DbShifts for a specific user
 GET           /api/shift/:teamId/:timeStart/:timeEnd                     controllers.ShiftController.readUsersAvailableForShift(teamId: Integer, timeStart: Integer, timeEnd: Integer)
 
-# Create a shift
+# Create a DbShift
 POST          /api/shift                                                 controllers.ShiftController.createShift()
 
-# Delete a shift
+# Read DbShift by shiftName
+GET           /api/shift/:shiftName                                      controllers.ShiftController.retrieveShift(shiftName: String)
+
+# Delete a DbShift
 DELETE        /api/shift                                                 controllers.ShiftController.deleteShift()
 
 
@@ -102,8 +121,8 @@ DELETE        /api/shift                                                 control
 # DbPermission
 #
 
-# List DbPermission
-GET           /api/permission                                            controllers.PermissionController.listPermission()
+# List DbPermissions
+GET           /api/permission                                            controllers.PermissionController.listPermissions()
 
 # Create a DbPermission
 POST          /api/permission                                            controllers.PermissionController.createPermission()
@@ -119,8 +138,8 @@ DELETE        /api/permission                                            control
 # DbRole
 #
 
-# List DbRole
-GET           /api/role                                                  controllers.RoleController.listRole()
+# List DbRoles
+GET           /api/role                                                  controllers.RoleController.listRoles()
 
 # Create a DbRole
 POST          /api/role                                                  controllers.RoleController.createRole()
@@ -136,25 +155,26 @@ DELETE        /api/role                                                  control
 # DbRolePermission
 #
 
-# List DbRolePermission
-GET           /api/rolepermission                                        controllers.RolePermissionController.listRolePermission()
+# List DbRolePermissions
+# TODO: make all DbRolePermission routes "rolepermission" or "role/permission"
+GET           /api/rolepermission                                        controllers.RolePermissionController.listRolePermissions()
 
 # Create a DbRolePermission
-POST          /api/role/permission                                        controllers.RolePermissionController.createRolePermission()
+POST          /api/role/permission                                       controllers.RolePermissionController.createRolePermission()
 
 # Read DbRolePermission by rolePermissionId
-GET           /api/role/permission/:rolePermissionId                      controllers.RolePermissionController.retrieveRolePermission(rolePermissionId: Integer)
+GET           /api/role/permission/:rolePermissionId                     controllers.RolePermissionController.retrieveRolePermission(rolePermissionId: Integer)
 
 # Delete DbRolePermission by rolePermissionId
-DELETE        /api/role/permission                                        controllers.RolePermissionController.deleteRolePermission()
+DELETE        /api/role/permission                                       controllers.RolePermissionController.deleteRolePermission()
 
 
 #
 # DbOneTimeAvailability
 #
 
-# List DbOneTimeAvailability
-GET           /api/onetimeavailability                                   controllers.OneTimeAvailabilityController.listOneTimeAvailability()
+# List DbOneTimeAvailabilities
+GET           /api/onetimeavailability                                   controllers.OneTimeAvailabilityController.listOneTimeAvailabilities()
 
 # List all DbOneTimeAvailability in a time range
 GET           /api/onetimeavailability/:startTime/:endTime               controllers.OneTimeAvailabilityController.readOneTimeAvailabilitiesByTimeRange(startTime: Integer, endTime: Integer)
@@ -173,8 +193,8 @@ DELETE        /api/onetimeavailability                                   control
 # DbOneTimeUnavailability
 #
 
-# List DbOneTimeUnavailability
-GET           /api/onetimeunavailability                                 controllers.OneTimeUnavailabilityController.listOneTimeUnavailability()
+# List DbOneTimeUnavailabilities
+GET           /api/onetimeunavailability                                 controllers.OneTimeUnavailabilityController.listOneTimeUnavailabilities()
 
 # List all DbOneTimeUnavailability in a time range
 GET           /api/onetimeunavailability/:startTime/:endTime             controllers.OneTimeUnavailabilityController.readOneTimeUnavailabilitiesByTimeRange(startTime: Integer, endTime: Integer)
@@ -193,8 +213,8 @@ DELETE        /api/onetimeunavailability                                 control
 # DbRecurringAvailability
 #
 
-# List DbRecurringAvailability
-GET           /api/recurringavailability                                 controllers.RecurringAvailabilityController.listRecurringAvailability()
+# List DbRecurringAvailabilities
+GET           /api/recurringavailability                                 controllers.RecurringAvailabilityController.listRecurringAvailabilities()
 
 # List all DbRecurringAvailability in a time range
 GET           /api/recurringavailability/:startTime/:endTime             controllers.RecurringAvailabilityController.readRecurringAvailabilitiesByTimeRange(startTime: Integer, endTime: Integer)

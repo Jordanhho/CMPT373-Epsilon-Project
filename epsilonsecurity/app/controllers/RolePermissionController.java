@@ -7,7 +7,7 @@ import models.databaseModel.helpers.DbRolePermissionHelper;
 public class RolePermissionController extends Controller {
 
 //    TODO: Implement functionality of RolePermissionController
-    public Result listRolePermission() {
+    public Result listRolePermissions() {
     return ok();
 }
 

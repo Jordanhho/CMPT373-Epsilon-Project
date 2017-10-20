@@ -7,7 +7,7 @@ import models.databaseModel.helpers.DbUserTeamHelper;
 public class UserTeamController extends Controller {
 
 //    TODO: Implement functionality of UserTeamController
-    public Result listUserTeam() {
+    public Result listUserTeams() {
         return ok();
     }
 

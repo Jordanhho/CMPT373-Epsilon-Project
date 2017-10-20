@@ -10,6 +10,10 @@ import java.util.Map;
 
 public class UserController extends Controller {
 
+    public Result listUsers() {
+        return ok();
+    }
+
     public Result createUser() {
 
         final Map<String, String[]> values = request().body().asFormUrlEncoded();

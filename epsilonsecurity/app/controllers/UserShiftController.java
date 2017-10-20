@@ -10,6 +10,10 @@ import java.util.Map;
 
 public class UserShiftController extends Controller {
 
+    public Result listUserShifts() {
+        return ok();
+    }
+
     public Result createUserShift() {
 
         final Map<String, String[]> formValues = request().body().asFormUrlEncoded();

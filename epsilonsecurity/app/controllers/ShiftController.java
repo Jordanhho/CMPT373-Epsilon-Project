@@ -27,7 +27,7 @@ public class ShiftController extends Controller {
         return ok();
     }
 
-    public Result retrieveShift() {
+    public Result retrieveShift(String shiftName) {
         return ok();
     }
 

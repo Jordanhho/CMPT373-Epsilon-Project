@@ -9,6 +9,10 @@ import java.util.Map;
 
 public class TeamController extends Controller {
 
+    public Result listTeams() {
+        return ok();
+    }
+
     public Result createTeam() {
         final Map<String, String[]> values = request().body().asFormUrlEncoded();
 
@@ -16,6 +20,10 @@ public class TeamController extends Controller {
 
         DbTeamHelper.createDbTeam(name);
 
+        return ok();
+    }
+
+    public Result retrieveTeamByName(String teamName) {
         return ok();
     }
 

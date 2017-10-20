@@ -7,7 +7,7 @@ import models.databaseModel.helpers.DbRecurringAvailabilityHelper;
 public class RecurringAvailabilityController extends Controller {
 
 //    TODO: Implement functionality of RecurringAvailabilityController
-    public Result listRecurringAvailability() {
+    public Result listRecurringAvailabilities() {
         return ok();
     }
 
