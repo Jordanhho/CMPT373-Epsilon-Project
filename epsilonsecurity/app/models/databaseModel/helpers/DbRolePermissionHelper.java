@@ -1,9 +1,8 @@
 package models.databaseModel.helpers;
 
 import models.databaseModel.roles.DbRolePermission;
-import models.databaseModel.roles.AccessLevel;
+import models.databaseModel.roles.query.QDbRolePermission;
 
-import javax.annotation.Nonnull;
 import java.util.List;
 
 /**
@@ -15,27 +14,11 @@ public final class DbRolePermissionHelper {
 
     }
 
-    /**
-     * creates a DbRolePermission from teamId, roleId, permissionId, accessLevel
-     * @param teamId
-     * @param roleId
-     * @param permissionId
-     * @param accessLevel
-     */
-    public static void createDbRolePermission(@Nonnull Integer teamId,
-                                              @Nonnull Integer roleId,
-                                              @Nonnull Integer permissionId,
-                                              @Nonnull AccessLevel accessLevel) {
-        DbRolePermission dbRolePermission = new DbRolePermission(teamId, roleId, permissionId, accessLevel);
+    public static void createDbRolePermission(DbRolePermission dbRolePermission) {
         dbRolePermission.save();
     }
 
-    /**
-     * deletes a DbRolePermission by DbRolePermissionId
-     * @param id
-     */
-    public static void deleteDbRolePermissionById(@Nonnull Integer id) {
-        DbRolePermission dbRolePermission = readDbRolePermissionById(id);
+    public static void deleteDbRolePermission(DbRolePermission dbRolePermission) {
         dbRolePermission.delete();
     }
 
@@ -44,8 +27,12 @@ public final class DbRolePermissionHelper {
      * @param id
      * @return
      */
-    public static DbRolePermission readDbRolePermissionById(@Nonnull Integer id) {
-        DbRolePermission dbRolePermission = DbRolePermission.find.byId(id);
+    public static DbRolePermission readDbRolePermissionById(Integer id) {
+        DbRolePermission dbRolePermission = new QDbRolePermission()
+                .id
+                .eq(id)
+                .findUnique();
+
         return dbRolePermission;
     }
 
@@ -54,7 +41,9 @@ public final class DbRolePermissionHelper {
      * @return
      */
     public static List<DbRolePermission> readAllDbRolePermission() {
-        List<DbRolePermission> dbRolePermission = DbRolePermission.find.all();
+        List<DbRolePermission> dbRolePermission = new QDbRolePermission()
+                .findList();
+        
         return dbRolePermission;
     }
 }
