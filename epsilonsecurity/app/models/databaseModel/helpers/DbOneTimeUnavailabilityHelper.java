@@ -57,13 +57,18 @@ public final class DbOneTimeUnavailabilityHelper {
      * @param timeEnd
      * @return
      */
-//    public static List<DbOneTimeUnavailability> readDbOneTimeUnavailabilityByTimeRange(@Nonnull Integer timeStart, @Nonnull Integer timeEnd) {
-//        List<DbOneTimeUnavailability> dbOneTimeUnavailabilityList = DbOneTimeUnavailability.find.query().where()
-//                .disjunction()
-//                .add(Expr.between(DbOneTimeUnavailability.COLUMN_TIME_START, DbOneTimeUnavailability.COLUMN_TIME_END, timeStart))
-//                .add(Expr.between(DbOneTimeUnavailability.COLUMN_TIME_START, DbOneTimeUnavailability.COLUMN_TIME_END, timeEnd))
-//                .findList();
-//
-//        return dbOneTimeUnavailabilityList;
-//    }
+    public static List<DbOneTimeUnavailability> readDbOneTimeUnavailabilityByTimeRange(Integer timeStart, Integer timeEnd) {
+        List<DbOneTimeUnavailability> dbOneTimeUnavailabilityList = new QDbOneTimeUnavailability()
+                .timeStart.lessOrEqualTo(timeStart)
+                .and()
+                .timeEnd.greaterOrEqualTo(timeStart)
+                .and()
+                .timeStart.lessOrEqualTo(timeStart)
+                .and()
+                .timeEnd.greaterOrEqualTo(timeEnd)
+                .findList();
+
+
+        return dbOneTimeUnavailabilityList;
+    }
 }

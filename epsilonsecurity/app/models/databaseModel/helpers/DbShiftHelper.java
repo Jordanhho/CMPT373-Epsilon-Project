@@ -29,20 +29,25 @@ public final class DbShiftHelper {
         return dbShift;
     }
 
-//    /**
-//     * returns a List of DBshift by timeStart, timeEnd
-//     * @param timeStart
-//     * @param timeEnd
-//     * @return
-//     */
-//    public static List<DbShift> readDbShiftByTime(Integer timeStart, Integer timeEnd){
-//        List<DbShift> dbShiftList = DbShift.find.query().where()
-//                .disjunction()
-//                .add(Expr.between(DbShift.COLUMN_TIME_START, DbShift.COLUMN_TIME_END, timeStart))
-//                .add(Expr.between(DbShift.COLUMN_TIME_START, DbShift.COLUMN_TIME_END, timeEnd))
-//                .findList();
-//        return dbShiftList;
-//    }
+    /**
+     * returns a List of DBshift by timeStart, timeEnd
+     * @param timeStart
+     * @param timeEnd
+     * @return
+     */
+    public static List<DbShift> readDbShiftByTime(Integer timeStart, Integer timeEnd){
+        List<DbShift> dbShiftList = new QDbShift()
+                .timeStart.lessOrEqualTo(timeStart)
+                .and()
+                .timeEnd.greaterOrEqualTo(timeStart)
+                .and()
+                .timeStart.lessOrEqualTo(timeStart)
+                .and()
+                .timeEnd.greaterOrEqualTo(timeEnd)
+                .findList();
+
+        return dbShiftList;
+    }
 
     public static void deleteDbShiftByName(DbShift dbShift) {
         dbShift.delete();

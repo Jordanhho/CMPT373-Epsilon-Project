@@ -2,12 +2,16 @@ package controllers;
 
 import models.databaseModel.helpers.DbShiftHelper;
 import models.databaseModel.scheduling.DbShift;
+import models.databaseModel.scheduling.DbUser;
+import models.queries.ScheduleUtil;
 import play.data.Form;
 import play.data.FormFactory;
+import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 
 import javax.inject.Inject;
+import java.util.List;
 
 public class ShiftController extends Controller {
 
@@ -58,13 +62,8 @@ public class ShiftController extends Controller {
     }
 
     public Result readUsersAvailableForShift(Integer teamId, Integer timeStart, Integer timeEnd) {
-//        List<DbUser> dbUserList = ScheduleUtil.queryUsersBasedOnAvailiability(teamId, timeStart, timeEnd);
-//
-//
-//        for (DbUser dbUser : dbUserList) {
-//            System.out.println(dbUser.getSfuEmail());
-//        }
-//
-        return ok();
+        List<DbUser> dbUserList = ScheduleUtil.queryUsersBasedOnAvailability(teamId, timeStart, timeEnd);
+
+        return ok(Json.toJson(dbUserList));
     }
 }
