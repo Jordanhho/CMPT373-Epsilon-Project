@@ -20,13 +20,20 @@ public class UserController extends Controller {
         this.formFactory = formFactory;
     }
 
-    public Result createUser() {
+    private DbUser getDbUserFromForm() {
 
         // From the request, create a form that can handle a DbUser object.
         Form<DbUser> form = formFactory.form(DbUser.class).bindFromRequest();
 
         // Create a DbUser object from the form data.
         DbUser dbUser = form.get();
+
+        return dbUser;
+    }
+
+    public Result createUser() {
+
+        DbUser dbUser = getDbUserFromForm();
 
         // Enter the DbUser into the database.
         DbUserHelper.createDbUser(dbUser);
@@ -46,11 +53,7 @@ public class UserController extends Controller {
 
     public Result deleteUserBySfuEmail() {
 
-        // From the request, create a form that can handle a DbUser object.
-        Form<DbUser> form = formFactory.form(DbUser.class).bindFromRequest();
-
-        // Create a DbUser object from the form data.
-        DbUser dbUserFromForm = form.get();
+        DbUser dbUserFromForm = getDbUserFromForm();
 
         // Read the DbUser to delete based on the form fields.
         DbUser dbUserToDelete = DbUserHelper.readDbUserBySfuEmail(dbUserFromForm.getSfuEmail());
