@@ -3,6 +3,7 @@ package models.databaseModel.helpers;
 
 import models.databaseModel.scheduling.DbShift;
 import models.databaseModel.scheduling.query.QDbShift;
+import models.databaseModel.scheduling.query.QDbUser;
 
 import java.util.List;
 
@@ -58,7 +59,9 @@ public final class DbShiftHelper {
      * @return
      */
     public static List<DbShift> readAllDbShift() {
-        List<DbShift> dbShift = DbShift.find.all();
+        List<DbShift> dbShift = new QDbShift()
+                .findList();
+
         return dbShift;
     }
 
