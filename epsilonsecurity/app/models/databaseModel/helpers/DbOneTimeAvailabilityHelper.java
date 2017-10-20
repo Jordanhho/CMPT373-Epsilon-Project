@@ -3,6 +3,7 @@ package models.databaseModel.helpers;
 import models.databaseModel.scheduling.DbOneTimeAvailability;
 import models.databaseModel.scheduling.DbUser;
 import models.databaseModel.scheduling.query.QDbOneTimeAvailability;
+import models.databaseModel.scheduling.query.QDbUser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +27,7 @@ public final class DbOneTimeAvailabilityHelper {
 
     /**
      * finds a DbOneTimeAvailability by DbOneTimeAvailabilityId
+     *
      * @param id
      * @return
      */
@@ -40,6 +42,7 @@ public final class DbOneTimeAvailabilityHelper {
 
     /**
      * returns a list of all DbOneTimeAvailability
+     *
      * @return
      */
     public static List<DbOneTimeAvailability> readAllDbOneTimeAvailability() {
@@ -51,11 +54,12 @@ public final class DbOneTimeAvailabilityHelper {
 
     /**
      * returns a list of DbOneTimeAvailability by timeStart, timeEnd
+     *
      * @param timeStart
      * @param timeEnd
      * @return
      */
-    public static List<DbOneTimeAvailability> readDbOneTimeAvailabilityByTimeRange(Integer timeStart, Integer timeEnd){
+    public static List<DbOneTimeAvailability> readDbOneTimeAvailabilityByTimeRange(Integer timeStart, Integer timeEnd) {
         List<DbOneTimeAvailability> dbOneTimeAvailabilityList = new QDbOneTimeAvailability()
                 .timeStart.lessOrEqualTo(timeStart)
                 .and()
@@ -72,13 +76,19 @@ public final class DbOneTimeAvailabilityHelper {
 
     /**
      * returns a list of all DbOneTimeAvailability
+     *
      * @return
      */
-    public static List<DbUser> readDbUserByAvailability(List<DbOneTimeAvailability> oneTimeAvailabilityList){
+    public static List<DbUser> readDbUserByAvailability(List<DbOneTimeAvailability> oneTimeAvailabilityList) {
         List<DbUser> dbUserList = new ArrayList<>();
-        for(DbOneTimeAvailability oneTimeAvailability : oneTimeAvailabilityList){
-            dbUserList.add(DbUser.find.byId(oneTimeAvailability.getUserTeamId()));
+
+        for (DbOneTimeAvailability oneTimeAvailability : oneTimeAvailabilityList) {
+            dbUserList.add(new QDbUser()
+                    .id
+                    .eq(oneTimeAvailability.getUserTeamId())
+                    .findUnique());
         }
+
         return dbUserList;
     }
 }
