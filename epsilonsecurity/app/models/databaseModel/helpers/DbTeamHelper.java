@@ -27,7 +27,10 @@ public final class DbTeamHelper {
 
 
     public static DbTeam readDbTeamById(Integer id) {
-        DbTeam dbTeam = DbTeam.find.byId(id);
+        DbTeam dbTeam = new QDbTeam()
+                .id
+                .eq(id)
+                .findUnique();
 
         return dbTeam;
     }
@@ -43,7 +46,8 @@ public final class DbTeamHelper {
     }
 
     public static List<DbTeam> readAllDbTeam() {
-        List<DbTeam> dbTeamList = DbTeam.find.all();
+        List<DbTeam> dbTeamList = new QDbTeam()
+                .findList();
 
         return dbTeamList;
     }
