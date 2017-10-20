@@ -2,6 +2,7 @@ package models.databaseModel.helpers;
 
 import models.databaseModel.scheduling.DbUser;
 import models.databaseModel.scheduling.DbUserTeam;
+import models.databaseModel.scheduling.query.QDbUser;
 import models.databaseModel.scheduling.query.QDbUserTeam;
 
 import javax.annotation.Nonnull;
@@ -28,6 +29,7 @@ public final class DbUserTeamHelper {
 
     /**
      * Searches for a dbUserTeam by dbUserTeam id
+     *
      * @param userId
      * @param teamId
      * @return
@@ -46,30 +48,43 @@ public final class DbUserTeamHelper {
 
     /**
      * obtains list of all DbUserTeam
+     *
      * @return
      */
     public static List<DbUserTeam> readAllDbUserTeams() {
-        List<DbUserTeam> dbUserTeamList = DbUserTeam.find.all();
+        List<DbUserTeam> dbUserTeamList = new QDbUserTeam()
+                .findList();
+
         return dbUserTeamList;
     }
 
     /**
      * finds a DbUser by UserTeamId
+     *
      * @param id
      * @return
      */
-    public static DbUser readDbUserByUserTeamId(@Nonnull Integer id){
-        DbUserTeam dbUserTeam = DbUserTeam.find.query().where().eq("id", id).findOne();
-        DbUser dbUser = DbUser.find.byId(dbUserTeam.getUserId());
+    public static DbUser readDbUserByUserTeamId(Integer id) {
+        DbUserTeam dbUserTeam = new QDbUserTeam()
+                .id
+                .eq(id)
+                .findUnique();
+
+        DbUser dbUser = new QDbUser()
+                .id
+                .eq(dbUserTeam.getUserId())
+                .findUnique();
+
         return dbUser;
     }
 
     /**
      * Finds all users on that campus
+     *
      * @param teamId the campus location
      * @return a List of users from target campus
      */
-    public static List<DbUser> findUserByTeamId(@Nonnull Integer teamId) {
+    public static List<DbUser> findUserByTeamId(Integer teamId) {
         List<DbUserTeam> dbUserTeamList = new QDbUserTeam()
                 .teamId
                 .eq(teamId)
@@ -77,8 +92,11 @@ public final class DbUserTeamHelper {
 
         List<DbUser> userList = new ArrayList<>();
 
-        for(DbUserTeam userTeam : dbUserTeamList){
-            userList.add(DbUser.find.byId(userTeam.getUserId()));
+        for (DbUserTeam userTeam : dbUserTeamList) {
+            userList.add(new QDbUser()
+                    .id
+                    .eq(userTeam.getUserId())
+                    .findUnique());
         }
 
         return userList;
