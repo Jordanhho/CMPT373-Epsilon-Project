@@ -35,15 +35,14 @@ public final class DbUserHelper {
         return dbUser;
     }
 
-//    public static DbUser readDbUserByContactEmail(String contactEmail) {
-//        DbUser dbUser = DbUser.find
-//                .query()
-//                .where()
-//                .eq(DbUser.COLUMN_CONTACT_EMAIL, contactEmail)
-//                .findOne();
-//
-//        return dbUser;
-//    }
+    public static DbUser readDbUserByContactEmail(String contactEmail) {
+        DbUser dbUser = new QDbUser()
+                .contactEmail
+                .eq(contactEmail)
+                .findUnique();
+
+        return dbUser;
+    }
 
     public static List<DbUser> readAllDbUsers() {
         List<DbUser> dbUsers = DbUser.find.all();

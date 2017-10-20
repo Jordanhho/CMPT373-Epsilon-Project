@@ -43,7 +43,7 @@ public final class DbRolePermissionHelper {
     public static List<DbRolePermission> readAllDbRolePermission() {
         List<DbRolePermission> dbRolePermission = new QDbRolePermission()
                 .findList();
-        
+
         return dbRolePermission;
     }
 }
