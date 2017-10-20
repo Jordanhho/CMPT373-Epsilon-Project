@@ -23,6 +23,10 @@ libraryDependencies += filters
 // see https://www.playframework.com/documentation/2.5.x/ScalaWS
 libraryDependencies += ws
 
+
+libraryDependencies += "io.ebean" % "querybean-generator" % "10.1.2"
+libraryDependencies += "io.ebean" % "ebean-querybean" % "10.1.1"
+
 // https://mvnrepository.com/artifact/org.javatuples/javatuples
 libraryDependencies += "org.javatuples" % "javatuples" % "1.2"
 
