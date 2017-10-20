@@ -14,8 +14,8 @@ public class ShiftNameController extends Controller {
         final Map<String, String[]> formValues = request().body().asFormUrlEncoded();
 
         String name = formValues.get(DbShiftName.FORM_NAME)[0];
-
-        DbShiftNameHelper.createDbShiftName(name);
+        String color = formValues.get(DbShiftName.FORM_NAME)[1];
+        DbShiftNameHelper.createDbShiftName(name, color);
 
         return ok();
     }

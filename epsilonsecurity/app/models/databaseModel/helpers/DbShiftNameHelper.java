@@ -10,8 +10,8 @@ public class DbShiftNameHelper {
 
     }
 
-    public static void createDbShiftName(String name) {
-        DbShiftName dbShiftName = new DbShiftName(name);
+    public static void createDbShiftName(String name, String colorCode) {
+        DbShiftName dbShiftName = new DbShiftName(name, colorCode);
         dbShiftName.save();
     }
 

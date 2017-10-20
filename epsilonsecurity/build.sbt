@@ -16,6 +16,9 @@ libraryDependencies += javaJdbc
 libraryDependencies += "org.xerial" % "sqlite-jdbc" % "3.8.6"
 libraryDependencies += evolutions
 
+libraryDependencies += "io.ebean" % "querybean-generator" % "10.1.2"
+libraryDependencies += "io.ebean" % "ebean-querybean" % "10.1.1"
+
 // see https://www.playframework.com/documentation/2.6.x/ScalaHttpFilters
 libraryDependencies += filters
 

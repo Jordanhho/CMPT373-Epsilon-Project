@@ -3,6 +3,7 @@ package models.databaseModel.helpers;
 
 import io.ebean.Expr;
 import models.databaseModel.scheduling.DbShift;
+import models.databaseModel.scheduling.query.QDbShift;
 
 import javax.annotation.Nonnull;
 import java.util.List;
@@ -48,12 +49,12 @@ public final class DbShiftHelper {
      * @return
      */
     public static List<DbShift> readDbShiftByTime(Integer timeStart, Integer timeEnd){
-        List<DbShift> dbShiftList = DbShift.find.query().where()
-                .disjunction()
-                .add(Expr.between(DbShift.COLUMN_TIME_START, DbShift.COLUMN_TIME_END, timeStart))
-                .add(Expr.between(DbShift.COLUMN_TIME_START, DbShift.COLUMN_TIME_END, timeEnd))
-                .findList();
-        return dbShiftList;
+        return new QDbShift().
+                timeStart.lessOrEqualTo(timeStart).and().
+                timeEnd.greaterOrEqualTo(timeStart).and().
+                timeStart.lessOrEqualTo(timeStart).and().
+                timeEnd.greaterOrEqualTo(timeEnd).
+                findList();
     }
 
     /**

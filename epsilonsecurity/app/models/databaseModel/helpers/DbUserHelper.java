@@ -2,7 +2,6 @@ package models.databaseModel.helpers;
 
 
 import models.databaseModel.scheduling.DbUser;
-import models.databaseModel.scheduling.DbUserShift;
 
 import java.util.List;
 

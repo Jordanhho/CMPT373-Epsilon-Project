@@ -21,8 +21,12 @@ public class DbShiftName extends Model {
     @Nonnull
     private String name;
 
-    public DbShiftName(@Nonnull String name) {
+    @Nonnull
+    private String colorCode;
+
+    public DbShiftName(@Nonnull String name, @Nonnull String colorCode) {
         this.name = name;
+        this.colorCode = colorCode;
     }
 
     @Nonnull
@@ -34,6 +38,11 @@ public class DbShiftName extends Model {
     @Column(name = COLUMN_NAME, unique = true)
     public String getName() {
         return name;
+    }
+
+    @Nonnull
+    public String getColorCode() {
+        return colorCode;
     }
 
     public static Finder<Integer, DbShiftName> find = new Finder<>(DbShiftName.class);
