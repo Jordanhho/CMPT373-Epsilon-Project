@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import MyFeed from './components/MyFeed.vue';
 import MySchedule from './components/MySchedule.vue';
+import MyAvailability from './components/MyAvailability.vue';
 // todo: import other components here
 import NotFound from './components/NotFound.vue';
 
@@ -12,6 +13,7 @@ export default new VueRouter({
   routes: [
 		{ path: '/', component: MyFeed },
 		{ path: '/my-schedule', component: MySchedule },
+      	{ path: '/my-availability', component: MyAvailability },
 		// todo: other routes here
 		{ path: '*', component: NotFound },
   ]
