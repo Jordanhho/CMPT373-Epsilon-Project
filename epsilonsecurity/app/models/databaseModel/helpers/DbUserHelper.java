@@ -21,7 +21,10 @@ public final class DbUserHelper {
     }
 
     public static DbUser readDbUserById(Integer id) {
-        DbUser dbUser = DbUser.find.byId(id);
+        DbUser dbUser = new QDbUser()
+                .id
+                .eq(id)
+                .findUnique();
 
         return dbUser;
     }
