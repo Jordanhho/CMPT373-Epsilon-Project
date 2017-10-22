@@ -81,6 +81,71 @@ public final class ScheduleUtil {
 
         return dbUserList;
     }
+
+
+    /**
+     * Get all shifts between two dates or time periods on same day
+     * @param timeStart
+     * @param timeEnd
+     * @return
+     */
+    public static List<DbShift> getAllShiftsBetweenTimePeriods(Long timeStart, Long timeEnd) {
+        List<DbShift> dbShiftList = new ArrayList<>();
+        dbShiftList = DbShiftHelper.readDbShiftByTime(timeStart, timeEnd);
+        return dbShiftList;
+    }
+
+    /**
+     * get all information about one specific user
+     * @param userId
+     * @return
+     */
+    public static DbUser getInfoOnUser(Integer userId) {
+        DbUser dbUser = DbUserHelper.readDbUserById(userId);
+        return dbUser;
+    }
+
+    /**
+     * get all users from a team/Campus
+     * @param teamId
+     * @return
+     */
+    public static List<DbUser> getAllUsersFromCampusTeam(Integer teamId) {
+        //find all users in team/campus
+        List<DbUserTeam> userTeamListByLocation = new QDbUserTeam()
+                .teamId
+                .eq(teamId)
+                .findList();
+
+        List<DbUser> dbUserList = new ArrayList<>();
+
+        for (DbUserTeam userTeam: userTeamListByLocation){
+            dbUserList.add(DbUserHelper.readDbUserById(userTeam.getUserId()));
+        }
+
+        return dbUserList;
+    }
+
+    /**
+     * get list of users available for a job also need to be refactored to take into user's qualification into account.
+     * @param
+     * @return
+     */
+    public static List<DbUser> getListOfUserForJob() {
+        //TODO implement when database schema is updated
+        return null;
+    }
+
+    /**
+     * Get user's qualification for job(s)
+     * @param
+     * @return
+     */
+    public static void getUserQualificationForJob() {
+        //TODO implement when database schema is updated
+    }
+
+
 }
 
 
