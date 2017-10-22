@@ -1,14 +1,11 @@
 package models.databaseModel.scheduling;
 
+import io.ebean.Finder;
+import io.ebean.Model;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-
-import io.ebean.*;
-
-import javax.annotation.Nonnull;
-import java.util.Date;
 
 
 /**
@@ -20,38 +17,28 @@ import java.util.Date;
 @Entity
 public class DbRecurringAvailability extends Model {
 
-    private static final String COLUMN_USER_TEAM_ID = "user_team_id";
-    private static final String COLUMN_DAY = "day";
-    private static final String COLUMN_FREQUENCY = "frequency";
-    private static final String COLUMN_RECURRING_TIME_START_BLOCK = "recur_time_start_block";
-    private static final String COLUMN_RECURRING_TIME_END_BLOCK = "recur_time_start_block";
-    private static final String COLUMN_SHIFT_TIME_START_BLOCK = "shift_time_start_block";
-    private static final String COLUMN_SHIFT_TIME_END_BLOCK = "shift_time_end_block";
-
     @Id
-    @GeneratedValue
-    @Nonnull
     private Integer id;
 
-    @Nonnull
+    @Column(nullable = false)
     private Integer userId;
 
-    @Nonnull
+    @Column(nullable = false)
     private Day day;
 
-    @Nonnull
+    @Column(nullable = false)
     private Integer frequency;
 
-    @Nonnull
+    @Column(nullable = false)
     private Integer recurTimeStartBlock;
 
-    @Nonnull
+    @Column(nullable = false)
     private Integer recurTimeEndBlock;
 
-    @Nonnull
+    @Column(nullable = false)
     private Integer shiftTimeStartBlock;
 
-    @Nonnull
+    @Column(nullable = false)
     private Integer shiftTimeEndBlock;
 
     /**
@@ -66,14 +53,13 @@ public class DbRecurringAvailability extends Model {
      * @param shiftTimeStartBlock the time start of this shift
      * @param shiftTimeEndBlock   the time end of this shift
      */
-    public DbRecurringAvailability(
-            @Nonnull Integer userId,
-            @Nonnull Day day,
-            @Nonnull Integer frequency,
-            @Nonnull Integer recurTimeStartBlock,
-            @Nonnull Integer recurTimeEndBlock,
-            @Nonnull Integer shiftTimeStartBlock,
-            @Nonnull Integer shiftTimeEndBlock) {
+    public DbRecurringAvailability(Integer userId,
+                                   Day day,
+                                   Integer frequency,
+                                   Integer recurTimeStartBlock,
+                                   Integer recurTimeEndBlock,
+                                   Integer shiftTimeStartBlock,
+                                   Integer shiftTimeEndBlock) {
         this.userId = userId;
         this.day = day;
         this.frequency = frequency;
@@ -83,67 +69,69 @@ public class DbRecurringAvailability extends Model {
         this.shiftTimeEndBlock = shiftTimeEndBlock;
     }
 
-    @Nonnull
     public Integer getId() {
         return id;
     }
 
-    @Nonnull
-    @Column(name = COLUMN_USER_TEAM_ID)
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
     public Integer getUserId() {
         return userId;
     }
 
-    @Nonnull
-    @Column(name = COLUMN_DAY)
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
+
     public Day getDay() {
         return day;
     }
 
-    @Nonnull
-    @Column(name = COLUMN_FREQUENCY)
+    public void setDay(Day day) {
+        this.day = day;
+    }
+
     public Integer getFrequency() {
         return frequency;
     }
 
-    @Nonnull
-    @Column(name = COLUMN_RECURRING_TIME_START_BLOCK)
+    public void setFrequency(Integer frequency) {
+        this.frequency = frequency;
+    }
+
     public Integer getRecurTimeStartBlock() {
         return recurTimeStartBlock;
     }
 
-    @Nonnull
-    @Column(name = COLUMN_RECURRING_TIME_END_BLOCK)
+    public void setRecurTimeStartBlock(Integer recurTimeStartBlock) {
+        this.recurTimeStartBlock = recurTimeStartBlock;
+    }
+
     public Integer getRecurTimeEndBlock() {
         return recurTimeEndBlock;
     }
 
-    @Nonnull
-    @Column(name = COLUMN_SHIFT_TIME_START_BLOCK)
+    public void setRecurTimeEndBlock(Integer recurTimeEndBlock) {
+        this.recurTimeEndBlock = recurTimeEndBlock;
+    }
+
     public Integer getShiftTimeStartBlock() {
         return shiftTimeStartBlock;
     }
 
-    @Nonnull
-    @Column(name = COLUMN_SHIFT_TIME_END_BLOCK)
+    public void setShiftTimeStartBlock(Integer shiftTimeStartBlock) {
+        this.shiftTimeStartBlock = shiftTimeStartBlock;
+    }
+
     public Integer getShiftTimeEndBlock() {
         return shiftTimeEndBlock;
     }
 
-    @Override
-    public String toString() {
-        return "DbPermissionHelper{" +
-                "id=" + id +
-                ", userId=" + userId +
-                ", day=" + day.toString() +
-                ", frequency=" + frequency +
-                ", recurTimeStartBlock=" + recurTimeStartBlock +
-                ", recurTimeEndBlock=" + recurTimeEndBlock +
-                ", shiftTimeStartBlock=" + shiftTimeStartBlock +
-                ", shiftTimeEndBlock=" + shiftTimeEndBlock +
-                '}';
+    public void setShiftTimeEndBlock(Integer shiftTimeEndBlock) {
+        this.shiftTimeEndBlock = shiftTimeEndBlock;
     }
 
     public static Finder<Integer, DbRecurringAvailability> find = new Finder<>(DbRecurringAvailability.class);
-
 }

@@ -1,13 +1,11 @@
 package models.databaseModel.roles;
 
+import io.ebean.Finder;
+import io.ebean.Model;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-
-import io.ebean.*;
-
-import javax.annotation.Nonnull;
 
 /**
  * Java Object for DbRole table with DbRole id and name of role
@@ -15,14 +13,10 @@ import javax.annotation.Nonnull;
 @Entity
 public class DbRole extends Model {
 
-    private static final String COLUMN_NAME = "name";
-
     @Id
-    @GeneratedValue
-    @Nonnull
     private Integer id;
 
-    @Nonnull
+    @Column(nullable = false)
     private String name;
 
     /**
@@ -31,27 +25,24 @@ public class DbRole extends Model {
      *
      * @param name the name of the role
      */
-    public DbRole(@Nonnull String name) {
+    public DbRole(String name) {
         this.name = name;
     }
 
-    @Nonnull
     public Integer getId() {
         return id;
     }
 
-    @Nonnull
-    @Column(name = COLUMN_NAME)
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
     public String getName() {
         return name;
     }
 
-    @Override
-    public String toString() {
-        return "DbRole{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                '}';
+    public void setName(String name) {
+        this.name = name;
     }
 
     public static Finder<Integer, DbRole> find = new Finder<>(DbRole.class);
