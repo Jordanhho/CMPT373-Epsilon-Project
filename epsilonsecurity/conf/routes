@@ -39,8 +39,7 @@ DELETE        /api/user                                                  control
 #
 
 # List DbUserShifts
-# TODO: make all DbUserTeam routes "usershift" or "user/shift"
-GET           /api/usershift                                             controllers.UserShiftController.listUserShifts()
+GET           /api/user/shift                                            controllers.UserShiftController.listUserShifts()
 
 # Create a DbUserShift
 POST          /api/user/shift                                            controllers.UserShiftController.createUserShift()
@@ -57,8 +56,7 @@ DELETE        /api/user/shift                                            control
 #
 
 # List DbUserTeams
-# TODO: make all DbUserTeam routes "userteam" or "user/team"
-GET           /api/userteam                                              controllers.UserTeamController.listUserTeams()
+GET           /api/user/team                                             controllers.UserTeamController.listUserTeams()
 
 # Create a DbUserTeam
 POST          /api/user/team                                             controllers.UserTeamController.createUserTeam()
@@ -73,8 +71,6 @@ DELETE        /api/user/team                                             control
 #
 # DbShiftName
 #
-
-# TODO: list route for DbShiftName
 
 # Create a DbShiftName
 POST          /api/user/shift/name                                       controllers.ShiftNameController.createShiftName()
@@ -156,8 +152,7 @@ DELETE        /api/role                                                  control
 #
 
 # List DbRolePermissions
-# TODO: make all DbRolePermission routes "rolepermission" or "role/permission"
-GET           /api/rolepermission                                        controllers.RolePermissionController.listRolePermissions()
+GET           /api/role/permission                                       controllers.RolePermissionController.listRolePermissions()
 
 # Create a DbRolePermission
 POST          /api/role/permission                                       controllers.RolePermissionController.createRolePermission()
