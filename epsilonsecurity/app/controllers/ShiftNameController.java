@@ -2,32 +2,55 @@ package controllers;
 
 import models.databaseModel.helpers.DbShiftNameHelper;
 import models.databaseModel.scheduling.DbShiftName;
-import play.mvc.*;
+import play.data.Form;
+import play.data.FormFactory;
+import play.mvc.Controller;
+import play.mvc.Result;
 
-
-import java.util.Map;
+import javax.inject.Inject;
 
 public class ShiftNameController extends Controller {
 
-    public Result createShiftName() {
+    private final FormFactory formFactory;
 
-        final Map<String, String[]> formValues = request().body().asFormUrlEncoded();
+    @Inject
+    ShiftNameController(FormFactory formFactory) {
+        this.formFactory = formFactory;
+    }
+
+    private DbShiftName getDbShiftNameFromForm() {
+
+        // From the request, create a form that can handle a DbShiftName object
+        Form<DbShiftName> form = formFactory.form(DbShiftName.class).bindFromRequest();
+
+        // Create a DbShiftName object from the form data.
+        DbShiftName dbShiftName = form.get();
+
+        return dbShiftName;
+    }
+
+    public Result createShiftName() {
 
         String name = formValues.get(DbShiftName.FORM_NAME)[0];
         String color = formValues.get(DbShiftName.FORM_NAME)[1];
         DbShiftNameHelper.createDbShiftName(name, color);
+
+        DbShiftName dbShiftName = getDbShiftNameFromForm();
+
+        // Enter the DbShiftName into the database.
+        DbShiftNameHelper.createDbShiftName(dbShiftName);
 
         return ok();
     }
 
     public Result deleteShiftName() {
 
-        final Map<String, String[]> formValues = request().body().asFormUrlEncoded();
+        DbShiftName dbShiftName = getDbShiftNameFromForm();
 
-        String shiftName = formValues.get(DbShiftName.FORM_NAME)[0];
+        // Read the DbShiftName to delete based on the form fields.
+        DbShiftName dbShiftNameToDelete = DbShiftNameHelper.readDbShiftNameByName(dbShiftName.getName());
 
-        DbShiftName dbShiftName = DbShiftNameHelper.readDbShiftNameByName(shiftName);
-        DbShiftNameHelper.deleteDbShiftName(dbShiftName.getName());
+        DbShiftNameHelper.deleteDbShiftName(dbShiftNameToDelete);
 
         return ok();
     }

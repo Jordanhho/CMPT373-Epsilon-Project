@@ -1,10 +1,8 @@
 package models.databaseModel.helpers;
 
-import io.ebean.Expr;
 import models.databaseModel.scheduling.DbUserShift;
-import models.databaseModel.scheduling.DbUserTeam;
+import models.databaseModel.scheduling.query.QDbUserShift;
 
-import javax.annotation.Nonnull;
 import java.util.List;
 
 /**
@@ -16,63 +14,33 @@ public final class DbUserShiftHelper {
 
     }
 
-    /**
-     * Creates a dbUserShift from userdId and ShiftId
-     * @param userId
-     * @param shiftId
-     */
-    public static void createDbUserShift(@Nonnull Integer userId, @Nonnull Integer shiftId) {
-        DbUserShift dbUserShift = new DbUserShift(userId, shiftId);
+    public static void createDbUserShift(DbUserShift dbUserShift) {
         dbUserShift.save();
     }
 
-    /**
-     * Deletes a UserShift by UserShiftId
-     * @param userId
-     * @param shiftId
-     */
-    public static void deleteDbUserShiftByUserIdAndShiftId(@Nonnull Integer userId, @Nonnull Integer shiftId) {
-        DbUserShift dbUserShift = readDbUserShiftById(userId, shiftId);
+    public static void deleteDbUserShift(DbUserShift dbUserShift) {
         dbUserShift.delete();
     }
 
-    /**
-     * inds a DbUserShift by UserShiftId
-     * @param userId
-     * @param shiftId
-     * @return
-     */
-    public static DbUserShift readDbUserShiftById(@Nonnull Integer userId, @Nonnull Integer shiftId) {
-        DbUserShift dbUserShift = DbUserShift.find
-                .query()
-                .where()
-                .conjunction()
-                .add(Expr.eq(DbUserShift.COLUMN_USER_TEAM_ID, userId))
-                .add(Expr.eq(DbUserShift.COLUMN_SHIFT_ID, shiftId))
-                .findOne();
-
-        return dbUserShift;
+    public static void deleteDbUserShifts(List<DbUserShift> dbUserShifts) {
+        for (DbUserShift dbUserShift : dbUserShifts) {
+            dbUserShift.delete();
+        }
     }
 
-    /**
-     * returns a list of all DbUserShift
-     * @return
-     */
-    public static List<DbUserShift> readAllDbUserShift() {
-        List<DbUserShift> dbUserShift = DbUserShift.find.all();
-        return dbUserShift;
+    public static List<DbUserShift> readDbUserShiftByShiftId(Integer shiftId) {
+        List<DbUserShift> dbUserShiftList = new QDbUserShift()
+                .shiftId
+                .eq(shiftId)
+                .findList();
+
+        return dbUserShiftList;
     }
 
-    /**
-     * returns a list of DbUserShift by UserId
-     * @param userId
-     * @return
-     */
     public static List<DbUserShift> readDbUserByShiftId(Integer userId) {
-        List<DbUserShift> dbUserShiftList = DbUserShift.find
-                .query()
-                .where()
-                .eq(DbUserShift.COLUMN_USER_TEAM_ID, userId)
+        List<DbUserShift> dbUserShiftList = new QDbUserShift()
+                .userTeamId
+                .eq(userId)
                 .findList();
 
         return dbUserShiftList;
