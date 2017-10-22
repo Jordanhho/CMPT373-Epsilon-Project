@@ -14,10 +14,10 @@ GET           /$p<(?!api).*>                            controllers.FrontControl
 # ----------------------- USER APIs ----------------------
 
 # Create a DbUser
-POST          /user                                     controllers.UserController.createUser()
+POST          /api/users                                     controllers.UserController.createUser()
 
 # Read DbUser by sfuEmail
-GET           /user/:sfuEmail                           controllers.UserController.retrieveUser(sfuEmail: String)
+GET           /api/users/:sfuEmail                           controllers.UserController.retrieveUser(sfuEmail: String)
 
 # Update DbUser by sfuEmail
 PUT           /user/:sfuEmail                           controllers.UserController.updateUser(sfuEmail: String)
