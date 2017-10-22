@@ -6,8 +6,8 @@ package models.databaseModel.scheduling;
 public class DbUserShiftForm {
 
     private String sfuEmail;
-    private Integer timeStart;
-    private Integer timeEnd;
+    private Long timeStart;
+    private Long timeEnd;
 
     public void setSfuEmail(String sfuEmail) {
         this.sfuEmail = sfuEmail;
@@ -17,19 +17,19 @@ public class DbUserShiftForm {
         return sfuEmail;
     }
 
-    public void setTimeStart(Integer timeStart) {
+    public void setTimeStart(Long timeStart) {
         this.timeStart = timeStart;
     }
 
-    public Integer getTimeStart() {
+    public Long getTimeStart() {
         return timeStart;
     }
 
-    public void setTimeEnd(Integer timeEnd) {
+    public void setTimeEnd(Long timeEnd) {
         this.timeEnd = timeEnd;
     }
 
-    public Integer getTimeEnd() {
+    public Long getTimeEnd() {
         return timeEnd;
     }
 }

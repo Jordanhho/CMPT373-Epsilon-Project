@@ -36,7 +36,7 @@ public final class DbShiftHelper {
      * @param timeEnd
      * @return
      */
-    public static List<DbShift> readDbShiftByTime(Integer timeStart, Integer timeEnd){
+    public static List<DbShift> readDbShiftByTime(Long timeStart, Long timeEnd){
         List<DbShift> dbShiftList = new QDbShift()
                 .timeStart.lessOrEqualTo(timeStart)
                 .and()
