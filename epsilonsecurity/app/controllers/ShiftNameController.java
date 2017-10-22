@@ -31,10 +31,6 @@ public class ShiftNameController extends Controller {
 
     public Result createShiftName() {
 
-        String name = formValues.get(DbShiftName.FORM_NAME)[0];
-        String color = formValues.get(DbShiftName.FORM_NAME)[1];
-        DbShiftNameHelper.createDbShiftName(name, color);
-
         DbShiftName dbShiftName = getDbShiftNameFromForm();
 
         // Enter the DbShiftName into the database.

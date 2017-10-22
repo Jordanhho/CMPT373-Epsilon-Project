@@ -58,15 +58,6 @@ public final class DbOneTimeUnavailabilityHelper {
      * @param timeEnd
      * @return
      */
-<<<<<<< HEAD
-    public static List<DbOneTimeUnavailability> readDbOneTimeUnavailabilityByTimeRange(@Nonnull Integer timeStart, @Nonnull Integer timeEnd) {
-        return new QDbOneTimeUnavailability().
-                timeStart.lessOrEqualTo(timeStart).and().
-                timeEnd.greaterOrEqualTo(timeStart).and().
-                timeStart.lessOrEqualTo(timeStart).and().
-                timeEnd.greaterOrEqualTo(timeEnd).findList();
-    }
-=======
     public static List<DbOneTimeUnavailability> readDbOneTimeUnavailabilityByTimeRange(Integer timeStart, Integer timeEnd) {
         List<DbOneTimeUnavailability> dbOneTimeUnavailabilityList = new QDbOneTimeUnavailability()
                 .timeStart.lessOrEqualTo(timeStart)
@@ -77,7 +68,6 @@ public final class DbOneTimeUnavailabilityHelper {
                 .and()
                 .timeEnd.greaterOrEqualTo(timeEnd)
                 .findList();
->>>>>>> e03629a85f355c01842a74292c6626c2e08f3a11
 
 
         return dbOneTimeUnavailabilityList;

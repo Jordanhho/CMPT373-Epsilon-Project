@@ -7,12 +7,9 @@ import java.util.List;
 
 public class DbShiftNameHelper {
 
-    private DbShiftNameHelper() {
+    private DbShiftNameHelper() {}
 
-    }
-
-    public static void createDbShiftName(String name, String colorCode) {
-        DbShiftName dbShiftName = new DbShiftName(name, colorCode);
+    public static void createDbShiftName(DbShiftName dbShiftName) {
         dbShiftName.save();
     }
 

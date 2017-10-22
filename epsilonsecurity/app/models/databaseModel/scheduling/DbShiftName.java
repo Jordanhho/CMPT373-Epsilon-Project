@@ -10,40 +10,39 @@ import javax.persistence.Id;
 @Entity
 public class DbShiftName extends Model {
 
+    
+
     @Id
     private Integer id;
 
     @Column(nullable = false)
     private String name;
 
-    @Nonnull
+    @Column(nullable = false)
     private String colorCode;
 
-    public DbShiftName(@Nonnull String name, @Nonnull String colorCode) {
+    public DbShiftName(String name) {
         this.name = name;
-        this.colorCode = colorCode;
     }
 
     public Integer getId() {
         return id;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
     public String getName() {
         return name;
     }
 
-    @Nonnull
     public String getColorCode() {
         return colorCode;
     }
 
-    public static Finder<Integer, DbShiftName> find = new Finder<>(DbShiftName.class);
     public void setName(String name) {
         this.name = name;
+    }
+
+    public void setColorCode(String colorCode){
+        this.colorCode = colorCode;
     }
 
     public static Finder<Integer, DbShiftName> find = new Finder<>(DbShiftName.class);

@@ -16,7 +16,6 @@ libraryDependencies += javaJdbc
 libraryDependencies += "org.xerial" % "sqlite-jdbc" % "3.8.6"
 libraryDependencies += evolutions
 
-=======
 // Type Safe Queries (Query Beans)
 // http://ebean-orm.github.io/docs/query/typesafe
 libraryDependencies += "io.ebean" % "querybean-generator" % "10.1.2"

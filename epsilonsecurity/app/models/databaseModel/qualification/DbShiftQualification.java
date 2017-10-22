@@ -3,7 +3,7 @@ package models.databaseModel.qualification;
 import io.ebean.Finder;
 import io.ebean.Model;
 
-import javax.annotation.Nonnull;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -13,9 +13,9 @@ public class DbShiftQualification extends Model{
     @Id
     @GeneratedValue
     private int id;
-    @Nonnull
+    @Column(nullable = false)
     private int qualificationId;
-    @Nonnull
+    @Column(nullable = false)
     private int shiftNameId;
 
     public DbShiftQualification(int qualificationId, int shiftNameId) {
@@ -23,17 +23,14 @@ public class DbShiftQualification extends Model{
         this.shiftNameId = shiftNameId;
     }
 
-    @Nonnull
     public int getId() {
         return id;
     }
 
-    @Nonnull
     public int getQualificationId() {
         return qualificationId;
     }
 
-    @Nonnull
     public int getShiftNameId() {
         return shiftNameId;
     }

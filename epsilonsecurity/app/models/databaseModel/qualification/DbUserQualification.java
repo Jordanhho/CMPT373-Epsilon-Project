@@ -3,7 +3,7 @@ package models.databaseModel.qualification;
 import io.ebean.Finder;
 import io.ebean.Model;
 
-import javax.annotation.Nonnull;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -13,9 +13,9 @@ public class DbUserQualification extends Model{
     @Id
     @GeneratedValue
     private int id;
-    @Nonnull
+    @Column(nullable = false)
     private int userId;
-    @Nonnull
+    @Column(nullable = false)
     private int qualificationId;
 
     public DbUserQualification(int userId, int qualificationId) {
