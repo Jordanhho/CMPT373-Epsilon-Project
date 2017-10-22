@@ -23,7 +23,7 @@ public class OneTimeAvailabilityController extends Controller {
         return ok();
     }
 
-    public Result readOneTimeAvailabilitiesByTimeRange(Integer timeStart, Integer timeEnd) {
+    public Result readOneTimeAvailabilitiesByTimeRange(Long timeStart, Long timeEnd) {
         return ok();
     }
 }

@@ -94,7 +94,7 @@ DELETE        /api/teams                                                  contro
 #
 
 # List DbShifts for a specific user
-GET           /api/shifts/:teamId/:timeStart/:timeEnd                     controllers.ShiftController.readUsersAvailableForShift(teamId: Integer, timeStart: Integer, timeEnd: Integer)
+GET           /api/shifts/:teamId/:timeStart/:timeEnd                     controllers.ShiftController.readUsersAvailableForShift(teamId: Integer, timeStart: Long, timeEnd: Long)
 
 # Create a DbShift
 POST          /api/shifts                                                 controllers.ShiftController.createShift()
@@ -165,7 +165,7 @@ DELETE        /api/roles/permissions                                      contro
 GET           /api/onetimeavailabilites                                   controllers.OneTimeAvailabilityController.listOneTimeAvailabilities()
 
 # List all DbOneTimeAvailability in a time range
-GET           /api/onetimeavailabilites/:startTime/:endTime               controllers.OneTimeAvailabilityController.readOneTimeAvailabilitiesByTimeRange(startTime: Integer, endTime: Integer)
+GET           /api/onetimeavailabilites/:timeStart/:timeEnd               controllers.OneTimeAvailabilityController.readOneTimeAvailabilitiesByTimeRange(timeStart: Long, timeEnd: Long)
 
 # Create a DbOneTimeAvailability
 POST          /api/onetimeavailabilites                                   controllers.OneTimeAvailabilityController.createOneTimeAvailability()
@@ -185,7 +185,7 @@ DELETE        /api/onetimeavailabilites                                   contro
 GET           /api/onetimeunavailabilites                                 controllers.OneTimeUnavailabilityController.listOneTimeUnavailabilities()
 
 # List all DbOneTimeUnavailability in a time range
-GET           /api/onetimeunavailabilites/:startTime/:endTime             controllers.OneTimeUnavailabilityController.readOneTimeUnavailabilitiesByTimeRange(startTime: Integer, endTime: Integer)
+GET           /api/onetimeunavailabilites/:timeStart/:timeEnd             controllers.OneTimeUnavailabilityController.readOneTimeUnavailabilitiesByTimeRange(timeStart: Long, timeEnd: Long)
 
 # Create a DbOneTimeUnavailability
 POST          /api/onetimeunavailabilites                                 controllers.OneTimeUnavailabilityController.createOneTimeUnavailability()
@@ -205,7 +205,7 @@ DELETE        /api/onetimeunavailabilites                                 contro
 GET           /api/recurringavailabilites                                 controllers.RecurringAvailabilityController.listRecurringAvailabilities()
 
 # List all DbRecurringAvailability in a time range
-GET           /api/recurringavailabilites/:startTime/:endTime             controllers.RecurringAvailabilityController.readRecurringAvailabilitiesByTimeRange(startTime: Integer, endTime: Integer)
+GET           /api/recurringavailabilites/:timeStart/:timeEnd             controllers.RecurringAvailabilityController.readRecurringAvailabilitiesByTimeRange(timeStart: Long, timeEnd: Long)
 
 # Create a DbRecurringAvailability
 POST          /api/recurringavailabilites                                 controllers.RecurringAvailabilityController.createRecurringAvailability()
