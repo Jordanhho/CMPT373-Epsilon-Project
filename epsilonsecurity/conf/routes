@@ -3,7 +3,7 @@ GET           /assets/*file                                              control
 
 # redirect all other requests to the SPA page
 # ...except API requests with the prefix '/api'
-GET 					/$p<(?!api).*>														controllers.FrontController.index(p: String)
+GET           /$p<(?!api).*>                                             controllers.FrontController.index(p: String)
 
 # TODO: All API endpoints need to be like '/api/user'.
 # Or we could create our own custom router and use it
@@ -17,28 +17,22 @@ GET 					/$p<(?!api).*>														controllers.FrontController.index(p: String
 # DbUser
 #
 
-# List DbUsers
-GET           /api/user                                                  controllers.UserController.listUsers()
-
 # Create a DbUser
 POST          /api/user                                                  controllers.UserController.createUser()
 
 # Read DbUser by sfuEmail
-GET           /api/user/:sfuEmail                           controllers.UserController.retrieveUser(sfuEmail: String)
+GET           /api/user/:sfuEmail                                        controllers.UserController.retrieveUser(sfuEmail: String)
 
 # Update DbUser by sfuEmail
 PUT           /api/user/:sfuEmail                                        controllers.UserController.updateUser(sfuEmail: String)
 
 # Delete DbUser by sfuEmail
-DELETE        /api/user                                                  controllers.UserController.deleteUser()
+DELETE        /api/user                                                  controllers.UserController.deleteUserBySfuEmail()
 
 
 #
 # DbUserShift
 #
-
-# List DbUserShifts
-GET           /api/user/shift                                            controllers.UserShiftController.listUserShifts()
 
 # Create a DbUserShift
 POST          /api/user/shift                                            controllers.UserShiftController.createUserShift()
@@ -47,7 +41,7 @@ POST          /api/user/shift                                            control
 GET           /api/user/shift/:userId                                    controllers.UserShiftController.retrieveUserShift(userId: Integer)
 
 # Delete DbUserShift by userId
-DELETE        /api/user/shift                                            controllers.UserShiftController.deleteUserShift()
+DELETE        /api/user/shift                                            controllers.UserShiftController.deleteUserShifts()
 
 
 #
@@ -82,14 +76,14 @@ DELETE        /api/user/shift/name                                       control
 # DbTeam
 #
 
-# List DbTeams
-GET           /api/team                                                  controllers.TeamController.listTeams()
-
 # Create a DbTeam
 POST          /api/team                                                  controllers.TeamController.createTeam()
 
 # Read DbTeam by teamName
-GET           /api/team/:teamName                                        controllers.TeamController.retrieveTeamByName(teamName: String)
+GET           /api/team/:teamName                                        controllers.TeamController.retrieveTeam(teamName: String)
+
+# Update DbTeam by teamName
+PUT           /api/team/:teamName                                        controllers.TeamController.updateTeam(teamName: String)
 
 # Delete DbTeam by teamName
 DELETE        /api/team                                                  controllers.TeamController.deleteTeamByName()
@@ -105,8 +99,8 @@ GET           /api/shift/:teamId/:timeStart/:timeEnd                     control
 # Create a DbShift
 POST          /api/shift                                                 controllers.ShiftController.createShift()
 
-# Read DbShift by shiftName
-GET           /api/shift/:shiftName                                      controllers.ShiftController.retrieveShift(shiftName: String)
+# Read all DbShifts
+GET           /api/shift                                                 controllers.ShiftController.readShifts()
 
 # Delete a DbShift
 DELETE        /api/shift                                                 controllers.ShiftController.deleteShift()
