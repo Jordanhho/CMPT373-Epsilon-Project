@@ -30,16 +30,16 @@ public class DbRecurringAvailability extends Model {
     private Integer frequency;
 
     @Column(nullable = false)
-    private Integer recurTimeStartBlock;
+    private Long recurTimeStartBlock;
 
     @Column(nullable = false)
-    private Integer recurTimeEndBlock;
+    private Long recurTimeEndBlock;
 
     @Column(nullable = false)
-    private Integer shiftTimeStartBlock;
+    private Long shiftTimeStartBlock;
 
     @Column(nullable = false)
-    private Integer shiftTimeEndBlock;
+    private Long shiftTimeEndBlock;
 
     /**
      * The constructor of RecurringAvailability
@@ -56,10 +56,10 @@ public class DbRecurringAvailability extends Model {
     public DbRecurringAvailability(Integer userId,
                                    Day day,
                                    Integer frequency,
-                                   Integer recurTimeStartBlock,
-                                   Integer recurTimeEndBlock,
-                                   Integer shiftTimeStartBlock,
-                                   Integer shiftTimeEndBlock) {
+                                   Long recurTimeStartBlock,
+                                   Long recurTimeEndBlock,
+                                   Long shiftTimeStartBlock,
+                                   Long shiftTimeEndBlock) {
         this.userId = userId;
         this.day = day;
         this.frequency = frequency;
@@ -101,35 +101,35 @@ public class DbRecurringAvailability extends Model {
         this.frequency = frequency;
     }
 
-    public Integer getRecurTimeStartBlock() {
+    public Long getRecurTimeStartBlock() {
         return recurTimeStartBlock;
     }
 
-    public void setRecurTimeStartBlock(Integer recurTimeStartBlock) {
+    public void setRecurTimeStartBlock(Long recurTimeStartBlock) {
         this.recurTimeStartBlock = recurTimeStartBlock;
     }
 
-    public Integer getRecurTimeEndBlock() {
+    public Long getRecurTimeEndBlock() {
         return recurTimeEndBlock;
     }
 
-    public void setRecurTimeEndBlock(Integer recurTimeEndBlock) {
+    public void setRecurTimeEndBlock(Long recurTimeEndBlock) {
         this.recurTimeEndBlock = recurTimeEndBlock;
     }
 
-    public Integer getShiftTimeStartBlock() {
+    public Long getShiftTimeStartBlock() {
         return shiftTimeStartBlock;
     }
 
-    public void setShiftTimeStartBlock(Integer shiftTimeStartBlock) {
+    public void setShiftTimeStartBlock(Long shiftTimeStartBlock) {
         this.shiftTimeStartBlock = shiftTimeStartBlock;
     }
 
-    public Integer getShiftTimeEndBlock() {
+    public Long getShiftTimeEndBlock() {
         return shiftTimeEndBlock;
     }
 
-    public void setShiftTimeEndBlock(Integer shiftTimeEndBlock) {
+    public void setShiftTimeEndBlock(Long shiftTimeEndBlock) {
         this.shiftTimeEndBlock = shiftTimeEndBlock;
     }
 

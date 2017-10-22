@@ -76,7 +76,7 @@ DELETE        /team                                     controllers.TeamControll
 #
 
 # List shifts for a specific user
-GET           /shift/:teamId/:timeStart/:timeEnd        controllers.ShiftController.readUsersAvailableForShift(teamId: Integer, timeStart: Integer, timeEnd: Integer)
+GET           /shift/:teamId/:timeStart/:timeEnd        controllers.ShiftController.readUsersAvailableForShift(teamId: Integer, timeStart: Long, timeEnd: Long)
 
 # Create a shift
 POST          /shift                                    controllers.ShiftController.createShift()
