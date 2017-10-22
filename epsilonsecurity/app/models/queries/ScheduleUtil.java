@@ -17,7 +17,7 @@ import java.util.Set;
 public final class ScheduleUtil {
 
     //Search for available users based on teamId, start and end time of shift
-    public static List<DbUser> queryUsersBasedOnAvailability(Integer teamId, Integer timeStart, Integer timeEnd) {
+    public static List<DbUser> queryUsersBasedOnAvailability(Integer teamId, Long timeStart, Long timeEnd) {
 
         //find all users in right team/location
         List<DbUserTeam> userTeamListByLocation = new QDbUserTeam()

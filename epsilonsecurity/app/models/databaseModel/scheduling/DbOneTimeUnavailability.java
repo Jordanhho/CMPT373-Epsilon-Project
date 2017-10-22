@@ -19,10 +19,10 @@ public class DbOneTimeUnavailability extends Model {
     @Column(nullable = false)
     private Integer userTeamId;
 
-    private Integer timeStart;
+    private Long timeStart;
 
     @Column(nullable = false)
-    private Integer timeEnd;
+    private Long timeEnd;
 
     /**
      * The constructor for the OneTimeUnavailability
@@ -32,7 +32,7 @@ public class DbOneTimeUnavailability extends Model {
      * @param timeStart the time start of this OneTimeUnavailability
      * @param timeEnd   the time end of this OneTimeUnavailability
      */
-    public DbOneTimeUnavailability(Integer userTeamId, Integer timeStart, Integer timeEnd) {
+    public DbOneTimeUnavailability(Integer userTeamId, Long timeStart, Long timeEnd) {
         this.userTeamId = userTeamId;
         this.timeStart = timeStart;
         this.timeEnd = timeEnd;
@@ -54,19 +54,19 @@ public class DbOneTimeUnavailability extends Model {
         this.userTeamId = userTeamId;
     }
 
-    public Integer getTimeStart() {
+    public Long getTimeStart() {
         return timeStart;
     }
 
-    public void setTimeStart(Integer timeStart) {
+    public void setTimeStart(Long timeStart) {
         this.timeStart = timeStart;
     }
 
-    public Integer getTimeEnd() {
+    public Long getTimeEnd() {
         return timeEnd;
     }
 
-    public void setTimeEnd(Integer timeEnd) {
+    public void setTimeEnd(Long timeEnd) {
         this.timeEnd = timeEnd;
     }
 
