@@ -106,3 +106,40 @@ In production mode, we let webpack compress our js and css bundles using the _co
 However, you cannot include a gzipped css or js asset directly in HTML files (i.e, you cannot have `<script src="bundle.js.gz">`), so we create a utility object in _/app/lib/WebpackBuildFile.scala_ to strip-out the `.gz` extension from our compressed file before including them in our HTML files. The result is that our HTML files have includes like `<script src="bundle.js">` but the server actually serves `bundle.js.gz`.
 
 All these extraneous work could be avoided by simply not compressing the production bundles, but keep in mind, gzip has been shown to yeild significant reductions in file sizes so this optimization is worth it.
+
+### How to integrate FullCalendar
+
+First add the _vue-full-calendar_ package to npm
+
+    npm install --save vue-full-calendar
+
+> The `--save` flag automatically adds the entry to our `package.json` file so if another dev clones our repo, they can just run `npm install` instead of remembering to manually add _vue-full-calendar_ again!
+
+Then import the calendar in your component `.vue` file.
+
+    <template>
+        <div id="my-comp">
+            <full-calendar></full-calendar>
+        </div>
+    </template>
+
+    <script>
+        import Vue from 'vue'
+        import FullCalendar from 'vue-full-calendar'
+
+        // add the vue-full-calendar plugin to Vue
+        Vue.use(FullCalendar) 
+        // we need jquery too
+        window.jQuery = window.$ = require('jquery') 
+
+        // your other js stuff here...
+    </script>
+
+    <style>
+        // bring in the stylesheet for FullCalendar
+        @import '~fullcalendar/dist/fullcalendar.css';
+
+        // your styles here...
+    </style>
+
+That's pretty much it. The calendar needs to be configured according to your use-case though, and that is beyond the scope of this guide, see the commits on #24 for reference.
