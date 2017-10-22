@@ -38,7 +38,7 @@ DELETE        /api/users                                                  contro
 POST          /api/users/shifts                                           controllers.UserShiftController.createUserShift()
 
 # Read DbUserShift by userId
-GET           /api/users/shifts/:userId                                   controllers.UserShiftController.retrieveUserShift(userId: Integer)
+GET           /api/users/:userId/shifts                                   controllers.UserShiftController.retrieveUserShift(userId: Integer)
 
 # Delete DbUserShift by userId
 DELETE        /api/users/shifts                                           controllers.UserShiftController.deleteUserShifts()
@@ -48,14 +48,14 @@ DELETE        /api/users/shifts                                           contro
 # DbUserTeam
 #
 
-# List DbUserTeams
+# List all DbUserTeams
 GET           /api/users/teams                                            controllers.UserTeamController.listUserTeams()
 
 # Create a DbUserTeam
 POST          /api/users/teams                                            controllers.UserTeamController.createUserTeam()
 
 # Read DbUserTeam by userId and teamId
-GET           /api/users/teams/:userId/:teamId                            controllers.UserTeamController.retrieveUserTeam(userId: Integer, teamId: Integer)
+GET           /api/users/:userId/teams/:teamId                            controllers.UserTeamController.retrieveUserTeam(userId: Integer, teamId: Integer)
 
 # Delete DbUserTeam by userId and teamId
 DELETE        /api/users/teams                                            controllers.UserTeamController.deleteUserTeam()
@@ -110,7 +110,7 @@ DELETE        /api/shifts                                                 contro
 # DbPermission
 #
 
-# List DbPermissions
+# List all DbPermissions
 GET           /api/permissions                                            controllers.PermissionController.listPermissions()
 
 # Create a DbPermission
@@ -127,7 +127,7 @@ DELETE        /api/permissions                                            contro
 # DbRole
 #
 
-# List DbRoles
+# List all DbRoles
 GET           /api/roles                                                  controllers.RoleController.listRoles()
 
 # Create a DbRole
@@ -144,7 +144,7 @@ DELETE        /api/roles                                                  contro
 # DbRolePermission
 #
 
-# List DbRolePermissions
+# List all DbRolePermissions
 GET           /api/roles/permissions                                      controllers.RolePermissionController.listRolePermissions()
 
 # Create a DbRolePermission
@@ -161,7 +161,7 @@ DELETE        /api/roles/permissions                                      contro
 # DbOneTimeAvailability
 #
 
-# List DbOneTimeAvailabilities
+# List all DbOneTimeAvailabilities
 GET           /api/onetimeavailabilites                                   controllers.OneTimeAvailabilityController.listOneTimeAvailabilities()
 
 # List all DbOneTimeAvailability in a time range
@@ -181,7 +181,7 @@ DELETE        /api/onetimeavailabilites                                   contro
 # DbOneTimeUnavailability
 #
 
-# List DbOneTimeUnavailabilities
+# List all DbOneTimeUnavailabilities
 GET           /api/onetimeunavailabilites                                 controllers.OneTimeUnavailabilityController.listOneTimeUnavailabilities()
 
 # List all DbOneTimeUnavailability in a time range
@@ -201,7 +201,7 @@ DELETE        /api/onetimeunavailabilites                                 contro
 # DbRecurringAvailability
 #
 
-# List DbRecurringAvailabilities
+# List all DbRecurringAvailabilities
 GET           /api/recurringavailabilites                                 controllers.RecurringAvailabilityController.listRecurringAvailabilities()
 
 # List all DbRecurringAvailability in a time range
