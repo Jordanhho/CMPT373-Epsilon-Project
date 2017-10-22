@@ -1,10 +1,9 @@
 package models.databaseModel.roles;
 
+import io.ebean.Finder;
+import io.ebean.Model;
+
 import javax.persistence.*;
-
-import io.ebean.*;
-
-import javax.annotation.Nonnull;
 
 /**
  * Java Object for DbRolePermission Table with DbRolePermission Id and name of position
@@ -12,27 +11,20 @@ import javax.annotation.Nonnull;
 @Entity
 public class DbRolePermission extends Model {
 
-    private static final String COLUMN_TEAM_ID = "team_id";
-    private static final String COLUMN_ROLE_ID = "role_id";
-    private static final String COLUMN_PERMISSION_ID = "permission_id";
-    private static final String COLUMN_LEVEL = "accessLevel";
-
     @Id
-    @GeneratedValue
-    @Nonnull
     private Integer id;
 
-    @Nonnull
+    @Column(nullable = false)
     private Integer teamId;
 
-    @Nonnull
+    @Column(nullable = false)
     private Integer roleId;
 
-    @Nonnull
+    @Column(nullable = false)
     private int permissionId;
 
+    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    @Nonnull
     private AccessLevel accessLevel;
 
     /**
@@ -44,52 +36,54 @@ public class DbRolePermission extends Model {
      * @param permissionId the permission Id of the RolePermission
      * @param accessLevel        the permission accessLevel of the RolePermission
      */
-    public DbRolePermission(@Nonnull Integer teamId, @Nonnull Integer roleId, @Nonnull Integer permissionId,
-                            @Nonnull AccessLevel accessLevel) {
+    public DbRolePermission(Integer teamId,
+                            Integer roleId,
+                            Integer permissionId,
+                            AccessLevel accessLevel) {
         this.teamId = teamId;
         this.roleId = roleId;
         this.permissionId = permissionId;
         this.accessLevel = accessLevel;
     }
 
-    @Nonnull
     public Integer getId() {
         return id;
     }
 
-    @Nonnull
-    @Column(name = COLUMN_TEAM_ID)
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
     public Integer getTeamId() {
         return teamId;
     }
 
-    @Nonnull
-    @Column(name = COLUMN_ROLE_ID)
+    public void setTeamId(Integer teamId) {
+        this.teamId = teamId;
+    }
+
     public Integer getRoleId() {
         return roleId;
     }
 
-    @Nonnull
-    @Column(name = COLUMN_PERMISSION_ID)
-    public Integer getPermissionId() {
+    public void setRoleId(Integer roleId) {
+        this.roleId = roleId;
+    }
+
+    public int getPermissionId() {
         return permissionId;
     }
 
-    @Nonnull
-    @Column(name = COLUMN_LEVEL)
+    public void setPermissionId(int permissionId) {
+        this.permissionId = permissionId;
+    }
+
     public AccessLevel getAccessLevel() {
         return accessLevel;
     }
 
-    @Override
-    public String toString() {
-        return "DbRolePermission{" +
-                "id=" + id +
-                ", teamId=" + teamId +
-                ", roleId=" + roleId +
-                ", permissionId=" + permissionId +
-                ", accessLevel=" + accessLevel +
-                '}';
+    public void setAccessLevel(AccessLevel accessLevel) {
+        this.accessLevel = accessLevel;
     }
 
     public static Finder<Integer, DbRolePermission> find = new Finder<>(DbRolePermission.class);

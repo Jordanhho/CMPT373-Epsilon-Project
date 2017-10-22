@@ -1,10 +1,10 @@
 package models.databaseModel.helpers;
 
 
-import io.ebean.Expr;
 import models.databaseModel.scheduling.DbShift;
+import models.databaseModel.scheduling.query.QDbShift;
+import models.databaseModel.scheduling.query.QDbUser;
 
-import javax.annotation.Nonnull;
 import java.util.List;
 
 
@@ -14,30 +14,19 @@ import java.util.List;
 public final class DbShiftHelper {
 
     private DbShiftHelper() {
+
     }
 
-    /**
-     * creates a DbShift from name, timeStart, timeEnd
-     * @param name
-     * @param timeStart
-     * @param timeEnd
-     */
-    public static void createDbShift(@Nonnull String name, @Nonnull Integer timeStart, @Nonnull Integer timeEnd) {
-        DbShift dbShift = new DbShift(name, timeStart, timeEnd);
+    public static void createDbShift(DbShift dbShift) {
         dbShift.save();
     }
 
-    /**
-     * finds a DbShift by DbShiftId
-     * @param id
-     * @return
-     */
-    public static DbShift readDbShiftByName(@Nonnull String shiftName) {
-        DbShift dbShift = DbShift.find
-                .query()
-                .where()
-                .eq(DbShift.FORM_COLUMN_NAME, shiftName)
-                .findOne();
+    public static DbShift readDbShiftByName(String shiftName) {
+        DbShift dbShift = new QDbShift()
+                .name
+                .eq(shiftName)
+                .findUnique();
+
         return dbShift;
     }
 
@@ -48,20 +37,20 @@ public final class DbShiftHelper {
      * @return
      */
     public static List<DbShift> readDbShiftByTime(Integer timeStart, Integer timeEnd){
-        List<DbShift> dbShiftList = DbShift.find.query().where()
-                .disjunction()
-                .add(Expr.between(DbShift.COLUMN_TIME_START, DbShift.COLUMN_TIME_END, timeStart))
-                .add(Expr.between(DbShift.COLUMN_TIME_START, DbShift.COLUMN_TIME_END, timeEnd))
+        List<DbShift> dbShiftList = new QDbShift()
+                .timeStart.lessOrEqualTo(timeStart)
+                .and()
+                .timeEnd.greaterOrEqualTo(timeStart)
+                .and()
+                .timeStart.lessOrEqualTo(timeStart)
+                .and()
+                .timeEnd.greaterOrEqualTo(timeEnd)
                 .findList();
+
         return dbShiftList;
     }
 
-    /**
-     * deletes a DbShift by DbShiftId
-     * @param id
-     */
-    public static void deleteDbShiftByName(@Nonnull String name) {
-        DbShift dbShift = readDbShiftByName(name);
+    public static void deleteDbShiftByName(DbShift dbShift) {
         dbShift.delete();
     }
 
@@ -70,7 +59,9 @@ public final class DbShiftHelper {
      * @return
      */
     public static List<DbShift> readAllDbShift() {
-        List<DbShift> dbShift = DbShift.find.all();
+        List<DbShift> dbShift = new QDbShift()
+                .findList();
+
         return dbShift;
     }
 

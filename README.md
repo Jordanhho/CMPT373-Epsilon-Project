@@ -34,7 +34,13 @@ $ brew install sbt@1
 
 ## Building and Running
 
-At the IDEA start screen, open the `epsilonsecurity/` folder. Try compiling the project. SBT may spend a long time downloading resources—be patient.
+At the IDEA start screen, open the `epsilonsecurity/` folder.
+
+### Plugins
+
+The project requires plugins that are available through IntelliJ. Before compiling the project, read the instruction guide in [`docs/type-safe-queries-instruction.txt`](https://csil-git1.cs.surrey.sfu.ca/apa53/373-Epsilon/blob/master/docs/type-safe-queries-instruction.txt)
+
+Try compiling the project. SBT may spend a long time downloading resources—be patient.
 
 If all is successful, select 'SBT Run' from the configurations drop down and hit the Run button to launch the server. You will see SBT's output in the integrated console. Go to [`localhost:9000`](localhost:9000) to see your handiwork. The first load may take a while, as SBT is lazily compiling your web page. 
 

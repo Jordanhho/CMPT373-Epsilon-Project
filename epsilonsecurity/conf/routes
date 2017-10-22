@@ -3,7 +3,7 @@ GET           /assets/*file                             controllers.Assets.versi
 
 # redirect all other requests to the SPA page
 # ...except API requests with the prefix '/api'
-GET 					/$p<(?!api).*>														controllers.FrontController.index(p: String)
+GET           /$p<(?!api).*>                            controllers.FrontController.index(p: String)
 
 # TODO: All API endpoints need to be like '/api/user'.
 # Or we could create our own custom router and use it
@@ -14,16 +14,16 @@ GET 					/$p<(?!api).*>														controllers.FrontController.index(p: String
 # ----------------------- USER APIs ----------------------
 
 # Create a DbUser
-POST          /user                                     controllers.UserController.createUser()
+POST          /api/users                                     controllers.UserController.createUser()
 
 # Read DbUser by sfuEmail
-GET           /user/:sfuEmail                           controllers.UserController.retrieveUser(sfuEmail: String)
+GET           /api/users/:sfuEmail                           controllers.UserController.retrieveUser(sfuEmail: String)
 
 # Update DbUser by sfuEmail
 PUT           /user/:sfuEmail                           controllers.UserController.updateUser(sfuEmail: String)
 
 # Delete DbUser by sfuEmail
-DELETE        /user                                     controllers.UserController.deleteUser()
+DELETE        /user                                     controllers.UserController.deleteUserBySfuEmail()
 
 
 #
@@ -37,7 +37,7 @@ POST          /user/shift                               controllers.UserShiftCon
 GET           /user/shift/:userId                       controllers.UserShiftController.retrieveUserShift(userId: Integer)
 
 # Delete UserShift by userId
-DELETE        /user/shift                               controllers.UserShiftController.deleteUserShift()
+DELETE        /user/shift                               controllers.UserShiftController.deleteUserShifts()
 
 
 #
