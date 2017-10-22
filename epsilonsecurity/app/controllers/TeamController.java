@@ -2,40 +2,65 @@ package controllers;
 
 import models.databaseModel.helpers.DbTeamHelper;
 import models.databaseModel.scheduling.DbTeam;
+import play.data.Form;
+import play.data.FormFactory;
+import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 
-import java.util.Map;
+import javax.inject.Inject;
 
 public class TeamController extends Controller {
 
-    public Result listTeams() {
-        return ok();
+    private final FormFactory formFactory;
+
+    @Inject
+    TeamController(FormFactory formFactory) {
+        this.formFactory = formFactory;
+    }
+
+    private DbTeam getDbTeamFromForm() {
+
+        // From the request, create a form that can handle a DbTeam object.
+        Form<DbTeam> form = formFactory.form(DbTeam.class).bindFromRequest();
+
+        // Create a DbTeam object from the form data.
+        DbTeam dbTeam = form.get();
+
+        return dbTeam;
     }
 
     public Result createTeam() {
-        final Map<String, String[]> values = request().body().asFormUrlEncoded();
 
-        String name = values.get(DbTeam.FORM_NAME)[0];
+        // Create a DbTeam object from the form data.
+        DbTeam dbTeam = getDbTeamFromForm();
 
-        DbTeamHelper.createDbTeam(name);
+        // Enter the DbTeam into the database.
+        DbTeamHelper.createDbTeam(dbTeam);
 
         return ok();
     }
 
-    public Result retrieveTeamByName(String teamName) {
+    public Result retrieveTeam(String name) {
+        DbTeam dbTeam = DbTeamHelper.readDbTeamByName(name);
+
+        return ok(Json.toJson(dbTeam));
+    }
+
+    public Result updateTeam(String name) {
         return ok();
     }
 
     public Result deleteTeamByName() {
-        final Map<String, String[]> values = request().body().asFormUrlEncoded();
 
-        String teamName = values.get(DbTeam.FORM_NAME)[0];
+        // Create a DbTeam object from the form data.
+        DbTeam dbTeam = getDbTeamFromForm();
 
-        DbTeam dbTeam = DbTeamHelper.readDbTeamByName(teamName);
-        DbTeamHelper.deleteDbTeamByName(dbTeam.getName());
+        // Read the DbTeam to delete based on the form fields
+        DbTeam dbTeamToDelete = DbTeamHelper.readDbTeamByName(dbTeam.getName());
+
+        DbTeamHelper.deleteDbTeamByName(dbTeamToDelete);
 
         return ok();
     }
-
 }

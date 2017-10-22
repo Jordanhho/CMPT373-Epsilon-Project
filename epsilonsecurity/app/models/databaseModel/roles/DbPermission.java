@@ -1,13 +1,11 @@
 package models.databaseModel.roles;
 
+import io.ebean.Finder;
+import io.ebean.Model;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-
-import io.ebean.*;
-
-import javax.annotation.Nonnull;
 
 
 /**
@@ -16,14 +14,10 @@ import javax.annotation.Nonnull;
 @Entity
 public class DbPermission extends Model {
 
-    private static final String COLUMN_NAME = "name";
-
     @Id
-    @GeneratedValue
-    @Nonnull
     private Integer id;
 
-    @Nonnull
+    @Column(nullable = false)
     private String name;
 
     /**
@@ -32,27 +26,24 @@ public class DbPermission extends Model {
      *
      * @param name the name of this permission
      */
-    public DbPermission(@Nonnull String name) {
+    public DbPermission(String name) {
         this.name = name;
     }
 
-    @Nonnull
     public Integer getId() {
         return id;
     }
 
-    @Nonnull
-    @Column(name = COLUMN_NAME)
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
     public String getName() {
         return name;
     }
 
-    @Override
-    public String toString() {
-        return "DbPermission{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                '}';
+    public void setName(String name) {
+        this.name = name;
     }
 
     public static Finder<Integer, DbPermission> find = new Finder<>(DbPermission.class);

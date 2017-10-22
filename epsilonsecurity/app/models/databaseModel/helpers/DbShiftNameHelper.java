@@ -1,6 +1,7 @@
 package models.databaseModel.helpers;
 
 import models.databaseModel.scheduling.DbShiftName;
+import models.databaseModel.scheduling.query.QDbShiftName;
 
 import java.util.List;
 
@@ -10,31 +11,29 @@ public class DbShiftNameHelper {
 
     }
 
-    public static void createDbShiftName(String name) {
-        DbShiftName dbShiftName = new DbShiftName(name);
+    public static void createDbShiftName(DbShiftName dbShiftName) {
         dbShiftName.save();
     }
 
-    public static void deleteDbShiftName(String name) {
-        DbShiftName dbShiftName = readDbShiftNameByName(name);
+    public static void deleteDbShiftName(DbShiftName dbShiftName) {
         dbShiftName.delete();
     }
 
     public static DbShiftName readDbShiftNameByName(String name) {
-        DbShiftName dbShiftName = DbShiftName.find
-                .query()
-                .where()
-                .eq(DbShiftName.COLUMN_NAME, name)
-                .findOne();
+        DbShiftName dbShiftName = new QDbShiftName()
+                .name
+                .eq(name)
+                .findUnique();
+
         return dbShiftName;
     }
 
     public static List<DbShiftName> readAllDbShiftsNameByName(String name) {
-        List<DbShiftName> dbShiftNameList = DbShiftName.find
-                .query()
-                .where()
-                .eq(DbShiftName.COLUMN_NAME, name)
+        List<DbShiftName> dbShiftNameList = new QDbShiftName()
+                .name
+                .eq(name)
                 .findList();
+
         return dbShiftNameList;
     }
 }
