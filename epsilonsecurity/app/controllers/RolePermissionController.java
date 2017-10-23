@@ -19,7 +19,7 @@ public class RolePermissionController extends Controller {
         return ok();
     }
 
-    public Result deleteRolePermission() {
+    public Result deleteRolePermission(Integer rolePermissionId) {
         return ok();
     }
 }

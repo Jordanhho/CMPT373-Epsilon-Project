@@ -48,18 +48,11 @@ public class UserShiftController extends Controller {
         return ok(Json.toJson(dbUserShiftList));
     }
 
-    public Result deleteUserShifts() {
-
-        // Create a DbUserShift object from the form data.
-        DbUserShift dbUserShift = getDbUserShiftFromForm();
-
-        // Read the DbUserShift to delete based on the form fields
+    public Result deleteUserShifts(Integer shiftId) {
         List<DbUserShift> dbUserShiftsToDelete = DbUserShiftHelper
-                .readDbUserShiftByShiftId(dbUserShift.getShiftId());
-
+                .readDbUserShiftByShiftId(shiftId);
 
         DbUserShiftHelper.deleteDbUserShifts(dbUserShiftsToDelete);
-
         return ok();
     }
 }

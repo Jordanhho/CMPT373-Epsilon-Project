@@ -19,7 +19,7 @@ public class UserTeamController extends Controller {
         return ok();
     }
 
-    public Result deleteUserTeam() {
+    public Result deleteUserTeam(Integer userId, Integer teamId) {
         return ok();
     }
 }

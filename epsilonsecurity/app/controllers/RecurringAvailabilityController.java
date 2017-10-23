@@ -19,7 +19,7 @@ public class RecurringAvailabilityController extends Controller {
         return ok();
     }
 
-    public Result deleteRecurringAvailability() {
+    public Result deleteRecurringAvailability(Integer recurringAvailabilityId) {
         return ok();
     }
 

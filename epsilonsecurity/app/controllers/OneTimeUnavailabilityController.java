@@ -19,7 +19,7 @@ public class OneTimeUnavailabilityController extends Controller {
         return ok();
     }
 
-    public Result deleteOneTimeUnavailability() {
+    public Result deleteOneTimeUnavailability(Integer oneTimeUnavailabilityId) {
         return ok();
     }
 

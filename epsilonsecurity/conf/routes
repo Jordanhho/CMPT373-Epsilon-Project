@@ -17,203 +17,203 @@ GET           /$p<(?!api).*>                                              contro
 # DbUser
 #
 
-# Create a DbUser
+# Create a user
 POST          /api/users                                                  controllers.UserController.createUser()
 
-# Read DbUser by sfuEmail
+# Read a user by sfuEmail
 GET           /api/users/:sfuEmail                                        controllers.UserController.retrieveUser(sfuEmail: String)
 
-# Update DbUser by sfuEmail
+# Update a user by sfuEmail
 PUT           /api/users/:sfuEmail                                        controllers.UserController.updateUser(sfuEmail: String)
 
-# Delete DbUser by sfuEmail
-DELETE        /api/users                                                  controllers.UserController.deleteUserBySfuEmail()
+# Delete a user by sfuEmail
+DELETE        /api/users/:sfuEmail                                        controllers.UserController.deleteUserBySfuEmail(sfuEmail: String)
 
 
 #
 # DbUserShift
 #
 
-# Create a DbUserShift
-POST          /api/users/shifts                                           controllers.UserShiftController.createUserShift()
+# Create a user-shift object
+POST          /api/usershifts                                             controllers.UserShiftController.createUserShift()
 
-# Read DbUserShift by userId
+# Read a user-shift object by userId
 GET           /api/users/:userId/shifts                                   controllers.UserShiftController.retrieveUserShift(userId: Integer)
 
-# Delete DbUserShift by userId
-DELETE        /api/users/shifts                                           controllers.UserShiftController.deleteUserShifts()
+# Delete a user-shift object by shiftId
+DELETE        /api/users/shifts/:shiftId                                  controllers.UserShiftController.deleteUserShifts(shiftId: Integer)
 
 
 #
 # DbUserTeam
 #
 
-# List all DbUserTeams
-GET           /api/users/teams                                            controllers.UserTeamController.listUserTeams()
+# List all user-team objects in the database
+GET           /api/userteams                                              controllers.UserTeamController.listUserTeams()
 
-# Create a DbUserTeam
-POST          /api/users/teams                                            controllers.UserTeamController.createUserTeam()
+# Create a user-team object
+POST          /api/userteams                                              controllers.UserTeamController.createUserTeam()
 
-# Read DbUserTeam by userId and teamId
+# Read a user-team object by userId and teamId
 GET           /api/users/:userId/teams/:teamId                            controllers.UserTeamController.retrieveUserTeam(userId: Integer, teamId: Integer)
 
-# Delete DbUserTeam by userId and teamId
-DELETE        /api/users/teams                                            controllers.UserTeamController.deleteUserTeam()
+# Delete a user-team object by userId and teamId
+DELETE        /api/users/:userId/teams/:teamId                            controllers.UserTeamController.deleteUserTeam(userId: Integer, teamId: Integer)
 
 
 #
 # DbShiftName
 #
 
-# Create a DbShiftName
-POST          /api/users/shifts/names                                     controllers.ShiftNameController.createShiftName()
+# Create a shift-name object
+POST          /api/shiftnames                                             controllers.ShiftNameController.createShiftName()
 
-# Delete DbShiftName by shiftName
-DELETE        /api/users/shifts/names                                     controllers.ShiftNameController.deleteShiftName()
+# Delete a shift-name by name
+DELETE        /api/shiftnames/:name                                       controllers.ShiftNameController.deleteShiftName(name: String)
 
 
 #
 # DbTeam
 #
 
-# Create a DbTeam
+# Create a team
 POST          /api/teams                                                  controllers.TeamController.createTeam()
 
-# Read DbTeam by teamName
-GET           /api/teams/:teamName                                        controllers.TeamController.retrieveTeam(teamName: String)
+# Read a team by name
+GET           /api/teams/:name                                            controllers.TeamController.retrieveTeam(name: String)
 
-# Update DbTeam by teamName
-PUT           /api/teams/:teamName                                        controllers.TeamController.updateTeam(teamName: String)
+# Update a team by name
+PUT           /api/teams/:name                                            controllers.TeamController.updateTeam(name: String)
 
-# Delete DbTeam by teamName
-DELETE        /api/teams                                                  controllers.TeamController.deleteTeamByName()
+# Delete a team by name
+DELETE        /api/teams/:name                                            controllers.TeamController.deleteTeamByName(name: String)
 
 
 #
 # DbShift
 #
 
-# List DbShifts for a specific user
-GET           /api/shifts/:teamId/:timeStart/:timeEnd                     controllers.ShiftController.readUsersAvailableForShift(teamId: Integer, timeStart: Long, timeEnd: Long)
+# List all users within a team that are available for shifts in a time range
+GET           /api/teams/:teamId/shifts/:timeStart/:timeEnd               controllers.ShiftController.readUsersAvailableForShift(teamId: Integer, timeStart: Long, timeEnd: Long)
 
-# Create a DbShift
-POST          /api/shifts                                                 controllers.ShiftController.createShift()
-
-# Read all DbShifts
+# List all shifts in the database
 GET           /api/shifts                                                 controllers.ShiftController.readShifts()
 
-# Delete a DbShift
-DELETE        /api/shifts                                                 controllers.ShiftController.deleteShift()
+# Create a shift
+POST          /api/shifts                                                 controllers.ShiftController.createShift()
+
+# Delete a shift by name
+DELETE        /api/shifts/:name                                           controllers.ShiftController.deleteShift(name: String)
 
 
 #
 # DbPermission
 #
 
-# List all DbPermissions
+# List all permissions in the database
 GET           /api/permissions                                            controllers.PermissionController.listPermissions()
 
-# Create a DbPermission
+# Create a permission
 POST          /api/permissions                                            controllers.PermissionController.createPermission()
 
-# Read DbPermission by permissionId
+# Read a permission by permissionId
 GET           /api/permissions/:permissionId                              controllers.PermissionController.retrievePermission(permissionId: Integer)
 
-# Delete DbPermission by permissionId
-DELETE        /api/permissions                                            controllers.PermissionController.deletePermission()
+# Delete a permission by permissionId
+DELETE        /api/permissions/:permissionId                              controllers.PermissionController.deletePermission(permissionId: Integer)
 
 
 #
 # DbRole
 #
 
-# List all DbRoles
+# List all roles in the database
 GET           /api/roles                                                  controllers.RoleController.listRoles()
 
-# Create a DbRole
+# Create a role
 POST          /api/roles                                                  controllers.RoleController.createRole()
 
-# Read DbRole by roleId
+# Read a role by roleId
 GET           /api/roles/:roleId                                          controllers.RoleController.retrieveRole(roleId: Integer)
 
-# Delete DbRole by roleId
-DELETE        /api/roles                                                  controllers.RoleController.deleteRole()
+# Delete a role by roleId
+DELETE        /api/roles/:roleId                                          controllers.RoleController.deleteRole(roleId: Integer)
 
 
 #
 # DbRolePermission
 #
 
-# List all DbRolePermissions
-GET           /api/roles/permissions                                      controllers.RolePermissionController.listRolePermissions()
+# List all role-permission objects in the database
+GET           /api/rolepermissions                                        controllers.RolePermissionController.listRolePermissions()
 
-# Create a DbRolePermission
-POST          /api/roles/permissions                                      controllers.RolePermissionController.createRolePermission()
+# Create a role-permission object
+POST          /api/rolepermissions                                        controllers.RolePermissionController.createRolePermission()
 
-# Read DbRolePermission by rolePermissionId
-GET           /api/roles/permissions/:rolePermissionId                    controllers.RolePermissionController.retrieveRolePermission(rolePermissionId: Integer)
+# Read a role-permission object by rolePermissionId
+GET           /api/rolepermissions/:rolePermissionId                      controllers.RolePermissionController.retrieveRolePermission(rolePermissionId: Integer)
 
-# Delete DbRolePermission by rolePermissionId
-DELETE        /api/roles/permissions                                      controllers.RolePermissionController.deleteRolePermission()
+# Delete a role-permission object by rolePermissionId
+DELETE        /api/rolepermissions/:rolePermissionId                      controllers.RolePermissionController.deleteRolePermission(rolePermissionId: Integer)
 
 
 #
 # DbOneTimeAvailability
 #
 
-# List all DbOneTimeAvailabilities
+# List all one time availabilities in the database
 GET           /api/onetimeavailabilites                                   controllers.OneTimeAvailabilityController.listOneTimeAvailabilities()
 
-# List all DbOneTimeAvailability in a time range
+# List all one time availabilities in a time range
 GET           /api/onetimeavailabilites/:timeStart/:timeEnd               controllers.OneTimeAvailabilityController.readOneTimeAvailabilitiesByTimeRange(timeStart: Long, timeEnd: Long)
 
-# Create a DbOneTimeAvailability
+# Create a one time availability
 POST          /api/onetimeavailabilites                                   controllers.OneTimeAvailabilityController.createOneTimeAvailability()
 
-# Read DbOneTimeAvailability by oneTimeAvailabilityId
+# Read a one time availability by oneTimeAvailabilityId
 GET           /api/onetimeavailabilites/:oneTimeAvailabilityId            controllers.OneTimeAvailabilityController.retrieveOneTimeAvailability(oneTimeAvailabilityId: Integer)
 
-# Delete DbOneTimeAvailability by oneTimeAvailabilityId
-DELETE        /api/onetimeavailabilites                                   controllers.OneTimeAvailabilityController.deleteOneTimeAvailability()
+# Delete a one time availability by oneTimeAvailabilityId
+DELETE        /api/onetimeavailabilites/:oneTimeAvailabilityId            controllers.OneTimeAvailabilityController.deleteOneTimeAvailability(oneTimeAvailabilityId: Integer)
 
 
 #
 # DbOneTimeUnavailability
 #
 
-# List all DbOneTimeUnavailabilities
+# List all one time unavailabilities in the database
 GET           /api/onetimeunavailabilites                                 controllers.OneTimeUnavailabilityController.listOneTimeUnavailabilities()
 
-# List all DbOneTimeUnavailability in a time range
+# List all one time unavailabilities in a time range
 GET           /api/onetimeunavailabilites/:timeStart/:timeEnd             controllers.OneTimeUnavailabilityController.readOneTimeUnavailabilitiesByTimeRange(timeStart: Long, timeEnd: Long)
 
-# Create a DbOneTimeUnavailability
+# Create a one time unavailability
 POST          /api/onetimeunavailabilites                                 controllers.OneTimeUnavailabilityController.createOneTimeUnavailability()
 
-# Read DbOneTimeUnavailability by oneTimeUnavailabilityId
+# Read one time unavailability by oneTimeUnavailabilityId
 GET           /api/onetimeunavailabilites/:oneTimeUnavailabilityId        controllers.OneTimeUnavailabilityController.retrieveOneTimeUnavailability(oneTimeUnavailabilityId: Integer)
 
-# Delete DbOneTimeUnavailability by oneTimeUnavailabilityId
-DELETE        /api/onetimeunavailabilites                                 controllers.OneTimeUnavailabilityController.deleteOneTimeUnavailability()
+# Delete one time unavailability by oneTimeUnavailabilityId
+DELETE        /api/onetimeunavailabilites/:oneTimeUnavailabilityId        controllers.OneTimeUnavailabilityController.deleteOneTimeUnavailability(oneTimeUnavailabilityId: Integer)
 
 
 #
 # DbRecurringAvailability
 #
 
-# List all DbRecurringAvailabilities
+# List all recurring availabilities
 GET           /api/recurringavailabilites                                 controllers.RecurringAvailabilityController.listRecurringAvailabilities()
 
-# List all DbRecurringAvailability in a time range
+# List all recurring availabilities in a time range
 GET           /api/recurringavailabilites/:timeStart/:timeEnd             controllers.RecurringAvailabilityController.readRecurringAvailabilitiesByTimeRange(timeStart: Long, timeEnd: Long)
 
-# Create a DbRecurringAvailability
+# Create a recurring availability
 POST          /api/recurringavailabilites                                 controllers.RecurringAvailabilityController.createRecurringAvailability()
 
-# Read DbRecurringAvailability by recurringAvailabilityId
+# Read recurring availability by recurringAvailabilityId
 GET           /api/recurringavailabilites/:recurringAvailabilityId        controllers.RecurringAvailabilityController.retrieveRecurringAvailability(recurringAvailabilityId: Integer)
 
-# Delete DbRecurringAvailability by recurringAvailabilityId
-DELETE        /api/recurringavailabilites                                 controllers.RecurringAvailabilityController.deleteRecurringAvailability()
+# Delete recurring availability by recurringAvailabilityId
+DELETE        /api/recurringavailabilites/:recurringAvailabilityId        controllers.RecurringAvailabilityController.deleteRecurringAvailability(recurringAvailabilityId: Integer)
 
 

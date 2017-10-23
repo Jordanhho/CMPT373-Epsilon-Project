@@ -39,15 +39,9 @@ public class ShiftNameController extends Controller {
         return ok();
     }
 
-    public Result deleteShiftName() {
-
-        DbShiftName dbShiftName = getDbShiftNameFromForm();
-
-        // Read the DbShiftName to delete based on the form fields.
-        DbShiftName dbShiftNameToDelete = DbShiftNameHelper.readDbShiftNameByName(dbShiftName.getName());
-
+    public Result deleteShiftName(String name) {
+        DbShiftName dbShiftNameToDelete = DbShiftNameHelper.readDbShiftNameByName(name);
         DbShiftNameHelper.deleteDbShiftName(dbShiftNameToDelete);
-
         return ok();
     }
 

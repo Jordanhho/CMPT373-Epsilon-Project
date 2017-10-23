@@ -19,7 +19,7 @@ public class OneTimeAvailabilityController extends Controller {
         return ok();
     }
 
-    public Result deleteOneTimeAvailability() {
+    public Result deleteOneTimeAvailability(Integer oneTimeAvailabilityId) {
         return ok();
     }
 

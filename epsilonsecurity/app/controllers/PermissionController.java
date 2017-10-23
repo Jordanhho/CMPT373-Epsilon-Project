@@ -19,7 +19,7 @@ public class PermissionController extends Controller {
         return ok();
     }
 
-    public Result deletePermission() {
+    public Result deletePermission(Integer permissionId) {
         return ok();
     }
 }

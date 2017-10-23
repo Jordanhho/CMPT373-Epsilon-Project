@@ -48,16 +48,9 @@ public class ShiftController extends Controller {
         return ok();
     }
 
-    public Result deleteShift() {
-
-        // Create a DbShift object form the form data.
-        DbShift dbShift = getDbShiftFromForm();
-
-        // Read the DbShift to delete based on the form fields
-        DbShift dbShiftToDelete = DbShiftHelper.readDbShiftByName(dbShift.getName());
-
+    public Result deleteShift(String name) {
+        DbShift dbShiftToDelete = DbShiftHelper.readDbShiftByName(name);
         DbShiftHelper.deleteDbShiftByName(dbShiftToDelete);
-
         return ok();
     }
 
