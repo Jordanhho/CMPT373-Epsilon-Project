@@ -1,10 +1,11 @@
-package store;
+package database;
 
 import io.ebean.Ebean;
 import io.ebean.Transaction;
 import org.apache.commons.io.FileUtils;
-import org.junit.*;
-import org.junit.runners.MethodSorters;
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.BeforeClass;
 import play.Application;
 import play.test.Helpers;
 
@@ -13,20 +14,10 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Arrays;
-import java.util.List;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
-import java.util.stream.Collectors;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.fail;
 
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class UserStoreTest {
-
-    private String contactEmail = "contact.email@sfu.ca";
-    private String sfuEmail = "sfu.email@sfu.ca";
-    private String phoneNumber = "60412234567";
-    private String photoUrl = "http.cat/404";
+public class BaseDatabaseTest {
 
     public static String createDdl = "";
     public static String dropDdl = "";
@@ -63,11 +54,10 @@ public class UserStoreTest {
     private void dropTables() {
         Transaction transaction = Ebean.beginTransaction();
         Connection connection = transaction.getConnection();
-        List<String> dropSql = Arrays.asList(dropDdl.split("\n"))
+        Arrays.asList(dropDdl.split("\n"))
                 .stream()
                 .filter(statement -> statement.trim().isEmpty() == false)
-                .collect(Collectors.toList());
-        dropSql.forEach( sql -> {
+                .forEach( sql -> {
             Statement statement = null;
             try {
                 connection.createStatement().executeUpdate(sql);
@@ -97,49 +87,6 @@ public class UserStoreTest {
                 });
         Ebean.commitTransaction();
         Ebean.endTransaction();
-    }
-
-    @Test
-    public void testCreateUser() {
-        User createdUser = null;
-        try {
-            createdUser = createTestUser()
-                    .get();
-        } catch (InterruptedException | ExecutionException e) {
-            fail(e.getLocalizedMessage());
-            e.printStackTrace();
-        }
-        assertUserSameAsFields(createdUser);
-    }
-
-    @Test
-    public void testGetCreatedUser() {
-        try {
-            User createdUser = createTestUser()
-                    .thenCompose( user -> UserStore.getInstance().getUserWithUserId(user) )
-                    .handle((value, e) -> {
-                        fail();
-                        return value;
-                    } )
-                    .get();
-            assertNotNull(createdUser);
-            assertUserSameAsFields(createdUser);
-        } catch (InterruptedException | ExecutionException e) {
-            fail(e.getLocalizedMessage());
-            e.printStackTrace();
-        }
-        fail();
-    }
-
-    private CompletableFuture<User> createTestUser() {
-        return UserStore.getInstance().createUser(sfuEmail, contactEmail, phoneNumber, photoUrl);
-    }
-
-    private void assertUserSameAsFields(User user) {
-        assertEquals(contactEmail, user.getContactEmail());
-        assertEquals(sfuEmail, user.getSfuEmail());
-        assertEquals(phoneNumber, user.getPhoneNumber());
-        assertEquals(photoUrl, user.getPhotoUrl());
     }
 
 }
