@@ -1,25 +1,42 @@
-<template>
-    <div id= "my-profile">
-        <div id = "profile-main">
-            <img :src="userPhoto" alt="" id= "user-photo">
-            <div id = "top-bar">
-                    <span id= "user-name">{{userName}} </span>
 
-                    <button>
-                        <icon name= "toggle-down" scale="2" id="expand"></icon>
-                    </button>
+<template>
+     <div id = "profile-main">
+        <div id = "profile-header">
+            <img :src="userPhoto" alt="" id= "user-photo">
+            <div id = "basic-info">
+                <span id= "user-name">{{userName}}</span>
+                <div id = "contact-info">
+                    <li v-for= "contact in contactInfo">
+                        {{contact.text}}    
+                    </li>
+                </div> 
             </div>
-            <div id = "user-info">
-                <li v-for= "info in infoList">
-                    {{info.text}}
-                </li>
-            </div> 
         </div>
+        <div id = "personal-info">
+            <div id = "tab">
+                <li v-for= "tab in tabs">
+                        {{tab.text}}    
+                </li>
+            </div>
+            <div id = "content">
+                <li v-for= "content in tabContent">
+                        {{content.text}}    
+                </li>
+            </div>
+            <div id = "hours">
+                <span id= "number-hours">{{hoursNumber}}</span>
+                <span id= "hours-text">HOURS</span>    
+            </div>
+        </div>
+        <certificate id = "test">
+            "Hello?"
+        </certificate>
     </div>
 </template>
 
 <script>
 import Icon from 'vue-awesome/components/Icon.vue'
+import Certificate from './Certificate.vue'
 
 export default {
     name: 'user-profile',
@@ -27,98 +44,92 @@ export default {
         return {
             userName: 'Ada Lovelace',
             userPhoto: 'http://lorempixel.com/100/100/people',
-            infoList: [
-                {text: 'Role: Volunteer'},
-                {text: 'Team: Burnaby, Surrey'},
-                {text: 'Sfu Id: 301211345'},
-                {text: 'Sfu Email: adall@sfu.ca'},
-                {text: 'Contact Email: alovelace@gmail.com'},
-                {text: 'Phone Number: 604-445-5544'}
-            ]
+            contactInfo: [
+                {text: 'alovelace@gmail.com'},
+                {text: '604-657-9124'}
+            ],
+            tabs: [
+                {text: 'Sfu Email:'},
+                {text: 'Team: '}
+            ],
+            tabContent: [
+                {text: 'adall@sfu.ca'},
+                {text: 'Burnaby, Surrey'}
+            ],
+            hoursNumber: "14"
         }
     },
     components: {
-        Icon
+        Certificate
     }
 }
 </script>
 
 <style scoped>
-    #my-profile{
-        background: #a6192e;
-        width: 100%;
-        position: relative;
-    }
     #profile-main {
-        height: 90%;
-        width: 80%;
         background: white;
         flex-flow: column nowrap;
-        position: relative;
-        margin-top: 5%;
-        margin-left: 10%;
-        margin-right: 10%;
-        border-style: inset;
-    }
-
-    /* #user-photo{
-        width: 180px;
-        height: 180px;
-        border-radius: 50%;
-    } */
-
-    #user-photo{
-        width: 180px;
-        height: 180px;
-        border-radius: 50%;
-        margin-top: 2%;
-        margin-bottom: 2%;
-        border-style: outset;
-    }
-
-    #top-bar{
-        background: #a6192e;
-        height: 5%;
         width: 100%;
-        /* margin-top: 10%; */
+        border-style: groove;
+    }
+
+    #profile-header{
         flex-flow: row nowrap;
-        position: relative;
-        margin-left: 0.1%;
-        margin-bottom: 4%;
-    }
-
-    #user-name{
-        height: 100%;
-        width: 50%;
-        position: absolute;
-        font-size: 2em;
-        color: white;
         display: flex;
-        padding-left: 10%;
-        align-items: center;
+        margin-top: 7%;
     }
-
-    #top-bar button{
-        background: transparent;
-        border: none;
-        height: 100%;
-        position: absolute;
-        right: 0%;
-        
+    #user-photo{
+        width: 12em;
+        height: 12em;
+        border-radius: 50%;
+        border-style: none;
+        margin-left: 10%;
     }
-
-    #user-info{
-        border-style: outset;
-        font-size: 1.5em;
-        margin-top: 2%;
-        margin-left: 0.1%;
+    #basic-info{
+        margin-left: 5%;
+        margin-top: 1.5%;
+        flex-flow: column nowrap;
+    }
+    #user-name{
+        font-size: 4em;
+        text-align: left;        
+    }
+    #contact-info{
+        list-style-type: none;
         text-align: left;
-        padding-left: 10%;
-        padding-top: 0.5%;
-        padding-bottom: 0.5%;
+        font-size: 2em;
     }
-    /*#user-stat .placeholder{
-        background: pink;
-    } */
+    #personal-info{
+        flex-flow: row nowrap;
+        display: flex;
+        margin-top: 5%;
+    }
+    #tab{        
+        list-style-type: none;
+        text-align: right;
+        margin-left: 10%;
+        font-size: 2em;
+    }
+    #content{
+        background: white;
+        list-style-type: none;
+        display: block;
+        text-align: left;
+        font-size: 2em;
+        margin-left: .5%;
+    }
+    #hours{
+        display: flex;
+        flex-flow: column nowrap;
+        margin-right: 15%;
+    }
+    #number-hours{
+        font-size: 3em;
+    }
+    #test{
+        background: beige;
+        width: 30%;
+    }
+
 </style>
 
