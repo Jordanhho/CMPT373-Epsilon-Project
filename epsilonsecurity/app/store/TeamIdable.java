@@ -1,4 +1,4 @@
-package models;
+package store;
 
 public interface TeamIdable {
    TeamId getTeamId();

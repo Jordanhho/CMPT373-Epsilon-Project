@@ -31,7 +31,7 @@ public class BaseDatabaseTest {
 
         // Reading the evolution file
         String evolutionContent = FileUtils.readFileToString(
-                app.getWrappedApplication().getFile("conf/evolutions/default/1.sql"));
+                app.getWrappedApplication().getFile("conf/evolutions/test/1.sql"));
 
         String[] splittedEvolutionContent = evolutionContent.split("# --- !Ups");
         String[] upsDowns = splittedEvolutionContent[1].split("# --- !Downs");

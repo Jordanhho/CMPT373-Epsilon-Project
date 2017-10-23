@@ -14,8 +14,8 @@ public class DbUserHelperTest extends BaseDatabaseTest {
 
     @Test
     public void createUserTest() {
-        DbUserHelper.createDbUser(contactEmail, sfuEmail, phoneNumber, photoUrl);
         DbUser user = new DbUser(contactEmail, sfuEmail, phoneNumber, photoUrl);
+        DbUserHelper.createDbUser(user);
         Assert.assertEquals(DbUserHelper.readAllDbUsers().size(), 1);
     }
 

@@ -1,7 +1,5 @@
 package store;
 
-import models.UserId;
-import models.UserIdable;
 import models.databaseModel.scheduling.DbUser;
 
 import javax.annotation.Nonnull;
@@ -14,7 +12,7 @@ public class User implements UserIdable {
     private String photoUrl;
 
     protected User(DbUser dbUser) {
-        this.userId = new UserId(dbUser.getUserId());
+        this.userId = new UserId(dbUser.getId());
         this.contactEmail = dbUser.getContactEmail();
         this.sfuEmail = dbUser.getSfuEmail();
         this.phoneNumber = dbUser.getPhoneNumber();
