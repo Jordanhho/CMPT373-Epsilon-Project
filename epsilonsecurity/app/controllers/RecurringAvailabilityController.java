@@ -23,7 +23,7 @@ public class RecurringAvailabilityController extends Controller {
         return ok();
     }
 
-    public Result readRecurringAvailabilitiesByTimeRange(Long timeStart, Long timeEnd) {
+    public Result readRecurringAvailabilitiesByTimeRange() {
         return ok();
     }
 }
