@@ -32,7 +32,8 @@
     }
 </script>
 
-<style scoped>
+<style scoped lang='scss'>
+    $user-list-width: 30%;
     #manage-users {
         background: white;
         width: 100%;
@@ -42,28 +43,27 @@
 
     #profile-main {
         height: 100%;
-        width: 70%
+        width: 100% - $user-list-width;
     }
 
     #userlist {
         height: 100%;
-        width: 30%;
+        width: $user-list-width;
         background: black;
         flex-flow: row nowrap;
     }
 
-    #profile {
+    #profile, #qualifications {
         height: 50%;
         width: 100%;
-        background: red;
         flex-flow: row nowrap;
+    }
+    #profile {
+        background: red;
     }
 
     #qualifications {
-        height: 50%;
-        width: 100%;
         background: yellow;
-        flex-flow: row nowrap;
     }
 
 
