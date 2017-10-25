@@ -1,10 +1,10 @@
 <template>
     <div id = "userlist">
-        <select v-model ="selected">
-            <option selected = "selected">all campuses</option>
-            <option v-for="campus in campuses">{{campus}}</option>
+        <select v-model ="team">
+            <option selected = "team">all teams</option>
+            <option v-for="t in teams">{{t}}</option>
         </select>
-        <span>Selected: {{ selected }}</span>
+        <span>Selected: {{ team }}</span>
         <button id="adduser" @click="showAddUser = true">Add User</button>
         <adduser v-if="showAddUser" @close="showAddUser = false">
 
@@ -339,9 +339,8 @@
                         last: "Hocutt"
                     }
                 ],
-                campuses:
-                ["surrey", "vancouver", "burnaby"],
-                selectedString: 'all campuses'
+                teams: ["surrey", "vancouver", "burnaby"],
+                teamValue: 'all teams'
             }
         },
         methods: {
@@ -353,12 +352,12 @@
             "adduser": AddUser
         },
         computed: {
-            selected: {
+            team: {
                 get(){
-                    return this.selectedString;
+                    return this.teamValue;
                 },
                 set(v) {
-                    this.selectedString = v;
+                    this.teamValue = v;
                     alert(v);
                 },
             }
