@@ -35,12 +35,12 @@ DELETE        /api/users/:sfuEmail                                              
 #
 
 # Assign a user to a shift
-POST          /api/usershifts                                                    controllers.UserShiftController.createUserShift()
+POST          /api/users/:userId/shifts/:shiftId                                 controllers.UserShiftController.createUserShift()
 
-# Read a user-shift pair by userId
+# Read all shifts assigned to user
 GET           /api/users/:userId/shifts                                          controllers.UserShiftController.retrieveUserShift(userId: Integer)
 
-# Delete a user-shift pair by shiftId
+# Unassign all users tied to a shift
 DELETE        /api/users/shifts/:shiftId                                         controllers.UserShiftController.deleteUserShifts(shiftId: Integer)
 
 
@@ -49,10 +49,10 @@ DELETE        /api/users/shifts/:shiftId                                        
 #
 
 # List all user-team pairs in the database
-GET           /api/userteams                                                     controllers.UserTeamController.listUserTeams()
+GET           /api/users/teams                                                   controllers.UserTeamController.listUserTeams()
 
 # Assign a user to a team
-POST          /api/userteams                                                     controllers.UserTeamController.createUserTeam()
+POST          /api/users/:userId/teams/:teamId                                   controllers.UserTeamController.createUserTeam()
 
 # Read a user-team pair by userId and teamId
 GET           /api/users/:userId/teams/:teamId                                   controllers.UserTeamController.retrieveUserTeam(userId: Integer, teamId: Integer)
@@ -145,11 +145,12 @@ DELETE        /api/roles/:roleId                                                
 #
 
 # List all role-permission pairs in the database
-GET           /api/rolepermissions                                               controllers.RolePermissionController.listRolePermissions()
+GET           /api/roles/permissions                                             controllers.RolePermissionController.listRolePermissions()
 
 # Assign a permission to a role
-POST          /api/rolepermissions                                               controllers.RolePermissionController.createRolePermission()
+POST          /api/roles/:roleId/permissions/:permissionId                       controllers.RolePermissionController.createRolePermission()
 
+# TODO: Clarify route paths when identifying role-permission pairs by rolePermissionId
 # Read a role-permission pair by rolePermissionId
 GET           /api/rolepermissions/:rolePermissionId                             controllers.RolePermissionController.retrieveRolePermission(rolePermissionId: Integer)
 
