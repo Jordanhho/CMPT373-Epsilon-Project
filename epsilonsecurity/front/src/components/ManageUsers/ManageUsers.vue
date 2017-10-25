@@ -18,7 +18,7 @@
         name: 'manage-users',
         data() {
             return {
-                showSidenav: true
+
             }
         },
         methods: {
@@ -33,7 +33,7 @@
 </script>
 
 <style scoped lang='scss'>
-    $user-list-width: 30%;
+    $user-list-width: 20%;
     #manage-users {
         background: white;
         width: 100%;
@@ -49,7 +49,7 @@
     #userlist {
         height: 100%;
         width: $user-list-width;
-        background: black;
+        background: white;
         flex-flow: row nowrap;
     }
 

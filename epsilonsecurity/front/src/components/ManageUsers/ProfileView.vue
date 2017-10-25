@@ -1,11 +1,11 @@
 <template>
     <div id = "profile">
         <img :src="userPhoto" alt="" id= "user-photo">
-        <div id = "user-info">
+        <ul id = "user-info">
             <li v-for= "info in infoList">
                 {{info.text}}
             </li>
-        </div>
+        </ul>
     </div>
 </template>
 
