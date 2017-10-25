@@ -18,7 +18,7 @@
         name: 'scroll',
         data(){
             return {
-                showAddUser: true,
+                showAddUser: false,
                 names: [
                     {
                         first: "Elinor",
