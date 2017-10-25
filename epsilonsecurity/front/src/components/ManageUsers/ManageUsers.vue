@@ -13,6 +13,7 @@
     import UserListView from './UserListView.vue'
     import QualificationsView from './QualificationsView.vue'
     import ProfileView from './ProfileView.vue'
+    import Icon from 'vue-awesome/components/Icon.vue'
 
     export default {
         name: 'manage-users',
@@ -27,7 +28,8 @@
         components: {
             "userlist": UserListView,
             'qualifications': QualificationsView,
-            'profile': ProfileView
+            'profile': ProfileView,
+            Icon
         }
     }
 </script>

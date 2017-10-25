@@ -1,5 +1,10 @@
 <template>
     <div id = "userlist">
+        <select v-model ="selected">
+            <option selected = "selected">all campuses</option>
+            <option v-for="campus in campuses">{{campus}}</option>
+        </select>
+        <span>Selected: {{ selected }}</span>
         <button id="adduser" @click="showAddUser = true">Add User</button>
         <adduser v-if="showAddUser" @close="showAddUser = false">
 
@@ -333,7 +338,10 @@
                         first: "Elinor",
                         last: "Hocutt"
                     }
-                ]
+                ],
+                campuses:
+                ["surrey", "vancouver", "burnaby"],
+                selectedString: 'all campuses'
             }
         },
         methods: {
@@ -343,7 +351,18 @@
         },
         components: {
             "adduser": AddUser
-        }
+        },
+        computed: {
+            selected: {
+                get(){
+                    return this.selectedString;
+                },
+                set(v) {
+                    this.selectedString = v;
+                    alert(v);
+                },
+            }
+        },
     }
 </script>
 
