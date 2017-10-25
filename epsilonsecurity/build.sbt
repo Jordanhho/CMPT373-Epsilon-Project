@@ -64,4 +64,3 @@ frontEndBuild := {
 frontEndBuild := (frontEndBuild dependsOn cleanFrontEndBuild).value
 
 dist := (dist dependsOn frontEndBuild).value
-

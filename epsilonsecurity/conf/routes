@@ -1,9 +1,13 @@
 # allow requests for static assets
 GET           /assets/*file                             controllers.Assets.versioned(path="/public", file: Asset)
 
+GET           /test                                     controllers.TestController.testy()
+
+GET             /ok     controllers.TestController.test()
+
 # redirect all other requests to the SPA page
 # ...except API requests with the prefix '/api'
-GET           /$p<(?!api).*>                            controllers.FrontController.index(p: String)
+# GET           /$p<(?!api).*>                            controllers.FrontController.index(p: String)
 
 # TODO: All API endpoints need to be like '/api/user'.
 # Or we could create our own custom router and use it
@@ -83,5 +87,6 @@ POST          /shift                                    controllers.ShiftControl
 
 # Delete a shift
 DELETE        /shift                                    controllers.ShiftController.deleteShift()
+
 
 

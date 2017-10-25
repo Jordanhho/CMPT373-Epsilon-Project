@@ -1,11 +1,14 @@
 package controllers;
 
+import auth.AuthenticatedAction;
 import models.databaseModel.helpers.DbShiftNameHelper;
 import models.databaseModel.scheduling.DbShiftName;
 import play.data.Form;
 import play.data.FormFactory;
+import play.mvc.Action;
 import play.mvc.Controller;
 import play.mvc.Result;
+import play.mvc.With;
 
 import javax.inject.Inject;
 
@@ -50,5 +53,6 @@ public class ShiftNameController extends Controller {
 
         return ok();
     }
+
 
 }
