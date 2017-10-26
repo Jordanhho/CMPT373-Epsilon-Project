@@ -8,7 +8,7 @@
 Now the project should rebuild and auto-generate Q classes needed for type-safe queries.
 If the Message toolbar displays messages of: information: enhanced.... with the name of Q classes matching 
 with Db classes, then the generator succeeded. Otherwise,... turn off IntelliJ, turn it on, and rebuild again.
-There are also alternative of creating the generator manually that would need to be researched upon further, if this method can't guarantee stable setup.
+Note: If you have Play2 compiler setting enabled, please unenable it, or the query classes would not be generated.
 
 After finished, in target/scala-2.12/classes, there should be a new folder called generated, containing all of our
 newly generated classes.
