@@ -2,6 +2,7 @@ package models.databaseModel.helpers;
 
 
 import models.databaseModel.scheduling.DbOneTimeUnavailability;
+import models.databaseModel.scheduling.DbUser;
 import models.databaseModel.scheduling.query.QDbOneTimeUnavailability;
 
 import java.util.List;
