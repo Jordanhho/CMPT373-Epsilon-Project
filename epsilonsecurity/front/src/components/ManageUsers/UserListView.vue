@@ -27,7 +27,8 @@
                 names: [
                     {
                         first: "Elinor",
-                        last: "Hocutt"
+                        last: "Hocutt",
+                        teams: ["surrey", "burnaby", "vancouver"]
                     },
                     {
                         first: "Elinor",
@@ -346,6 +347,10 @@
         methods: {
             toggleAddUser() {
                 this.showAddUser = !(this.showAddUser)
+            },
+            getNewList() {
+                // ask backend for a list of users on a current team
+                // set list to response from backend
             }
         },
         components: {
