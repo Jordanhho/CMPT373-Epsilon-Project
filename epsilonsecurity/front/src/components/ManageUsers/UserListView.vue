@@ -10,8 +10,8 @@
 
         </adduser>
         <ul id = "scroll">
-            <li v-for= "name in names">
-                {{name.first}}, {{name.last}}
+            <li v-for= "user in filteredUsers">
+                {{user.first}}, {{user.last}}
             </li>
         </ul>
     </div>
@@ -19,327 +19,45 @@
 
 <script>
     import AddUser from "./AddUser.vue";
+    let usersList = [
+        {
+            first: "Billy",
+            last: "Jimbob",
+            teams: ["surrey"],
+            userid: 1
+        },
+        {
+            first: "Kevin",
+            last: "Bacon",
+            teams: ["surrey", "burnaby", "vancouver"],
+            userid: 2
+        },
+        {
+            first: "Kevin",
+            last: "Hart",
+            teams: ["vancouver"],
+            userid: 3
+        },
+        {
+            first: "Russell",
+            last: "Peters",
+            teams: ["surrey", "vancouver"],
+            userid: 4
+        },
+        {
+            first: "Elinor",
+            last: "Hocutt",
+            teams: ["burnaby", "vancouver"],
+            userid: 5
+        },
+    ];
     export default {
         name: 'scroll',
         data(){
             return {
                 showAddUser: false,
-                names: [
-                    {
-                        first: "Elinor",
-                        last: "Hocutt",
-                        teams: ["surrey", "burnaby", "vancouver"]
-                    },
-                    {
-                        first: "Elinor",
-                        last: "Hocutt"
-                    },
-                    {
-                        first: "Elinor",
-                        last: "Hocutt"
-                    },
-                    {
-                        first: "Elinor",
-                        last: "Hocutt"
-                    },
-                    {
-                        first: "Elinor",
-                        last: "Hocutt"
-                    },
-                    {
-                        first: "Elinor",
-                        last: "Hocutt"
-                    },
-                    {
-                        first: "Elinor",
-                        last: "Hocutt"
-                    },
-                    {
-                        first: "Elinor",
-                        last: "Hocutt"
-                    },
-                    {
-                        first: "Elinor",
-                        last: "Hocutt"
-                    },
-                    {
-                        first: "Elinor",
-                        last: "Hocutt"
-                    },
-                    {
-                        first: "Elinor",
-                        last: "Hocutt"
-                    },
-                    {
-                        first: "Elinor",
-                        last: "Hocutt"
-                    },
-                    {
-                        first: "Elinor",
-                        last: "Hocutt"
-                    },
-                    {
-                        first: "Elinor",
-                        last: "Hocutt"
-                    },
-                    {
-                        first: "Elinor",
-                        last: "Hocutt"
-                    },
-                    {
-                        first: "Elinor",
-                        last: "Hocutt"
-                    },
-                    {
-                        first: "Elinor",
-                        last: "Hocutt"
-                    },
-                    {
-                        first: "Elinor",
-                        last: "Hocutt"
-                    },
-                    {
-                        first: "Elinor",
-                        last: "Hocutt"
-                    },
-                    {
-                        first: "Elinor",
-                        last: "Hocutt"
-                    },
-                    {
-                        first: "Elinor",
-                        last: "Hocutt"
-                    },
-                    {
-                        first: "Elinor",
-                        last: "Hocutt"
-                    },
-                    {
-                        first: "Elinor",
-                        last: "Hocutt"
-                    },
-                    {
-                        first: "Elinor",
-                        last: "Hocutt"
-                    },{
-                        first: "Elinor",
-                        last: "Hocutt"
-                    },
-                    {
-                        first: "Elinor",
-                        last: "Hocutt"
-                    },
-                    {
-                        first: "Elinor",
-                        last: "Hocutt"
-                    },
-                    {
-                        first: "Elinor",
-                        last: "Hocutt"
-                    },
-                    {
-                        first: "Elinor",
-                        last: "Hocutt"
-                    },
-                    {
-                        first: "Elinor",
-                        last: "Hocutt"
-                    },
-                    {
-                        first: "Elinor",
-                        last: "Hocutt"
-                    },
-                    {
-                        first: "Elinor",
-                        last: "Hocutt"
-                    },{
-                        first: "Elinor",
-                        last: "Hocutt"
-                    },
-                    {
-                        first: "Elinor",
-                        last: "Hocutt"
-                    },
-                    {
-                        first: "Elinor",
-                        last: "Hocutt"
-                    },
-                    {
-                        first: "Elinor",
-                        last: "Hocutt"
-                    },
-                    {
-                        first: "Elinor",
-                        last: "Hocutt"
-                    },
-                    {
-                        first: "Elinor",
-                        last: "Hocutt"
-                    },
-                    {
-                        first: "Elinor",
-                        last: "Hocutt"
-                    },
-                    {
-                        first: "Elinor",
-                        last: "Hocutt"
-                    },{
-                        first: "Elinor",
-                        last: "Hocutt"
-                    },
-                    {
-                        first: "Elinor",
-                        last: "Hocutt"
-                    },
-                    {
-                        first: "Elinor",
-                        last: "Hocutt"
-                    },
-                    {
-                        first: "Elinor",
-                        last: "Hocutt"
-                    },
-                    {
-                        first: "Elinor",
-                        last: "Hocutt"
-                    },
-                    {
-                        first: "Elinor",
-                        last: "Hocutt"
-                    },
-                    {
-                        first: "Elinor",
-                        last: "Hocutt"
-                    },
-                    {
-                        first: "Elinor",
-                        last: "Hocutt"
-                    },{
-                        first: "Elinor",
-                        last: "Hocutt"
-                    },
-                    {
-                        first: "Elinor",
-                        last: "Hocutt"
-                    },
-                    {
-                        first: "Elinor",
-                        last: "Hocutt"
-                    },
-                    {
-                        first: "Elinor",
-                        last: "Hocutt"
-                    },
-                    {
-                        first: "Elinor",
-                        last: "Hocutt"
-                    },
-                    {
-                        first: "Elinor",
-                        last: "Hocutt"
-                    },
-                    {
-                        first: "Elinor",
-                        last: "Hocutt"
-                    },
-                    {
-                        first: "Elinor",
-                        last: "Hocutt"
-                    },{
-                        first: "Elinor",
-                        last: "Hocutt"
-                    },
-                    {
-                        first: "Elinor",
-                        last: "Hocutt"
-                    },
-                    {
-                        first: "Elinor",
-                        last: "Hocutt"
-                    },
-                    {
-                        first: "Elinor",
-                        last: "Hocutt"
-                    },
-                    {
-                        first: "Elinor",
-                        last: "Hocutt"
-                    },
-                    {
-                        first: "Elinor",
-                        last: "Hocutt"
-                    },
-                    {
-                        first: "Elinor",
-                        last: "Hocutt"
-                    },
-                    {
-                        first: "Elinor",
-                        last: "Hocutt"
-                    },{
-                        first: "Elinor",
-                        last: "Hocutt"
-                    },
-                    {
-                        first: "Elinor",
-                        last: "Hocutt"
-                    },
-                    {
-                        first: "Elinor",
-                        last: "Hocutt"
-                    },
-                    {
-                        first: "Elinor",
-                        last: "Hocutt"
-                    },
-                    {
-                        first: "Elinor",
-                        last: "Hocutt"
-                    },
-                    {
-                        first: "Elinor",
-                        last: "Hocutt"
-                    },
-                    {
-                        first: "Elinor",
-                        last: "Hocutt"
-                    },
-                    {
-                        first: "Elinor",
-                        last: "Hocutt"
-                    },{
-                        first: "Elinor",
-                        last: "Hocutt"
-                    },
-                    {
-                        first: "Elinor",
-                        last: "Hocutt"
-                    },
-                    {
-                        first: "Elinor",
-                        last: "Hocutt"
-                    },
-                    {
-                        first: "Elinor",
-                        last: "Hocutt"
-                    },
-                    {
-                        first: "Elinor",
-                        last: "Hocutt"
-                    },
-                    {
-                        first: "Elinor",
-                        last: "Hocutt"
-                    },
-                    {
-                        first: "Elinor",
-                        last: "Hocutt"
-                    },
-                    {
-                        first: "Elinor",
-                        last: "Hocutt"
-                    }
-                ],
+                users: [],
+                filteredUsers: [],
                 teams: ["surrey", "vancouver", "burnaby"],
                 teamValue: 'all teams'
             }
@@ -348,10 +66,6 @@
             toggleAddUser() {
                 this.showAddUser = !(this.showAddUser)
             },
-            getNewList() {
-                // ask backend for a list of users on a current team
-                // set list to response from backend
-            }
         },
         components: {
             "adduser": AddUser
@@ -364,10 +78,19 @@
                 set(v) {
                     this.teamValue = v;
                     alert(v);
+                    this.filteredUsers = this.users.filter(user => v == "all teams" || user.teams.indexOf(v) > -1);
                 },
-            }
+            },
         },
-    }
+        created: function() {
+            // perform ajax request here
+            alert("userlist created");
+            this.users = usersList;
+            this.filteredUsers = usersList;
+        },
+    };
+
+
 </script>
 
 <style scoped>

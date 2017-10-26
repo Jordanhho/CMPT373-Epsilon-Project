@@ -1,5 +1,11 @@
 <template>
     <div id = "profile">
+        <button id="edituser" @click="showEditUser = true">Edit User</button>
+        <edituser v-if="showEditUser" @close="showEditUser = false">
+        </edituser>
+        <button id="usersettings" @click="showUserSettings = true">User Settings</button>
+        <usersettings v-if="showUserSettings" @close="showUserSettings = false">
+        </usersettings>
         <img :src="userPhoto" alt="" id= "user-photo">
         <ul id = "user-info">
             <li v-for= "info in infoList">
@@ -25,6 +31,15 @@
                 ]
             }
         },
+        methods: {
+            toggleEditUser() {
+                this.showEditUser = !(this.showEditUser)
+            },
+
+            toggleAddUser() {
+                this.showUserSettings = !(this.showUserSettings)
+            },
+        }
     }
 </script>
 
