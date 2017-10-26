@@ -3,6 +3,7 @@ package models.databaseModel.helpers;
 import models.databaseModel.scheduling.DbOneTimeAvailability;
 import models.databaseModel.scheduling.DbUser;
 import models.databaseModel.scheduling.query.QDbOneTimeAvailability;
+
 import models.databaseModel.scheduling.query.QDbUser;
 
 import java.util.ArrayList;
@@ -72,7 +73,6 @@ public final class DbOneTimeAvailabilityHelper {
 
         return dbOneTimeAvailabilityList;
     }
-
 
     /**
      * returns a list of all DbOneTimeAvailability
