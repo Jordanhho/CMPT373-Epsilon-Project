@@ -15,6 +15,10 @@ public class UserTeamController extends Controller {
         return ok();
     }
 
+    public Result createUserTeam(Integer userId, Integer teamId) {
+        return ok();
+    }
+
     public Result retrieveUserTeam(Integer userId, Integer teamId) {
         return ok();
     }

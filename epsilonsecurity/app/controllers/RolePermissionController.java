@@ -11,7 +11,7 @@ public class RolePermissionController extends Controller {
     return ok();
 }
 
-    public Result createRolePermission() {
+    public Result createRolePermission(Integer roleId, Integer permissionId) {
         return ok();
     }
 

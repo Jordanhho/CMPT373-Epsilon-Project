@@ -42,6 +42,11 @@ public class UserShiftController extends Controller {
         return ok();
     }
 
+    public Result createUserShift(Integer userId, Integer shiftId) {
+        // TODO: Implement createUserShift() with input parameters
+        return ok();
+    }
+
     public Result retrieveUserShift(Integer userId) {
         List<DbUserShift> dbUserShiftList = DbUserShiftHelper.readDbUserByShiftId(userId);
 
