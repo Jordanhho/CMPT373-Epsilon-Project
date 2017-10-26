@@ -51,15 +51,9 @@ public class UserController extends Controller {
         return ok();
     }
 
-    public Result deleteUserBySfuEmail() {
-
-        DbUser dbUserFromForm = getDbUserFromForm();
-
-        // Read the DbUser to delete based on the form fields.
-        DbUser dbUserToDelete = DbUserHelper.readDbUserBySfuEmail(dbUserFromForm.getSfuEmail());
-
+    public Result deleteUserBySfuEmail(String sfuEmail) {
+        DbUser dbUserToDelete = DbUserHelper.readDbUserBySfuEmail(sfuEmail);
         DbUserHelper.deleteDbUserBySfuEmail(dbUserToDelete);
-
         return ok();
     }
 }

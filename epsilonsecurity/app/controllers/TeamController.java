@@ -51,16 +51,9 @@ public class TeamController extends Controller {
         return ok();
     }
 
-    public Result deleteTeamByName() {
-
-        // Create a DbTeam object from the form data.
-        DbTeam dbTeam = getDbTeamFromForm();
-
-        // Read the DbTeam to delete based on the form fields
-        DbTeam dbTeamToDelete = DbTeamHelper.readDbTeamByName(dbTeam.getName());
-
+    public Result deleteTeamByName(String name) {
+        DbTeam dbTeamToDelete = DbTeamHelper.readDbTeamByName(name);
         DbTeamHelper.deleteDbTeamByName(dbTeamToDelete);
-
         return ok();
     }
 }
