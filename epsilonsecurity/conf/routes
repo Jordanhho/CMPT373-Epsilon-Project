@@ -5,10 +5,7 @@ GET           /assets/*file                                                     
 # ...except API requests with the prefix '/api'
 GET           /$p<(?!api).*>                                                     controllers.FrontController.index(p: String)
 
-# TODO: All API endpoints need to be like '/api/user'.
-# Or we could create our own custom router and use it
-# for any requests with the prefix '/api'. This might 
-# be the better long-term solution.
+# TODO: Consider making a custom router to handle '/api' requests
 # see: https://www.playframework.com/documentation/2.6.x/ScalaRouting#the-routes-file-syntax
 
 # ----------------------- USER APIs ----------------------
@@ -150,7 +147,6 @@ GET           /api/roles/permissions                                            
 # Assign a permission to a role
 POST          /api/roles/:roleId/permissions/:permissionId                       controllers.RolePermissionController.createRolePermission(roleId: Integer, permissionId: Integer)
 
-# TODO: Clarify route paths when identifying role-permission pairs by rolePermissionId
 # Read a role-permission pair by rolePermissionId
 GET           /api/rolepermissions/:rolePermissionId                             controllers.RolePermissionController.retrieveRolePermission(rolePermissionId: Integer)
 
