@@ -7,18 +7,19 @@
         <span>Selected: {{ team }}</span>
         <button id="adduser" @click="showAddUser = true">Add User</button>
         <adduser v-if="showAddUser" @close="showAddUser = false">
-
         </adduser>
         <ul id = "scroll">
-            <li v-for= "user in filteredUsers">
-                {{user.first}}, {{user.last}}
-            </li>
+            <listed-user v-for= "user in filteredUsers"
+                         @clicked="onClickListElement"
+                         v-bind:user="user">
+            </listed-user>
         </ul>
     </div>
 </template>
 
 <script>
     import AddUser from "./AddUser.vue";
+    import ListedUser from "./ListedUser.vue";
     let usersList = [
         {
             first: "Billy",
@@ -66,8 +67,13 @@
             toggleAddUser() {
                 this.showAddUser = !(this.showAddUser)
             },
+
+            onClickListElement (value) {
+                this.$emit('clicked', value);
+            },
         },
         components: {
+            "listed-user": ListedUser,
             "adduser": AddUser
         },
         computed: {
@@ -84,7 +90,7 @@
         },
         created: function() {
             // perform ajax request here
-            alert("userlist created");
+            //alert("userlist created");
             this.users = usersList;
             this.filteredUsers = usersList;
         },

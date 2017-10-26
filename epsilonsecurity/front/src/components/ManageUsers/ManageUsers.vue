@@ -1,6 +1,6 @@
 <template>
     <div id="manage-users">
-        <userlist id="userlist">
+        <userlist id="userlist" @clicked="onClickUserListViewItem">
         </userlist>
         <div id="profile-main">
             <profile id="profile"></profile>
@@ -23,7 +23,9 @@
             }
         },
         methods: {
-
+            onClickUserListViewItem(value) {
+                alert(value);
+            }
         },
         components: {
             "userlist": UserListView,
