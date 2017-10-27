@@ -21,6 +21,12 @@ public class DbUser extends Model {
     public Integer roleId = -1;
 
     @Column(nullable = false)
+    private String firstName;
+
+    @Column(nullable = false)
+    private String lastName;
+
+    @Column(nullable = false)
     private String contactEmail;
 
     @Column(nullable = false, unique = true)
@@ -36,7 +42,9 @@ public class DbUser extends Model {
         // Required empty constructor for FormFactory
     }
 
-    public DbUser(String contactEmail,
+    public DbUser(String firstName,
+                  String lastName,
+                  String contactEmail,
                   String sfuEmail,
                   String phoneNumber,
                   String photoURL) {
@@ -48,6 +56,23 @@ public class DbUser extends Model {
 
     public Integer getId() {
         return id;
+    }
+
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public void setId(Integer id) {
