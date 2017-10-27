@@ -1,7 +1,7 @@
 package models.databaseModel.helpers;
 
 import models.databaseModel.scheduling.DbShiftType;
-import models.databaseModel.scheduling.query.DbShiftType;
+import models.databaseModel.scheduling.query.QDbShiftType;
 
 import java.util.List;
 
