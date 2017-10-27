@@ -1,25 +1,32 @@
 <template>
     <div id = "profile">
-        <button id="edituser" @click="showEditUser = true">Edit User</button>
-        <edituser v-if="showEditUser" @close="showEditUser = false">
-        </edituser>
-        <button id="usersettings" @click="showUserSettings = true">User Settings</button>
-        <usersettings v-if="showUserSettings" @close="showUserSettings = false">
-        </usersettings>
         <img :src="userPhoto" alt="" id= "user-photo">
         <ul id = "user-info">
             <li v-for= "info in infoList">
                 {{info.text}}
             </li>
         </ul>
+        <div class="buttons">
+            <button id="edit-user" @click="showEditUser = true" @clicked="onClickButton">Edit User</button>
+            <edit-user v-if="showEditUser" @close="showEditUser = false">
+            </edit-user>
+            <button id="disable-user" @click="showDisableUser = true" @clicked="onClickButton">Disable User</button>
+            <disable-user v-if="showDisableUser" @close="showDisableUser = false">
+            </disable-user>
+        </div>
     </div>
 </template>
 
 <script>
+    import EditUser from "./EditUser.vue";
+    import DisableUser from "./DisableUser.vue";
+
     export default {
         name: 'user-profile',
         data(){
             return {
+                showEditUser: false,
+                showDisableUser: false,
                 userPhoto: 'http://lorempixel.com/100/100/people',
                 infoList: [
                     {text: 'first name, last name'},
@@ -36,10 +43,21 @@
                 this.showEditUser = !(this.showEditUser)
             },
 
-            toggleAddUser() {
-                this.showUserSettings = !(this.showUserSettings)
+            toggleDisableUser() {
+                this.showDisableUser = !(this.showDisableUser)
             },
-        }
+            onClickListElement (value) {
+                this.$emit('clicked', value);
+            },
+            onClickButton (value) {
+                alert(value);
+                this.$emit('clicked', value);
+            },
+        },
+        components: {
+            "edit-user": EditUser,
+            "disable-user": DisableUser,
+        },
     }
 </script>
 
@@ -63,7 +81,7 @@
         text-align: left;
     }
 
-
-
-
+    #buttons {
+        float: right;
+    }
 </style>

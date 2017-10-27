@@ -3,26 +3,18 @@
         <div class="modal-mask">
             <div class="modal-wrapper">
                 <div class="modal-container">
-
                     <div class="modal-header">
                         <slot name="header">
-                            default header
+                            Sure you want to disable?
                         </slot>
                     </div>
-
-                    <div class="modal-body">
-                        <slot name="body">
-                            default body
-                        </slot>
-                    </div>
-
                     <div class="modal-footer">
-                        <slot name="footer">
-                            default footer
-                            <button class="modal-default-button" @click="$emit('close')">
-                                OK
-                            </button>
-                        </slot>
+                        <button class="modal-default-button" @click="$emit('close')">
+                            Cancel
+                        </button>
+                        <button class="modal-default-button2" @click="$emit('disable')">
+                            OK
+                        </button>
                     </div>
                 </div>
             </div>
@@ -46,7 +38,7 @@
 </script>
 
 <style scoped>
-    #add-user {
+    #disable-user {
         background: #ddd;
         list-style: none;
         padding: 16px 0;
