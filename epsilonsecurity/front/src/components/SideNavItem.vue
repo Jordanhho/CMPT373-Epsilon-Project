@@ -2,6 +2,7 @@
 	<router-link :to="section.url" tag="li" exact class="sidenav-item">
 		<icon v-bind:name="section.icon" class="icon"></icon>	
 		<span>{{ section.title }}</span>
+
 	</router-link>
 </template>
 
@@ -9,6 +10,7 @@
 import Icon from 'vue-awesome/components/Icon.vue'
 
 export default {
+
 	props: {
 		section: {
 			type: Object,
