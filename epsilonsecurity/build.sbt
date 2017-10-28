@@ -34,8 +34,8 @@ libraryDependencies += "org.javatuples" % "javatuples" % "1.2"
 // testing
 libraryDependencies += "junit" % "junit" % "4.12"
 libraryDependencies += "com.novocode" % "junit-interface" % "0.11" % "test"
-
 testOptions += Tests.Argument(TestFrameworks.JUnit, "-v", "-a")
+javaOptions in Test += "-Dconfig.file=conf/application.test.conf"
 
 //-----------------Development Hooks-----------------------------
 

@@ -10,11 +10,16 @@ import javax.persistence.Id;
 @Entity
 public class DbShiftName extends Model {
 
+    
+
     @Id
     private Integer id;
 
     @Column(nullable = false)
     private String name;
+
+    @Column(nullable = false)
+    private String colorCode;
 
     public DbShiftName(String name) {
         this.name = name;
@@ -24,16 +29,20 @@ public class DbShiftName extends Model {
         return id;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
     public String getName() {
         return name;
     }
 
+    public String getColorCode() {
+        return colorCode;
+    }
+
     public void setName(String name) {
         this.name = name;
+    }
+
+    public void setColorCode(String colorCode){
+        this.colorCode = colorCode;
     }
 
     public static Finder<Integer, DbShiftName> find = new Finder<>(DbShiftName.class);

@@ -1,4 +1,4 @@
-package models;
+package store;
 
 import javax.annotation.Nonnull;
 
@@ -6,7 +6,7 @@ public class UserId
         extends DatabaseId
         implements UserIdable {
 
-    public UserId(long rawID) {
+    public UserId(Integer rawID) {
         super(rawID);
     }
 

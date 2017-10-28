@@ -5,7 +5,6 @@ import models.databaseModel.scheduling.DbUserTeam;
 import models.databaseModel.scheduling.query.QDbUser;
 import models.databaseModel.scheduling.query.QDbUserTeam;
 
-import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
 

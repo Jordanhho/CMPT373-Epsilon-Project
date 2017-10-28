@@ -54,6 +54,9 @@ public final class DbShiftHelper {
         dbShift.delete();
     }
 
+    public static void deleteShiftByName(String name) {
+
+    }
     /**
      * returns a list of all DbShift
      * @return
