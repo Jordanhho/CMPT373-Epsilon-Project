@@ -7,11 +7,11 @@
             </li>
         </ul>
         <div class="buttons">
-            <button id="edit-user" @click="showEditUser = true" @clicked="onClickButton">Edit User</button>
-            <edit-user v-if="showEditUser" @close="showEditUser = false">
+            <button id="edit-user" @click="showEditUser = true">Edit User</button>
+            <edit-user v-if="showEditUser" @close="showEditUser = false" @edit="onClickEdit" v-bind:teams="teams">
             </edit-user>
-            <button id="disable-user" @click="showDisableUser = true" @clicked="onClickButton">Disable User</button>
-            <disable-user v-if="showDisableUser" @close="showDisableUser = false">
+            <button id="disable-user" @click="showDisableUser = true">Disable User</button>
+            <disable-user v-if="showDisableUser" @close="showDisableUser = false" @disable="onClickDisable">
             </disable-user>
         </div>
     </div>
@@ -49,14 +49,24 @@
             onClickListElement (value) {
                 this.$emit('clicked', value);
             },
-            onClickButton (value) {
-                alert(value);
-                this.$emit('clicked', value);
+            onClickEdit () {
+                alert("edited successfully");
+                this.showEditUser = false;
+            },
+            onClickDisable () {
+                alert('user disabled');
+                this.showDisableUser = false;
             },
         },
         components: {
             "edit-user": EditUser,
             "disable-user": DisableUser,
+        },
+        props: {
+            teams: {
+                type: Array,
+                required: true
+            },
         },
     }
 </script>

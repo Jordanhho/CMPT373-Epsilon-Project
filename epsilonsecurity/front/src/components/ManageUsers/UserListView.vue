@@ -20,6 +20,7 @@
 <script>
     import AddUser from "./AddUser.vue";
     import ListedUser from "./ListedUser.vue";
+    import axios from 'axios';
     let usersList = [
         {
             first: "Billy",
@@ -59,7 +60,7 @@
                 showAddUser: false,
                 users: [],
                 filteredUsers: [],
-                teams: ["surrey", "vancouver", "burnaby"],
+                teams: [],
                 teamValue: 'all teams'
             }
         },
@@ -93,6 +94,15 @@
             //alert("userlist created");
             this.users = usersList;
             this.filteredUsers = usersList;
+
+            axios.get('https://jsonplaceholder.typicode.com/posts/1')
+                .then(function (response) {
+                    console.log(response);
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+
         },
     };
 

@@ -3,7 +3,7 @@
         <userlist id="userlist" @clicked="onClickUserListViewItem">
         </userlist>
         <div id="profile-main">
-            <profile id="profile"></profile>
+            <profile id="profile"  v-bind:teams="teams"></profile>
             <qualifications id="qualifications"></qualifications>
         </div>
     </div>
@@ -19,7 +19,20 @@
         name: 'manage-users',
         data() {
             return {
-
+                teams: [
+                    {
+                        name: 'surrey',
+                        id: 1,
+                    },
+                    {
+                        name: 'burnaby',
+                        id: 2,
+                    },
+                    {
+                        name: 'vancouver',
+                        id: 3,
+                    }
+                ],
             }
         },
         methods: {
@@ -63,11 +76,11 @@
         flex-flow: row nowrap;
     }
     #profile {
-        background: red;
+        background: white;
     }
 
     #qualifications {
-        background: yellow;
+        background: white;
     }
 
 

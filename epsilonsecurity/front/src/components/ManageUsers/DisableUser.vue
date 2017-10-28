@@ -4,16 +4,16 @@
             <div class="modal-wrapper">
                 <div class="modal-container">
                     <div class="modal-header">
-                        <slot name="header">
+                        <span name="header">
                             Sure you want to disable?
-                        </slot>
+                        </span>
                     </div>
                     <div class="modal-footer">
-                        <button class="modal-default-button" @click="$emit('close')">
-                            Cancel
-                        </button>
-                        <button class="modal-default-button2" @click="$emit('disable')">
+                        <button class="okayButton" @click="$emit('disable')">
                             OK
+                        </button>
+                        <button class="closeButton" @click="$emit('close')">
+                            Cancel
                         </button>
                     </div>
                 </div>
