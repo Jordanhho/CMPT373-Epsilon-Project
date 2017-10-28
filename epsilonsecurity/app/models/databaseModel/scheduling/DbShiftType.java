@@ -7,9 +7,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
-/**
- * Java Object for DbShiftType Table,
- */
 @Entity
 public class DbShiftType extends Model {
 
@@ -22,33 +19,32 @@ public class DbShiftType extends Model {
     @Column(nullable = false)
     private String colorCode;
 
-
     public DbShiftType(String name, String colorCode) {
         this.name = name;
         this.colorCode = colorCode;
+    }
+
+    public DbShiftType(String name) {
+        this.name = name;
     }
 
     public Integer getId() {
         return id;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
     public String getName() {
         return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public String getColorCode() {
         return colorCode;
     }
 
-    public void setColorCode(String colorCode) {
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setColorCode(String colorCode){
         this.colorCode = colorCode;
     }
 

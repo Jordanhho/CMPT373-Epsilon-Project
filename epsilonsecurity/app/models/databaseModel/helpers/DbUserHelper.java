@@ -16,7 +16,7 @@ public final class DbUserHelper {
         dbUser.save();
     }
 
-    public static void deleteDbUserBySfuEmail(DbUser dbUser) {
+    public static void deleteDbUser(DbUser dbUser) {
         dbUser.delete();
     }
 
@@ -53,4 +53,5 @@ public final class DbUserHelper {
 
         return dbUsers;
     }
+
 }

@@ -200,17 +200,16 @@ public class DummyDataBase {
 
 
     private void initShiftType() {
-
-        shiftTypeList.add(new DbShiftType("Information and Lost&Found Kiosk", ""));
-        shiftTypeList.add(new DbShiftType("Speed Watch/Moving Traffic", ""));
-        shiftTypeList.add(new DbShiftType("Community Presence", ""));
-        shiftTypeList.add(new DbShiftType("Safety Screen", ""));
-        shiftTypeList.add(new DbShiftType("Theft Prevention", ""));
-        shiftTypeList.add(new DbShiftType("Auto Theft Prevention", ""));
-        shiftTypeList.add(new DbShiftType("Bike Presence", ""));
-        shiftTypeList.add(new DbShiftType("Special Events (peaceful protests, campus ceremonies, etc)", ""));
-        shiftTypeList.add(new DbShiftType("Smoking Checks", ""));
-        shiftTypeList.add(new DbShiftType("Pedestrian Safety", ""));
+        shiftTypeList.add(new DbShiftType("Information and Lost&Found Kiosk"));
+        shiftTypeList.add(new DbShiftType("Speed Watch/Moving Traffic"));
+        shiftTypeList.add(new DbShiftType("Community Presence"));
+        shiftTypeList.add(new DbShiftType("Safety Screen"));
+        shiftTypeList.add(new DbShiftType("Theft Prevention"));
+        shiftTypeList.add(new DbShiftType("Auto Theft Prevention"));
+        shiftTypeList.add(new DbShiftType("Bike Presence"));
+        shiftTypeList.add(new DbShiftType("Special Events (peaceful protests, campus ceremonies, etc)"));
+        shiftTypeList.add(new DbShiftType("Smoking Checks"));
+        shiftTypeList.add(new DbShiftType("Pedestrian Safety"));
     }
 
 
@@ -721,7 +720,6 @@ public class DummyDataBase {
     private void initUserQualification() {
         int counter = 0;
 
-
         //burnaby
         userQualificationList.add(new DbUserQualification(counter, qualificationList.get(0).getId()));
         counter++;
@@ -810,8 +808,6 @@ public class DummyDataBase {
         for(DbTeam itr: teamList) {
             DbTeamHelper.createDbTeam(itr);
         }
-
-
 
         initPermission();
         //creates permission

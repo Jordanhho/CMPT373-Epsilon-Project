@@ -59,14 +59,14 @@ DELETE        /api/users/:userId/teams/:teamId                                  
 
 
 #
-# DbShiftName
+# DbShiftType
 #
 
-# Create a shift name
-POST          /api/shiftnames                                                    controllers.ShiftNameController.createShiftName()
+# Create a shift type
+POST          /api/shifttypes                                                    controllers.ShiftTypeController.createShiftType()
 
-# Delete a shift name by name
-DELETE        /api/shiftnames/:name                                              controllers.ShiftNameController.deleteShiftName(name: String)
+# Delete a shift type by name
+DELETE        /api/shifttypes/:name                                              controllers.ShiftTypeController.deleteShiftTypeByName(name: String)
 
 
 #
