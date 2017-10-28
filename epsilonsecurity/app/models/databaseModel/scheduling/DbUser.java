@@ -44,12 +44,14 @@ public class DbUser extends Model {
 
     public DbUser(String firstName,
                   String lastName,
-                  String contactEmail,
                   String sfuEmail,
+                  String contactEmail,
                   String phoneNumber,
                   String photoURL) {
-        this.contactEmail = contactEmail;
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.sfuEmail = sfuEmail;
+        this.contactEmail = contactEmail;
         this.phoneNumber = phoneNumber;
         this.photoURL = photoURL;
     }
