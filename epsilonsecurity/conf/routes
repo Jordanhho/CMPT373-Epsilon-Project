@@ -74,7 +74,7 @@ DELETE        /api/shiftnames/:name                                             
 #
 
 # List all teams in the database
-GET           /api/teams                                                         controllers.TeamController.listTeams()
+GET           /api/teams                                                         controllers.TeamController.listAllTeams()
 
 # Create a team
 POST          /api/teams                                                         controllers.TeamController.createTeam()

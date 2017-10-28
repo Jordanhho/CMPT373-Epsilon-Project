@@ -58,7 +58,7 @@ public class TeamController extends Controller {
         return ok();
     }
 
-    public Result listTeams() {
+    public Result listAllTeams() {
         List<DbTeam> dbTeamList = DbTeamHelper.readAllDbTeam();
 
         return ok(Json.toJson(dbTeamList));
