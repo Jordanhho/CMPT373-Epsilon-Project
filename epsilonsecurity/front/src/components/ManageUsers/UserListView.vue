@@ -5,8 +5,8 @@
             <option v-for="t in teams">{{t}}</option>
         </select>
         <span>Selected: {{ team }}</span>
-        <button id="add-user" @click="showAddUser = true">Add User</button>
-        <add-user v-if="showAddUser" @close="showAddUser = false">
+        <button id="add-user" @click="showAddUser = true" v-bind:teams="teams">Add User</button>
+        <add-user v-if="showAddUser" @close="showAddUser = false" @add="onClickAdd">
         </add-user>
         <ul id = "scroll">
             <listed-user v-for= "user in filteredUsers"
@@ -72,6 +72,10 @@
             onClickListElement (value) {
                 this.$emit('clicked', value);
             },
+            onClickAdd () {
+                alert("added successfully");
+                this.showAddUser = false;
+            },
         },
         components: {
             "listed-user": ListedUser,
@@ -95,6 +99,12 @@
             this.users = usersList;
             this.filteredUsers = usersList;
         },
+        props: {
+            teams: {
+                type: Array,
+                required: true
+            },
+        }
     };
 
 

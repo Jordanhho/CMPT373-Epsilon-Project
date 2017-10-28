@@ -1,6 +1,6 @@
 <template>
     <div id="manage-users">
-        <userlist id="userlist" @clicked="onClickUserListViewItem">
+        <userlist id="userlist" v-bind:teams="teams" @clicked="onClickUserListViewItem">
         </userlist>
         <div id="profile-main">
             <profile id="profile"  v-bind:teams="teams"></profile>

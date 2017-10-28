@@ -5,34 +5,34 @@
                 <div class="modal-container">
                     <div class="first-name">
                         <p>First Name: </p>
-                        <input v-model="userData.firstName" placeholder="edit me">
+                        <input placeholder="edit me">
                     </div>
                     <div class="last-name">
                         <p>Last Name: </p>
-                        <input v-model="userData.lastName" placeholder="edit me">
+                        <input placeholder="edit me">
                     </div>
                     <div class="team-name">
                         <p>Teams: </p>
                         <div v-for="team in teams">
-                            <input :id="team.name" type="checkbox" :value="team.id" v-model="userData.teams" @click="displayAllTeams()">
+                            <input :id="team.name" type="checkbox" :value="team.id" v-model="listOfTeamIDsForUser" @click="displayAllTeams()">
                             <label :for="team.name">{{ team.name }}</label>
                         </div>
                     </div>
                     <div class="role">
                         <p>Role: </p>
-                        <input v-model="userData.role" placeholder="edit me">
+                        <input  placeholder="edit me">
                     </div>
                     <div class="contact-email">
                         <p>Contact Email: </p>
-                        <input v-model="userData.contactEmail" placeholder="edit me">
+                        <input placeholder="edit me">
                     </div>
                     <div class="sfu-email">
                         <p>SFU Email: </p>
-                        <input v-model="userData.sfuEmail" placeholder="edit me">
+                        <input placeholder="edit me">
                     </div>
                     <div class="modal-footer">
-                        <button class="editButton" @click="$emit('edit')">
-                            Edit
+                        <button class="addButton" @click="$emit('add')">
+                            Add
                         </button>
                         <button class="closeButton" @click="$emit('close')">
                             Cancel
@@ -49,13 +49,23 @@
     export default {
         data () {
             return {
-                mainSections: [
-                ]
+                listOfTeamIDsForUser: [],
             }
         },
         components: {
 
-        }
+        },
+        methods: {
+            displayAllTeams() {
+                alert(this.listOfTeamIDsForUser);
+            },
+        },
+        props: {
+            teams: {
+                type: Array,
+                required: true
+            },
+        },
     }
 </script>
 
