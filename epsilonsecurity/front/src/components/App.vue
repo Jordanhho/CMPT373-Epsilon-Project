@@ -1,6 +1,6 @@
 <template>
 	<v-app>
-		
+
 		<v-navigation-drawer clipped enable-resize-watcher v-model="drawer" app>
 			<v-list>
 				<template v-for="(item, i) in items">
@@ -26,15 +26,11 @@
 			<v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
 			<v-toolbar-title v-text="title"></v-toolbar-title>
 			<v-spacer></v-spacer>
-			<!-- <v-btn flat>
-				Ada Lovelace
-        <v-icon medium right>account_circle</v-icon>
-      </v-btn> -->
 			<v-chip  outline color="primary" text-color="white">
 				<v-avatar size="40px">
 					<img src="http://lorempixel.com/100/100/people" alt="">
 				</v-avatar>
-				Isacc Asimov
+				Isacc Asimov <!--todo: dynamic name-->
 			</v-chip>
 		</v-toolbar>
 
@@ -65,9 +61,10 @@
 					{ title: 'My Availability', url: '/my-availability',icon: 'apps' },
 					{ title: 'My Profile', url: '/my-profile', icon: 'person_outline' },
 					{ divider: true },
-					{ header: 'Admin' },
+					{ header: 'ADMIN' },
 					{ title: 'Manage Schedules', url: '/manage-schedules', icon: 'today' },
-					{ title: 'Manage Users', url: '/manage-users', icon: 'people_outline' }
+					{ title: 'Manage Users', url: '/manage-users', icon: 'people_outline' },
+					{ title: 'Manage Teams', url: '/manage-teams', icon: 'people_outline' }
 				]
 			}
 		},

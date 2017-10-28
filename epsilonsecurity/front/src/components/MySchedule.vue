@@ -1,7 +1,7 @@
 <template>
 	<div id="my-schedule">
 		<full-calendar 
-			:events="events" 
+			:event-sources="eventSources"
 			:config="config"
 			id="calendar">
 		</full-calendar>
@@ -39,6 +39,7 @@
 import Vue from 'vue'
 import FullCalendar from 'vue-full-calendar'
 import moment from 'moment'
+import axios from 'axios'
 
 Vue.use(FullCalendar) // add the vue-full-calendar plugin to Vue
 window.jQuery = window.$ = require('jquery') // we need jquery too
@@ -68,27 +69,23 @@ export default {
 				// triggered before an event is rendered - our chance to enhance the event.
 				eventRender: this.handleEventRender
 			},
-			events: [
+			eventSources: [
+				// 1st event source
 				{
-					title: 'My First Overlapping Shift',
-					start: '2017-10-23 01:00:00',
-					end: '2017-10-23 02:30:00',
-					//todo: campus,
-				},
-				{
-					title: 'My Second Overlapping Shift',
-					start: '2017-10-23 02:00:00',
-					end: '2017-10-23 03:30:00'
-				},
-				{
-					title: 'My Weekday Shift 1',
-					start: '2017-10-25 03:00:00',
-					end: '2017-10-25 04:00:00'
-				},
-				{
-					title: 'My Weekdend Shift',
-					start: '2017-10-26 01:00:00',
-					end: '2017-10-26 01:30:00'
+					events: function(start, end, timezone, callback) {
+						// todo: implement backend handler, use dynamic username
+						const username = "john"
+						axios.get(`/api/users/${username}/shifts`)
+						.then(response => {
+							console.log(response.data)
+							callback(response.data)
+						})
+						.catch(error => {
+							console.log(error)
+						})
+					},
+					color: "black",
+					textColor: "white"
 				}
 			],
 			dialog: false,
@@ -131,7 +128,8 @@ export default {
 			// todo: i tried but failed to use my class instead.
 			// element.attr("class", "event-styles")
 			// element.addClass("event-styles")
-			element.addClass("primary defaultEventTextColor--text")
+
+			// element.addClass("primary defaultEventTextColor--text")
 		}
 	}
 }

@@ -59,5 +59,8 @@ module.exports = {
         loader: ['style-loader', 'css-loader', 'stylus-loader']
 			}
 		]
-	}
+	},
+	// todo: why does it not not show exact line where 
+	// error occured in source code
+	devtool: "cheap-eval-source-map"
 };
