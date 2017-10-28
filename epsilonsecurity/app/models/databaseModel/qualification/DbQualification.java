@@ -28,6 +28,10 @@ public class DbQualification extends Model {
         return qualificationName;
     }
 
+    public void setQualificationName(String qualificationName) {
+        this.qualificationName = qualificationName;
+    }
+
     @Override
     public String toString(){
         return "DbQualification{"

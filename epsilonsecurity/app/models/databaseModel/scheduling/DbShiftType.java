@@ -24,9 +24,9 @@ public class DbShiftType extends Model {
         this.colorCode = colorCode;
     }
 
-    public DbShiftType(String name) {
-        this.name = name;
-    }
+    // public DbShiftType(String name) {
+    //     this.name = name;
+    // }
 
     public Integer getId() {
         return id;

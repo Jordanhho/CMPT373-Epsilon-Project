@@ -65,8 +65,8 @@ DELETE        /api/users/:userId/teams/:teamId                                  
 # Create a shift type
 POST          /api/shifttypes                                                    controllers.ShiftTypeController.createShiftType()
 
-# Delete a shift type by name
-DELETE        /api/shifttypes/:name                                              controllers.ShiftTypeController.deleteShiftTypeByName(name: String)
+# Delete a shift type by qualificationName
+DELETE        /api/shifttypes/:qualificationName                                              controllers.ShiftTypeController.deleteShiftTypeByName(qualificationName: String)
 
 
 #
@@ -76,14 +76,14 @@ DELETE        /api/shifttypes/:name                                             
 # Create a team
 POST          /api/teams                                                         controllers.TeamController.createTeam()
 
-# Read a team by name
-GET           /api/teams/:name                                                   controllers.TeamController.retrieveTeam(name: String)
+# Read a team by qualificationName
+GET           /api/teams/:qualificationName                                                   controllers.TeamController.retrieveTeam(qualificationName: String)
 
-# Update a team by name
-PUT           /api/teams/:name                                                   controllers.TeamController.updateTeam(name: String)
+# Update a team by qualificationName
+PUT           /api/teams/:qualificationName                                                   controllers.TeamController.updateTeam(qualificationName: String)
 
-# Delete a team by name
-DELETE        /api/teams/:name                                                   controllers.TeamController.deleteTeamByName(name: String)
+# Delete a team by qualificationName
+DELETE        /api/teams/:qualificationName                                                   controllers.TeamController.deleteTeamByName(qualificationName: String)
 
 
 #
@@ -99,8 +99,8 @@ GET           /api/shifts                                                       
 # Create a shift
 POST          /api/shifts                                                        controllers.ShiftController.createShift()
 
-# Delete a shift by name
-DELETE        /api/shifts/:name                                                  controllers.ShiftController.deleteShift(name: String)
+# Delete a shift by qualificationName
+DELETE        /api/shifts/:qualificationName                                                  controllers.ShiftController.deleteShift(qualificationName: String)
 
 
 #
