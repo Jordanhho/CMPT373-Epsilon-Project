@@ -20,10 +20,10 @@ public class DbShift extends Model {
     private String name;
 
     @Column(nullable = false)
-    private Integer timeStart;
+    private Long timeStart;
 
     @Column(nullable = false)
-    private Integer timeEnd;
+    private Long timeEnd;
 
     private boolean wasPresent;
 
@@ -35,7 +35,7 @@ public class DbShift extends Model {
      * @param timeEnd   the end time of the shift
      *                  wasPresent  if the user was present for this shift
      */
-    public DbShift(String name, Integer timeStart, Integer timeEnd) {
+    public DbShift(String name, Long timeStart, Long timeEnd) {
         this.name = name;
         this.timeStart = timeStart;
         this.timeEnd = timeEnd;
@@ -58,19 +58,19 @@ public class DbShift extends Model {
         this.name = name;
     }
 
-    public Integer getTimeStart() {
+    public Long getTimeStart() {
         return timeStart;
     }
 
-    public void setTimeStart(Integer timeStart) {
+    public void setTimeStart(Long timeStart) {
         this.timeStart = timeStart;
     }
 
-    public Integer getTimeEnd() {
+    public Long getTimeEnd() {
         return timeEnd;
     }
 
-    public void setTimeEnd(Integer timeEnd) {
+    public void setTimeEnd(Long timeEnd) {
         this.timeEnd = timeEnd;
     }
 
