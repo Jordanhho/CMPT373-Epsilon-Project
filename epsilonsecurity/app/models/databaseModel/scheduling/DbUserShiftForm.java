@@ -32,4 +32,13 @@ public class DbUserShiftForm {
     public Long getTimeEnd() {
         return timeEnd;
     }
+
+    @Override
+    public String toString() {
+        return "DbUserShiftForm{" +
+                "sfuEmail='" + sfuEmail + '\'' +
+                ", timeStart=" + timeStart +
+                ", timeEnd=" + timeEnd +
+                '}';
+    }
 }

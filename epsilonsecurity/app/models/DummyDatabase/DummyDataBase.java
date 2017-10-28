@@ -10,28 +10,264 @@ import java.util.List;
 
 public class DummyDataBase {
 
-    private int burnabyNum = 8;
-    private int surreyNum = 7;
-    private int vanNum = 5;
-
+    private List<DbRole> roleList = new ArrayList<>();
     private List<DbUser> userList = new ArrayList<>();
     private List<DbTeam> teamList = new ArrayList<>();
     private List<DbShift> shiftList = new ArrayList<>();
-    private List<DbRole> roleList = new ArrayList<>();
+    private List<DbShiftType> shiftTypeList = new ArrayList<>();
+    private List<DbQualification> qualificationList = new ArrayList<>();
+
+
+
     private List<DbPermission> permissionList = new ArrayList<>();
     private List<DbRolePermission> rolePermissionList = new ArrayList<>();
     private List<DbUserTeam> userTeamList = new ArrayList<>();
-    private List<DbQualification> qualificationList = new ArrayList<>();
     private List<DbUserQualification> userQualificationList = new ArrayList<>();
     private List<DbShiftQualification> shiftQualificationList = new ArrayList<>();
-    private List<DbShiftType> shiftTypeList = new ArrayList<>();
     private List<DbUserShift> userShiftList= new ArrayList<>();
     private List<DbOneTimeAvailability> oneTimeAvailList = new ArrayList<>();
 
 
 
+    private void initAllLists() {
+        initRoles();
+        initUsers();
+        initPermission();
+        initTeam();
+        initQualification();
+        initShiftType();
+
+//        initRolePermission();
+//        initUserTeam();
+//        initUserQualification();
+//        initShiftAndUserShift();
+//        initOneTimeAvailAndUserShift();
+    }
+
+
+    public DummyDataBase() {
+        //init dummy names
+        initAllLists();
+        //generateDatabase();
+
+        debugPrintLists();
+    }
+
+
+    //prints all listss
+    private void debugPrintLists() {
+
+        initRoles();
+        initUsers();
+        initPermission();
+        initTeam();
+        initQualification();
+        initShiftType();
+
+
+        //creates roles
+        System.out.println("Role List:");
+        System.out.println("================================================");
+        for(DbRole itr: roleList) {
+            System.out.println(itr.toString());
+        }
+        System.out.println("------------------------------------------------\n");
+
+
+        //creates users
+        System.out.println("User List:");
+        System.out.println("================================================");
+        for(DbUser itr: userList) {
+            System.out.println(itr.toString());
+        }
+        System.out.println("------------------------------------------------\n");
+
+
+        //creates permission
+        System.out.println("Permission List:");
+        System.out.println("================================================");
+        for(DbPermission itr: permissionList) {
+            System.out.println(itr.toString());
+        }
+        System.out.println("------------------------------------------------\n");
+
+
+        //creates team
+        System.out.println("Team List:");
+        System.out.println("================================================");
+        for(DbTeam itr: teamList) {
+            System.out.println(itr.toString());
+        }
+        System.out.println("------------------------------------------------\n");
+
+
+        //creates qualifcations
+        System.out.println("Qualification List:");
+        System.out.println("================================================");
+        for(DbQualification itr: qualificationList) {
+            System.out.println(itr.toString());
+        }
+        System.out.println("------------------------------------------------\n");
+
+
+        //creates shiftType
+        System.out.println("ShiftType List:");
+        System.out.println("================================================");
+        for(DbShiftType itr: shiftTypeList) {
+            System.out.println(itr.toString());
+        }
+        System.out.println("------------------------------------------------\n");
+
+
+
+//        //links rolepermission
+//        System.out.println("RolePermission List:");
+//        System.out.println("================================================");
+//        for(DbRolePermission itr: rolePermissionList) {
+//            System.out.println(itr.toString());
+//        }
+//        System.out.println("------------------------------------------------\n");
+
+//        //links userTeam
+//        System.out.println("UserTeam List:");
+//        System.out.println("================================================");
+//        for(DbUserTeam itr: userTeamList) {
+//            System.out.println(itr.toString());
+//        }
+//        System.out.println("------------------------------------------------\n");
+//
+//        //links shift qualifcation
+//        System.out.println("ShiftQualification List:");
+//        System.out.println("================================================");
+//        for(DbShiftQualification itr: shiftQualificationList) {
+//            System.out.println(itr.toString());
+//        }
+//        System.out.println("------------------------------------------------\n");
+//
+//
+//
+//
+//        //creates userQualification
+//        System.out.println("UserQualification List:");
+//        System.out.println("================================================");
+//        for(DbUserQualification itr: userQualificationList) {
+//            System.out.println(itr.toString());
+//        }
+//        System.out.println("------------------------------------------------\n");
+
+
+//
+//        //creates Shift
+//        System.out.println("Shift List:");
+//        System.out.println("================================================");
+//        for(DbShift itr: shiftList) {
+//            System.out.println(itr.toString());
+//        }
+//        System.out.println("------------------------------------------------\n");
+//
+//        //creates one time availability
+//        System.out.println("OneTimeAvail List:");
+//        System.out.println("================================================");
+//        for(DbOneTimeAvailability itr: oneTimeAvailList) {
+//            System.out.println(itr.toString());
+//        }
+//        System.out.println("------------------------------------------------\n");
+//
+//        //creates userShift
+//        System.out.println("UserShift List:");
+//        System.out.println("================================================");
+//        for(DbUserShift itr: userShiftList) {
+//            System.out.println(itr.toString());
+//        }
+//        System.out.println("------------------------------------------------\n");
+    }
+
+
+
+
+    private void generateDatabase() {
+        //creates roles
+        for(DbRole itr: roleList) {
+            DbRoleHelper.createDbRole(itr);
+        }
+
+        //creates users
+        for(DbUser itr: userList) {
+            DbUserHelper.createDbUser(itr);
+        }
+
+        //creates team
+        for(DbTeam itr: teamList) {
+            DbTeamHelper.createDbTeam(itr);
+        }
+
+        //creates permission
+        for(DbPermission itr: permissionList) {
+            DbPermissionHelper.createDbPermission(itr);
+        }
+
+        //creates shiftType
+        for(DbShiftType itr: shiftTypeList) {
+            DbShiftTypeHelper.createDbShiftType(itr);
+        }
+
+
+        //creates qualifcations
+        for(DbQualification itr: qualificationList) {
+            DbQualificationHelper.createDbQualification(itr);
+        }
+
+
+        
+
+        //links rolepermission
+        for(DbRolePermission itr: rolePermissionList) {
+            DbRolePermissionHelper.createDbRolePermission(itr);
+        }
+
+        //links userTeam
+        for(DbUserTeam itr: userTeamList) {
+            DbUserTeamHelper.createDbUserTeam(itr);
+        }
+
+        //links shift qualifcation
+        for(DbShiftQualification itr: shiftQualificationList) {
+            DbShiftQualificationHelper.createDbShiftQualification(itr);
+        }
+
+
+        //creates userQualification
+        for(DbUserQualification itr: userQualificationList) {
+            DbUserQualificationHelper.createDbUserQualification(itr);
+        }
+
+
+        //creates Shift
+        for(DbShift itr: shiftList) {
+            DbShiftHelper.createDbShift(itr);
+        }
+
+        //creates one time availability
+        for(DbOneTimeAvailability itr: oneTimeAvailList) {
+            DbOneTimeAvailabilityHelper.createDbOneTimeAvailability(itr);
+        }
+
+        //creates userShift
+        for(DbUserShift itr: userShiftList) {
+            DbUserShiftHelper.createDbUserShift(itr);
+        }
+    }
 
     //20 items
+    //INIT NON SINGLE RELATED TABLES
+    private void initRoles() {
+        roleList.add(new DbRole("admin"));
+        roleList.add(new DbRole("volunteer"));
+        roleList.add(new DbRole("employee"));
+        roleList.add(new DbRole("teamlead"));
+        roleList.add(new DbRole("supervisor"));
+    }
+
     private void initUsers() {
 
         //Burnaby 8
@@ -59,135 +295,32 @@ public class DummyDataBase {
         userList.add(new DbUser("Michael", "Coleman", "cole@sfu.ca", "example@email.ca", "(362) 101-6356", "https://www.PhotoUrl.ca"));
         userList.add(new DbUser("Bob", "Builder", "teamlead@sfu.ca", "example@email.ca", "(577) 732-7675", "https://www.PhotoUrl.ca"));
         userList.add(new DbUser("John", "Cena", "supervisor@sfu.ca", "example@email.ca", " (901) 552-2492", "https://www.PhotoUrl.ca"));
-
     }
-
-
 
     private void initPermission() {
 
-        //Burnaby 8
         permissionList.add(new DbPermission("admin"));
         permissionList.add(new DbPermission("volunteer"));
-        permissionList.add(new DbPermission("volunteer"));
         permissionList.add(new DbPermission("employee"));
-        permissionList.add(new DbPermission("employee"));
-        permissionList.add(new DbPermission("employee"));
-        permissionList.add(new DbPermission("teamLead"));
-        permissionList.add(new DbPermission("supervisor"));
-
-        //SURREY 7
-        permissionList.add(new DbPermission("volunteer"));
-        permissionList.add(new DbPermission("volunteer"));
-        permissionList.add(new DbPermission("volunteer"));
-        permissionList.add(new DbPermission("employee"));
-        permissionList.add(new DbPermission("employee"));
-        permissionList.add(new DbPermission("teamLead"));
-        permissionList.add(new DbPermission("supervisor"));
-
-        //VANCOUVER 5
-        permissionList.add(new DbPermission("volunteer"));
-        permissionList.add(new DbPermission("volunteer"));
-        permissionList.add(new DbPermission("employee"));
-        permissionList.add(new DbPermission("teamLead"));
+        permissionList.add(new DbPermission("teamlead"));
         permissionList.add(new DbPermission("supervisor"));
     }
-
-
-
 
     private void initTeam() {
         teamList.add(new DbTeam("BURNABY"));
-
         teamList.add(new DbTeam("SURREY"));
-
         teamList.add(new DbTeam("VANCOUVER"));
     }
 
-
-
-    private void initRoles() {
-        roleList.add(new DbRole("volunteer"));
-        roleList.add(new DbRole("volunteer"));
-        roleList.add(new DbRole("volunteer"));
-        roleList.add(new DbRole("volunteer"));
-        roleList.add(new DbRole("volunteer"));
-        roleList.add(new DbRole("volunteer"));
-        roleList.add(new DbRole("volunteer"));
-        roleList.add(new DbRole("volunteer"));
-        roleList.add(new DbRole("volunteer"));
-        roleList.add(new DbRole("volunteer"));
-    }
-
-
-
-    private void initRolePermission() {
-
-        //burnaby
-        int counter = 0;
-        rolePermissionList.add(new DbRolePermission(teamList.get(0).getId(), roleList.get(counter).getId(), permissionList.get(counter).getId(), AccessLevel.ADMIN));
-        counter++;
-        rolePermissionList.add(new DbRolePermission(teamList.get(0).getId(), roleList.get(counter).getId(), permissionList.get(counter).getId(), AccessLevel.VOLUNTEER));
-        counter++;
-        rolePermissionList.add(new DbRolePermission(teamList.get(0).getId(), roleList.get(counter).getId(), permissionList.get(counter).getId(), AccessLevel.VOLUNTEER));
-        counter++;
-        rolePermissionList.add(new DbRolePermission(teamList.get(0).getId(), roleList.get(counter).getId(), permissionList.get(counter).getId(), AccessLevel.EMPLOYEE));
-        counter++;
-        rolePermissionList.add(new DbRolePermission(teamList.get(0).getId(), roleList.get(counter).getId(), permissionList.get(counter).getId(), AccessLevel.EMPLOYEE));
-        counter++;
-        rolePermissionList.add(new DbRolePermission(teamList.get(0).getId(), roleList.get(counter).getId(), permissionList.get(counter).getId(), AccessLevel.EMPLOYEE));
-        counter++;
-        rolePermissionList.add(new DbRolePermission(teamList.get(0).getId(), roleList.get(counter).getId(), permissionList.get(counter).getId(), AccessLevel.TEAMLEAD));
-        counter++;
-        rolePermissionList.add(new DbRolePermission(teamList.get(0).getId(), roleList.get(counter).getId(), permissionList.get(counter).getId(), AccessLevel.SUPERVISOR));
-        counter++;
-
-        //surrey
-        rolePermissionList.add(new DbRolePermission(teamList.get(1).getId(), roleList.get(counter).getId(), permissionList.get(counter).getId(), AccessLevel.ADMIN));
-        counter++;
-        rolePermissionList.add(new DbRolePermission(teamList.get(1).getId(), roleList.get(counter).getId(), permissionList.get(counter).getId(), AccessLevel.VOLUNTEER));
-        counter++;
-        rolePermissionList.add(new DbRolePermission(teamList.get(1).getId(), roleList.get(counter).getId(), permissionList.get(counter).getId(), AccessLevel.VOLUNTEER));
-        counter++;
-        rolePermissionList.add(new DbRolePermission(teamList.get(1).getId(), roleList.get(counter).getId(), permissionList.get(counter).getId(), AccessLevel.EMPLOYEE));
-        counter++;
-        rolePermissionList.add(new DbRolePermission(teamList.get(1).getId(), roleList.get(counter).getId(), permissionList.get(counter).getId(), AccessLevel.EMPLOYEE));
-        counter++;
-        rolePermissionList.add(new DbRolePermission(teamList.get(1).getId(), roleList.get(counter).getId(), permissionList.get(counter).getId(), AccessLevel.TEAMLEAD));
-        counter++;
-        rolePermissionList.add(new DbRolePermission(teamList.get(1).getId(), roleList.get(counter).getId(), permissionList.get(counter).getId(), AccessLevel.SUPERVISOR));
-        counter++;
-
-        //vancouver
-        rolePermissionList.add(new DbRolePermission(teamList.get(2).getId(), roleList.get(counter).getId(), permissionList.get(counter).getId(), AccessLevel.VOLUNTEER));
-        counter++;
-        rolePermissionList.add(new DbRolePermission(teamList.get(2).getId(), roleList.get(counter).getId(), permissionList.get(counter).getId(), AccessLevel.VOLUNTEER));
-        counter++;
-        rolePermissionList.add(new DbRolePermission(teamList.get(2).getId(), roleList.get(counter).getId(), permissionList.get(counter).getId(), AccessLevel.EMPLOYEE));
-        counter++;
-        rolePermissionList.add(new DbRolePermission(teamList.get(2).getId(), roleList.get(counter).getId(), permissionList.get(counter).getId(), AccessLevel.TEAMLEAD));
-        counter++;
-        rolePermissionList.add(new DbRolePermission(teamList.get(2).getId(), roleList.get(counter).getId(), permissionList.get(counter).getId(), AccessLevel.SUPERVISOR));
-
-    }
-
-
-
-
-
-
-
-
     private void initQualification() {
-        qualificationList.add(new DbQualification("Security GUARD"));
-        qualificationList.add(new DbQualification("IT Admin"));
-        qualificationList.add(new DbQualification("Self Defence training"));
-        qualificationList.add(new DbQualification("Traffic Director"));
-        qualificationList.add(new DbQualification("Transit training"));
-        qualificationList.add(new DbQualification("Customer Support"));
-        qualificationList.add(new DbQualification("Analytic"));
-    }
 
+        qualificationList.add(new DbQualification("Customer Support Training"));
+        qualificationList.add(new DbQualification("Transit traffic training"));
+        qualificationList.add(new DbQualification("Security Training"));
+        qualificationList.add(new DbQualification("Bike/Driver License Training"));
+        qualificationList.add(new DbQualification("Manager Training"));
+        qualificationList.add(new DbQualification("Common Hazard Training"));
+    }
 
     private void initShiftType() {
 
@@ -204,6 +337,133 @@ public class DummyDataBase {
     }
 
 
+
+    //INIT RELATED TABLES
+
+
+    private void linkUserRole() {
+        //set roleId
+        int counter = 0;
+
+        //burnaby
+        //person 1
+        userList.get(counter).setRoleId(roleList.get(0).getId());
+        counter++;
+        //person 2
+        userList.get(counter).setRoleId(roleList.get(1).getId());
+        counter++;
+        //person 3
+        userList.get(counter).setRoleId(roleList.get(1).getId());
+        counter++;
+        //person 4
+        userList.get(counter).setRoleId(roleList.get(2).getId());
+        counter++;
+        //person 5
+        userList.get(counter).setRoleId(roleList.get(2).getId());
+        counter++;
+        //person 6
+        userList.get(counter).setRoleId(roleList.get(2).getId());
+        counter++;
+        //person 7
+        userList.get(counter).setRoleId(roleList.get(3).getId());
+        counter++;
+        //person 8
+        userList.get(counter).setRoleId(roleList.get(4).getId());
+        counter++;
+
+
+        //vancouver
+        //person 9
+        userList.get(counter).setRoleId(roleList.get(1).getId());
+        counter++;
+        //person 10
+        userList.get(counter).setRoleId(roleList.get(1).getId());
+        counter++;
+        //person 11
+        userList.get(counter).setRoleId(roleList.get(1).getId());
+        counter++;
+        //person 12
+        userList.get(counter).setRoleId(roleList.get(2).getId());
+        counter++;
+        //person 13
+        userList.get(counter).setRoleId(roleList.get(2).getId());
+        counter++;
+        //person 14
+        userList.get(counter).setRoleId(roleList.get(3).getId());
+        counter++;
+        //person 15
+        userList.get(counter).setRoleId(roleList.get(4).getId());
+        counter++;
+
+
+        //vancouver
+        //person 16
+        userList.get(counter).setRoleId(roleList.get(1).getId());
+        counter++;
+        //person 17
+        userList.get(counter).setRoleId(roleList.get(1).getId());
+        counter++;
+        //person 18
+        userList.get(counter).setRoleId(roleList.get(2).getId());
+        counter++;
+        //person 19
+        userList.get(counter).setRoleId(roleList.get(3).getId());
+        counter++;
+        //person 20
+        userList.get(counter).setRoleId(roleList.get(4).getId());
+        counter++;
+    }
+
+    private void initRolePermission() {
+
+        //burnaby
+        int counter = 0;
+        rolePermissionList.add(new DbRolePermission(teamList.get(0).getId(), roleList.get(counter).getId(), permissionList.get(0).getId(), AccessLevel.ADMIN));
+        counter++;
+        rolePermissionList.add(new DbRolePermission(teamList.get(0).getId(), roleList.get(counter).getId(), permissionList.get(1).getId(), AccessLevel.VOLUNTEER));
+        counter++;
+        rolePermissionList.add(new DbRolePermission(teamList.get(0).getId(), roleList.get(counter).getId(), permissionList.get(1).getId(), AccessLevel.VOLUNTEER));
+        counter++;
+        rolePermissionList.add(new DbRolePermission(teamList.get(0).getId(), roleList.get(counter).getId(), permissionList.get(2).getId(), AccessLevel.EMPLOYEE));
+        counter++;
+        rolePermissionList.add(new DbRolePermission(teamList.get(0).getId(), roleList.get(counter).getId(), permissionList.get(2).getId(), AccessLevel.EMPLOYEE));
+        counter++;
+        rolePermissionList.add(new DbRolePermission(teamList.get(0).getId(), roleList.get(counter).getId(), permissionList.get(2).getId(), AccessLevel.EMPLOYEE));
+        counter++;
+        rolePermissionList.add(new DbRolePermission(teamList.get(0).getId(), roleList.get(counter).getId(), permissionList.get(3).getId(), AccessLevel.TEAMLEAD));
+        counter++;
+        rolePermissionList.add(new DbRolePermission(teamList.get(0).getId(), roleList.get(counter).getId(), permissionList.get(4).getId(), AccessLevel.SUPERVISOR));
+        counter++;
+
+        //surrey
+        rolePermissionList.add(new DbRolePermission(teamList.get(1).getId(), roleList.get(counter).getId(), permissionList.get(1).getId(), AccessLevel.ADMIN));
+        counter++;
+        rolePermissionList.add(new DbRolePermission(teamList.get(1).getId(), roleList.get(counter).getId(), permissionList.get(1).getId(), AccessLevel.VOLUNTEER));
+        counter++;
+        rolePermissionList.add(new DbRolePermission(teamList.get(1).getId(), roleList.get(counter).getId(), permissionList.get(1).getId(), AccessLevel.VOLUNTEER));
+        counter++;
+        rolePermissionList.add(new DbRolePermission(teamList.get(1).getId(), roleList.get(counter).getId(), permissionList.get(2).getId(), AccessLevel.EMPLOYEE));
+        counter++;
+        rolePermissionList.add(new DbRolePermission(teamList.get(1).getId(), roleList.get(counter).getId(), permissionList.get(2).getId(), AccessLevel.EMPLOYEE));
+        counter++;
+        rolePermissionList.add(new DbRolePermission(teamList.get(1).getId(), roleList.get(counter).getId(), permissionList.get(3).getId(), AccessLevel.TEAMLEAD));
+        counter++;
+        rolePermissionList.add(new DbRolePermission(teamList.get(1).getId(), roleList.get(counter).getId(), permissionList.get(4).getId(), AccessLevel.SUPERVISOR));
+        counter++;
+
+        //vancouver
+        rolePermissionList.add(new DbRolePermission(teamList.get(2).getId(), roleList.get(counter).getId(), permissionList.get(1).getId(), AccessLevel.VOLUNTEER));
+        counter++;
+        rolePermissionList.add(new DbRolePermission(teamList.get(2).getId(), roleList.get(counter).getId(), permissionList.get(1).getId(), AccessLevel.VOLUNTEER));
+        counter++;
+        rolePermissionList.add(new DbRolePermission(teamList.get(2).getId(), roleList.get(counter).getId(), permissionList.get(2).getId(), AccessLevel.EMPLOYEE));
+        counter++;
+        rolePermissionList.add(new DbRolePermission(teamList.get(2).getId(), roleList.get(counter).getId(), permissionList.get(3).getId(), AccessLevel.TEAMLEAD));
+        counter++;
+        rolePermissionList.add(new DbRolePermission(teamList.get(2).getId(), roleList.get(counter).getId(), permissionList.get(4).getId(), AccessLevel.SUPERVISOR));
+        counter++;
+
+    }
 
     private void initUserTeam() {
         //burnaby
@@ -251,15 +511,12 @@ public class DummyDataBase {
         userTeamList.add(new DbUserTeam(2, userList.get(counter).getId()));
         counter++;
         userTeamList.add(new DbUserTeam(2, userList.get(counter).getId()));
+        counter++;
     }
-
-
 
     private void initShiftAndUserShift() {
 
-
         //burnaby
-
         int counter = 0;
 
         //Person 1:
@@ -272,7 +529,6 @@ public class DummyDataBase {
         shiftList.add(new DbShift(0, TimeUtil.getEpochSecondsFromUserInput(2017, 10,4, 8, 30), TimeUtil.getEpochSecondsFromUserInput(2017, 10, 5, 10, 30)));
         userShiftList.add(new DbUserShift(userTeamList.get(counter).getId(), shiftList.get(shiftList.size()-1).getId()));
         counter++;
-
 
 
         //Person 2:
@@ -350,7 +606,6 @@ public class DummyDataBase {
 
 
         //surrey
-
         //Person 9:
         shiftList.add(new DbShift(2, TimeUtil.getEpochSecondsFromUserInput(2017, 10,4, 8, 30), TimeUtil.getEpochSecondsFromUserInput(2017, 10, 4, 10, 30)));
         userShiftList.add(new DbUserShift(userTeamList.get(counter).getId(), shiftList.get(shiftList.size()-1).getId()));
@@ -516,8 +771,6 @@ public class DummyDataBase {
         counter++;
     }
 
-
-
     private void initOneTimeAvailAndUserShift() {
         int counter = 0;
 
@@ -525,10 +778,13 @@ public class DummyDataBase {
         counter++;
 
 
+
         //Person 2:
         oneTimeAvailList.add(new DbOneTimeAvailability(counter, TimeUtil.getEpochSecondsFromUserInput(2017, 10,13, 12, 00), TimeUtil.getEpochSecondsFromUserInput(2017, 10, 9, 16, 15)));
         userShiftList.add(new DbUserShift(userTeamList.get(counter).getId(), oneTimeAvailList.get( oneTimeAvailList.size()-1).getId()));
         counter++;
+
+
 
         //Person 3:
         oneTimeAvailList.add(new DbOneTimeAvailability(counter, TimeUtil.getEpochSecondsFromUserInput(2017, 10,10, 9, 00), TimeUtil.getEpochSecondsFromUserInput(2017, 10, 9, 12, 15)));
@@ -537,7 +793,6 @@ public class DummyDataBase {
         oneTimeAvailList.add(new DbOneTimeAvailability(counter, TimeUtil.getEpochSecondsFromUserInput(2017, 10,10, 15, 30), TimeUtil.getEpochSecondsFromUserInput(2017, 10, 10, 18, 00)));
         userShiftList.add(new DbUserShift(userTeamList.get(counter).getId(), oneTimeAvailList.get( oneTimeAvailList.size()-1).getId()));
         counter++;
-
 
 
 
@@ -556,10 +811,10 @@ public class DummyDataBase {
         counter++;
 
 
+
         //Person 5:
         oneTimeAvailList.add(new DbOneTimeAvailability(counter, TimeUtil.getEpochSecondsFromUserInput(2017, 10,10, 9, 30), TimeUtil.getEpochSecondsFromUserInput(2017, 10, 9, 12, 00)));
         userShiftList.add(new DbUserShift(userTeamList.get(counter).getId(), oneTimeAvailList.get( oneTimeAvailList.size()-1).getId()));
-
         counter++;
 
 
@@ -574,13 +829,14 @@ public class DummyDataBase {
 
 
 
-
         //Person 7:
         counter++;
 
 
+
         //Person 8:
         counter++;
+
 
 
 
@@ -593,6 +849,7 @@ public class DummyDataBase {
         oneTimeAvailList.add(new DbOneTimeAvailability(counter, TimeUtil.getEpochSecondsFromUserInput(2017, 10,13, 10, 00), TimeUtil.getEpochSecondsFromUserInput(2017, 10, 13, 13, 00)));
         userShiftList.add(new DbUserShift(userTeamList.get(counter).getId(), oneTimeAvailList.get( oneTimeAvailList.size()-1).getId()));
         counter++;
+
 
 
 
@@ -649,6 +906,7 @@ public class DummyDataBase {
 
 
 
+
         //vancouver
 
         //Person 16:
@@ -685,170 +943,144 @@ public class DummyDataBase {
         counter++;
     }
 
-
     private void initUserQualification() {
         int counter = 0;
 
 
         //burnaby
+        //person 1
+        userQualificationList.add(new DbUserQualification(counter, qualificationList.get(0).getId()));
+        userQualificationList.add(new DbUserQualification(counter, qualificationList.get(1).getId()));
+        counter++;
+
+        //person 2
+        userQualificationList.add(new DbUserQualification(counter, qualificationList.get(1).getId()));
         userQualificationList.add(new DbUserQualification(counter, qualificationList.get(0).getId()));
         counter++;
 
-        userQualificationList.add(new DbUserQualification(counter, qualificationList.get(1).getId()));
-        counter++;
-
+        //person 3
         userQualificationList.add(new DbUserQualification(counter, qualificationList.get(2).getId()));
         counter++;
 
+        //person 4
+        userQualificationList.add(new DbUserQualification(counter, qualificationList.get(2).getId()));
+        counter++;
+
+        //person 5
+        userQualificationList.add(new DbUserQualification(counter, qualificationList.get(2).getId()));
+        counter++;
+
+        //person 6
+        userQualificationList.add(new DbUserQualification(counter, qualificationList.get(2).getId()));
         userQualificationList.add(new DbUserQualification(counter, qualificationList.get(3).getId()));
         counter++;
 
-        userQualificationList.add(new DbUserQualification(counter, qualificationList.get(4).getId()));
-        counter++;
 
+        //person 7
         userQualificationList.add(new DbUserQualification(counter, qualificationList.get(5).getId()));
+        userQualificationList.add(new DbUserQualification(counter, qualificationList.get(2).getId()));
         counter++;
 
-        userQualificationList.add(new DbUserQualification(counter, qualificationList.get(6).getId()));
-        counter++;
-
-        userQualificationList.add(new DbUserQualification(counter, qualificationList.get(1).getId()));
+        //person 8
+        userQualificationList.add(new DbUserQualification(counter, qualificationList.get(4).getId()));
         counter++;
 
 
 
         //surrey
+        //person 9
         userQualificationList.add(new DbUserQualification(counter, qualificationList.get(0).getId()));
         counter++;
 
-        userQualificationList.add(new DbUserQualification(counter, qualificationList.get(1).getId()));
-        counter++;
-
-        userQualificationList.add(new DbUserQualification(counter, qualificationList.get(0).getId()));
-        counter++;
-
+        //person 10
         userQualificationList.add(new DbUserQualification(counter, qualificationList.get(2).getId()));
         counter++;
 
-        userQualificationList.add(new DbUserQualification(counter, qualificationList.get(3).getId()));
+        //person 11
+        userQualificationList.add(new DbUserQualification(counter, qualificationList.get(2).getId()));
         counter++;
 
-        userQualificationList.add(new DbUserQualification(counter, qualificationList.get(0).getId()));
+        //person 12
+        userQualificationList.add(new DbUserQualification(counter, qualificationList.get(2).getId()));
         counter++;
 
+        //person 13
+        userQualificationList.add(new DbUserQualification(counter, qualificationList.get(2).getId()));
+        counter++;
+
+        //person 14
+        userQualificationList.add(new DbUserQualification(counter, qualificationList.get(2).getId()));
+        counter++;
+
+        //person 15
         userQualificationList.add(new DbUserQualification(counter, qualificationList.get(4).getId()));
         counter++;
 
 
         //vancouver
-        userQualificationList.add(new DbUserQualification(counter, qualificationList.get(5).getId()));
-        counter++;
-
+        //person 16
         userQualificationList.add(new DbUserQualification(counter, qualificationList.get(2).getId()));
         counter++;
 
-        userQualificationList.add(new DbUserQualification(counter, qualificationList.get(0).getId()));
+        //person 17
+        userQualificationList.add(new DbUserQualification(counter, qualificationList.get(2).getId()));
         counter++;
 
-        userQualificationList.add(new DbUserQualification(counter, qualificationList.get(1).getId()));
+        //person 18
+        userQualificationList.add(new DbUserQualification(counter, qualificationList.get(2).getId()));
         counter++;
 
+        //person 19
+        userQualificationList.add(new DbUserQualification(counter, qualificationList.get(2).getId()));
+        counter++;
+
+        //person 20
         userQualificationList.add(new DbUserQualification(counter, qualificationList.get(4).getId()));
         counter++;
     }
 
+    private void initShiftQualification() {
+        int counter = 0;
+        //Information and Lost and found to kiosk  -> qualification
+        shiftQualificationList.add(new DbShiftQualification(shiftTypeList.get(counter).getId(), qualificationList.get(0).getId()));
+        counter++;
 
+        //Speed Watch/Moving Traffic"
+        shiftQualificationList.add(new DbShiftQualification(shiftTypeList.get(counter).getId(), qualificationList.get(1).getId()));
+        counter++;
 
-    private void initAllLists() {
-        initUsers();
-        initPermission();
-        initTeam();
-        initRoles();
-        initRolePermission();
-        initUserTeam();
-        initQualification();
-        initUserQualification();
-        initShiftType();
-        initShiftAndUserShift();
-        initOneTimeAvailAndUserShift();
+        //Community Presence
+        shiftQualificationList.add(new DbShiftQualification(shiftTypeList.get(counter).getId(), qualificationList.get(2).getId()));
+        counter++;
+
+        //Safety Screen
+        shiftQualificationList.add(new DbShiftQualification(shiftTypeList.get(counter).getId(), qualificationList.get(2).getId()));
+        counter++;
+
+        //Theft Prevention
+        shiftQualificationList.add(new DbShiftQualification(shiftTypeList.get(counter).getId(), qualificationList.get(2).getId()));
+        counter++;
+
+        //Auto Theft Prevention
+        shiftQualificationList.add(new DbShiftQualification(shiftTypeList.get(counter).getId(), qualificationList.get(2).getId()));
+        counter++;
+
+        //Bike Presence
+        shiftQualificationList.add(new DbShiftQualification(shiftTypeList.get(counter).getId(), qualificationList.get(3).getId()));
+        counter++;
+
+        //Special Events (peaceful protests, campus ceremonies, etc)
+        shiftQualificationList.add(new DbShiftQualification(shiftTypeList.get(counter).getId(), qualificationList.get(4).getId()));
+        counter++;
+
+        //Smoking Checks
+        shiftQualificationList.add(new DbShiftQualification(shiftTypeList.get(counter).getId(), qualificationList.get(5).getId()));
+        counter++;
+
+        //Pedestrian Safety
+        shiftQualificationList.add(new DbShiftQualification(shiftTypeList.get(counter).getId(), -1));
+        counter++;
     }
 
 
-
-
-
-
-    public DummyDataBase() {
-
-        //init dummy names
-        initAllLists();
-
-        //creates users
-        for(int i = 0; i < userList.size(); i++) {
-            userList.get(i).setRoleId(roleList.get(i).getId());
-            DbUserHelper.createDbUser(userList.get(i));
-        }
-
-        //creates team
-        for(DbTeam itr: teamList) {
-            DbTeamHelper.createDbTeam(itr);
-        }
-
-        //creates roles
-        for(DbRole itr: roleList) {
-            DbRoleHelper.createDbRole(itr);
-        }
-
-        //creates permission
-        for(DbPermission itr: permissionList) {
-            DbPermissionHelper.createDbPermission(itr);
-        }
-
-        //links rolepermission
-        for(DbRolePermission itr: rolePermissionList) {
-            DbRolePermissionHelper.createDbRolePermission(itr);
-        }
-
-        //links userTeam
-        for(DbUserTeam itr: userTeamList) {
-            DbUserTeamHelper.createDbUserTeam(itr);
-        }
-
-        //links shift qualifcation
-        for(int i = 0; i < shiftTypeList.size(); i++) {
-            shiftQualificationList.add(new DbShiftQualification(shiftTypeList.get(i).getId(), qualificationList.get(i).getId()));
-            DbShiftQualificationHelper.createDbShiftQualification(shiftQualificationList.get(i));
-        }
-
-        //creates qualifcations
-        for(DbQualification itr: qualificationList) {
-            DbQualificationHelper.createDbQualification(itr);
-        }
-
-        //creates userQualification
-        for(DbUserQualification itr: userQualificationList) {
-            DbUserQualificationHelper.createDbUserQualification(itr);
-        }
-
-
-        //creates shiftType
-        for(DbShiftType itr: shiftTypeList) {
-            DbShiftTypeHelper.createDbShiftType(itr);
-        }
-
-        //creates Shift
-        for(DbShift itr: shiftList) {
-            DbShiftHelper.createDbShift(itr);
-        }
-
-        //creates one time availability
-        for(DbOneTimeAvailability itr: oneTimeAvailList) {
-            DbOneTimeAvailabilityHelper.createDbOneTimeAvailability(itr);
-        }
-
-        //creates userShift
-        for(DbUserShift itr: userShiftList) {
-            DbUserShiftHelper.createDbUserShift(itr);
-        }
-    }
 }

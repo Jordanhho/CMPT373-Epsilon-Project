@@ -46,4 +46,12 @@ public class DbRole extends Model {
     }
 
     public static Finder<Integer, DbRole> find = new Finder<>(DbRole.class);
+
+    @Override
+    public String toString() {
+        return "DbRole{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
+    }
 }

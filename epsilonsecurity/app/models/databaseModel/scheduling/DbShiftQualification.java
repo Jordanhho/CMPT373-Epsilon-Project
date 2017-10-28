@@ -53,4 +53,13 @@ public class DbShiftQualification extends Model {
     }
 
     public static Finder<Integer, DbShiftQualification> find = new Finder<>(DbShiftQualification.class);
+
+    @Override
+    public String toString() {
+        return "DbShiftQualification{" +
+                "id=" + id +
+                ", shiftTypeId=" + shiftTypeId +
+                ", qualificationId=" + qualificationId +
+                '}';
+    }
 }

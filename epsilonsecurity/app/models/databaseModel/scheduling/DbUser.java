@@ -48,6 +48,8 @@ public class DbUser extends Model {
                   String sfuEmail,
                   String phoneNumber,
                   String photoURL) {
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.contactEmail = contactEmail;
         this.sfuEmail = sfuEmail;
         this.phoneNumber = phoneNumber;
@@ -120,4 +122,18 @@ public class DbUser extends Model {
     }
 
     public static Finder<Integer, DbUser> find = new Finder<>(DbUser.class);
+
+    @Override
+    public String toString() {
+        return "DbUser{" +
+                "id=" + id +
+                ", roleId=" + roleId +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", contactEmail='" + contactEmail + '\'' +
+                ", sfuEmail='" + sfuEmail + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", photoURL='" + photoURL + '\'' +
+                '}';
+    }
 }

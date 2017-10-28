@@ -41,4 +41,12 @@ public class DbQualification extends Model {
     }
 
     public static Finder<Integer, DbQualification> find = new Finder<>(DbQualification.class);
+
+    @Override
+    public String toString() {
+        return "DbQualification{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
+    }
 }

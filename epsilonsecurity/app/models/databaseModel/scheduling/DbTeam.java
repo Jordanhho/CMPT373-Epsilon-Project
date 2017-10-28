@@ -41,4 +41,12 @@ public class DbTeam extends Model {
     }
 
     public static Finder<Integer, DbTeam> find = new Finder<>(DbTeam.class);
+
+    @Override
+    public String toString() {
+        return "DbTeam{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
+    }
 }

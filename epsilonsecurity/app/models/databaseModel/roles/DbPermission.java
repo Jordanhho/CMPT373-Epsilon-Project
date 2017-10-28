@@ -47,4 +47,12 @@ public class DbPermission extends Model {
     }
 
     public static Finder<Integer, DbPermission> find = new Finder<>(DbPermission.class);
+
+    @Override
+    public String toString() {
+        return "DbPermission{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
+    }
 }

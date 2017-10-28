@@ -53,4 +53,13 @@ public class DbShiftType extends Model {
     }
 
     public static Finder<Integer, DbShiftType> find = new Finder<>(DbShiftType.class);
+
+    @Override
+    public String toString() {
+        return "DbShiftType{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", colorCode='" + colorCode + '\'' +
+                '}';
+    }
 }

@@ -37,4 +37,16 @@ public class DbShiftName extends Model {
     }
 
     public static Finder<Integer, DbShiftName> find = new Finder<>(DbShiftName.class);
+
+    public static void setFind(Finder<Integer, DbShiftName> find) {
+        DbShiftName.find = find;
+    }
+
+    @Override
+    public String toString() {
+        return "DbShiftName{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
+    }
 }
