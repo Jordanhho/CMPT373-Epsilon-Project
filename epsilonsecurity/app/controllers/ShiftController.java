@@ -51,12 +51,11 @@ public class ShiftController extends Controller {
         return ok();
     }
 
+    //TODO: Refactor deleleShift and all related functions/routes.
     public Result deleteShift(String name) {
 
-        // Read the DbShift to delete based on the form fields
         int shiftTypeID = DbShiftTypeHelper.readDbShiftTypeByName(name).getId();
         DbShift dbShiftToDelete = DbShiftHelper.readDbShiftByShiftTypeId(shiftTypeID);
-
         DbShiftHelper.deleteDbShift(dbShiftToDelete);
 
         return ok();

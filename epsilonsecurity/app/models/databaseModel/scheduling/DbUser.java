@@ -122,4 +122,18 @@ public class DbUser extends Model {
     }
 
     public static Finder<Integer, DbUser> find = new Finder<>(DbUser.class);
+
+    @Override
+    public String toString() {
+        return "DbUser{" +
+                "id=" + id +
+                ", roleId=" + roleId +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", contactEmail='" + contactEmail + '\'' +
+                ", sfuEmail='" + sfuEmail + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", photoURL='" + photoURL + '\'' +
+                '}';
+    }
 }

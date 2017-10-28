@@ -83,4 +83,15 @@ public class DbShift extends Model {
     }
 
     public static Finder<Integer, DbShift> find = new Finder<>(DbShift.class);
+
+    @Override
+    public String toString() {
+        return "DbShift{" +
+                "id=" + id +
+                ", shiftTypeId=" + shiftTypeId +
+                ", timeStart=" + timeStart +
+                ", timeEnd=" + timeEnd +
+                ", wasPresent=" + wasPresent +
+                '}';
+    }
 }
