@@ -14,7 +14,7 @@
                     <div class="team-name">
                         <p>Teams: </p>
                         <div v-for="team in teams">
-                            <input :id="team.name" type="checkbox" :value="team.id" v-model="userData.teams" @click="displayAllTeams()">
+                            <input :id="team.name" type="checkbox" :value="team.id" v-model="listOfTeamIDsForUser" @click="displayAllTeams">
                             <label :for="team.name">{{ team.name }}</label>
                         </div>
                     </div>
@@ -49,16 +49,7 @@
     export default {
         data () {
             return {
-                mainSections: [
-                ],
-                userData: {
-                    firstName: "first",
-                    lastName: "last",
-                    teams: [],
-                    role: "role",
-                    contactEmail: "contact email",
-                    sfuEmail: "sfu email",
-                },
+                listOfTeamIDsForUser: [],
             }
         },
         components: {
@@ -69,12 +60,24 @@
                 type: Array,
                 required: true
             },
+            userTeams: {
+                type: Array,
+                required: true
+            },
+            userData: {
+                type: Object,
+                required: true
+            }
         },
         methods: {
             displayAllTeams() {
-                alert(this.userData.teams);
+                alert(this.listOfTeamIDsForUser);
             },
         },
+        created: function() {
+            this.listOfTeamIDsForUser = this.userTeams.map(x => x.id);
+            console.log(JSON.stringify(this.userTeams, null, 2));
+        }
     }
 </script>
 

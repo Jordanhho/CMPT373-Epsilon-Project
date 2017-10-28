@@ -94,15 +94,6 @@
             //alert("userlist created");
             this.users = usersList;
             this.filteredUsers = usersList;
-
-            axios.get('https://jsonplaceholder.typicode.com/posts/1')
-                .then(function (response) {
-                    console.log(response);
-                })
-                .catch(function (error) {
-                    console.log(error);
-                });
-
         },
     };
 

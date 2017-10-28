@@ -1,14 +1,36 @@
 <template>
     <div id = "profile">
         <img :src="userPhoto" alt="" id= "user-photo">
-        <ul id = "user-info">
-            <li v-for= "info in infoList">
-                {{info.text}}
+        <ul id= "user-info">
+            <li>
+                First Name: {{ userData.firstName }}
+            </li>
+            <li>
+                Last Name:  {{ userData.lastName }}
+            </li>
+            <li>
+                Teams:
+                <ul id = "team-names">
+                    <li v-for="team in userTeams">
+                        {{ team.name }}
+                    </li>
+                </ul>
+            <li>
+                Role: {{ userData.role }}
+            </li>
+            <li>
+                Contact Email: {{ userData.contactEmail }}
+            </li>
+            <li>
+                SFU Email: {{ userData.sfuEmail }}
             </li>
         </ul>
         <div class="buttons">
             <button id="edit-user" @click="showEditUser = true">Edit User</button>
-            <edit-user v-if="showEditUser" @close="showEditUser = false" @edit="onClickEdit" v-bind:teams="teams">
+            <edit-user v-if="showEditUser" @close="showEditUser = false" @edit="onClickEdit"
+                       v-bind:teams="teams"
+                       v-bind:userTeams="userTeams"
+                       v-bind:userData="userData">
             </edit-user>
             <button id="disable-user" @click="showDisableUser = true">Disable User</button>
             <disable-user v-if="showDisableUser" @close="showDisableUser = false" @disable="onClickDisable">
@@ -20,6 +42,7 @@
 <script>
     import EditUser from "./EditUser.vue";
     import DisableUser from "./DisableUser.vue";
+    import axios from 'axios';
 
     export default {
         name: 'user-profile',
@@ -28,14 +51,14 @@
                 showEditUser: false,
                 showDisableUser: false,
                 userPhoto: 'http://lorempixel.com/100/100/people',
-                infoList: [
-                    {text: 'first name, last name'},
-                    {text: 'team'},
-                    {text: 'role'},
-                    {text: 'email'},
-                    {text: 'phone'}
-
-                ]
+                userTeams: [],
+                userData: {
+                    firstName: "",
+                    lastName: "",
+                    role: "",
+                    contactEmail: "",
+                    sfuEmail: "",
+                },
             }
         },
         methods: {
@@ -57,6 +80,12 @@
                 alert('user disabled');
                 this.showDisableUser = false;
             },
+            populateUserData (response) {
+                this.userData = response.data;
+            },
+            populateTeam (response) {
+                this.userTeams = response.data;
+            }
         },
         components: {
             "edit-user": EditUser,
@@ -67,6 +96,22 @@
                 type: Array,
                 required: true
             },
+
+        },
+
+        created: function() {
+            // run axios call to get userdata and then populate userdata
+            // populate the userdata and display in the user-info list.
+            axios.get('/assets/1.json')
+                .then(this.populateUserData)
+                .catch(function (error) {
+                    console.log(error);
+                });
+            axios.get('/assets/1-team.json')
+                .then(this.populateTeam)
+                .catch(function (error) {
+                    console.log(error);
+                });
         },
     }
 </script>
@@ -93,5 +138,8 @@
 
     #buttons {
         float: right;
+    }
+    li  {
+        list-style:none;
     }
 </style>

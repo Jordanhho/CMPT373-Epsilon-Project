@@ -3,26 +3,40 @@
         <div class="modal-mask">
             <div class="modal-wrapper">
                 <div class="modal-container">
-
-                    <div class="modal-header">
-                        <slot name="header">
-                            default header
-                        </slot>
+                    <div class="first-name">
+                        <p>First Name: </p>
+                        <input v-model="userData.firstName" placeholder="edit me">
                     </div>
-
-                    <div class="modal-body">
-                        <slot name="body">
-                            default body
-                        </slot>
+                    <div class="last-name">
+                        <p>Last Name: </p>
+                        <input v-model="userData.lastName" placeholder="edit me">
                     </div>
-
+                    <div class="team-name">
+                        <p>Teams: </p>
+                        <div v-for="team in teams">
+                            <input :id="team.name" type="checkbox" :value="team.id" v-model="userData.teams" @click="displayAllTeams()">
+                            <label :for="team.name">{{ team.name }}</label>
+                        </div>
+                    </div>
+                    <div class="role">
+                        <p>Role: </p>
+                        <input v-model="userData.role" placeholder="edit me">
+                    </div>
+                    <div class="contact-email">
+                        <p>Contact Email: </p>
+                        <input v-model="userData.contactEmail" placeholder="edit me">
+                    </div>
+                    <div class="sfu-email">
+                        <p>SFU Email: </p>
+                        <input v-model="userData.sfuEmail" placeholder="edit me">
+                    </div>
                     <div class="modal-footer">
-                        <slot name="footer">
-                            default footer
-                            <button class="modal-default-button" @click="$emit('close')">
-                                OK
-                            </button>
-                        </slot>
+                        <button class="editButton" @click="$emit('edit')">
+                            Edit
+                        </button>
+                        <button class="closeButton" @click="$emit('close')">
+                            Cancel
+                        </button>
                     </div>
                 </div>
             </div>
