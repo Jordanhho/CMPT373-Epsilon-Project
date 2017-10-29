@@ -13,7 +13,7 @@ public class DbQualification extends Model {
     @Id
     @GeneratedValue
     private int id;
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String qualificationName;
 
     public DbQualification(String qualificationName){
