@@ -1,15 +1,5 @@
 [
     {
-        "firstName": "Billy",
-        "lastName": "Jimbob",
-        "userID": 1
-    },
-    {
-        "firstName": "Kevin",
-        "lastName": "Bacon",
-        "userID": 2
-    },
-    {
         "firstName": "Kevin",
         "lastName": "Hart",
         "userID": 3
@@ -21,7 +11,7 @@
     },
     {
         "firstName": "Elinor",
-        "lastName": "Holcutt",
+        "lastName": "Hocutt",
         "userID": 5
     }
 ]

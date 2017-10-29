@@ -1,43 +1,41 @@
 <template>
     <div id="manage-users">
-        <userlist id="userlist" v-bind:teams="teams" @clicked="onClickUserListViewItem">
+        <userlist   id="userlist"
+                    v-bind:teams="teams"
+                    @clicked="onClickUserListViewItem">
         </userlist>
-        <div id="profile-main">
-            <profile id="profile"  v-bind:teams="teams"></profile>
+        <div    id="profile-main"
+                v-if='userID != -1'>
+            <profile    id="profile"
+                        v-bind:userID='userID'
+                        v-bind:teams="teams">
+            </profile>
             <qualifications id="qualifications"></qualifications>
         </div>
     </div>
 </template>
 
 <script>
-    import UserListView from './UserListView.vue'
-    import QualificationsView from './QualificationsView.vue'
-    import ProfileView from './ProfileView.vue'
-    import Icon from 'vue-awesome/components/Icon.vue'
+    import UserListView from './UserListView.vue';
+    import QualificationsView from './QualificationsView.vue';
+    import ProfileView from './ProfileView.vue';
+    import Icon from 'vue-awesome/components/Icon.vue';
+    import axios from 'axios';
 
     export default {
         name: 'manage-users',
         data() {
             return {
-                teams: [
-                    {
-                        name: 'surrey',
-                        id: 1,
-                    },
-                    {
-                        name: 'burnaby',
-                        id: 2,
-                    },
-                    {
-                        name: 'vancouver',
-                        id: 3,
-                    }
-                ],
+                teams: [],
+                userID: -1
             }
         },
         methods: {
             onClickUserListViewItem(value) {
-                alert(value);
+                this.userID = value;
+            },
+            populateTeamList(response) {
+                this.teams = response.data;
             }
         },
         components: {
@@ -45,6 +43,13 @@
             'qualifications': QualificationsView,
             'profile': ProfileView,
             Icon
+        },
+        created: function () {
+            axios.get('/assets/teams.json')
+            .then(this.populateTeamList)
+            .catch(function (error) {
+                console.log(error);
+            });
         }
     }
 </script>

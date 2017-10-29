@@ -14,7 +14,11 @@
                     <div class="team-name">
                         <p>Teams: </p>
                         <div v-for="team in teams">
-                            <input :id="team.name" type="checkbox" :value="team.id" v-model="listOfTeamIDsForUser" @click="displayAllTeams()">
+                            <input  :id="team.name"
+                                    type="checkbox"
+                                    :value="team.id"
+                                    v-model="listOfTeamIDsForUser"
+                                    @click="displayAllTeams()">
                             <label :for="team.name">{{ team.name }}</label>
                         </div>
                     </div>

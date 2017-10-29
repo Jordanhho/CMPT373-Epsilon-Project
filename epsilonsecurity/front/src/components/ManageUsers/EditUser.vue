@@ -5,36 +5,49 @@
                 <div class="modal-container">
                     <div class="first-name">
                         <p>First Name: </p>
-                        <input v-model="userData.firstName" placeholder="edit me">
+                        <input  v-model="userData.firstName"
+                                placeholder="edit me">
                     </div>
                     <div class="last-name">
                         <p>Last Name: </p>
-                        <input v-model="userData.lastName" placeholder="edit me">
+                        <input  v-model="userData.lastName"
+                                placeholder="edit me">
                     </div>
                     <div class="team-name">
                         <p>Teams: </p>
                         <div v-for="team in teams">
-                            <input :id="team.name" type="checkbox" :value="team.id" v-model="listOfTeamIDsForUser" @click="displayAllTeams">
-                            <label :for="team.name">{{ team.name }}</label>
+                            <input  :id="team.name"
+                                    type="checkbox"
+                                    :value="team.id"
+                                    v-model="listOfTeamIDsForUser"
+                                    @click="displayAllTeams">
+                            <label :for="team.name">
+                                {{ team.name }}
+                            </label>
                         </div>
                     </div>
                     <div class="role">
                         <p>Role: </p>
-                        <input v-model="userData.role" placeholder="edit me">
+                        <input  v-model="userData.role"
+                                placeholder="edit me">
                     </div>
                     <div class="contact-email">
                         <p>Contact Email: </p>
-                        <input v-model="userData.contactEmail" placeholder="edit me">
+                        <input  v-model="userData.contactEmail"
+                                placeholder="edit me">
                     </div>
                     <div class="sfu-email">
                         <p>SFU Email: </p>
-                        <input v-model="userData.sfuEmail" placeholder="edit me">
+                        <input  v-model="userData.sfuEmail"
+                                placeholder="edit me">
                     </div>
                     <div class="modal-footer">
-                        <button class="editButton" @click="$emit('edit')">
+                        <button class="editButton"
+                                @click="$emit('edit')">
                             Edit
                         </button>
-                        <button class="closeButton" @click="$emit('close')">
+                        <button class="closeButton"
+                                @click="$emit('close')">
                             Cancel
                         </button>
                     </div>
@@ -76,7 +89,7 @@
         },
         created: function() {
             this.listOfTeamIDsForUser = this.userTeams.map(x => x.id);
-            console.log(JSON.stringify(this.userTeams, null, 2));
+            //console.log(JSON.stringify(this.userTeams, null, 2));
         }
     }
 </script>

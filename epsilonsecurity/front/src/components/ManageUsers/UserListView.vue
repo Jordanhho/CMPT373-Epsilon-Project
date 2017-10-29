@@ -1,19 +1,35 @@
 <template>
     <div id = "userlist">
-        <select v-model ="team">
-            <option selected = "team">all teams</option>
-            <option v-for="t in teams">{{t}}</option>
+        <select v-model="selectedTeam" @change='requestUsers'>
+            <option selected="selectedTeam"
+                    value='all teams'>
+                all teams
+            </option>
+            <option v-for="team in teams"
+                    :value='team.id'>
+                {{ team.name }}
+            </option>
         </select>
-        <span>Selected: {{ team }}</span>
-        <button id="add-user" @click="showAddUser = true" v-bind:teams="teams">Add User</button>
-        <add-user v-if="showAddUser" @close="showAddUser = false" @add="onClickAdd">
+
+        <!-- <span>Selected: {{ team }}</span> -->
+
+        <button id="add-user"
+                @click="showAddUser = true">
+            Add User
+        </button>
+        <add-user   v-if="showAddUser"
+                    @close="showAddUser = false"
+                    @add="onClickAdd"
+                    v-bind:teams="teams">
         </add-user>
+
         <ul id = "scroll">
-            <listed-user v-for= "user in filteredUsers"
+            <listed-user v-for= "user in users"
                          @clicked="onClickListElement"
                          v-bind:user="user">
             </listed-user>
         </ul>
+
     </div>
 </template>
 
@@ -21,47 +37,13 @@
     import AddUser from "./AddUser.vue";
     import ListedUser from "./ListedUser.vue";
     import axios from 'axios';
-    let usersList = [
-        {
-            first: "Billy",
-            last: "Jimbob",
-            teams: ["surrey"],
-            userid: 1
-        },
-        {
-            first: "Kevin",
-            last: "Bacon",
-            teams: ["surrey", "burnaby", "vancouver"],
-            userid: 2
-        },
-        {
-            first: "Kevin",
-            last: "Hart",
-            teams: ["vancouver"],
-            userid: 3
-        },
-        {
-            first: "Russell",
-            last: "Peters",
-            teams: ["surrey", "vancouver"],
-            userid: 4
-        },
-        {
-            first: "Elinor",
-            last: "Hocutt",
-            teams: ["burnaby", "vancouver"],
-            userid: 5
-        },
-    ];
     export default {
         name: 'scroll',
         data(){
             return {
                 showAddUser: false,
                 users: [],
-                filteredUsers: [],
-                teams: [],
-                teamValue: 'all teams'
+                selectedTeam: 'all teams'
             }
         },
         methods: {
@@ -76,28 +58,42 @@
                 alert("added successfully");
                 this.showAddUser = false;
             },
+            populateUsers (response) {
+                this.users = response.data;
+                //console.log(JSON.stringify(this.users, null, 2));
+            },
+            populateTeams (response) {
+                this.teams = respones.data;
+            },
+            requestUsers() {
+                var usersURL = ''
+                if (this.selectedTeam > 0) {
+                    usersURL = '/assets/' + this.selectedTeam + '-users.json';
+                } else {
+                    usersURL = '/assets/all.json';
+                }
+
+                axios.get(usersURL)
+                .then(this.populateUsers)
+                .catch(function (error) {
+                    console.log(error);
+                });
+            }
         },
         components: {
             "listed-user": ListedUser,
             "add-user": AddUser
         },
-        computed: {
-            team: {
-                get(){
-                    return this.teamValue;
-                },
-                set(v) {
-                    this.teamValue = v;
-                    alert(v);
-                    this.filteredUsers = this.users.filter(user => v == "all teams" || user.teams.indexOf(v) > -1);
-                },
-            },
-        },
         created: function() {
             // perform ajax request here
             //alert("userlist created");
-            this.users = usersList;
-            this.filteredUsers = usersList;
+            this.requestUsers();
+
+            axios.get('/assets/teams.json')
+            .then(this.popluateTeams)
+            .catch(function (error) {
+                console.log(error);
+            });
         },
         props: {
             teams: {

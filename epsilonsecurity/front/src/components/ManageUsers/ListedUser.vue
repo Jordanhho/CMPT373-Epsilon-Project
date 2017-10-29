@@ -1,6 +1,6 @@
 <template>
     <div class="listed-user" @click="onClickButton">
-        {{user.first}}, {{user.last}}
+        {{user.firstName}}, {{user.lastName}}
     </div>
 </template>
 
@@ -15,7 +15,7 @@
         },
         methods: {
             onClickButton (event) {
-                this.$emit('clicked', this.user.userid);
+                this.$emit('clicked', this.user.userID);
             },
         },
         components: {

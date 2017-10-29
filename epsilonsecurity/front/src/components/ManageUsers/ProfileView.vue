@@ -11,7 +11,8 @@
             <li>
                 Teams:
                 <ul id = "team-names">
-                    <li v-for="team in userTeams">
+                    <li v-for="team in userTeams"
+                        class='team-list'>
                         {{ team.name }}
                     </li>
                 </ul>
@@ -26,14 +27,24 @@
             </li>
         </ul>
         <div class="buttons">
-            <button id="edit-user" @click="showEditUser = true">Edit User</button>
-            <edit-user v-if="showEditUser" @close="showEditUser = false" @edit="onClickEdit"
-                       v-bind:teams="teams"
-                       v-bind:userTeams="userTeams"
-                       v-bind:userData="userData">
+            <button id="edit-user"
+                    @click="showEditUser = true">
+                Edit User
+            </button>
+            <edit-user  v-if="showEditUser"
+                        @close="showEditUser = false"
+                        @edit="onClickEdit"
+                        v-bind:teams="teams"
+                        v-bind:userTeams="userTeams"
+                        v-bind:userData="userData">
             </edit-user>
-            <button id="disable-user" @click="showDisableUser = true">Disable User</button>
-            <disable-user v-if="showDisableUser" @close="showDisableUser = false" @disable="onClickDisable">
+            <button id="disable-user"
+                    @click="showDisableUser = true">
+                Disable User
+            </button>
+            <disable-user   v-if="showDisableUser"
+                            @close="showDisableUser = false"
+                            @disable="onClickDisable">
             </disable-user>
         </div>
     </div>
@@ -85,38 +96,51 @@
             },
             populateTeam (response) {
                 this.userTeams = response.data;
+            },
+            sendRequests(id) {
+                axios.get('/assets/' + id + '.json')
+                    .then(this.populateUserData)
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+                axios.get('/assets/' + id + '-team.json')
+                    .then(this.populateTeam)
+                    .catch(function (error) {
+                        console.log(error);
+                    });
             }
         },
         components: {
             "edit-user": EditUser,
             "disable-user": DisableUser,
         },
+        watch: {
+            userID: function(val) {
+                this.sendRequests(val);
+            }
+        },
+        mounted: function () {
+            this.sendRequests(this.userID);
+        },
         props: {
             teams: {
                 type: Array,
                 required: true
             },
+            userID: {
+                type: Number,
+                required: true
+            }
 
-        },
-
-        created: function() {
-            // run axios call to get userdata and then populate userdata
-            // populate the userdata and display in the user-info list.
-            axios.get('/assets/1.json')
-                .then(this.populateUserData)
-                .catch(function (error) {
-                    console.log(error);
-                });
-            axios.get('/assets/1-team.json')
-                .then(this.populateTeam)
-                .catch(function (error) {
-                    console.log(error);
-                });
-        },
+        }
     }
 </script>
 
 <style scoped lang='scss'>
+    .team-list {
+        padding-left: 1em;
+    }
+
     #profile {
         display: flex;
     }
