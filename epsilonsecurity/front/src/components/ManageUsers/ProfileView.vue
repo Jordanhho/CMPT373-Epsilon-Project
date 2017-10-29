@@ -107,7 +107,7 @@
                     .catch(function (error) {
                         console.log(error);
                     });
-                axios.get('/assets/' + id + '-team.json')
+                axios.get('/api/users/' + id + '/teams')
                     .then(this.populateTeam)
                     .catch(function (error) {
                         console.log(error);
