@@ -45,8 +45,8 @@ DELETE        /api/users/shifts/:shiftId                                        
 # DbUserTeam
 #
 
-# List all the users in the system and their corresponding teams
-GET           /api/users/teams                                                   controllers.UserTeamController.listUserTeams()
+# List all the users in a specific team
+GET           /api/users/teams/:teamId                                           controllers.UserTeamController.readAllUsersByTeamId(teamId: Integer)
 
 # Assign a user to a team
 POST          /api/users/:userId/teams/:teamId                                   controllers.UserTeamController.createUserTeam(userId: Integer, teamId: Integer)
@@ -66,7 +66,7 @@ DELETE        /api/users/:userId/teams/:teamId                                  
 POST          /api/shifttypes                                                    controllers.ShiftTypeController.createShiftType()
 
 # Delete a shift type by qualificationName
-DELETE        /api/shifttypes/:qualificationName                                              controllers.ShiftTypeController.deleteShiftTypeByName(qualificationName: String)
+DELETE        /api/shifttypes/:qualificationName                                 controllers.ShiftTypeController.deleteShiftTypeByName(qualificationName: String)
 
 
 #
@@ -77,13 +77,13 @@ DELETE        /api/shifttypes/:qualificationName                                
 POST          /api/teams                                                         controllers.TeamController.createTeam()
 
 # Read a team by qualificationName
-GET           /api/teams/:qualificationName                                                   controllers.TeamController.retrieveTeam(qualificationName: String)
+GET           /api/teams/:qualificationName                                      controllers.TeamController.retrieveTeam(qualificationName: String)
 
 # Update a team by qualificationName
-PUT           /api/teams/:qualificationName                                                   controllers.TeamController.updateTeam(qualificationName: String)
+PUT           /api/teams/:qualificationName                                      controllers.TeamController.updateTeam(qualificationName: String)
 
 # Delete a team by qualificationName
-DELETE        /api/teams/:qualificationName                                                   controllers.TeamController.deleteTeamByName(qualificationName: String)
+DELETE        /api/teams/:qualificationName                                      controllers.TeamController.deleteTeamByName(qualificationName: String)
 
 
 #
@@ -100,7 +100,7 @@ GET           /api/shifts                                                       
 POST          /api/shifts                                                        controllers.ShiftController.createShift()
 
 # Delete a shift by qualificationName
-DELETE        /api/shifts/:qualificationName                                                  controllers.ShiftController.deleteShift(qualificationName: String)
+DELETE        /api/shifts/:qualificationName                                     controllers.ShiftController.deleteShift(qualificationName: String)
 
 
 #
