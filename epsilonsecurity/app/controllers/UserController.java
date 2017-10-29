@@ -47,6 +47,12 @@ public class UserController extends Controller {
         return ok(Json.toJson(dbUser));
     }
 
+    public Result readUserByUserId(Integer userId) {
+        DbUser dbUser = DbUserHelper.readDbUserById(userId);
+
+        return ok(Json.toJson(dbUser));
+    }
+
     public Result updateUser(String sfuEmail) {
         return ok();
     }
