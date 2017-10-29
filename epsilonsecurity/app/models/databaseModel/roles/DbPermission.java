@@ -17,7 +17,7 @@ public class DbPermission extends Model {
     @Id
     private Integer id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String name;
 
     /**

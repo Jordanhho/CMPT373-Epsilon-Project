@@ -1,16 +1,16 @@
-package models;
+package store;
 
 import javax.annotation.Nonnull;
 
 public abstract class DatabaseId {
-    @Nonnull protected long rawId;
+    @Nonnull protected Integer rawId;
 
     @Nonnull
-    public long getRawId() {
+    public Integer getRawId() {
         return rawId;
     }
 
-    public DatabaseId(long rawID) {
+    public DatabaseId(Integer rawID) {
         this.rawId = rawID;
     }
 }

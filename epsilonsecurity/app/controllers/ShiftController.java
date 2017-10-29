@@ -1,6 +1,7 @@
 package controllers;
 
 import models.databaseModel.helpers.DbShiftHelper;
+import models.databaseModel.helpers.DbShiftTypeHelper;
 import models.databaseModel.scheduling.DbShift;
 import models.databaseModel.scheduling.DbUser;
 import models.queries.ScheduleUtil;
@@ -15,6 +16,8 @@ import java.util.List;
 
 public class ShiftController extends Controller {
 
+    private static final String TIME_START = "start";
+    private static final String TIME_END = "end";
     private final FormFactory formFactory;
 
     @Inject
@@ -48,20 +51,19 @@ public class ShiftController extends Controller {
         return ok();
     }
 
-    public Result deleteShift() {
+    //TODO: Refactor deleleShift and all related functions/routes.
+    public Result deleteShift(String name) {
 
-        // Create a DbShift object form the form data.
-        DbShift dbShift = getDbShiftFromForm();
-
-        // Read the DbShift to delete based on the form fields
-        DbShift dbShiftToDelete = DbShiftHelper.readDbShiftByShiftTypeId(dbShift.getShiftTypeId());
-
+        int shiftTypeID = DbShiftTypeHelper.readDbShiftTypeByName(name).getId();
+        DbShift dbShiftToDelete = DbShiftHelper.readDbShiftByShiftTypeId(shiftTypeID);
         DbShiftHelper.deleteDbShift(dbShiftToDelete);
 
         return ok();
     }
 
-    public Result readUsersAvailableForShift(Integer teamId, Long timeStart, Long timeEnd) {
+    public Result readUsersAvailableForShift(Integer teamId) {
+        Long timeStart = Long.parseLong(request().getQueryString(TIME_START));
+        Long timeEnd = Long.parseLong(request().getQueryString(TIME_END));
         List<DbUser> dbUserList = ScheduleUtil.queryUsersBasedOnAvailability(teamId, timeStart, timeEnd);
 
         return ok(Json.toJson(dbUserList));

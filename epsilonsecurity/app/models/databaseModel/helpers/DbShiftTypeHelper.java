@@ -3,28 +3,20 @@ package models.databaseModel.helpers;
 import models.databaseModel.scheduling.DbShiftType;
 import models.databaseModel.scheduling.query.QDbShiftType;
 
+
 import java.util.List;
 
-/**
- * CRUD operations for DbShiftType class
- */
-public final class DbShiftTypeHelper {
+public class DbShiftTypeHelper {
 
-
-    private DbShiftTypeHelper() {
-
-    }
-
+    private DbShiftTypeHelper() {}
 
     public static void createDbShiftType(DbShiftType dbShiftType) {
         dbShiftType.save();
     }
 
-
     public static void deleteDbShiftType(DbShiftType dbShiftType) {
         dbShiftType.delete();
     }
-
 
     public static DbShiftType readDbShiftTypeById(Integer id) {
         DbShiftType dbShiftType = new QDbShiftType()
@@ -34,7 +26,6 @@ public final class DbShiftTypeHelper {
 
         return dbShiftType;
     }
-
 
     public static DbShiftType readDbShiftTypeByName(String name) {
         DbShiftType dbShiftType = new QDbShiftType()
@@ -54,12 +45,9 @@ public final class DbShiftTypeHelper {
         return dbShiftType;
     }
 
-
-
-    public static List<DbShiftType> readAllDbShiftType() {
+    public static List<DbShiftType> readAllDbShiftTypes() {
         List<DbShiftType> dbShiftTypeList = new QDbShiftType()
                 .findList();
-
         return dbShiftTypeList;
     }
 }

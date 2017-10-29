@@ -33,18 +33,12 @@ public final class DbShiftQualificationHelper {
         return dbShiftQualification;
     }
 
-
-
-
-
-
     public static void deleteDbShiftQualification(DbShiftQualification dbShiftQualification) {
         dbShiftQualification.delete();
     }
 
     /**
      * returns a list of all DbShiftQualification
-     * @return
      */
     public static List<DbShiftQualification> readAllDbShiftQualification() {
         List<DbShiftQualification> dbShiftQualificationList = new QDbShiftQualification()

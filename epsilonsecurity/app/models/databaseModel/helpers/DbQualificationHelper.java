@@ -1,20 +1,20 @@
 package models.databaseModel.helpers;
 
-import models.databaseModel.scheduling.DbQualification;
-import models.databaseModel.scheduling.query.QDbQualification;
+import models.databaseModel.qualification.DbQualification;
+import models.databaseModel.qualification.query.QDbQualification;
 
 import java.util.List;
 
 /**
  * CRUD operations for DbQualification class
  */
+
 public final class DbQualificationHelper {
 
 
     private DbQualificationHelper() {
 
     }
-
 
     public static void createDbQualification(DbQualification dbQualification) {
         dbQualification.save();
@@ -35,10 +35,9 @@ public final class DbQualificationHelper {
         return dbQualification;
     }
 
-
     public static DbQualification readDbQualificationByName(String name) {
         DbQualification dbQualification = new QDbQualification()
-                .name
+                .qualificationName
                 .eq(name)
                 .findUnique();
 

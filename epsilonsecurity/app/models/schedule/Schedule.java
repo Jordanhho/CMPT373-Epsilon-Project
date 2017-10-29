@@ -1,11 +1,11 @@
 package models.schedule;
 
-import models.UserId;
+import store.UserId;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
-import models.UserIdable;
+import store.UserIdable;
 import org.javatuples.KeyValue;
 
 public class Schedule {

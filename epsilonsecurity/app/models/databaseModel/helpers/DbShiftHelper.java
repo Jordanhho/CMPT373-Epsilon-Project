@@ -21,6 +21,7 @@ public final class DbShiftHelper {
         dbShift.save();
     }
 
+    //This is more likely to return a list
     public static DbShift readDbShiftByShiftTypeId(Integer shiftTypeId) {
         DbShift dbShift = new QDbShift()
                 .shiftTypeId
@@ -54,6 +55,9 @@ public final class DbShiftHelper {
         dbShift.delete();
     }
 
+    public static void deleteShiftByName(String name) {
+
+    }
     /**
      * returns a list of all DbShift
      * @return
