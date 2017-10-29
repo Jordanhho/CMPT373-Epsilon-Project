@@ -9,6 +9,7 @@ import play.mvc.Controller;
 import play.mvc.Result;
 
 import javax.inject.Inject;
+import java.util.List;
 
 public class TeamController extends Controller {
 
@@ -55,5 +56,11 @@ public class TeamController extends Controller {
         DbTeam dbTeamToDelete = DbTeamHelper.readDbTeamByName(name);
         DbTeamHelper.deleteDbTeamByName(dbTeamToDelete);
         return ok();
+    }
+
+    public Result listAllTeams() {
+        List<DbTeam> dbTeamList = DbTeamHelper.readAllDbTeam();
+
+        return ok(Json.toJson(dbTeamList));
     }
 }
