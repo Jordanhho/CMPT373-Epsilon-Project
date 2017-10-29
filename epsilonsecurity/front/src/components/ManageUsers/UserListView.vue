@@ -70,7 +70,7 @@
                 if (this.selectedTeam > 0) {
                     usersURL = '/api/users/teams/' + this.selectedTeam;
                 } else {
-                    usersURL = '/assets/all.json';
+                    usersURL = '/api/users';
                 }
 
                 axios.get(usersURL)
