@@ -1,5 +1,6 @@
 <template>
 	<div id="my-schedule">
+		<p>{{$store.state.email}}</p>
 		<full-calendar 
 			:event-sources="eventSources"
 			:config="config"
@@ -40,6 +41,7 @@ import Vue from 'vue'
 import FullCalendar from 'vue-full-calendar'
 import moment from 'moment'
 import axios from 'axios'
+import store from '../store/store' // hackish
 
 Vue.use(FullCalendar) // add the vue-full-calendar plugin to Vue
 window.jQuery = window.$ = require('jquery') // we need jquery too
@@ -74,15 +76,17 @@ export default {
 				{
 					events: function(start, end, timezone, callback) {
 						// todo: implement backend handler, use dynamic username
-						const username = "john"
-						axios.get(`/api/users/${username}/shifts`)
-						.then(response => {
-							console.log(response.data)
-							callback(response.data)
-						})
-						.catch(error => {
-							console.log(error)
-						})
+						// const sfuEmail = store.state.email //hackish
+						// axios.get(`/api/users/${sfuEmail}/shifts`)
+						// .then(response => {
+						// 	console.log(response.data)
+						// 	callback(response.data)
+						// })
+						// .catch(error => {
+						// 	console.log(error)
+						// })
+
+						callback(null)
 					},
 					color: "black",
 					textColor: "white"

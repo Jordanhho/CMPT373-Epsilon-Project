@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import router from './router'
 import Vuetify from 'vuetify'
+import store from './store/store'
 // import './stylus/main.styl'
 import App from './components/App.vue';
 import Icon from 'vue-awesome/icons' //all the icons of font-awesome
@@ -10,6 +11,7 @@ Vue.use(Vuetify)
 new Vue({
 	el: "#app-container",
 	router,
+	store,
   render(h) {
     return h(App);
   }
