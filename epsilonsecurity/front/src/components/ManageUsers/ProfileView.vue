@@ -25,6 +25,9 @@
             <li>
                 SFU Email: {{ userData.sfuEmail }}
             </li>
+            <li>
+                phoneNumber: {{ userData.phoneNumber }}
+            </li>
         </ul>
         <div class="buttons">
             <button id="edit-user"
@@ -66,9 +69,10 @@
                 userData: {
                     firstName: "",
                     lastName: "",
-                    role: "",
+                    roleId: "",
                     contactEmail: "",
                     sfuEmail: "",
+                    phoneNumber: "",
                 },
             }
         },
