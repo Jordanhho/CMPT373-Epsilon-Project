@@ -48,6 +48,8 @@ DELETE        /api/users/shifts/:shiftId                                        
 # List all the users in a specific team
 GET           /api/users/teams/:teamId                                           controllers.UserTeamController.readAllUsersByTeamId(teamId: Integer)
 
+GET           /api/users/:userId/teams                                           controllers.UserTeamController.readDbUserTeamByUserId(userId: Integer)
+
 # Assign a user to a team
 POST          /api/users/:userId/teams/:teamId                                   controllers.UserTeamController.createUserTeam(userId: Integer, teamId: Integer)
 
