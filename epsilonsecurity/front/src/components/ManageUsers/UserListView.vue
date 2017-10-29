@@ -68,7 +68,7 @@
             requestUsers() {
                 var usersURL = ''
                 if (this.selectedTeam > 0) {
-                    usersURL = '/assets/' + this.selectedTeam + '-users.json';
+                    usersURL = '/api/users/teams/' + this.selectedTeam;
                 } else {
                     usersURL = '/assets/all.json';
                 }
@@ -89,7 +89,7 @@
             //alert("userlist created");
             this.requestUsers();
 
-            axios.get('/assets/teams.json')
+            axios.get('/api/teams')
             .then(this.popluateTeams)
             .catch(function (error) {
                 console.log(error);

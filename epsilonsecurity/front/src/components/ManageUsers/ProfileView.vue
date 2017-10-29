@@ -17,7 +17,7 @@
                     </li>
                 </ul>
             <li>
-                Role: {{ userData.role }}
+                Role: {{ userData.roleId }}
             </li>
             <li>
                 Contact Email: {{ userData.contactEmail }}
@@ -98,7 +98,7 @@
                 this.userTeams = response.data;
             },
             sendRequests(id) {
-                axios.get('/assets/' + id + '.json')
+                axios.get('/api/users/' + id)
                     .then(this.populateUserData)
                     .catch(function (error) {
                         console.log(error);
@@ -115,19 +115,19 @@
             "disable-user": DisableUser,
         },
         watch: {
-            userID: function(val) {
+            id: function(val) {
                 this.sendRequests(val);
             }
         },
         mounted: function () {
-            this.sendRequests(this.userID);
+            this.sendRequests(this.id);
         },
         props: {
             teams: {
                 type: Array,
                 required: true
             },
-            userID: {
+            id: {
                 type: Number,
                 required: true
             }

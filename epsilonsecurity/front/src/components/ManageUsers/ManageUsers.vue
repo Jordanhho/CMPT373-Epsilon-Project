@@ -7,7 +7,7 @@
         <div    id="profile-main"
                 v-if='userID != -1'>
             <profile    id="profile"
-                        v-bind:userID='userID'
+                        v-bind:id='userID'
                         v-bind:teams="teams">
             </profile>
             <qualifications id="qualifications"></qualifications>
@@ -45,7 +45,7 @@
             Icon
         },
         created: function () {
-            axios.get('/assets/teams.json')
+            axios.get('/api/teams')
             .then(this.populateTeamList)
             .catch(function (error) {
                 console.log(error);

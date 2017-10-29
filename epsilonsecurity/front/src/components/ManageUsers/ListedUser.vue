@@ -15,7 +15,7 @@
         },
         methods: {
             onClickButton (event) {
-                this.$emit('clicked', this.user.userID);
+                this.$emit('clicked', this.user.id);
             },
         },
         components: {
