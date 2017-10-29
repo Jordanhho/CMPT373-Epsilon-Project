@@ -1,8 +1,12 @@
 package controllers;
 
+import models.databaseModel.scheduling.DbTeam;
+import play.libs.Json;
 import play.mvc.*;
 import models.databaseModel.scheduling.DbUserTeam;
 import models.databaseModel.helpers.DbUserTeamHelper;
+
+import java.util.List;
 
 public class UserTeamController extends Controller {
 
@@ -25,5 +29,11 @@ public class UserTeamController extends Controller {
 
     public Result deleteUserTeam(Integer userId, Integer teamId) {
         return ok();
+    }
+
+    public Result readDbUserTeamByUserId(Integer userId) {
+        List<DbTeam> dbTeamList = DbUserTeamHelper.readDbUserTeamByUserId(userId);
+
+        return ok(Json.toJson(dbTeamList));
     }
 }
