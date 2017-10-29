@@ -17,7 +17,7 @@ public class DbPermission extends Model {
     @Id
     private Integer id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String name;
 
     /**
@@ -47,4 +47,12 @@ public class DbPermission extends Model {
     }
 
     public static Finder<Integer, DbPermission> find = new Finder<>(DbPermission.class);
+
+    @Override
+    public String toString() {
+        return "DbPermission{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
+    }
 }

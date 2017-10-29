@@ -21,6 +21,12 @@ public class DbUser extends Model {
     public Integer roleId = -1;
 
     @Column(nullable = false)
+    private String firstName;
+
+    @Column(nullable = false)
+    private String lastName;
+
+    @Column(nullable = false)
     private String contactEmail;
 
     @Column(nullable = false, unique = true)
@@ -36,18 +42,39 @@ public class DbUser extends Model {
         // Required empty constructor for FormFactory
     }
 
-    public DbUser(String contactEmail,
+    public DbUser(String firstName,
+                  String lastName,
                   String sfuEmail,
+                  String contactEmail,
                   String phoneNumber,
                   String photoURL) {
-        this.contactEmail = contactEmail;
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.sfuEmail = sfuEmail;
+        this.contactEmail = contactEmail;
         this.phoneNumber = phoneNumber;
         this.photoURL = photoURL;
     }
 
     public Integer getId() {
         return id;
+    }
+
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public void setId(Integer id) {
@@ -95,4 +122,18 @@ public class DbUser extends Model {
     }
 
     public static Finder<Integer, DbUser> find = new Finder<>(DbUser.class);
+
+    @Override
+    public String toString() {
+        return "DbUser{" +
+                "id=" + id +
+                ", roleId=" + roleId +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", contactEmail='" + contactEmail + '\'' +
+                ", sfuEmail='" + sfuEmail + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", photoURL='" + photoURL + '\'' +
+                '}';
+    }
 }

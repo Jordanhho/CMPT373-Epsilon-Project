@@ -8,22 +8,25 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 
 @Entity
-public class DbShiftName extends Model {
-
-    
+public class DbShiftType extends Model {
 
     @Id
     private Integer id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String name;
 
     @Column(nullable = false)
     private String colorCode;
 
-    public DbShiftName(String name) {
+    public DbShiftType(String name, String colorCode) {
         this.name = name;
+        this.colorCode = colorCode;
     }
+
+    // public DbShiftType(String name) {
+    //     this.name = name;
+    // }
 
     public Integer getId() {
         return id;
@@ -45,5 +48,14 @@ public class DbShiftName extends Model {
         this.colorCode = colorCode;
     }
 
-    public static Finder<Integer, DbShiftName> find = new Finder<>(DbShiftName.class);
+    public static Finder<Integer, DbShiftType> find = new Finder<>(DbShiftType.class);
+
+    @Override
+    public String toString() {
+        return "DbShiftType{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", colorCode='" + colorCode + '\'' +
+                '}';
+    }
 }

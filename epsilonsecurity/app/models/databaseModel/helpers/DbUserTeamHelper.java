@@ -83,7 +83,7 @@ public final class DbUserTeamHelper {
      * @param teamId the campus location
      * @return a List of users from target campus
      */
-    public static List<DbUser> findUserByTeamId(Integer teamId) {
+    public static List<DbUser> findAllUsersByTeamId(Integer teamId) {
         List<DbUserTeam> dbUserTeamList = new QDbUserTeam()
                 .teamId
                 .eq(teamId)
