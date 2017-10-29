@@ -68,4 +68,9 @@ public class ShiftController extends Controller {
 
         return ok(Json.toJson(dbUserList));
     }
+
+    public Result readShiftsBySfuEmail(String sfuEmail) {
+
+        return ok();
+    }
 }
