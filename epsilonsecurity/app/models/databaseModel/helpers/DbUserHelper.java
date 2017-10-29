@@ -25,7 +25,6 @@ public final class DbUserHelper {
                 .id
                 .eq(id)
                 .findUnique();
-
         return dbUser;
     }
 
@@ -45,6 +44,12 @@ public final class DbUserHelper {
                 .findUnique();
 
         return dbUser;
+    }
+
+    public static void updateUserEnable(Integer userId, Boolean enabled){
+        DbUser dbUser = readDbUserById(userId);
+        dbUser.setEnabled(enabled);
+        dbUser.save();
     }
 
     public static List<DbUser> readAllDbUsers() {

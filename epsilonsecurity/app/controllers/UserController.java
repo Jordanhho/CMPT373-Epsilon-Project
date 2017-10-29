@@ -51,6 +51,11 @@ public class UserController extends Controller {
         return ok();
     }
 
+    public Result updateUserEnabled(Integer userId, Boolean enabled){
+        DbUserHelper.updateUserEnable(userId, enabled);
+        return ok();
+    }
+
     public Result deleteUser(DbUser user){
         DbUserHelper.deleteDbUser(user);
         return ok();
