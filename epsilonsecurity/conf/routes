@@ -17,8 +17,8 @@ GET           /$p<(?!api).*>                                                    
 # Create a user
 POST          /api/users                                                         controllers.UserController.createUser()
 
-# Read a user by sfuEmail
-GET           /api/users/:sfuEmail                                               controllers.UserController.retrieveUser(sfuEmail: String)
+# Read a user by userId
+GET           /api/users/:userId                                                 controllers.UserController.readUserByUserId(userId: Integer)
 
 # Update a user by sfuEmail
 PUT           /api/users/:sfuEmail                                               controllers.UserController.updateUser(sfuEmail: String)
