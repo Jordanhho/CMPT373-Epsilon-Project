@@ -1,28 +1,53 @@
 package models.databaseModel.helpers;
 
-import models.databaseModel.qualification.DbUserQualification;
+
+import models.databaseModel.scheduling.DbUserQualification;
+import models.databaseModel.scheduling.query.QDbUserQualification;
 
 import java.util.List;
 
-public class DbUserQualificationHelper {
+
+/**
+ * CRUD operations for DbUserQualification class
+ */
+public final class DbUserQualificationHelper {
+
     private DbUserQualificationHelper() {
+
     }
 
-    public static void createUserQualification(int qualificationId, int shiftNameId){
-        DbUserQualification userQualification = new DbUserQualification(qualificationId, shiftNameId);
-        userQualification.save();
+    public static void createDbUserQualification(DbUserQualification dbUserQualification) {
+        dbUserQualification.save();
     }
 
-    public static DbUserQualification readUserQualificationById(int id) {
-        return DbUserQualification.find.byId(id);
+
+    public static DbUserQualification readDbUserQualByUserIdAndQualId(Integer userId, Integer qualificationId) {
+        DbUserQualification dbUserQualification = new QDbUserQualification()
+                .userId
+                .eq(userId)
+                .and()
+                .qualificationId
+                .eq(qualificationId)
+                .findUnique();
+
+        return dbUserQualification;
     }
 
-    public static void deleteUserQualificationById(int id){
-        DbUserQualification dbUserQualification = readUserQualificationById(id);
+
+
+    public static void deleteDbUserQualification(DbUserQualification dbUserQualification) {
         dbUserQualification.delete();
     }
 
-    public static List<DbUserQualification> readAllQualification(){
-        return DbUserQualification.find.all();
+    /**
+     * returns a list of all DbUserQualification
+     * @return
+     */
+    public static List<DbUserQualification> readAllDbUserQualification() {
+        List<DbUserQualification> dbUserQualificationList = new QDbUserQualification()
+                .findList();
+
+        return dbUserQualificationList;
     }
+
 }

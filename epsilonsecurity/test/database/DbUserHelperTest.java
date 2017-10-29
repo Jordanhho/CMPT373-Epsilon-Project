@@ -7,6 +7,8 @@ import org.junit.Test;
 
 public class DbUserHelperTest extends BaseDatabaseTest {
 
+    private String firstName = "firstName";
+    private String lastName = "lastName";
     private String contactEmail = "contact.email@sfu.ca";
     private String sfuEmail = "sfu.email@sfu.ca";
     private String phoneNumber = "60412234567";
@@ -14,7 +16,7 @@ public class DbUserHelperTest extends BaseDatabaseTest {
 
     @Test
     public void createUserTest() {
-        DbUser user = new DbUser(contactEmail, sfuEmail, phoneNumber, photoUrl);
+        DbUser user = new DbUser(firstName, lastName, sfuEmail, contactEmail, phoneNumber, photoUrl);
         DbUserHelper.createDbUser(user);
         Assert.assertEquals(DbUserHelper.readAllDbUsers().size(), 1);
     }

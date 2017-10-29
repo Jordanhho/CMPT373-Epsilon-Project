@@ -51,9 +51,13 @@ public class UserController extends Controller {
         return ok();
     }
 
+    public Result deleteUser(DbUser user){
+        DbUserHelper.deleteDbUser(user);
+        return ok();
+    }
     public Result deleteUserBySfuEmail(String sfuEmail) {
         DbUser dbUserToDelete = DbUserHelper.readDbUserBySfuEmail(sfuEmail);
-        DbUserHelper.deleteDbUserBySfuEmail(dbUserToDelete);
+        DbUserHelper.deleteDbUser(dbUserToDelete);
         return ok();
     }
 }

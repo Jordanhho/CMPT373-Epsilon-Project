@@ -88,4 +88,14 @@ public class DbRolePermission extends Model {
 
     public static Finder<Integer, DbRolePermission> find = new Finder<>(DbRolePermission.class);
 
+    @Override
+    public String toString() {
+        return "DbRolePermission{" +
+                "id=" + id +
+                ", teamId=" + teamId +
+                ", roleId=" + roleId +
+                ", permissionId=" + permissionId +
+                ", accessLevel=" + accessLevel +
+                '}';
+    }
 }
