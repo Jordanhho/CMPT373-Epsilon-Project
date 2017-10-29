@@ -73,6 +73,9 @@ DELETE        /api/shifttypes/:qualificationName                                
 # DbTeam
 #
 
+# List all teams in the database
+GET           /api/teams                                                         controllers.TeamController.listAllTeams()
+
 # Create a team
 POST          /api/teams                                                         controllers.TeamController.createTeam()
 
