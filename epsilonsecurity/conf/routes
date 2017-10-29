@@ -20,6 +20,9 @@ POST          /api/users                                                        
 # Read a user by userId
 GET           /api/users/:userId                                                 controllers.UserController.readUserByUserId(userId: Integer)
 
+# Read all users
+GET           /api/users                                                         controllers.UserController.readAllUsers()
+
 # Update a user by sfuEmail
 PUT           /api/users/:sfuEmail                                               controllers.UserController.updateUser(sfuEmail: String)
 
