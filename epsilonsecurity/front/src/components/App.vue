@@ -62,12 +62,12 @@
 					{ title: 'My Profile', url: '/my-profile', icon: 'person_outline' },
 					{ title: 'Statistics', url: '/todo', icon: 'trending_up' },
 					{ divider: true },
-					{ header: 'ADMIN' },
-					{ title: 'Manage Schedules', url: '/manage-schedules', icon: 'today' },
-					{ title: 'Manage Users', url: '/manage-users', icon: 'person' },
-					{ title: 'Manage Teams', url: '/todo', icon: 'group' },
-					{ title: 'Manage Availabilities', url: '/todo', icon: 'hourglass_full' },
-					{ title: 'Manage Statistics', url: '/todo', icon: 'multiline_chart' }
+					{ header: 'Manage' },
+					{ title: 'Schedules', url: '/manage-schedules', icon: 'today' },
+					{ title: 'Users', url: '/manage-users', icon: 'person' },
+					{ title: 'Teams', url: '/todo', icon: 'group' },
+					{ title: 'Availabilities', url: '/todo', icon: 'hourglass_full' },
+					{ title: 'Statistics', url: '/todo', icon: 'multiline_chart' }
 				]
 			}
 		},
