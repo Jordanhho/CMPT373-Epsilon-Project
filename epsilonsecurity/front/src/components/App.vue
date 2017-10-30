@@ -58,13 +58,16 @@
 				items: [
 					{ title: 'My Feed', url: '/', icon: 'notifications_none' },
 					{ title: 'My Schedule', url: '/my-schedule', icon: 'schedule' },
-					{ title: 'My Availability', url: '/my-availability',icon: 'apps' },
+					{ title: 'My Availability', url: '/my-availability',icon: 'hourglass_empty' },
 					{ title: 'My Profile', url: '/my-profile', icon: 'person_outline' },
+					{ title: 'Statistics', url: '/todo', icon: 'trending_up' },
 					{ divider: true },
 					{ header: 'ADMIN' },
 					{ title: 'Manage Schedules', url: '/manage-schedules', icon: 'today' },
-					{ title: 'Manage Users', url: '/manage-users', icon: 'people_outline' },
-					{ title: 'Manage Teams', url: '/manage-teams', icon: 'people_outline' }
+					{ title: 'Manage Users', url: '/manage-users', icon: 'person' },
+					{ title: 'Manage Teams', url: '/todo', icon: 'group' },
+					{ title: 'Manage Availabilities', url: '/todo', icon: 'hourglass_full' },
+					{ title: 'Manage Statistics', url: '/todo', icon: 'multiline_chart' }
 				]
 			}
 		},
