@@ -41,8 +41,8 @@
                         <input  v-model="userData.sfuEmail"
                                 placeholder="edit me">
                     </div>
-                    <div class="sfu-email">
-                        <p>phone number: </p>
+                    <div class="phone-number">
+                        <p>Phone Number: </p>
                         <input  v-model="userData.phoneNumber"
                                 placeholder="edit me">
                     </div>

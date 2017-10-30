@@ -39,7 +39,7 @@ public class UserController extends Controller {
         // Enter the DbUser into the database.
         DbUserHelper.createDbUser(dbUser);
 
-        return ok();
+        return ok("{ok: 'ok'}");
     }
 
     public Result retrieveUser(String sfuEmail) {

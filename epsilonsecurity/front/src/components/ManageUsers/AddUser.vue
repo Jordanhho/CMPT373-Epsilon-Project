@@ -5,11 +5,11 @@
                 <div class="modal-container">
                     <div class="first-name">
                         <p>First Name: </p>
-                        <input placeholder="edit me">
+                        <input placeholder="edit me" v-model="user.firstName">
                     </div>
                     <div class="last-name">
                         <p>Last Name: </p>
-                        <input placeholder="edit me">
+                        <input placeholder="edit me" v-model="user.lastName">
                     </div>
                     <div class="team-name">
                         <p>Teams: </p>
@@ -24,18 +24,22 @@
                     </div>
                     <div class="role">
                         <p>Role: </p>
-                        <input  placeholder="edit me">
+                        <input  placeholder="edit me" v-model="user.roleId">
                     </div>
                     <div class="contact-email">
                         <p>Contact Email: </p>
-                        <input placeholder="edit me">
+                        <input placeholder="edit me" v-model="user.contactEmail">
                     </div>
                     <div class="sfu-email">
                         <p>SFU Email: </p>
-                        <input placeholder="edit me">
+                        <input placeholder="edit me" v-model="user.sfuEmail">
+                    </div>
+                    <div class="phone-number">
+                        <p>Phone Number: </p>
+                        <input placeholder="edit me" v-model="user.phoneNumber">
                     </div>
                     <div class="modal-footer">
-                        <button class="addButton" @click="$emit('add')">
+                        <button class="addButton" @click="$emit('add', user)">
                             Add
                         </button>
                         <button class="closeButton" @click="$emit('close')">
@@ -50,10 +54,22 @@
 
 <script>
 
+    import axios from 'axios';
+
     export default {
         data () {
             return {
                 listOfTeamIDsForUser: [],
+                user: {
+                    firstName: "",
+                    lastName: "",
+                    roleId: 4,
+                    sfuEmail: "",
+                    contactEmail: "",
+                    phoneNumber: "",
+                    photoURL: "/assets/default.jpg",
+                    enabled: true
+                }
             }
         },
         components: {

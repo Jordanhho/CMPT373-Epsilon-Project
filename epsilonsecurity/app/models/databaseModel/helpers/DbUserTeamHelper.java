@@ -67,7 +67,7 @@ public final class DbUserTeamHelper {
      */
     public static List<DbTeam> readDbUserTeamByUserId(Integer userId) {
         List<DbUserTeam> dbUserTeamList = new QDbUserTeam()
-                .id
+                .userId
                 .eq(userId)
                 .findList();
 

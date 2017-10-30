@@ -26,7 +26,7 @@
                 SFU Email: {{ userData.sfuEmail }}
             </li>
             <li>
-                phoneNumber: {{ userData.phoneNumber }}
+                Phone Number: {{ userData.phoneNumber }}
             </li>
         </ul>
         <div class="buttons">

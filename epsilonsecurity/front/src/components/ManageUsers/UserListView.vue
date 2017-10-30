@@ -54,8 +54,13 @@
             onClickListElement (value) {
                 this.$emit('clicked', value);
             },
-            onClickAdd () {
-                alert("added successfully");
+            onClickAdd (user) {
+                alert(user.firstName);
+                axios.post('/api/users', user)
+                    .then(response => this.requestUsers())
+                    .catch(function (error) {
+                        console.log(error);
+                    });
                 this.showAddUser = false;
             },
             populateUsers (response) {
