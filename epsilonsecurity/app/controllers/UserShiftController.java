@@ -48,7 +48,7 @@ public class UserShiftController extends Controller {
     }
 
     public Result retrieveUserShift(Integer userId) {
-        List<DbUserShift> dbUserShiftList = DbUserShiftHelper.readDbUserByShiftId(userId);
+        List<DbUserShift> dbUserShiftList = DbUserShiftHelper.readDbUserShiftByUserId(userId);
 
         return ok(Json.toJson(dbUserShiftList));
     }

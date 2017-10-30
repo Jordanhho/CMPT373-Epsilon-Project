@@ -145,7 +145,33 @@ public final class ScheduleUtil {
         //TODO implement when database schema is updated
     }
 
+    /**
+     * Return a list of all shifts (including campus) assigned to a user
+     * @param sfuEmail the sfuEmail of the target user
+     */
+    public static List<ShiftWithCampus> getShiftsWithCampusBySfuEmail(String sfuEmail) {
+        DbUser targetUser = DbUserHelper.readDbUserBySfuEmail(sfuEmail);
+        List<DbUserTeam> dbUserTeamList = DbUserTeamHelper.readAllDbUserTeamsByUserId(targetUser.getId());
 
+        List<List<DbUserShift>> dbUserShiftList = new ArrayList<>();
+        for (DbUserTeam dbUserTeam : dbUserTeamList) {
+            dbUserShiftList.add(DbUserShiftHelper.readDbUserShiftByUserId(dbUserTeam.getUserId()));
+        }
+
+        List<ShiftWithCampus> shiftsWithCampusList = new ArrayList<>();
+        int i = 0;
+        for (List<DbUserShift> targetUserShiftList : dbUserShiftList) {
+            for (DbUserShift dbUserShift : targetUserShiftList) {
+                DbShift dbShift = DbShiftHelper.readDbShiftByShiftId(dbUserShift.getShiftId());
+                DbTeam dbTeam = DbTeamHelper.readDbTeamById(dbUserTeamList.get(i).getTeamId());
+                ShiftWithCampus targetShift = new ShiftWithCampus(dbShift, dbTeam);
+                shiftsWithCampusList.add(targetShift);
+            }
+            i++;
+        }
+
+        return shiftsWithCampusList;
+    }
 }
 
 

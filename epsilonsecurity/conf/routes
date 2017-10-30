@@ -9,6 +9,7 @@ GET           /$p<(?!api).*>                                                    
 # see: https://www.playframework.com/documentation/2.6.x/ScalaRouting#the-routes-file-syntax
 
 # ----------------------- USER APIs ----------------------
+# TODO: Find a way to prevent routes from crashing the program due to conflicting parameter types in the same location
 
 #
 # DbUser
