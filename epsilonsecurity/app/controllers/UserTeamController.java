@@ -1,7 +1,7 @@
 package controllers;
 
-import models.databaseModel.scheduling.DbUser;
 import models.databaseModel.scheduling.DbTeam;
+import models.databaseModel.scheduling.DbUser;
 import play.libs.Json;
 import play.mvc.*;
 import models.databaseModel.scheduling.DbUserTeam;

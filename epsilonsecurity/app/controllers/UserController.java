@@ -53,7 +53,7 @@ public class UserController extends Controller {
 
         return ok(Json.toJson(dbUser));
     }
-    
+
     public Result readAllUsers() {
         List<DbUser> dbUserList = DbUserHelper.readAllDbUsers();
 
@@ -64,14 +64,22 @@ public class UserController extends Controller {
         return ok();
     }
 
+    public Result updateUsersEnabledStatus(Integer userId, Boolean isEnabled){
+        DbUserHelper.updateUserEnable(userId, isEnabled);
+
+        return ok();
+    }
+
     public Result deleteUser(DbUser user){
         DbUserHelper.deleteDbUser(user);
+
         return ok();
     }
 
     public Result deleteUserBySfuEmail(String sfuEmail) {
         DbUser dbUserToDelete = DbUserHelper.readDbUserBySfuEmail(sfuEmail);
         DbUserHelper.deleteDbUser(dbUserToDelete);
+
         return ok();
     }
 }

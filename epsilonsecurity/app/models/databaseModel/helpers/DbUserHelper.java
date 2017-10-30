@@ -34,6 +34,7 @@ public final class DbUserHelper {
                 .roleId
                 .eq(roleId)
                 .findUnique();
+
         return dbUser;
     }
 
@@ -53,6 +54,12 @@ public final class DbUserHelper {
                 .findUnique();
 
         return dbUser;
+    }
+
+    public static void updateUserEnable(Integer userId, Boolean enabled) {
+        DbUser dbUser = readDbUserById(userId);
+        dbUser.setEnabled(enabled);
+        dbUser.update();
     }
 
     //TODO: Fix magic number
