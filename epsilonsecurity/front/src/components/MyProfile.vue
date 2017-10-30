@@ -13,23 +13,28 @@
             </div>
         </div>
         <div id = "personal-info">
-            <div id = "tab">
-                <li v-for= "tab in tabs">
-                        {{tab.text}}    
-                </li>
-            </div>
-            <div id = "content">
-                <li v-for= "content in tabContent">
-                        {{content.text}}    
-                </li>
-            </div>
-            <div id = "hours">
-                <span id= "number-hours">{{hoursNumber}}</span>
-                <span id= "hours-text">HOURS</span>    
+            <h1 class = "header">
+                Information
+            </h1>
+            <div id= "info-body">
+                <div id = "tab">
+                    <li v-for= "tab in tabs">
+                            {{tab.text}}    
+                    </li>
+                </div>
+                <div id = "content">
+                    <li v-for= "content in tabContent">
+                            {{content.text}}    
+                    </li>
+                </div>
+                <div id = "hours">
+                    <span id= "number-hours">{{hoursNumber}}</span>
+                    <span id= "hours-text">HOURS</span>    
+                </div>
             </div>
         </div>
         <div id = "qualificationList">
-                <h1 id= "q-header">
+                <h1 class = "header">
                     Qualification
                 </h1>
                 <div id = "q-body">        
@@ -72,7 +77,8 @@ export default {
                 {text: "Security Training"},
                 {text: "Hazard Training"},
                 {text: "Lost and Found Training"},
-                {text: "Campus Navigation Training"}
+                {text: "Campus Navigation Training"},
+                {text: "Whatever here"}
             ]
         }
     },
@@ -88,13 +94,14 @@ export default {
         flex-flow: column nowrap;
         width: 100%;
         border-style: groove;
-        padding-top: 7%;
+        padding-top: 5%;
     }
 
     #profile-header{
         flex-flow: row nowrap;
         display: flex;
-        margin-left: 7%; 
+        padding: 1% 0% 1% 7%;
+        background: lightgrey; 
     }
     #user-photo{
         width: 12em;
@@ -117,11 +124,12 @@ export default {
         font-size: 2em;
     }
     #personal-info{
+        margin-top: 1.5%;
+    }
+    #info-body{
         flex-flow: row nowrap;
         display: flex;
-        margin-top: 3%;
-        margin-left: 7%;
-        background: #DCDCDC;
+        margin-left: 7%;        
     }
     #tab{        
         list-style-type: none;
@@ -129,7 +137,7 @@ export default {
         font-size: 2em;
     }
     #content{
-        background: #DCDCDC;
+        background: white;
         list-style-type: none;
         display: block;
         text-align: left;
@@ -147,15 +155,14 @@ export default {
     #qualificationList{
         margin-top: 3%;
     }
-    #q-header{
+    .header{
         font-size: 2em;  
         text-align: left;
-        margin-top: 2%;  
-        margin-left: 1%;    
+        margin: 1% 0% 1.5% 1%;      
     }
     #q-body{
         display: flex;
-        margin-top: 2.5%;
+        
     }
     .certificate-list{
         flex-flow: row nowrap;         
