@@ -19,7 +19,8 @@
 								<p>{{shiftTitle}}</p>
 								<p>{{shiftDate}}</p>
 								<p>{{shiftTime}}</p>
-								<p>{{shiftCampus}}</p>
+								<p>{{shiftCampus}}</p> 
+								<p>{{shiftDescription}}</p> 
 							</v-flex>
 						</v-layout>
 					</v-container>
@@ -125,6 +126,9 @@ export default {
 		},
 		shiftCampus: function() {
 			return this.clickedShift.campus || "Burnaby"
+		},
+		shiftDescription: function() {
+			return this.clickedShift.description || ""
 		}
 	},
 	methods: {
