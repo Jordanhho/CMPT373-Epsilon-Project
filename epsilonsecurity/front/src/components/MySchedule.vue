@@ -41,7 +41,7 @@ import Vue from 'vue'
 import FullCalendar from 'vue-full-calendar'
 import moment from 'moment'
 import axios from 'axios'
-import store from '../store/store' // hackish
+import store from '../store/store'
 
 Vue.use(FullCalendar) // add the vue-full-calendar plugin to Vue
 window.jQuery = window.$ = require('jquery') // we need jquery too
@@ -52,6 +52,8 @@ export default {
 			config: {
 				// https://fullcalendar.io/docs/views/Available_Views/
 				defaultView: 'agendaWeek', 
+				// local timezone is very important
+				timezone: 'local',
 				height: 'parent',
 				allDaySlot: false,
 				editable: false,
@@ -75,18 +77,16 @@ export default {
 				// 1st event source
 				{
 					events: function(start, end, timezone, callback) {
-						// todo: implement backend handler, use dynamic username
-						// const sfuEmail = store.state.email //hackish
-						// axios.get(`/api/users/${sfuEmail}/shifts`)
-						// .then(response => {
-						// 	console.log(response.data)
-						// 	callback(response.data)
-						// })
-						// .catch(error => {
-						// 	console.log(error)
-						// })
-
-						callback(null)
+						// todo: use userId when api is ready.
+						const sfuEmail = store.getters.currentUserEmail
+						axios.get(`/api/users/${sfuEmail}/shifts`)
+						.then(response => {
+							// console.log(JSON.stringify(response.data,null,2))
+							callback(response.data)
+						})
+						.catch(error => {
+							console.log(error)
+						})
 					},
 					color: "black",
 					textColor: "white"

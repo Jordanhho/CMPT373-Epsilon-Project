@@ -8,13 +8,16 @@ export default new Vuex.Store({
 		user: {
 			firstName: "Uzziah",
 			lastName: "Eyee",
-			email: "ueyee@sfu.ca",
+			email: "uzziah@sfu.ca",
 			role: "admin",
 			// token: null
 			token: "mock_jwt"
 		}
 	},
 	getters: {
+		currentUserEmail: function(state) {
+			return state.user.email
+		},
 		isLoggedIn: function(state) {
 			return state.user.token !== null
 		}
