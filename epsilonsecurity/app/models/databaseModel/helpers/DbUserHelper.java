@@ -59,7 +59,7 @@ public final class DbUserHelper {
     public static void updateUserEnable(Integer userId, Boolean enabled) {
         DbUser dbUser = readDbUserById(userId);
         dbUser.setEnabled(enabled);
-        dbUser.save();
+        dbUser.update();
     }
 
     //TODO: Fix magic number
