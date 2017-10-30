@@ -1,6 +1,7 @@
 <template>
     <div id="manage-users">
         <userlist   id="userlist"
+                    ref="userlist"
                     v-bind:teams="teams"
                     @clicked="onClickUserListViewItem">
         </userlist>
@@ -8,7 +9,8 @@
                 v-if='userID != -1'>
             <profile    id="profile"
                         v-bind:id='userID'
-                        v-bind:teams="teams">
+                        v-bind:teams="teams"
+                        @edited="$refs.userlist.requestUsers()">
             </profile>
             <qualifications id="qualifications"></qualifications>
         </div>
@@ -27,7 +29,7 @@
         data() {
             return {
                 teams: [],
-                userID: -1
+                userID: -1,
             }
         },
         methods: {
@@ -36,7 +38,7 @@
             },
             populateTeamList(response) {
                 this.teams = response.data;
-            }
+            },
         },
         components: {
             "userlist": UserListView,

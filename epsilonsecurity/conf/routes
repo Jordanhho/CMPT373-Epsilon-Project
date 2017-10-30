@@ -24,7 +24,7 @@ GET           /api/users/:userId                                                
 GET           /api/users                                                         controllers.UserController.readAllUsers()
 
 # Update a user by sfuEmail
-PUT           /api/users/:sfuEmail                                               controllers.UserController.updateUser(sfuEmail: String)
+PUT           /api/users/:userId                                                 controllers.UserController.updateUser(userId: Integer)
 
 # Update a user's enabled status by userId
 PUT           /api/users/:userId/:isEnabled                                      controllers.UserController.updateUsersEnabledStatus(userId: Integer, isEnabled: Boolean)

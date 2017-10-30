@@ -95,7 +95,7 @@
             this.requestUsers();
 
             axios.get('/api/teams')
-            .then(this.popluateTeams)
+            .then(this.populateTeams)
             .catch(function (error) {
                 console.log(error);
             });
@@ -105,7 +105,7 @@
                 type: Array,
                 required: true
             },
-        }
+        },
     };
 
 

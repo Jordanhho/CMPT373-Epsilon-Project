@@ -43,7 +43,7 @@
             </edit-user>
             <button id="disable-user"
                     @click="showDisableUser = true">
-                Disable User
+                {{ userData.enabled ? "disable": "enable" }}
             </button>
             <disable-user   v-if="showDisableUser"
                             @close="showDisableUser = false"
@@ -73,6 +73,8 @@
                     contactEmail: "",
                     sfuEmail: "",
                     phoneNumber: "",
+                    photoURL: "",
+                    enabled: true,
                 },
             }
         },
@@ -90,10 +92,20 @@
             onClickEdit () {
                 alert("edited successfully");
                 this.showEditUser = false;
+                axios.put('/api/users/' + this.userData.id, this.userData)
+                    .then(response => this.$emit('edited'))
+                    .catch(function (error) {
+                        console.log(error);
+                    });
             },
             onClickDisable () {
                 alert('user disabled');
                 this.showDisableUser = false;
+                axios.put('/api/users/' + this.userData.id + '/' + !this.userData.enabled)
+                    .then(response => this.userData.enabled = !this.userData.enabled)
+                    .catch(function (error) {
+                    console.log(error);
+                });
             },
             populateUserData (response) {
                 this.userData = response.data;
