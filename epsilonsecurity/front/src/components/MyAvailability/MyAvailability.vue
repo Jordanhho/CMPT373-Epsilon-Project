@@ -1,7 +1,6 @@
 <template>
 	<div id="my-availability">
 
-		<p> Showsubmission: {{showSubmission}} </p>
 		<div id = "ConfirmationSubmissionPopUp" v-if="showSubmission" >
 			<confirmation-submission-popup @submitAvail = "submitAvail" @cancelAvail = "cancelAvail">
 
@@ -16,12 +15,31 @@
 			</approvalStatus-bar>
 		</div>
 
-		<div id = "my-calendar">
-			<full-calendar id="calendar"
-						   :events="events"
-						   :config="config">
-			</full-calendar>
+
+
+		<div id = "center-container" >
+
+
+			<div id = "my-calendar">
+				<full-calendar id="calendar"
+							   :event-sources="eventSources"
+							   :config="config">
+				</full-calendar>
+			</div>
+
+
+			<div id = "MenuBar">
+				<menu-bar>
+
+				</menu-bar>
+			</div>
+
 		</div>
+
+
+
+
+
 
 		<div id = "SubmissionBar" v-if="!submitted">
 			<submission-bar @showSubmitPopUp = "showSubmitConfirmation">
@@ -58,6 +76,10 @@
 	//confirmation submission
 	import ConfirmationSubmissionPopUp from './ConfirmationSubmissionPopUp.vue';
 
+	//menu bar
+	import MenuBar from './MenuBar.vue';
+
+
 
     export default {
 
@@ -71,7 +93,7 @@
 
                 config: {
 
-
+                  	timezone: 'local',
 
                   	defaultView: 'agendaWeek',
 
@@ -90,91 +112,58 @@
 
 					//shows today marker
                     nowIndicator: true,
+
+
+
                 },
 
 
+                eventSources: [
+                    // 1st event source
+                    {
+                        events: function(start, end, timezone, callback) {
 
-                events: [
+
+//                            // todo: use userId when api is ready.
+//                            const sfuEmail = store.getters.currentUserEmail
+//
+//
+//                            axios.get(`/api/users/${sfuEmail}/shifts`)
+//                                .then(response => {
+//                                    // console.log(JSON.stringify(response.data,null,2))
+//                                    callback(response.data)
+//                                })
+//                                .catch(error => {
+//                                    console.log(error)
+//                                })
+                        },
 
 
-                    /*
-                    {
-                        id: 1,
-                        title: 'My First Overlapping Shift',
-                        start: '2017-10-16 01:00:00',
-                        end: '2017-10-16 02:30:00'
-                    },
-                    {
-                        id: 2,
-                        title: 'My Second Overlapping Shift',
-                        start: '2017-10-16 02:00:00',
-                        end: '2017-10-16 03:30:00'
-                    },
-                    {
-                        id: 3,
-                        title: 'My Weekday Shift 1',
-                        start: '2017-10-19 03:00:00',
-                        end: '2017-10-19 04:00:00'
-                    },
-                    {
-                        id: 4,
-                        title: 'My Weekdend Shift',
-                        start: '2017-10-21 01:00:00',
-                        end: '2017-10-21 01:30:00'
+                        color: "black",
+                        textColor: "white"
                     }
-                    */
                 ],
+
+
+
+
 
             }
         },
 
 
+
+
         methods: {
 
-
-//            addEvent: function (timeStart, timeEnd) {
-//                var title = prompt('Event Title:');
-//                if (title) {
-//                    calendar.fullCalendar('renderEvent',
-//                        {
-//                            id: id,
-//                            title: title,
-//                            start: start,
-//                            end: end,
-//                            allDay: allDay
-//                        },
-//                        true // make the event "stick"
-//                    );
-//
-//
-//                    /**
-//                     * ajax call to store event in DB
-//                     */
-//
-//                    /*
-//                    jQuery.post(
-//                        "event/new" // your url
-//                        , { // re-use event's data
-//                            title: title,
-//                            start: start,
-//                            end: end,
-//                            allDay: allDay
-//                        }
-//                    );
-//                    */
-//                }
-//                //calendar.fullCalendar('unselect');
-//            },
 
 
             showSubmitConfirmation: function () {
                 this.showSubmission = true;
-                alert("Clicked Submit!");
             },
 
             hideSubmitConfirmation: function () {
                 this.showSubmission = false;
-               // alert("HideSubmit");
             },
 
 
@@ -182,13 +171,10 @@
                 this.submitted = true;
                 this.status = 'Pending';
                 this.hideSubmitConfirmation();
-                alert("submit avail");
             },
 
             cancelAvail: function () {
                 this.submitted = false;
-                this.hideSubmitConfirmation();
-                alert("cancel avail");
             },
 
 
@@ -200,6 +186,7 @@
             "approvalStatus-bar": ApprovalStatusBar,
 			"submission-bar": SubmissionBar,
 			"confirmation-submission-popup": ConfirmationSubmissionPopUp,
+            "menu-bar": MenuBar,
 		}
     }
 
@@ -208,12 +195,11 @@
 
 
 
-<style scoped>
+<style scoped lang='scss'>
 	@import '../../../node_modules/fullcalendar/dist/fullcalendar.css';
 
 
-
-
+	$menu-edit-width: 20%;
 
 
 
@@ -221,9 +207,6 @@
 		background: white;
 		width: 100%;
 		position: relative;
-		display: flex;
-		flex-flow: column nowrap;
-		justify-content: flex-start;
 	}
 
 
@@ -233,10 +216,40 @@
 		height: 2em;
 	}
 
+
+
+	#center-container {
+		background: white;
+		width: 100%;
+		height: 20em;
+		flex-flow: row nowrap;
+		//height: 80%;
+		position: relative;
+
+	}
+
+
+
 	#my-calendar {
 		background: white;
 		position: relative;
-		flex-grow: 1;
+		height: 10em;
+		left: 0;
+		//height: 100%;
+		width: 100% - $menu-edit-width;
+
+	}
+
+
+	#menu-bar {
+
+		//width: $menu-edit-width;
+		background: white;
+		height: 10em;
+		right: 0;
+		//height: 100%;
+		width: $menu-edit-width;
+
 	}
 
 
