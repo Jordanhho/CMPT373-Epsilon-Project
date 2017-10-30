@@ -27,13 +27,18 @@
                 <span id= "number-hours">{{hoursNumber}}</span>
                 <span id= "hours-text">HOURS</span>    
             </div>
-        </div id = "list">
-        <!-- <certificate id = "test" v-bind:certificateName="certificateName">
-        </certificate> -->
-        <certificate class="certificate-list" 
-        v-for= "certificate in certificateNames" 
-        v-bind:certificateName="certificate.text">
-        </certificate>
+        </div>
+        <div id = "qualificationList">
+                <h1 id= "q-header">
+                    Qualification
+                </h1>
+                <div id = "q-body">        
+                    <certificate class="certificate-list" 
+                    v-for= "certificate in certificateNames" 
+                    v-bind:certificateName="certificate.text">
+                    </certificate>
+                </div>
+        </div>
     </div>
 </template>
 
@@ -52,18 +57,22 @@ export default {
                 {text: '604-657-9124'}
             ],
             tabs: [
-                {text: 'Sfu Email:'},
-                {text: 'Team: '}
+                {text: 'Sfu Email: '},
+                {text: 'Team: '},
+                {text: 'Role: '}
             ],
             tabContent: [
                 {text: 'adall@sfu.ca'},
-                {text: 'Burnaby, Surrey'}
+                {text: 'Burnaby, Surrey'},
+                {text: 'Volunteer'}
             ],
             hoursNumber: "14",
             certificateNames: [
                 {text: "Customer Support Training"},
                 {text: "Security Training"},
-                {text: "Hazard Training"}
+                {text: "Hazard Training"},
+                {text: "Lost and Found Training"},
+                {text: "Campus Navigation Training"}
             ]
         }
     },
@@ -79,19 +88,19 @@ export default {
         flex-flow: column nowrap;
         width: 100%;
         border-style: groove;
+        padding-top: 7%;
     }
 
     #profile-header{
         flex-flow: row nowrap;
         display: flex;
-        margin-top: 7%;
+        margin-left: 7%; 
     }
     #user-photo{
         width: 12em;
         height: 12em;
         border-radius: 50%;
         border-style: none;
-        margin-left: 10%;
     }
     #basic-info{
         margin-left: 5%;
@@ -110,16 +119,17 @@ export default {
     #personal-info{
         flex-flow: row nowrap;
         display: flex;
-        margin-top: 5%;
+        margin-top: 3%;
+        margin-left: 7%;
+        background: #DCDCDC;
     }
     #tab{        
         list-style-type: none;
         text-align: right;
-        margin-left: 10%;
         font-size: 2em;
     }
     #content{
-        background: white;
+        background: #DCDCDC;
         list-style-type: none;
         display: block;
         text-align: left;
@@ -134,13 +144,21 @@ export default {
     #number-hours{
         font-size: 3em;
     }
-    #list{
+    #qualificationList{
+        margin-top: 3%;
+    }
+    #q-header{
+        font-size: 2em;  
+        text-align: left;
+        margin-top: 2%;  
+        margin-left: 1%;    
+    }
+    #q-body{
         display: flex;
+        margin-top: 2.5%;
     }
     .certificate-list{
-        flex-flow: row nowrap;
-        width: 30%;
-        margin-right: 0;
+        flex-flow: row nowrap;         
     }
 
 </style>

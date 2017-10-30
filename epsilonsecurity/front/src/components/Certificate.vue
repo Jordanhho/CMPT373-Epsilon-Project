@@ -25,17 +25,26 @@ export default{
 </script>
 
 <style scoped> 
+    #certificate{
+        border-style: solid;
+        margin-left: 1%;
+        margin-right: 1%;
+        padding-bottom: 1%;
+    }
     #certificate-symbol{
-        width: auto;
-        height: 2.5em;
         display: block;
-        color: gold;
+        width: 2.5em;
+        height: 2.5em;
+        color: gold; 
+        margin-top: 5%;
         margin-left: auto;
         margin-right: auto;
-        margin-bottom: 5%;        
+        margin-bottom: 2.5%;        
     }
     #certificate-name{
         font-size: 2em;
+        padding-left: 0;
+        padding-right: 0;
     }
 </style>    
 
