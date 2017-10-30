@@ -5,7 +5,6 @@ import models.databaseModel.helpers.DbShiftTypeHelper;
 import models.databaseModel.scheduling.DbShift;
 import models.databaseModel.scheduling.DbUser;
 import models.queries.ScheduleUtil;
-import models.queries.ShiftWithCampus;
 import play.data.Form;
 import play.data.FormFactory;
 import play.libs.Json;
@@ -68,10 +67,5 @@ public class ShiftController extends Controller {
         List<DbUser> dbUserList = ScheduleUtil.queryUsersBasedOnAvailability(teamId, timeStart, timeEnd);
 
         return ok(Json.toJson(dbUserList));
-    }
-
-    public Result readShiftsBySfuEmail(String sfuEmail) {
-        List<ShiftWithCampus> shiftsWithCampusList = ScheduleUtil.getShiftsWithCampusBySfuEmail(sfuEmail);
-        return ok(Json.toJson(shiftsWithCampusList));
     }
 }

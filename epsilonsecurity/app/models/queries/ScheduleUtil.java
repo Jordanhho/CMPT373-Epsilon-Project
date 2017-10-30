@@ -147,10 +147,10 @@ public final class ScheduleUtil {
 
     /**
      * Return a list of all shifts (including campus) assigned to a user
-     * @param sfuEmail the sfuEmail of the target user
+     * @param userId the database ID of the target user
      */
-    public static List<ShiftWithCampus> getShiftsWithCampusBySfuEmail(String sfuEmail) {
-        DbUser targetUser = DbUserHelper.readDbUserBySfuEmail(sfuEmail);
+    public static List<ShiftWithCampus> getShiftsWithCampusByUserId(Integer userId) {
+        DbUser targetUser = DbUserHelper.readDbUserById(userId);
         List<DbUserTeam> dbUserTeamList = DbUserTeamHelper.readAllDbUserTeamsByUserId(targetUser.getId());
 
         List<List<DbUserShift>> dbUserShiftList = new ArrayList<>();
@@ -164,7 +164,8 @@ public final class ScheduleUtil {
             for (DbUserShift dbUserShift : targetUserShiftList) {
                 DbShift dbShift = DbShiftHelper.readDbShiftByShiftId(dbUserShift.getShiftId());
                 DbTeam dbTeam = DbTeamHelper.readDbTeamById(dbUserTeamList.get(i).getTeamId());
-                ShiftWithCampus targetShift = new ShiftWithCampus(dbShift, dbTeam);
+                DbShiftType dbShiftType = DbShiftTypeHelper.readDbShiftTypeById(dbShift.getShiftTypeId());
+                ShiftWithCampus targetShift = new ShiftWithCampus(dbShift, dbTeam, dbShiftType);
                 shiftsWithCampusList.add(targetShift);
             }
             i++;

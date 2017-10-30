@@ -1,19 +1,20 @@
 package models.queries;
 
 import models.databaseModel.scheduling.DbShift;
+import models.databaseModel.scheduling.DbShiftType;
 import models.databaseModel.scheduling.DbTeam;
 
 public class ShiftWithCampus {
     private Integer id;
-    private Integer shiftTypeId;
+    private String title;
     private Long timeStart;
     private Long timeEnd;
     private String campus;
     private boolean wasPresent;
 
-    public ShiftWithCampus(DbShift shift, DbTeam team) {
+    public ShiftWithCampus(DbShift shift, DbTeam team, DbShiftType shiftType) {
         this.id = shift.getId();
-        this.shiftTypeId = shift.getShiftTypeId();
+        this.title = shiftType.getName();
         this.timeStart = shift.getTimeStart();
         this.timeEnd = shift.getTimeEnd();
         this.campus = team.getName();
@@ -24,8 +25,8 @@ public class ShiftWithCampus {
         return id;
     }
 
-    public Integer getShiftTypeId() {
-        return shiftTypeId;
+    public String getTitle() {
+        return title;
     }
 
     public Long getTimeStart() {

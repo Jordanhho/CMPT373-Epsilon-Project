@@ -36,7 +36,7 @@ DELETE        /api/users/:sfuEmail                                              
 POST          /api/users/:userId/shifts/:shiftId                                 controllers.UserShiftController.createUserShift(userId: Integer, shiftId: Integer)
 
 # Read all shifts assigned to user
-GET           /api/users/:userId/shifts                                          controllers.UserShiftController.retrieveUserShift(userId: Integer)
+GET           /api/users/:userId/shifts                                          controllers.UserShiftController.retrieveShiftsByUserId(userId: Integer)
 
 # Unassign all users tied to a shift
 DELETE        /api/users/shifts/:shiftId                                         controllers.UserShiftController.deleteUserShifts(shiftId: Integer)
@@ -90,9 +90,6 @@ DELETE        /api/teams/:qualificationName                                     
 #
 # DbShift
 #
-
-# List all shifts assigned to a user by sfuEmail
-GET           /api/users/:sfuEmail/shifts                                        controllers.ShiftController.readShiftsBySfuEmail(sfuEmail: String)
 
 # List all users within a team that are available for shifts in a time range
 GET           /api/users/teams/:teamId/shifts?start=TIMESTART&end=TIMEEND        controllers.ShiftController.readUsersAvailableForShift(teamId: Integer)
