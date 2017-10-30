@@ -1,4 +1,3 @@
-props: ['certificateName']
 <template>
     <div id = "certificate">
         <icon name="certificate" id="certificate-symbol" ></icon>
@@ -15,15 +14,17 @@ export default{
     },
     components: {
         Icon
+    },
+    props: {
+        certificateName: {
+            type: String, 
+            required: true 
+        }
     }
 }
 </script>
 
 <style scoped> 
-    #certificate{
-        flex-flow: column nowrap;
-        width: 100%;
-    }
     #certificate-symbol{
         width: auto;
         height: 2.5em;
@@ -35,7 +36,6 @@ export default{
     }
     #certificate-name{
         font-size: 2em;
-        display: block;        
     }
 </style>    
 

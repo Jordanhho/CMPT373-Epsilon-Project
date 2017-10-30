@@ -27,9 +27,12 @@
                 <span id= "number-hours">{{hoursNumber}}</span>
                 <span id= "hours-text">HOURS</span>    
             </div>
-        </div>
-        <certificate id = "test">
-            "Hello?"
+        </div id = "list">
+        <!-- <certificate id = "test" v-bind:certificateName="certificateName">
+        </certificate> -->
+        <certificate class="certificate-list" 
+        v-for= "certificate in certificateNames" 
+        v-bind:certificateName="certificate.text">
         </certificate>
     </div>
 </template>
@@ -56,7 +59,12 @@ export default {
                 {text: 'adall@sfu.ca'},
                 {text: 'Burnaby, Surrey'}
             ],
-            hoursNumber: "14"
+            hoursNumber: "14",
+            certificateNames: [
+                {text: "Customer Support Training"},
+                {text: "Security Training"},
+                {text: "Hazard Training"}
+            ]
         }
     },
     components: {
@@ -126,9 +134,13 @@ export default {
     #number-hours{
         font-size: 3em;
     }
-    #test{
-        background: beige;
+    #list{
+        display: flex;
+    }
+    .certificate-list{
+        flex-flow: row nowrap;
         width: 30%;
+        margin-right: 0;
     }
 
 </style>
