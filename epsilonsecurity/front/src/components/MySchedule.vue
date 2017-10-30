@@ -1,6 +1,6 @@
 <template>
-	<div id="my-schedule">
-		<p>{{$store.state.email}}</p>
+	<v-container fluid fill-height class="pa-0">
+	<!-- <div id="my-schedule"> -->
 		<full-calendar 
 			:event-sources="eventSources"
 			:config="config"
@@ -33,7 +33,8 @@
       </v-card>
     </v-dialog>
 
-	</div>
+	<!-- </div> -->
+	</v-container>
 </template>
 
 <script>
@@ -54,6 +55,12 @@ export default {
 				defaultView: 'agendaWeek', 
 				// local timezone is very important
 				timezone: 'local',
+				header: {
+					left: 'prev,next today',
+					// hide title for now, until I can figure out how to controll its size.
+					center: '',
+					right: 'month,agendaWeek,agendaDay'
+				},
 				height: 'parent',
 				allDaySlot: false,
 				editable: false,
@@ -71,7 +78,13 @@ export default {
 				// triggered after a selection is made, i.e user stops dragging.
 				select: this.handleEventSelection,
 				// triggered before an event is rendered - our chance to enhance the event.
-				eventRender: this.handleEventRender
+				eventRender: this.handleEventRender,
+				// viewRender: function(view) {
+				// 	var title = view.title;
+				// 	console.log(view)
+				// 	console.log(`>>> ${title}`)
+				// 	$("#externalTitle").html(title);
+				// }
 			},
 			eventSources: [
 				// 1st event source
@@ -149,8 +162,9 @@ export default {
 	width: 100%
 	position: relative
 	box-sizing: border-box
-	height: 100%
-	overflow: auto
+	// height:
+	max-height: 100%
+	overflow: hidden
 
 .event-styles
 	color: green

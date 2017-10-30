@@ -82,6 +82,9 @@
 
 <style lang="stylus">
 	@import '../stylus/main.styl'
+
+	body
+		overflow: hidden
 </style>
 
 
