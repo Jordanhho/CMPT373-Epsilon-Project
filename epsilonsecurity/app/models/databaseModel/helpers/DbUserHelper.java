@@ -25,6 +25,7 @@ public final class DbUserHelper {
                 .id
                 .eq(id)
                 .findUnique();
+
         return dbUser;
     }
 
@@ -33,6 +34,7 @@ public final class DbUserHelper {
                 .roleId
                 .eq(roleId)
                 .findUnique();
+
         return dbUser;
     }
 
@@ -54,11 +56,12 @@ public final class DbUserHelper {
         return dbUser;
     }
 
-    public static void updateUserEnable(Integer userId, Boolean enabled){
+    public static void updateUserEnable(Integer userId, Boolean enabled) {
         DbUser dbUser = readDbUserById(userId);
         dbUser.setEnabled(enabled);
         dbUser.save();
     }
+
     //TODO: Fix magic number
     public static List<DbUser> readAllDbUsers() {
         List<DbUser> dbUserList = new QDbUser()

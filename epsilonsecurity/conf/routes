@@ -26,6 +26,9 @@ GET           /api/users                                                        
 # Update a user by sfuEmail
 PUT           /api/users/:sfuEmail                                               controllers.UserController.updateUser(sfuEmail: String)
 
+# Update a user's enabled status by userId
+PUT           /api/users/:userId/:isEnabled                                      controllers.UserController.updateUsersEnabledStatus(userId: Integer, isEnabled: Boolean)
+
 # Delete a user by sfuEmail
 DELETE        /api/users/:sfuEmail                                               controllers.UserController.deleteUserBySfuEmail(sfuEmail: String)
 
