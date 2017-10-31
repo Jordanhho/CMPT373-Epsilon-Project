@@ -15,6 +15,8 @@
   4. Rebuild the project with Ebean Enhancement Plugin options checked.
 Now the project should rebuild and auto-generate Q classes needed for type-safe queries.
 
+Note: For users with IntelliJ ultimate edition, you need to disable the option to use Play2 compiler in Settings => Language & Framwork => Play2
+
 If the Message toolbar displays messages of: information: enhanced.... with the names of Q classes matching with Db classes, then the generator succeeded. Otherwise, turn off IntelliJ, turn it on, and rebuild again.
 
 There are also alternative of creating the generator manually that would need to be researched upon further, if this method can't guarantee stable setup.
@@ -28,6 +30,7 @@ newly generated classes.
   6. Exit that window, Build -> Build Module 'root'
 
   7. Rebuild Project again.
+  
 
   8. Go to some class, and try to write QDbUser (or any QDb class you want). If IntelliJ auto-suggest "import package" for that class, then you got it setup properly.
 
