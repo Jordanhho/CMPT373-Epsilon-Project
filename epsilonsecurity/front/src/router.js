@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import MyFeed from './components/MyFeed.vue';
 import MySchedule from './components/MySchedule.vue';
+import MyProfile from './components/MyProfile.vue';
 // todo: import other components here
 import NotFound from './components/NotFound.vue';
 import store from './store/store'
@@ -33,6 +34,14 @@ const router = new VueRouter({
 			meta: { 
 				requiresAuth: true,
 				adminOnly: true 
+			}
+		},
+		{ 
+			path: '/my-profile', 
+			component: MyProfile, // todo: create component
+			meta: { 
+				requiresAuth: true,
+				adminOnly: false 
 			}
 		},
 		// todo: other routes here

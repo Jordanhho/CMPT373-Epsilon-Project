@@ -27,6 +27,7 @@
                             {{content}}    
                     </li>
                 </div>
+                <span id= "spacer"></span>
                 <div id = "hours">
                     <span id= "number-hours">{{hoursNumber}}</span>
                     <span id= "hours-text">HOURS</span>    
@@ -143,6 +144,7 @@ export default {
         background: white;
         flex-flow: column nowrap;
         width: 100%;
+        height: 100%;
         border-style: groove;
         padding-top: 5%;
     }
@@ -196,15 +198,24 @@ export default {
     }
     #hours{
         display: flex;
-        flex-flow: column nowrap;
-        margin-right: 15%;
+        flex-flow: row nowrap;
+        margin-right: 10%;
+        font-size: 1.5em;
+        text-align: right;
+    }
+    #spacer{
+        flex-grow: 1;
     }
     #number-hours{
-        font-size: 3em;
+        font-size: 3.5em;
+    }
+    #hours-text{
+        align-self: flex-end;
+        padding-bottom: 1.7em;
+        padding-left: .5em;
     }
     #qualificationList{
         margin-top: 3%;
-        
     }
     .header{
         font-size: 2em;  
