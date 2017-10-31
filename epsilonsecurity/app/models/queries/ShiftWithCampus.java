@@ -10,19 +10,19 @@ import models.databaseModel.scheduling.DbTeam;
 public class ShiftWithCampus {
     private Integer id;
     private String title;
-    private String timeStart;
-    private String timeEnd;
+    private String start;
+    private String end;
     private String campus;
-    private String desc;
+    private String description;
     private boolean wasPresent;
 
     public ShiftWithCampus(DbShift shift, DbTeam team, DbShiftType shiftType) {
         this.id = shift.getId();
         this.title = shiftType.getName();
-        this.timeStart = TimeUtil.convertEpochSecondsToIsoUtcTime(shift.getTimeStart());
-        this.timeEnd = TimeUtil.convertEpochSecondsToIsoUtcTime(shift.getTimeEnd());
+        this.start = TimeUtil.convertEpochSecondsToIsoUtcTime(shift.getTimeStart());
+        this.end = TimeUtil.convertEpochSecondsToIsoUtcTime(shift.getTimeEnd());
         this.campus = team.getName();
-        this.desc = shift.getDescription();
+        this.description = shift.getDescription();
         this.wasPresent = shift.isWasPresent();
     }
 
@@ -34,20 +34,20 @@ public class ShiftWithCampus {
         return title;
     }
 
-    public String getTimeStart() {
-        return timeStart;
+    public String getStart() {
+        return start;
     }
 
-    public String getTimeEnd() {
-        return timeEnd;
+    public String getEnd() {
+        return end;
     }
 
     public String getCampus() {
         return campus;
     }
 
-    public String getDesc() {
-        return desc;
+    public String getDescription() {
+        return description;
     }
 
     public boolean isWasPresent() {

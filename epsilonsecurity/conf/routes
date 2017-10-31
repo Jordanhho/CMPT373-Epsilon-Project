@@ -10,9 +10,6 @@ GET           /$p<(?!api).*>                                                    
 
 # ----------------------- USER APIs ----------------------
 
-# purpose: simply to test the MySchedule component integration to the backend
-#GET             /api/users/:sfuEmail/shifts             controllers.UserController.getAllShifts(sfuEmail: String)
-
 #
 # DbUser
 #
