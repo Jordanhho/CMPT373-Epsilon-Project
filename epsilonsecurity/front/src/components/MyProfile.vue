@@ -7,7 +7,7 @@
                 <span id= "user-name">{{userName}}</span>
                 <div id = "contact-info">
                     <li v-for= "contact in contactInfo">
-                        {{contact.text}}    
+                        {{contact}}    
                     </li>
                 </div> 
             </div>
@@ -24,7 +24,7 @@
                 </div>
                 <div id = "content">
                     <li v-for= "content in tabContent">
-                            {{content.text}}    
+                            {{content}}    
                     </li>
                 </div>
                 <div id = "hours">
@@ -52,16 +52,14 @@ import Icon from 'vue-awesome/components/Icon.vue'
 import Certificate from './Certificate.vue'
 import axios from 'axios'
 
+var roleId;
 export default {
     name: 'user-profile',
     data(){
         return {
             userName: '',
             userPhoto: 'http://lorempixel.com/100/100/people',
-            contactInfo: [
-                {text: 'alovelace@gmail.com'},
-                {text: '604-657-9124'}
-            ],
+            contactInfo: [],
             tabs: [
                 {text: 'Sfu Email: '},
                 {text: 'Team: '},
@@ -80,25 +78,59 @@ export default {
                 // {text: "Lost and Found Training"},
                 // {text: "Campus Navigation Training"},
                 // {text: "Whatever here"}
-            ]
+            ],
+            loggedInUserId: 15,
         }
     },
     methods: {
-        populatePage(userInfo){
-            this.userName = userInfo.firstName + userInfo.lastName;
+        populateUserData(userData){
+            //alert(JSON.stringify(userData.data, null, 2));
+            this.userName = userData.data.firstName + " " + userData.data.lastName;
+            this.contactInfo = [userData.data.contactEmail, userData.data.phoneNumber];
+            this.tabContent.splice(0, 0, userData.data.sfuEmail);
+            roleId = userData.data.roleId;
+        },
+        populateTeamData(teamData){
+            //alert(JSON.stringify(teamData.data, null, 2));
+            var teamList = "";
+            var listLength = teamData.data.length;
+            for(var i = 0; i < listLength; i++){
+                teamList += teamData.data[i].name;
+                if(i != listLength - 1){
+                    teamList += ", ";    
+                }
+            }
+            this.tabContent.splice(1, 0, teamList);
+            this.tabContent.splice(2, 0, user);
+        
+        },
+        populateRoleName(roleData){
+            alert(JSON.stringify(teamData.data, null, 2));
+            //this.tabContent.splice(2, 0, roleData.data.name)
         }
     },
     components: {
         Certificate
     },
     created: function () {
-        const currentLoggedInUser = 15;
-        axios.get('/api/users/$currentLoggedInUser')
-        .then(this.populatePage(response))
+        axios.get('/api/users/' + this.loggedInUserId)
+        .then(this.populateUserData)
         .catch(function(error){
             console.log(error)
         });
+        axios.get('/api/users/' + this.loggedInUserId + '/teams')
+        .then(this.populateTeamData)
+        .catch(function(error){
+            console.log(error)
+        });
+        axios.get('/api/roles/' + roleId)
+        .then(this.populateRoleName)
+        .catch(function(error){
+            console.log(error)
+        })
+
     }
+
 }
 </script>
 
