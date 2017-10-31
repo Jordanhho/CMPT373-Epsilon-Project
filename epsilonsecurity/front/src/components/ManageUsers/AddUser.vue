@@ -76,8 +76,9 @@
 
         },
         methods: {
+            // debugging
             displayAllTeams() {
-                alert(this.listOfTeamIDsForUser);
+                //alert(this.listOfTeamIDsForUser);
             },
         },
         props: {

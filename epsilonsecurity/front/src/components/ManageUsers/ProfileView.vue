@@ -90,7 +90,6 @@
                 this.$emit('clicked', value);
             },
             onClickEdit () {
-                alert("edited successfully");
                 this.showEditUser = false;
                 axios.put('/api/users/' + this.userData.id, this.userData)
                     .then(response => this.$emit('edited'))
@@ -99,7 +98,6 @@
                     });
             },
             onClickDisable () {
-                alert('user disabled');
                 this.showDisableUser = false;
                 axios.put('/api/users/' + this.userData.id + '/' + !this.userData.enabled)
                     .then(response => this.userData.enabled = !this.userData.enabled)
@@ -144,7 +142,7 @@
                 required: true
             },
             id: {
-                type: Number,
+                type: String,
                 required: true
             }
 

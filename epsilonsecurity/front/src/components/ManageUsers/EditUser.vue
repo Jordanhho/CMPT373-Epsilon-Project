@@ -88,13 +88,13 @@
             }
         },
         methods: {
+            // debugging
             displayAllTeams() {
-                alert(this.listOfTeamIDsForUser);
+                //alert(this.listOfTeamIDsForUser);
             },
         },
         created: function() {
             this.listOfTeamIDsForUser = this.userTeams.map(x => x.id);
-            //console.log(JSON.stringify(this.userTeams, null, 2));
         }
     }
 </script>

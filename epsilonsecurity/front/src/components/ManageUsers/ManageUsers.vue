@@ -5,15 +5,10 @@
                     v-bind:teams="teams"
                     @clicked="onClickUserListViewItem">
         </userlist>
-        <div    id="profile-main"
-                v-if='userID != -1'>
-            <profile    id="profile"
-                        v-bind:id='userID'
+            <router-view    id="profile"
                         v-bind:teams="teams"
                         @edited="$refs.userlist.requestUsers()">
-            </profile>
-            <qualifications id="qualifications"></qualifications>
-        </div>
+            </router-view>
     </div>
 </template>
 
@@ -61,6 +56,8 @@
     #manage-users {
         background: white;
         width: 100%;
+        height: 100%;
+        top: 0;
         position: relative;
         display: flex;
     }

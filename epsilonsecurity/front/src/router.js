@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import MyFeed from './components/MyFeed.vue';
 import MySchedule from './components/MySchedule.vue';
 import ManageUsers from './components/ManageUsers/ManageUsers.vue';
+import ProfileView from './components/ManageUsers/ProfileView.vue';
 // todo: import other components here
 import NotFound from './components/NotFound.vue';
 import store from './store/store'
@@ -29,8 +30,15 @@ const router = new VueRouter({
 			}
 		},
         {
-            path: '/manage-users',
+            path: '/manage-users/:id',
             component: ManageUsers,
+            children: [
+                {
+                    path: '',
+                    component: ProfileView,
+                    props: true
+                }
+                ],
             meta: {
               requiresAuth: true,
               adminOnly: true
