@@ -25,8 +25,10 @@ GET           /api/users/:sfuEmail                                              
 PUT           /api/users/:sfuEmail                                               controllers.UserController.updateUser(sfuEmail: String)
 
 # Delete a user by sfuEmail
-DELETE        /api/users/:sfuEmail                                               controllers.UserController.deleteUserBySfuEmail(sfuEmail: String)
+#DELETE        /api/users/:sfuEmail                                               controllers.UserController.deleteUserBySfuEmail(sfuEmail: String)
 
+# purpose: simply to test the MySchedule component integration to the backend
+GET             /api/users/:sfuEmail/shifts             controllers.UserController.getAllShifts(sfuEmail: String)
 
 #
 # DbUserShift
