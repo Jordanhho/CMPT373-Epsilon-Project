@@ -146,8 +146,9 @@ public final class ScheduleUtil {
     }
 
     /**
-     * Return a list of all shifts (including campus) assigned to a user
+     * Get a list of all shifts (including campus) assigned to a user
      * @param userId the database ID of the target user
+     * @return A list containing all the shift data required for the frontend
      */
     public static List<ShiftWithCampus> getShiftsWithCampusByUserId(Integer userId) {
         DbUser targetUser = DbUserHelper.readDbUserById(userId);

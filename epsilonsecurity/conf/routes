@@ -9,7 +9,9 @@ GET           /$p<(?!api).*>                                                    
 # see: https://www.playframework.com/documentation/2.6.x/ScalaRouting#the-routes-file-syntax
 
 # ----------------------- USER APIs ----------------------
-# TODO: Find a way to prevent routes from crashing the program due to conflicting parameter types in the same location
+
+# purpose: simply to test the MySchedule component integration to the backend
+#GET             /api/users/:sfuEmail/shifts             controllers.UserController.getAllShifts(sfuEmail: String)
 
 #
 # DbUser
@@ -28,10 +30,8 @@ GET           /api/users                                                        
 PUT           /api/users/:sfuEmail                                               controllers.UserController.updateUser(sfuEmail: String)
 
 # Delete a user by sfuEmail
-#DELETE        /api/users/:sfuEmail                                               controllers.UserController.deleteUserBySfuEmail(sfuEmail: String)
+DELETE        /api/users/:sfuEmail                                               controllers.UserController.deleteUserBySfuEmail(sfuEmail: String)
 
-# purpose: simply to test the MySchedule component integration to the backend
-GET             /api/users/:sfuEmail/shifts             controllers.UserController.getAllShifts(sfuEmail: String)
 
 #
 # DbUserShift
