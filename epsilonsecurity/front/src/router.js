@@ -29,6 +29,14 @@ const router = new VueRouter({
 				adminOnly: false 
 			}
 		},
+         {
+              path: '/manage-users',
+              component: ManageUsers,
+              meta: {
+                  requiresAuth: true,
+                  adminOnly: false
+              }
+         },
         {
             path: '/manage-users/:id',
             component: ManageUsers,

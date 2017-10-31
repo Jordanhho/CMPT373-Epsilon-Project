@@ -11,19 +11,21 @@
         <!--</option>-->
         <!--</select>-->
 
-        <v-select v-bind:items="teamList" v-model="selectedTeam" @input="requestUsers">
-        </v-select>
-        <!-- <span>Selected: {{ team }}</span> -->
+        <div id="buttons">
+            <v-select id="dropdown" v-bind:items="teamList" v-model="selectedTeam" @input="requestUsers">
+            </v-select>
+            <!-- <span>Selected: {{ team }}</span> -->
 
-        <button id="add-user"
-                @click="showAddUser = true">
-            Add User
-        </button>
-        <add-user v-if="showAddUser"
-                  @close="showAddUser = false"
-                  @add="onClickAdd"
-                  v-bind:teams="teams">
-        </add-user>
+            <button id="add-user"
+                    @click="showAddUser = true">
+                Add User
+            </button>
+            <add-user v-if="showAddUser"
+                      @close="showAddUser = false"
+                      @add="onClickAdd"
+                      v-bind:teams="teams">
+            </add-user>
+        </div>
 
         <ul id="scroll">
             <listed-user v-for="user in users"
@@ -117,7 +119,7 @@
 
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
     #scroll {
         overflow-y: scroll;
         overflow-x: hidden;
@@ -128,6 +130,24 @@
         font-size: 1.5em;
         max-height: 85%;
         padding: 0;
+        flex-flow: column;
+    }
+
+    #buttons {
+        display: flex;
+        width: 100%;
+    }
+
+    #add-user, #dropdown {
+        flex-flow: row nowrap;
+    }
+
+    #dropdown {
+        width: 50%;
+    }
+
+    #add-user {
+        width: 20%;
     }
 
 
