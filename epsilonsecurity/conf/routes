@@ -18,8 +18,11 @@ GET           /$p<(?!api).*>                                                    
 # Create a user
 POST          /api/users                                                         controllers.UserController.createUser()
 
-# Read a user by sfuEmail
-GET           /api/users/:sfuEmail                                               controllers.UserController.retrieveUser(sfuEmail: String)
+# Read a user by userId
+GET           /api/users/:userId                                                 controllers.UserController.readUserByUserId(userId: Integer)
+
+# Read all users
+GET           /api/users                                                         controllers.UserController.readAllUsers()
 
 # Update a user by sfuEmail
 PUT           /api/users/:sfuEmail                                               controllers.UserController.updateUser(sfuEmail: String)
@@ -48,8 +51,10 @@ DELETE        /api/users/shifts/:shiftId                                        
 # DbUserTeam
 #
 
-# List all the users in the system and their corresponding teams
-GET           /api/users/teams                                                   controllers.UserTeamController.listUserTeams()
+# List all the users in a specific team
+GET           /api/users/teams/:teamId                                           controllers.UserTeamController.readAllUsersByTeamId(teamId: Integer)
+
+GET           /api/users/:userId/teams                                           controllers.UserTeamController.readDbUserTeamByUserId(userId: Integer)
 
 # Assign a user to a team
 POST          /api/users/:userId/teams/:teamId                                   controllers.UserTeamController.createUserTeam(userId: Integer, teamId: Integer)
@@ -75,6 +80,9 @@ DELETE        /api/shifttypes/:qualificationName                                
 #
 # DbTeam
 #
+
+# List all teams in the database
+GET           /api/teams                                                         controllers.TeamController.listAllTeams()
 
 # Create a team
 POST          /api/teams                                                         controllers.TeamController.createTeam()

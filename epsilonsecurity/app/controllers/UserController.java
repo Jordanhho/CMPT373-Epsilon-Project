@@ -9,6 +9,7 @@ import play.mvc.Controller;
 import play.mvc.Result;
 
 import javax.inject.Inject;
+import java.util.List;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -50,7 +51,24 @@ public class UserController extends Controller {
         return ok(Json.toJson(dbUser));
     }
 
+    public Result readUserByUserId(Integer userId) {
+        DbUser dbUser = DbUserHelper.readDbUserById(userId);
+
+        return ok(Json.toJson(dbUser));
+    }
+
+    public Result readAllUsers() {
+        List<DbUser> dbUserList = DbUserHelper.readAllDbUsers();
+
+        return ok(Json.toJson(dbUserList));
+    }
+
     public Result updateUser(String sfuEmail) {
+        return ok();
+    }
+
+    public Result updateUserEnabled(Integer userId, Boolean enabled){
+        DbUserHelper.updateUserEnable(userId, enabled);
         return ok();
     }
 
@@ -58,6 +76,7 @@ public class UserController extends Controller {
         DbUserHelper.deleteDbUser(user);
         return ok();
     }
+
     public Result deleteUserBySfuEmail(String sfuEmail) {
         DbUser dbUserToDelete = DbUserHelper.readDbUserBySfuEmail(sfuEmail);
         DbUserHelper.deleteDbUser(dbUserToDelete);

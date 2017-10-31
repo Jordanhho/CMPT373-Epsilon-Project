@@ -1,7 +1,9 @@
 package models.databaseModel.helpers;
 
+import models.databaseModel.scheduling.DbTeam;
 import models.databaseModel.scheduling.DbUser;
 import models.databaseModel.scheduling.DbUserTeam;
+import models.databaseModel.scheduling.query.QDbTeam;
 import models.databaseModel.scheduling.query.QDbUser;
 import models.databaseModel.scheduling.query.QDbUserTeam;
 
@@ -72,23 +74,27 @@ public final class DbUserTeamHelper {
     }
 
     /**
-     * finds a DbUser by UserTeamId
+     * Read user team by user id
      *
-     * @param id
+     * @param userId
      * @return
      */
-    public static DbUser readDbUserByUserTeamId(Integer id) {
-        DbUserTeam dbUserTeam = new QDbUserTeam()
+    public static List<DbTeam> readDbUserTeamByUserId(Integer userId) {
+        List<DbUserTeam> dbUserTeamList = new QDbUserTeam()
                 .id
-                .eq(id)
-                .findUnique();
+                .eq(userId)
+                .findList();
 
-        DbUser dbUser = new QDbUser()
-                .id
-                .eq(dbUserTeam.getUserId())
-                .findUnique();
+        List<DbTeam> teamList = new ArrayList<>();
 
-        return dbUser;
+        for (DbUserTeam userTeam : dbUserTeamList) {
+            teamList.add(new QDbTeam()
+                    .id
+                    .eq(userTeam.getTeamId())
+                    .findUnique());
+        }
+
+        return teamList;
     }
 
     /**
@@ -97,7 +103,7 @@ public final class DbUserTeamHelper {
      * @param teamId the campus location
      * @return a List of users from target campus
      */
-    public static List<DbUser> findUserByTeamId(Integer teamId) {
+    public static List<DbUser> findAllUsersByTeamId(Integer teamId) {
         List<DbUserTeam> dbUserTeamList = new QDbUserTeam()
                 .teamId
                 .eq(teamId)

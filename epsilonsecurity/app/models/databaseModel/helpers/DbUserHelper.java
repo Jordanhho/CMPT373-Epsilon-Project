@@ -25,7 +25,14 @@ public final class DbUserHelper {
                 .id
                 .eq(id)
                 .findUnique();
+        return dbUser;
+    }
 
+    public static DbUser readDbUserByRoleId(Integer roleId) {
+        DbUser dbUser = new QDbUser()
+                .roleId
+                .eq(roleId)
+                .findUnique();
         return dbUser;
     }
 
@@ -47,11 +54,19 @@ public final class DbUserHelper {
         return dbUser;
     }
 
+    public static void updateUserEnable(Integer userId, Boolean enabled){
+        DbUser dbUser = readDbUserById(userId);
+        dbUser.setEnabled(enabled);
+        dbUser.update();
+    }
+    //TODO: Fix magic number
     public static List<DbUser> readAllDbUsers() {
-        List<DbUser> dbUsers = new QDbUser()
+        List<DbUser> dbUserList = new QDbUser()
                 .findList();
 
-        return dbUsers;
+        dbUserList.removeIf(dbUser -> dbUser.getRoleId() == 1);
+
+        return dbUserList;
     }
 
 }

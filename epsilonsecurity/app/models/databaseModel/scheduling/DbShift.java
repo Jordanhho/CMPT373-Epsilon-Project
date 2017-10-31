@@ -25,6 +25,9 @@ public class DbShift extends Model {
     @Column(nullable = false)
     private Long timeEnd;
 
+    @Column
+    private String description;
+
     private boolean wasPresent;
 
     /**
@@ -41,6 +44,15 @@ public class DbShift extends Model {
         this.timeEnd = timeEnd;
         this.wasPresent = true;
     }
+
+    public DbShift(Integer shiftTypeId, Long timeStart, Long timeEnd, String description) {
+        this.shiftTypeId = shiftTypeId;
+        this.timeStart = timeStart;
+        this.timeEnd = timeEnd;
+        this.wasPresent = true;
+        this.description = description;
+    }
+
 
     public Integer getId() {
         return id;
@@ -83,6 +95,10 @@ public class DbShift extends Model {
     }
 
     public static Finder<Integer, DbShift> find = new Finder<>(DbShift.class);
+
+    public String getDescription() {
+        return description;
+    }
 
     @Override
     public String toString() {

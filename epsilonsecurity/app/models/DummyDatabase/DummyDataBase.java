@@ -27,6 +27,19 @@ import java.util.Random;
 public class DummyDataBase {
 
     private int campusTeamSize = 6;
+    private final long  RAND_SEED = 1509310291713L;
+    private final int ADMIN_ROLE_ID = 1;
+    private final int SUPERVISOR_ROLE_ID = 2;
+    private final int TEAMLEAD_ROLE_ID = 3;
+    private final int EMPLOYEE_ROLE_ID = 4;
+    private final int VOLUNTEER_ROLE_ID = 5;
+    private final int TEAM_BURNABY_ID = 1;
+    private final int TEAM_SURREY_ID = 2;
+    private final int TEAM_VANCOUVER_ID = 3;
+    private final int PERMISSION_SCHEDULING_ID = 1;
+    private final int PERMISSION_USERLIST_ID = 2;
+    private final int PERMISSION_STATISTIC_ID = 3;
+    private final int PERMISSION_PAYROLL_ID = 4;
 
     private List<DbRole> roleList = new ArrayList<>();
     private List<DbUser> userList = new ArrayList<>();
@@ -45,6 +58,8 @@ public class DummyDataBase {
 
     
     public DummyDataBase() {
+        Random rand = new Random();
+        rand.setSeed(RAND_SEED);
 
         initRoles();
         //creates roles
@@ -83,6 +98,12 @@ public class DummyDataBase {
             DbShiftHelper.createDbShift(itr);
         }
 
+        initUserTeam();
+        //links userTeam
+        for(DbUserTeam itr: userTeamList) {
+            DbUserTeamHelper.createDbUserTeam(itr);
+        }
+
         initQualification();
         for(DbQualification qualification : qualificationList) {
             DbQualificationHelper.createDbQualification(qualification);
@@ -94,24 +115,18 @@ public class DummyDataBase {
             DbRolePermissionHelper.createDbRolePermission(itr);
         }
 
-        initUserTeam();
-        //links userTeam
-        for(DbUserTeam itr: userTeamList) {
-            DbUserTeamHelper.createDbUserTeam(itr);
-        }
-
-        initUserQualification();
+        initUserQualification(rand);
         //creates userQualification
         for(DbUserQualification itr: userQualificationList) {
             DbUserQualificationHelper.createDbUserQualification(itr);
         }
 
-        initShiftQualification();
+        initShiftQualification(rand);
         for(DbShiftQualification itr: shiftQualificationList) {
             DbShiftQualificationHelper.createDbShiftQualification(itr);
         }
 
-        initUserShift();
+        initUserShift(rand);
         //creates userShift
         for(DbUserShift itr: userShiftList) {
             DbUserShiftHelper.createDbUserShift(itr);
@@ -225,6 +240,32 @@ public class DummyDataBase {
     }
 
     private void initRolePermission() {
+        rolePermissionList.add(new DbRolePermission(TEAM_BURNABY_ID, ADMIN_ROLE_ID, PERMISSION_SCHEDULING_ID, AccessLevel.DELETE));
+        rolePermissionList.add(new DbRolePermission(TEAM_BURNABY_ID, ADMIN_ROLE_ID, PERMISSION_USERLIST_ID, AccessLevel.DELETE));
+        rolePermissionList.add(new DbRolePermission(TEAM_BURNABY_ID, ADMIN_ROLE_ID, PERMISSION_STATISTIC_ID, AccessLevel.DELETE));
+        rolePermissionList.add(new DbRolePermission(TEAM_BURNABY_ID, ADMIN_ROLE_ID, PERMISSION_PAYROLL_ID, AccessLevel.DELETE));
+
+        for(int i = 1; i <= 3; i++){
+            rolePermissionList.add(new DbRolePermission(i, SUPERVISOR_ROLE_ID, PERMISSION_SCHEDULING_ID, AccessLevel.DELETE));
+            rolePermissionList.add(new DbRolePermission(i, SUPERVISOR_ROLE_ID, PERMISSION_USERLIST_ID, AccessLevel.DELETE));
+            rolePermissionList.add(new DbRolePermission(i, SUPERVISOR_ROLE_ID, PERMISSION_STATISTIC_ID, AccessLevel.DELETE));
+            rolePermissionList.add(new DbRolePermission(i, SUPERVISOR_ROLE_ID, PERMISSION_PAYROLL_ID, AccessLevel.DELETE));
+
+            rolePermissionList.add(new DbRolePermission(i, TEAMLEAD_ROLE_ID, PERMISSION_SCHEDULING_ID, AccessLevel.WRITE));
+            rolePermissionList.add(new DbRolePermission(i, TEAMLEAD_ROLE_ID, PERMISSION_USERLIST_ID, AccessLevel.WRITE));
+            rolePermissionList.add(new DbRolePermission(i, TEAMLEAD_ROLE_ID, PERMISSION_STATISTIC_ID, AccessLevel.WRITE));
+            rolePermissionList.add(new DbRolePermission(i, TEAMLEAD_ROLE_ID, PERMISSION_PAYROLL_ID, AccessLevel.WRITE));
+
+            rolePermissionList.add(new DbRolePermission(i, EMPLOYEE_ROLE_ID, PERMISSION_SCHEDULING_ID, AccessLevel.READ));
+            rolePermissionList.add(new DbRolePermission(i, EMPLOYEE_ROLE_ID, PERMISSION_USERLIST_ID, AccessLevel.READ));
+            rolePermissionList.add(new DbRolePermission(i, EMPLOYEE_ROLE_ID, PERMISSION_STATISTIC_ID, AccessLevel.READ));
+            rolePermissionList.add(new DbRolePermission(i, EMPLOYEE_ROLE_ID, PERMISSION_PAYROLL_ID, AccessLevel.READ));
+
+            rolePermissionList.add(new DbRolePermission(i, VOLUNTEER_ROLE_ID, PERMISSION_SCHEDULING_ID, AccessLevel.READ));
+            rolePermissionList.add(new DbRolePermission(i, VOLUNTEER_ROLE_ID, PERMISSION_USERLIST_ID, AccessLevel.READ));
+            rolePermissionList.add(new DbRolePermission(i, VOLUNTEER_ROLE_ID, PERMISSION_STATISTIC_ID, AccessLevel.READ));
+            rolePermissionList.add(new DbRolePermission(i, VOLUNTEER_ROLE_ID, PERMISSION_PAYROLL_ID, AccessLevel.READ));
+        }
     }
 
     private void initUserTeam() {
@@ -319,8 +360,7 @@ public class DummyDataBase {
         shiftList.add(new DbShift(7, TimeUtil.getEpochSecondsFromUserInput(2017, 10,6, 13, 30), TimeUtil.getEpochSecondsFromUserInput(2017, 10, 6, 16, 45)));
     }
 
-    private void initUserShift() {
-        Random rand = new Random();
+    private void initUserShift(Random rand) {
         for(DbUserTeam userTeam : userTeamList){
             userShiftList.add(new DbUserShift(userTeam.getId(), shiftList.get(
                                                                 rand.nextInt(shiftList.size())
@@ -493,9 +533,9 @@ public class DummyDataBase {
                 TimeUtil.getEpochSecondsFromUserInput(2017, 12, 10, 12, 45)));
     }
 
-    private void initUserQualification() {
-        Random rand = new Random();
+    private void initUserQualification(Random rand) {
         Random rand2 = new Random();
+        rand2.setSeed(RAND_SEED);
         for(DbUser user: userList){
             if(user.getId() != 0){
                 int firstQualifIndex = rand.nextInt(qualificationList.size());
@@ -511,8 +551,7 @@ public class DummyDataBase {
         }
     }
 
-    private void initShiftQualification() {
-        Random rand = new Random();
+    private void initShiftQualification(Random rand) {
         for(DbShiftType shiftType : shiftTypeList){
             shiftQualificationList.add(new DbShiftQualification(shiftType.getId(), qualificationList.get(
                                                                                     rand.nextInt(qualificationList.size())

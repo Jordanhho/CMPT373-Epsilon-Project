@@ -10,7 +10,7 @@ import play.api.mvc._
 import models.DummyDatabase
 import models.DummyDatabase.DummyDataBase
 
-class FrontController @Inject() (cc: ControllerComponents, env: Environment) extends AbstractController(cc){
+class FrontController @Inject()(cc: ControllerComponents, env: Environment) extends AbstractController(cc) {
   val config: Config = ConfigFactory.parseFile(new File("conf/frontend.conf")).resolve()
 
   def index(path: String) = Action {
