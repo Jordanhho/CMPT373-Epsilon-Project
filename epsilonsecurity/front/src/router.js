@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import MyFeed from './components/MyFeed.vue';
 import MySchedule from './components/MySchedule.vue';
+import ManageUsers from './components/ManageUsers/ManageUsers.vue';
 // todo: import other components here
 import NotFound from './components/NotFound.vue';
 import store from './store/store'
@@ -27,6 +28,14 @@ const router = new VueRouter({
 				adminOnly: false 
 			}
 		},
+        {
+            path: '/manage-users',
+            component: ManageUsers,
+            meta: {
+              requiresAuth: true,
+              adminOnly: true
+            }
+        },
 		{ 
 			path: '/manage-teams', 
 			component: MySchedule, // todo: create component
@@ -35,6 +44,7 @@ const router = new VueRouter({
 				adminOnly: true 
 			}
 		},
+
 		// todo: other routes here
 		{ 
 			path: '*', 
