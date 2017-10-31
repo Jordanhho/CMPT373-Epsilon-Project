@@ -52,7 +52,6 @@ import Icon from 'vue-awesome/components/Icon.vue'
 import Certificate from './Certificate.vue'
 import axios from 'axios'
 
-var roleId;
 export default {
     name: 'user-profile',
     data(){
@@ -80,6 +79,7 @@ export default {
                 // {text: "Whatever here"}
             ],
             loggedInUserId: 15,
+            roleId: ''
         }
     },
     methods: {
@@ -88,7 +88,7 @@ export default {
             this.userName = userData.data.firstName + " " + userData.data.lastName;
             this.contactInfo = [userData.data.contactEmail, userData.data.phoneNumber];
             this.tabContent.splice(0, 0, userData.data.sfuEmail);
-            roleId = userData.data.roleId;
+            this.roleId = userData.data.roleId;
         },
         populateTeamData(teamData){
             //alert(JSON.stringify(teamData.data, null, 2));
@@ -100,13 +100,10 @@ export default {
                     teamList += ", ";    
                 }
             }
-            this.tabContent.splice(1, 0, teamList);
-            this.tabContent.splice(2, 0, user);
-        
+            this.tabContent.splice(1, 0, teamList);        
         },
         populateRoleName(roleData){
             alert(JSON.stringify(teamData.data, null, 2));
-            //this.tabContent.splice(2, 0, roleData.data.name)
         }
     },
     components: {
@@ -123,12 +120,13 @@ export default {
         .catch(function(error){
             console.log(error)
         });
-        axios.get('/api/roles/' + roleId)
-        .then(this.populateRoleName)
-        .catch(function(error){
-            console.log(error)
-        })
-
+        
+        //TODO: Figure out how to pass roleId to this get after the first get is done
+        // axios.get('/api/roles/' + this.roleId)
+        // .then(this.populateRoleName)
+        // .catch(function(error){
+        //     console.log(error)
+        // })
     }
 
 }
