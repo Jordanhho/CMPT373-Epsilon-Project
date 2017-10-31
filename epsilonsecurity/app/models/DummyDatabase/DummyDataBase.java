@@ -92,7 +92,7 @@ public class DummyDataBase {
             DbShiftTypeHelper.createDbShiftType(itr);
         }
 
-        initShift();
+        initShift(rand);
         //creates Shift
         for(DbShift itr: shiftList) {
             DbShiftHelper.createDbShift(itr);
@@ -285,79 +285,271 @@ public class DummyDataBase {
         }
     }
 
-    private void initShift(){
+    private void initShift(Random rand){
         //Total of 60 shifts
-        shiftList.add(new DbShift(0, TimeUtil.getEpochSecondsFromUserInput(2017, 10,2, 8, 30), TimeUtil.getEpochSecondsFromUserInput(2017, 10, 3, 10, 30)));
-        shiftList.add(new DbShift(2, TimeUtil.getEpochSecondsFromUserInput(2017, 10,3, 13, 30), TimeUtil.getEpochSecondsFromUserInput(2017, 10, 4, 15, 30)));
-        shiftList.add(new DbShift(0, TimeUtil.getEpochSecondsFromUserInput(2017, 10,4, 8, 30), TimeUtil.getEpochSecondsFromUserInput(2017, 10, 5, 10, 30)));
-        shiftList.add(new DbShift(1, TimeUtil.getEpochSecondsFromUserInput(2017, 10,3, 8, 30), TimeUtil.getEpochSecondsFromUserInput(2017, 10, 3, 10, 30)));
-        shiftList.add(new DbShift(1, TimeUtil.getEpochSecondsFromUserInput(2017, 10,4, 13, 30), TimeUtil.getEpochSecondsFromUserInput(2017, 10, 4, 15, 30)));
+        shiftList.add(new DbShift(
+                rand.nextInt(shiftTypeList.size()) + 1,
+                TimeUtil.getEpochSecondsFromUserInput(2017, 10,2, 8, 30),
+                TimeUtil.getEpochSecondsFromUserInput(2017, 10, 3, 10, 30)));
 
-        shiftList.add(new DbShift(0, TimeUtil.getEpochSecondsFromUserInput(2017, 10,5, 8, 30), TimeUtil.getEpochSecondsFromUserInput(2017, 10, 5, 10, 30)));
-        shiftList.add(new DbShift(0, TimeUtil.getEpochSecondsFromUserInput(2017, 10,4, 8, 30), TimeUtil.getEpochSecondsFromUserInput(2017, 10, 4, 10, 30)));
-        shiftList.add(new DbShift(3, TimeUtil.getEpochSecondsFromUserInput(2017, 10,5, 13, 30), TimeUtil.getEpochSecondsFromUserInput(2017, 10, 5, 15, 30)));
-        shiftList.add(new DbShift(9, TimeUtil.getEpochSecondsFromUserInput(2017, 10,6, 8, 30), TimeUtil.getEpochSecondsFromUserInput(2017, 10, 6, 10, 30)));
-        shiftList.add(new DbShift(3, TimeUtil.getEpochSecondsFromUserInput(2017, 10,5, 8, 30), TimeUtil.getEpochSecondsFromUserInput(2017, 10, 5, 10, 30)));
+        shiftList.add(new DbShift(
+                rand.nextInt(shiftTypeList.size()) + 1,
+                TimeUtil.getEpochSecondsFromUserInput(2017, 10,3, 13, 30),
+                TimeUtil.getEpochSecondsFromUserInput(2017, 10, 4, 15, 30)));
 
-        shiftList.add(new DbShift(9, TimeUtil.getEpochSecondsFromUserInput(2017, 10,6, 15, 30), TimeUtil.getEpochSecondsFromUserInput(2017, 10, 6, 18, 30)));
-        shiftList.add(new DbShift(5, TimeUtil.getEpochSecondsFromUserInput(2017, 10,2, 13, 30), TimeUtil.getEpochSecondsFromUserInput(2017, 10, 2, 16, 30)));
-        shiftList.add(new DbShift(2, TimeUtil.getEpochSecondsFromUserInput(2017, 10,3, 13, 30), TimeUtil.getEpochSecondsFromUserInput(2017, 10, 3, 15, 30)));
-        shiftList.add(new DbShift(5, TimeUtil.getEpochSecondsFromUserInput(2017, 10,4, 8, 30), TimeUtil.getEpochSecondsFromUserInput(2017, 10, 4, 10, 30)));
-        shiftList.add(new DbShift(1, TimeUtil.getEpochSecondsFromUserInput(2017, 10,4, 8, 30), TimeUtil.getEpochSecondsFromUserInput(2017, 10, 4, 10, 30)));
+        shiftList.add(new DbShift(rand.nextInt(shiftTypeList.size()) + 1,
+                TimeUtil.getEpochSecondsFromUserInput(2017, 10,4, 8, 30),
+                TimeUtil.getEpochSecondsFromUserInput(2017, 10, 5, 10, 30)));
 
-        shiftList.add(new DbShift(6, TimeUtil.getEpochSecondsFromUserInput(2017, 10,4, 13, 30), TimeUtil.getEpochSecondsFromUserInput(2017, 10, 4, 15, 30)));
-        shiftList.add(new DbShift(8, TimeUtil.getEpochSecondsFromUserInput(2017, 10,2, 8, 30), TimeUtil.getEpochSecondsFromUserInput(2017, 10, 2, 10, 30)));
-        shiftList.add(new DbShift(5, TimeUtil.getEpochSecondsFromUserInput(2017, 10,2, 13, 30), TimeUtil.getEpochSecondsFromUserInput(2017, 10, 2, 15, 30)));
-        shiftList.add(new DbShift(7, TimeUtil.getEpochSecondsFromUserInput(2017, 10,5, 8, 30), TimeUtil.getEpochSecondsFromUserInput(2017, 10, 5, 10, 30)));
-        shiftList.add(new DbShift(2, TimeUtil.getEpochSecondsFromUserInput(2017, 10,4, 8, 30), TimeUtil.getEpochSecondsFromUserInput(2017, 10, 4, 10, 30)));
+        shiftList.add(new DbShift(
+                rand.nextInt(shiftTypeList.size()) + 1,
+                TimeUtil.getEpochSecondsFromUserInput(2017, 10,3, 8, 30),
+                TimeUtil.getEpochSecondsFromUserInput(2017, 10, 3, 10, 30)));
 
-        shiftList.add(new DbShift(9, TimeUtil.getEpochSecondsFromUserInput(2017, 10,3, 8, 30), TimeUtil.getEpochSecondsFromUserInput(2017, 10, 3, 10, 30)));
-        shiftList.add(new DbShift(2, TimeUtil.getEpochSecondsFromUserInput(2017, 10,4, 13, 30), TimeUtil.getEpochSecondsFromUserInput(2017, 10, 4, 15, 30)));
-        shiftList.add(new DbShift(9, TimeUtil.getEpochSecondsFromUserInput(2017, 10,5, 8, 30), TimeUtil.getEpochSecondsFromUserInput(2017, 10, 5, 10, 30)));
-        shiftList.add(new DbShift(9, TimeUtil.getEpochSecondsFromUserInput(2017, 10,3, 8, 30), TimeUtil.getEpochSecondsFromUserInput(2017, 10, 3, 10, 30)));
-        shiftList.add(new DbShift(4, TimeUtil.getEpochSecondsFromUserInput(2017, 10,4, 13, 30), TimeUtil.getEpochSecondsFromUserInput(2017, 10, 4, 17, 30)));
+        shiftList.add(new DbShift(
+                rand.nextInt(shiftTypeList.size()) + 1,
+                TimeUtil.getEpochSecondsFromUserInput(2017, 10,4, 13, 30),
+                TimeUtil.getEpochSecondsFromUserInput(2017, 10, 4, 15, 30)));
 
-        shiftList.add(new DbShift(2, TimeUtil.getEpochSecondsFromUserInput(2017, 10,5, 8, 30), TimeUtil.getEpochSecondsFromUserInput(2017, 10, 5, 10, 30)));
-        shiftList.add(new DbShift(2, TimeUtil.getEpochSecondsFromUserInput(2017, 10,2, 8, 30), TimeUtil.getEpochSecondsFromUserInput(2017, 10, 2, 10, 30)));
-        shiftList.add(new DbShift(9, TimeUtil.getEpochSecondsFromUserInput(2017, 10,3, 13, 30), TimeUtil.getEpochSecondsFromUserInput(2017, 10, 3, 16, 30)));
-        shiftList.add(new DbShift(9, TimeUtil.getEpochSecondsFromUserInput(2017, 10,4, 8, 30), TimeUtil.getEpochSecondsFromUserInput(2017, 10, 4, 10, 30)));
-        shiftList.add(new DbShift(4, TimeUtil.getEpochSecondsFromUserInput(2017, 10,4, 8, 30), TimeUtil.getEpochSecondsFromUserInput(2017, 10, 4, 10, 30)));
+        shiftList.add(new DbShift(
+                rand.nextInt(shiftTypeList.size()) + 1,
+                TimeUtil.getEpochSecondsFromUserInput(2017, 10,5, 8, 30),
+                TimeUtil.getEpochSecondsFromUserInput(2017, 10, 5, 10, 30)));
+        shiftList.add(new DbShift(
+                rand.nextInt(shiftTypeList.size()) + 1,
+                TimeUtil.getEpochSecondsFromUserInput(2017, 10,4, 8, 30),
+                TimeUtil.getEpochSecondsFromUserInput(2017, 10, 4, 10, 30)));
 
-        shiftList.add(new DbShift(2, TimeUtil.getEpochSecondsFromUserInput(2017, 10,5, 13, 30), TimeUtil.getEpochSecondsFromUserInput(2017, 10, 5, 15, 30)));
-        shiftList.add(new DbShift(4, TimeUtil.getEpochSecondsFromUserInput(2017, 10,6, 8, 30), TimeUtil.getEpochSecondsFromUserInput(2017, 10, 6, 10, 30)));
-        shiftList.add(new DbShift(2, TimeUtil.getEpochSecondsFromUserInput(2017, 10,4, 8, 30), TimeUtil.getEpochSecondsFromUserInput(2017, 10, 4, 10, 30)));
-        shiftList.add(new DbShift(2, TimeUtil.getEpochSecondsFromUserInput(2017, 10,5, 13, 30), TimeUtil.getEpochSecondsFromUserInput(2017, 10, 5, 15, 30)));
-        shiftList.add(new DbShift(2, TimeUtil.getEpochSecondsFromUserInput(2017, 10,6, 8, 30), TimeUtil.getEpochSecondsFromUserInput(2017, 10, 6, 10, 30)));
+        shiftList.add(new DbShift(
+                rand.nextInt(shiftTypeList.size()) + 1,
+                TimeUtil.getEpochSecondsFromUserInput(2017, 10,5, 13, 30),
+                TimeUtil.getEpochSecondsFromUserInput(2017, 10, 5, 15, 30)));
 
-        shiftList.add(new DbShift(7, TimeUtil.getEpochSecondsFromUserInput(2017, 10,3, 8, 30), TimeUtil.getEpochSecondsFromUserInput(2017, 10, 3, 10, 30)));
-        shiftList.add(new DbShift(7, TimeUtil.getEpochSecondsFromUserInput(2017, 10,4, 13, 30), TimeUtil.getEpochSecondsFromUserInput(2017, 10, 4, 15, 30)));
-        shiftList.add(new DbShift(7, TimeUtil.getEpochSecondsFromUserInput(2017, 10,5, 8, 30), TimeUtil.getEpochSecondsFromUserInput(2017, 10, 5, 10, 30)));
-        shiftList.add(new DbShift(9, TimeUtil.getEpochSecondsFromUserInput(2017, 10,2, 8, 30), TimeUtil.getEpochSecondsFromUserInput(2017, 10, 2, 10, 30)));
-        shiftList.add(new DbShift(2, TimeUtil.getEpochSecondsFromUserInput(2017, 10,3, 13, 30), TimeUtil.getEpochSecondsFromUserInput(2017, 10, 3, 15, 30)));
+        shiftList.add(new DbShift(
+                rand.nextInt(shiftTypeList.size()) + 1,
+                TimeUtil.getEpochSecondsFromUserInput(2017, 10,6, 8, 30),
+                TimeUtil.getEpochSecondsFromUserInput(2017, 10, 6, 10, 30)));
 
-        shiftList.add(new DbShift(9, TimeUtil.getEpochSecondsFromUserInput(2017, 10,4, 8, 30), TimeUtil.getEpochSecondsFromUserInput(2017, 10, 4, 10, 30)));
-        shiftList.add(new DbShift(9, TimeUtil.getEpochSecondsFromUserInput(2017, 10,5, 8, 30), TimeUtil.getEpochSecondsFromUserInput(2017, 10, 5, 10, 30)));
-        shiftList.add(new DbShift(2, TimeUtil.getEpochSecondsFromUserInput(2017, 10,6, 13, 30), TimeUtil.getEpochSecondsFromUserInput(2017, 10, 6, 15, 30)));
-        shiftList.add(new DbShift(2, TimeUtil.getEpochSecondsFromUserInput(2017, 10,2, 8, 30), TimeUtil.getEpochSecondsFromUserInput(2017, 10, 2, 10, 30)));
-        shiftList.add(new DbShift(4, TimeUtil.getEpochSecondsFromUserInput(2017, 10,3, 13, 30), TimeUtil.getEpochSecondsFromUserInput(2017, 10, 3, 15, 30)));
+        shiftList.add(new DbShift(
+                rand.nextInt(shiftTypeList.size()) + 1,
+                TimeUtil.getEpochSecondsFromUserInput(2017, 10,5, 8, 30),
+                TimeUtil.getEpochSecondsFromUserInput(2017, 10, 5, 10, 30)));
 
-        shiftList.add(new DbShift(4, TimeUtil.getEpochSecondsFromUserInput(2017, 10,4, 16, 30), TimeUtil.getEpochSecondsFromUserInput(2017, 10, 4, 20, 30)));
-        shiftList.add(new DbShift(4, TimeUtil.getEpochSecondsFromUserInput(2017, 10,2, 8, 30), TimeUtil.getEpochSecondsFromUserInput(2017, 10, 2, 10, 30)));
-        shiftList.add(new DbShift(4, TimeUtil.getEpochSecondsFromUserInput(2017, 10,3, 13, 30), TimeUtil.getEpochSecondsFromUserInput(2017, 10, 3, 15, 30)));
-        shiftList.add(new DbShift(2, TimeUtil.getEpochSecondsFromUserInput(2017, 10,4, 8, 30), TimeUtil.getEpochSecondsFromUserInput(2017, 10, 4, 10, 30)));
-        shiftList.add(new DbShift(2, TimeUtil.getEpochSecondsFromUserInput(2017, 10,2, 8, 30), TimeUtil.getEpochSecondsFromUserInput(2017, 10, 2, 10, 30)));
+        shiftList.add(new DbShift(
+                rand.nextInt(shiftTypeList.size()) + 1,
+                TimeUtil.getEpochSecondsFromUserInput(2017, 10,6, 15, 30),
+                TimeUtil.getEpochSecondsFromUserInput(2017, 10, 6, 18, 30)));
 
-        shiftList.add(new DbShift(2, TimeUtil.getEpochSecondsFromUserInput(2017, 10,3, 14, 30), TimeUtil.getEpochSecondsFromUserInput(2017, 10, 3, 17, 30)));
-        shiftList.add(new DbShift(2, TimeUtil.getEpochSecondsFromUserInput(2017, 10,4, 8, 30), TimeUtil.getEpochSecondsFromUserInput(2017, 10, 4, 10, 30)));
-        shiftList.add(new DbShift(2, TimeUtil.getEpochSecondsFromUserInput(2017, 10,5, 14, 30), TimeUtil.getEpochSecondsFromUserInput(2017, 10, 5, 17, 30)));
-        shiftList.add(new DbShift(2, TimeUtil.getEpochSecondsFromUserInput(2017, 10,6, 8, 30), TimeUtil.getEpochSecondsFromUserInput(2017, 10, 6, 10, 30)));
-        shiftList.add(new DbShift(7, TimeUtil.getEpochSecondsFromUserInput(2017, 10,2, 9, 15), TimeUtil.getEpochSecondsFromUserInput(2017, 10, 2, 11, 45)));
+        shiftList.add(new DbShift(
+                rand.nextInt(shiftTypeList.size()) + 1,
+                TimeUtil.getEpochSecondsFromUserInput(2017, 10,2, 13, 30),
+                TimeUtil.getEpochSecondsFromUserInput(2017, 10, 2, 16, 30)));
 
-        shiftList.add(new DbShift(7, TimeUtil.getEpochSecondsFromUserInput(2017, 10,3, 13, 30), TimeUtil.getEpochSecondsFromUserInput(2017, 10, 3, 16, 45)));
-        shiftList.add(new DbShift(7, TimeUtil.getEpochSecondsFromUserInput(2017, 10,4, 13, 30), TimeUtil.getEpochSecondsFromUserInput(2017, 10, 4, 16, 45)));
-        shiftList.add(new DbShift(7, TimeUtil.getEpochSecondsFromUserInput(2017, 10,5, 9, 15), TimeUtil.getEpochSecondsFromUserInput(2017, 10, 5, 11, 45)));
-        shiftList.add(new DbShift(7, TimeUtil.getEpochSecondsFromUserInput(2017, 10,6, 13, 30), TimeUtil.getEpochSecondsFromUserInput(2017, 10, 6, 16, 45)));
-        shiftList.add(new DbShift(7, TimeUtil.getEpochSecondsFromUserInput(2017, 10,6, 13, 30), TimeUtil.getEpochSecondsFromUserInput(2017, 10, 6, 16, 45)));
+        shiftList.add(new DbShift(
+                rand.nextInt(shiftTypeList.size()) + 1,
+                TimeUtil.getEpochSecondsFromUserInput(2017, 10,3, 13, 30),
+                TimeUtil.getEpochSecondsFromUserInput(2017, 10, 3, 15, 30)));
+        shiftList.add(new DbShift(
+                rand.nextInt(shiftTypeList.size()) + 1,
+                TimeUtil.getEpochSecondsFromUserInput(2017, 10,4, 8, 30),
+                TimeUtil.getEpochSecondsFromUserInput(2017, 10, 4, 10, 30)));
+        shiftList.add(new DbShift(
+                rand.nextInt(shiftTypeList.size()) + 1,
+                TimeUtil.getEpochSecondsFromUserInput(2017, 10,4, 8, 30),
+                TimeUtil.getEpochSecondsFromUserInput(2017, 10, 4, 10, 30)));
+
+        shiftList.add(new DbShift(
+                rand.nextInt(shiftTypeList.size()) + 1,
+                TimeUtil.getEpochSecondsFromUserInput(2017, 10,4, 13, 30),
+                TimeUtil.getEpochSecondsFromUserInput(2017, 10, 4, 15, 30)));
+        shiftList.add(new DbShift(
+                rand.nextInt(shiftTypeList.size()) + 1,
+                TimeUtil.getEpochSecondsFromUserInput(2017, 10,2, 8, 30),
+                TimeUtil.getEpochSecondsFromUserInput(2017, 10, 2, 10, 30)));
+
+        shiftList.add(new DbShift(
+                rand.nextInt(shiftTypeList.size()) + 1,
+                TimeUtil.getEpochSecondsFromUserInput(2017, 10,2, 13, 30),
+                TimeUtil.getEpochSecondsFromUserInput(2017, 10, 2, 15, 30)));
+
+        shiftList.add(new DbShift(
+                rand.nextInt(shiftTypeList.size()) + 1,
+                TimeUtil.getEpochSecondsFromUserInput(2017, 10,5, 8, 30),
+                TimeUtil.getEpochSecondsFromUserInput(2017, 10, 5, 10, 30)));
+        shiftList.add(new DbShift(
+                rand.nextInt(shiftTypeList.size()) + 1,
+                TimeUtil.getEpochSecondsFromUserInput(2017, 10,4, 8, 30),
+                TimeUtil.getEpochSecondsFromUserInput(2017, 10, 4, 10, 30)));
+
+        shiftList.add(new DbShift(
+                rand.nextInt(shiftTypeList.size()) + 1,
+                TimeUtil.getEpochSecondsFromUserInput(2017, 10,3, 8, 30),
+                TimeUtil.getEpochSecondsFromUserInput(2017, 10, 3, 10, 30)));
+        shiftList.add(new DbShift(
+                rand.nextInt(shiftTypeList.size()) + 1,
+                TimeUtil.getEpochSecondsFromUserInput(2017, 10,4, 13, 30),
+                TimeUtil.getEpochSecondsFromUserInput(2017, 10, 4, 15, 30)));
+        shiftList.add(new DbShift(
+                rand.nextInt(shiftTypeList.size()) + 1,
+                TimeUtil.getEpochSecondsFromUserInput(2017, 10,5, 8, 30),
+                TimeUtil.getEpochSecondsFromUserInput(2017, 10, 5, 10, 30)));
+        shiftList.add(new DbShift(
+                rand.nextInt(shiftTypeList.size()) + 1,
+                TimeUtil.getEpochSecondsFromUserInput(2017, 10,3, 8, 30),
+                TimeUtil.getEpochSecondsFromUserInput(2017, 10, 3, 10, 30)));
+
+        shiftList.add(new DbShift(
+                rand.nextInt(shiftTypeList.size()) + 1,
+                TimeUtil.getEpochSecondsFromUserInput(2017, 10,4, 13, 30),
+                TimeUtil.getEpochSecondsFromUserInput(2017, 10, 4, 17, 30)));
+
+        shiftList.add(new DbShift(
+                rand.nextInt(shiftTypeList.size()) + 1,
+                TimeUtil.getEpochSecondsFromUserInput(2017, 10,5, 8, 30),
+                TimeUtil.getEpochSecondsFromUserInput(2017, 10, 5, 10, 30)));
+        shiftList.add(new DbShift(
+                rand.nextInt(shiftTypeList.size()) + 1,
+                TimeUtil.getEpochSecondsFromUserInput(2017, 10,2, 8, 30),
+                TimeUtil.getEpochSecondsFromUserInput(2017, 10, 2, 10, 30)));
+        shiftList.add(new DbShift(
+                rand.nextInt(shiftTypeList.size()) + 1,
+                TimeUtil.getEpochSecondsFromUserInput(2017, 10,3, 13, 30),
+                TimeUtil.getEpochSecondsFromUserInput(2017, 10, 3, 16, 30)));
+        shiftList.add(new DbShift(
+                rand.nextInt(shiftTypeList.size()) + 1,
+                TimeUtil.getEpochSecondsFromUserInput(2017, 10,4, 8, 30),
+                TimeUtil.getEpochSecondsFromUserInput(2017, 10, 4, 10, 30)));
+        shiftList.add(new DbShift(
+                rand.nextInt(shiftTypeList.size()) + 1,
+                TimeUtil.getEpochSecondsFromUserInput(2017, 10,4, 8, 30),
+                TimeUtil.getEpochSecondsFromUserInput(2017, 10, 4, 10, 30)));
+
+        shiftList.add(new DbShift(
+                rand.nextInt(shiftTypeList.size()) + 1,
+                TimeUtil.getEpochSecondsFromUserInput(2017, 10,5, 13, 30),
+                TimeUtil.getEpochSecondsFromUserInput(2017, 10, 5, 15, 30)));
+        shiftList.add(new DbShift(
+                rand.nextInt(shiftTypeList.size()) + 1,
+                TimeUtil.getEpochSecondsFromUserInput(2017, 10,6, 8, 30),
+                TimeUtil.getEpochSecondsFromUserInput(2017, 10, 6, 10, 30)));
+        shiftList.add(new DbShift(
+                rand.nextInt(shiftTypeList.size()) + 1,
+                TimeUtil.getEpochSecondsFromUserInput(2017, 10,4, 8, 30),
+                TimeUtil.getEpochSecondsFromUserInput(2017, 10, 4, 10, 30)));
+        shiftList.add(new DbShift(
+                rand.nextInt(shiftTypeList.size()) + 1,
+                TimeUtil.getEpochSecondsFromUserInput(2017, 10,5, 13, 30),
+                TimeUtil.getEpochSecondsFromUserInput(2017, 10, 5, 15, 30)));
+        shiftList.add(new DbShift(
+                rand.nextInt(shiftTypeList.size()) + 1,
+                TimeUtil.getEpochSecondsFromUserInput(2017, 10,6, 8, 30),
+                TimeUtil.getEpochSecondsFromUserInput(2017, 10, 6, 10, 30)));
+
+        shiftList.add(new DbShift(
+                rand.nextInt(shiftTypeList.size()) + 1,
+                TimeUtil.getEpochSecondsFromUserInput(2017, 10,3, 8, 30),
+                TimeUtil.getEpochSecondsFromUserInput(2017, 10, 3, 10, 30)));
+
+        shiftList.add(new DbShift(
+                rand.nextInt(shiftTypeList.size()) + 1,
+                TimeUtil.getEpochSecondsFromUserInput(2017, 10,4, 13, 30),
+                TimeUtil.getEpochSecondsFromUserInput(2017, 10, 4, 15, 30)));
+        shiftList.add(new DbShift(
+                rand.nextInt(shiftTypeList.size()) + 1,
+                TimeUtil.getEpochSecondsFromUserInput(2017, 10,5, 8, 30),
+                TimeUtil.getEpochSecondsFromUserInput(2017, 10, 5, 10, 30)));
+        shiftList.add(new DbShift(
+                rand.nextInt(shiftTypeList.size()) + 1,
+                TimeUtil.getEpochSecondsFromUserInput(2017, 10,2, 8, 30),
+                TimeUtil.getEpochSecondsFromUserInput(2017, 10, 2, 10, 30)));
+        shiftList.add(new DbShift(
+                rand.nextInt(shiftTypeList.size()) + 1,
+                TimeUtil.getEpochSecondsFromUserInput(2017, 10,3, 13, 30),
+                TimeUtil.getEpochSecondsFromUserInput(2017, 10, 3, 15, 30)));
+
+        shiftList.add(new DbShift(
+                rand.nextInt(shiftTypeList.size()) + 1,
+                TimeUtil.getEpochSecondsFromUserInput(2017, 10,4, 8, 30),
+                TimeUtil.getEpochSecondsFromUserInput(2017, 10, 4, 10, 30)));
+        shiftList.add(new DbShift(
+                rand.nextInt(shiftTypeList.size()) + 1,
+                TimeUtil.getEpochSecondsFromUserInput(2017, 10,5, 8, 30),
+                TimeUtil.getEpochSecondsFromUserInput(2017, 10, 5, 10, 30)));
+        shiftList.add(new DbShift(
+                rand.nextInt(shiftTypeList.size()) + 1,
+                TimeUtil.getEpochSecondsFromUserInput(2017, 10,6, 13, 30),
+                TimeUtil.getEpochSecondsFromUserInput(2017, 10, 6, 15, 30)));
+        shiftList.add(new DbShift(
+                rand.nextInt(shiftTypeList.size()) + 1,
+                TimeUtil.getEpochSecondsFromUserInput(2017, 10,2, 8, 30),
+                TimeUtil.getEpochSecondsFromUserInput(2017, 10, 2, 10, 30)));
+        shiftList.add(new DbShift(
+                rand.nextInt(shiftTypeList.size()) + 1,
+                TimeUtil.getEpochSecondsFromUserInput(2017, 10,3, 13, 30),
+                TimeUtil.getEpochSecondsFromUserInput(2017, 10, 3, 15, 30)));
+
+        shiftList.add(new DbShift(
+                rand.nextInt(shiftTypeList.size()) + 1,
+                TimeUtil.getEpochSecondsFromUserInput(2017, 10,4, 16, 30),
+                TimeUtil.getEpochSecondsFromUserInput(2017, 10, 4, 20, 30)));
+        shiftList.add(new DbShift(
+                rand.nextInt(shiftTypeList.size()) + 1,
+                TimeUtil.getEpochSecondsFromUserInput(2017, 10,2, 8, 30),
+                TimeUtil.getEpochSecondsFromUserInput(2017, 10, 2, 10, 30)));
+        shiftList.add(new DbShift(
+                rand.nextInt(shiftTypeList.size()) + 1,
+                TimeUtil.getEpochSecondsFromUserInput(2017, 10,3, 13, 30),
+                TimeUtil.getEpochSecondsFromUserInput(2017, 10, 3, 15, 30)));
+        shiftList.add(new DbShift(
+                rand.nextInt(shiftTypeList.size()) + 1,
+                TimeUtil.getEpochSecondsFromUserInput(2017, 10,4, 8, 30),
+                TimeUtil.getEpochSecondsFromUserInput(2017, 10, 4, 10, 30)));
+        shiftList.add(new DbShift(
+                rand.nextInt(shiftTypeList.size()) + 1,
+                TimeUtil.getEpochSecondsFromUserInput(2017, 10,2, 8, 30),
+                TimeUtil.getEpochSecondsFromUserInput(2017, 10, 2, 10, 30)));
+
+        shiftList.add(new DbShift(
+                rand.nextInt(shiftTypeList.size()) + 1,
+                TimeUtil.getEpochSecondsFromUserInput(2017, 10,3, 14, 30),
+                TimeUtil.getEpochSecondsFromUserInput(2017, 10, 3, 17, 30)));
+        shiftList.add(new DbShift(
+                rand.nextInt(shiftTypeList.size()) + 1,
+                TimeUtil.getEpochSecondsFromUserInput(2017, 10,4, 8, 30),
+                TimeUtil.getEpochSecondsFromUserInput(2017, 10, 4, 10, 30)));
+        shiftList.add(new DbShift(
+                rand.nextInt(shiftTypeList.size()) + 1,
+                TimeUtil.getEpochSecondsFromUserInput(2017, 10,5, 14, 30),
+                TimeUtil.getEpochSecondsFromUserInput(2017, 10, 5, 17, 30)));
+        shiftList.add(new DbShift(
+                rand.nextInt(shiftTypeList.size()) + 1,
+                TimeUtil.getEpochSecondsFromUserInput(2017, 10,6, 8, 30),
+                TimeUtil.getEpochSecondsFromUserInput(2017, 10, 6, 10, 30)));
+        shiftList.add(new DbShift(
+                rand.nextInt(shiftTypeList.size()) + 1,
+                TimeUtil.getEpochSecondsFromUserInput(2017, 10,2, 9, 15),
+                TimeUtil.getEpochSecondsFromUserInput(2017, 10, 2, 11, 45)));
+
+        shiftList.add(new DbShift(
+                rand.nextInt(shiftTypeList.size()) + 1,
+                TimeUtil.getEpochSecondsFromUserInput(2017, 10,3, 13, 30),
+                TimeUtil.getEpochSecondsFromUserInput(2017, 10, 3, 16, 45)));
+        shiftList.add(new DbShift(
+                rand.nextInt(shiftTypeList.size()) + 1,
+                TimeUtil.getEpochSecondsFromUserInput(2017, 10,4, 13, 30),
+                TimeUtil.getEpochSecondsFromUserInput(2017, 10, 4, 16, 45)));
+        shiftList.add(new DbShift(
+                rand.nextInt(shiftTypeList.size()) + 1,
+                TimeUtil.getEpochSecondsFromUserInput(2017, 10,5, 9, 15),
+                TimeUtil.getEpochSecondsFromUserInput(2017, 10, 5, 11, 45)));
+        shiftList.add(new DbShift(
+                rand.nextInt(shiftTypeList.size()) + 1,
+                TimeUtil.getEpochSecondsFromUserInput(2017, 10,6, 13, 30),
+                TimeUtil.getEpochSecondsFromUserInput(2017, 10, 6, 16, 45)));
+        shiftList.add(new DbShift(
+                rand.nextInt(shiftTypeList.size()) + 1,
+                TimeUtil.getEpochSecondsFromUserInput(2017, 10,6, 13, 30),
+                TimeUtil.getEpochSecondsFromUserInput(2017, 10, 6, 16, 45)));
     }
 
     private void initUserShift(Random rand) {
