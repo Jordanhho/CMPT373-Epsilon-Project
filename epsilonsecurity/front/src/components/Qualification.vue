@@ -1,14 +1,14 @@
 <template>
-    <div id = "certificate">
-        <icon name="certificate" id="certificate-symbol" ></icon>
-        <span id= "certificate-name">{{certificateName}}</span>
+    <div id = "qualification">
+        <icon name="certificate" id="qualification-symbol" ></icon>
+        <span id= "qualification-name">{{qualificationName}}</span>
     </div>
 </template>
 
 <script>
 import Icon from 'vue-awesome/components/Icon.vue'
 export default{
-    name: 'certificate',
+    name: 'qualification',
     data(){
         return{}
     },
@@ -16,7 +16,7 @@ export default{
         Icon
     },
     props: {
-        certificateName: {
+        qualificationName: {
             type: String, 
             required: true 
         }
@@ -25,13 +25,13 @@ export default{
 </script>
 
 <style scoped> 
-    #certificate{
+    #qualification{
         border-style: solid;
         margin-left: 1%;
         margin-right: 1%;
         padding-bottom: 1%;
     }
-    #certificate-symbol{
+    #qualification-symbol{
         display: block;
         width: 2.5em;
         height: 2.5em;
@@ -41,7 +41,7 @@ export default{
         margin-right: auto;
         margin-bottom: 2.5%;        
     }
-    #certificate-name{
+    #qualification-name{
         font-size: 2em;
         padding-left: 0;
         padding-right: 0;

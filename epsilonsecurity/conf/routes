@@ -161,6 +161,12 @@ GET           /api/rolepermissions/:rolePermissionId                            
 # Delete a role-permission pair by rolePermissionId
 DELETE        /api/rolepermissions/:rolePermissionId                             controllers.RolePermissionController.deleteRolePermission(rolePermissionId: Integer)
 
+#
+# DbUserQualification
+#
+
+#List all qualification an user have
+GET           /api/qualification/:userId                                         controllers.UserQualificationController.readQualificationByUserId(userId: Integer)
 
 #
 # DbOneTimeAvailability

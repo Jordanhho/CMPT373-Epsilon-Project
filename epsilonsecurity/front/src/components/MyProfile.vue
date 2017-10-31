@@ -38,10 +38,10 @@
                     Qualification
                 </h1>
                 <div id = "q-body">        
-                    <certificate class="certificate-list" 
-                    v-for= "certificate in certificateNames" 
-                    v-bind:certificateName="certificate.text">
-                    </certificate>
+                    <qualification class="list" 
+                    v-for= "qualification in qualificationNames" 
+                    v-bind:qualificationName="qualification">
+                    </qualification>
                 </div>
         </div>
     </div>
@@ -49,7 +49,7 @@
 
 <script>
 import Icon from 'vue-awesome/components/Icon.vue'
-import Certificate from './Certificate.vue'
+import Qualification from './Qualification.vue'
 import axios from 'axios'
 
 export default {
@@ -70,14 +70,7 @@ export default {
                 // {text: 'Volunteer'}
             ],
             hoursNumber: "14",
-            certificateNames: [
-                // {text: "Customer Support Training"},
-                // {text: "Security Training"},
-                // {text: "Hazard Training"},
-                // {text: "Lost and Found Training"},
-                // {text: "Campus Navigation Training"},
-                // {text: "Whatever here"}
-            ],
+            qualificationNames: [],
             loggedInUserId: 15,
             roleId: ''
         }
@@ -102,12 +95,19 @@ export default {
             }
             this.tabContent.splice(1, 0, teamList);        
         },
-        populateRoleName(roleData){
-            alert(JSON.stringify(teamData.data, null, 2));
+        populateQualificationData(qualificationData){
+            alert(JSON.stringify(qualificationData.data, null, 2));
+            var listLength = qualificationData.data.length;
+            for(var i = 0; i < listLength; i++){
+                this.qualificationNames.splice(i, 0, qualificationData.data[i].qualificationName);
+            }
         }
+        // populateRoleName(roleData){
+        //     alert(JSON.stringify(teamData.data, null, 2));
+        // }
     },
     components: {
-        Certificate
+        Qualification
     },
     created: function () {
         axios.get('/api/users/' + this.loggedInUserId)
@@ -120,7 +120,11 @@ export default {
         .catch(function(error){
             console.log(error)
         });
-        
+        axios.get('/api/qualification/' + this.loggedInUserId)
+        .then(this.populateQualificationData)
+        .catch(function(error){
+            console.log(error)
+        });
         //TODO: Figure out how to pass roleId to this get after the first get is done
         // axios.get('/api/roles/' + this.roleId)
         // .then(this.populateRoleName)
@@ -208,7 +212,7 @@ export default {
         display: flex;
         
     }
-    .certificate-list{
+    .list{
         flex-flow: row nowrap;         
     }
 

@@ -1,5 +1,6 @@
 package models.databaseModel.helpers;
 
+import models.databaseModel.roles.DbPermission;
 import models.databaseModel.roles.DbRolePermission;
 import models.databaseModel.roles.query.QDbRolePermission;
 
