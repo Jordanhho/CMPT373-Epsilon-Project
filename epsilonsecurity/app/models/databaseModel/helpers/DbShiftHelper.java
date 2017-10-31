@@ -31,6 +31,15 @@ public final class DbShiftHelper {
         return dbShift;
     }
 
+    public static DbShift readDbShiftByShiftId(Integer shiftId) {
+        DbShift dbShift = new QDbShift()
+                .id
+                .eq(shiftId)
+                .findUnique();
+
+        return dbShift;
+    }
+
     /**
      * returns a List of DBshift by timeStart, timeEnd
      * @param timeStart

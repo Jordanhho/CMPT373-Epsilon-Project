@@ -38,7 +38,7 @@ DELETE        /api/users/:sfuEmail                                              
 POST          /api/users/:userId/shifts/:shiftId                                 controllers.UserShiftController.createUserShift(userId: Integer, shiftId: Integer)
 
 # Read all shifts assigned to user
-GET           /api/users/:userId/shifts                                          controllers.UserShiftController.retrieveUserShift(userId: Integer)
+GET           /api/users/:userId/shifts                                          controllers.UserShiftController.retrieveShiftsByUserId(userId: Integer)
 
 # Unassign all users tied to a shift
 DELETE        /api/users/shifts/:shiftId                                         controllers.UserShiftController.deleteUserShifts(shiftId: Integer)

@@ -2,6 +2,8 @@ package controllers;
 
 import models.databaseModel.helpers.DbUserShiftHelper;
 import models.databaseModel.scheduling.DbUserShift;
+import models.queries.ScheduleUtil;
+import models.queries.ShiftWithCampus;
 import play.data.Form;
 import play.data.FormFactory;
 import play.libs.Json;
@@ -48,9 +50,14 @@ public class UserShiftController extends Controller {
     }
 
     public Result retrieveUserShift(Integer userId) {
-        List<DbUserShift> dbUserShiftList = DbUserShiftHelper.readDbUserByShiftId(userId);
+        List<DbUserShift> dbUserShiftList = DbUserShiftHelper.readDbUserShiftByUserId(userId);
 
         return ok(Json.toJson(dbUserShiftList));
+    }
+
+    public Result retrieveShiftsByUserId(Integer userId) {
+        List<ShiftWithCampus> shiftsWithCampusList = ScheduleUtil.getShiftsWithCampusByUserId(userId);
+        return ok(Json.toJson(shiftsWithCampusList));
     }
 
     public Result deleteUserShifts(Integer shiftId) {
