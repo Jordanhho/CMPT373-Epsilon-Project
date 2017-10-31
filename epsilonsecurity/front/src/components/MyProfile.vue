@@ -96,7 +96,7 @@ export default {
             this.tabContent.splice(1, 0, teamList);        
         },
         populateQualificationData(qualificationData){
-            alert(JSON.stringify(qualificationData.data, null, 2));
+            //alert(JSON.stringify(qualificationData.data, null, 2));
             var listLength = qualificationData.data.length;
             for(var i = 0; i < listLength; i++){
                 this.qualificationNames.splice(i, 0, qualificationData.data[i].qualificationName);
@@ -202,6 +202,7 @@ export default {
     }
     #qualificationList{
         margin-top: 3%;
+        
     }
     .header{
         font-size: 2em;  
@@ -214,6 +215,7 @@ export default {
     }
     .list{
         flex-flow: row nowrap;         
+        margin: 0;
     }
 
 </style>
