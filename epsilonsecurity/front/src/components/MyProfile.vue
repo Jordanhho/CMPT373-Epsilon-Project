@@ -50,12 +50,13 @@
 <script>
 import Icon from 'vue-awesome/components/Icon.vue'
 import Certificate from './Certificate.vue'
+import axios from 'axios'
 
 export default {
     name: 'user-profile',
     data(){
         return {
-            userName: 'Ada Lovelace',
+            userName: '',
             userPhoto: 'http://lorempixel.com/100/100/people',
             contactInfo: [
                 {text: 'alovelace@gmail.com'},
@@ -67,23 +68,36 @@ export default {
                 {text: 'Role: '}
             ],
             tabContent: [
-                {text: 'adall@sfu.ca'},
-                {text: 'Burnaby, Surrey'},
-                {text: 'Volunteer'}
+                // {text: 'adall@sfu.ca'},
+                // {text: 'Burnaby, Surrey'},
+                // {text: 'Volunteer'}
             ],
             hoursNumber: "14",
             certificateNames: [
-                {text: "Customer Support Training"},
-                {text: "Security Training"},
-                {text: "Hazard Training"},
-                {text: "Lost and Found Training"},
-                {text: "Campus Navigation Training"},
-                {text: "Whatever here"}
+                // {text: "Customer Support Training"},
+                // {text: "Security Training"},
+                // {text: "Hazard Training"},
+                // {text: "Lost and Found Training"},
+                // {text: "Campus Navigation Training"},
+                // {text: "Whatever here"}
             ]
+        }
+    },
+    methods: {
+        populatePage(userInfo){
+            this.userName = userInfo.firstName + userInfo.lastName;
         }
     },
     components: {
         Certificate
+    },
+    created: function () {
+        const currentLoggedInUser = 15;
+        axios.get('/api/users/$currentLoggedInUser')
+        .then(this.populatePage(response))
+        .catch(function(error){
+            console.log(error)
+        });
     }
 }
 </script>
