@@ -82,6 +82,11 @@ export default {
             this.contactInfo = [userData.data.contactEmail, userData.data.phoneNumber];
             this.tabContent.splice(0, 0, userData.data.sfuEmail);
             this.roleId = userData.data.roleId;
+            axios.get('/api/roles/' + this.roleId)
+            .then(this.populateRoleName)
+            .catch(function(error){
+                console.log(error)
+            })
         },
         populateTeamData(teamData){
             //alert(JSON.stringify(teamData.data, null, 2));
@@ -101,10 +106,11 @@ export default {
             for(var i = 0; i < listLength; i++){
                 this.qualificationNames.splice(i, 0, qualificationData.data[i].qualificationName);
             }
-        }
-        // populateRoleName(roleData){
-        //     alert(JSON.stringify(teamData.data, null, 2));
-        // }
+        },
+        populateRoleName(roleData){
+            //alert(JSON.stringify(roleData.data, null, 2));\
+            this.tabContent.splice(3, 0 , roleData.data.name);
+        },
     },
     components: {
         Qualification
@@ -126,11 +132,7 @@ export default {
             console.log(error)
         });
         //TODO: Figure out how to pass roleId to this get after the first get is done
-        // axios.get('/api/roles/' + this.roleId)
-        // .then(this.populateRoleName)
-        // .catch(function(error){
-        //     console.log(error)
-        // })
+
     }
 
 }
