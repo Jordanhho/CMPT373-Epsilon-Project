@@ -90,10 +90,6 @@ public class DbRolePermission extends Model {
 
     public static Finder<Integer, DbRolePermission> find = new Finder<>(DbRolePermission.class);
 
-    private void deleteAllEntries(){
-        D
-    }
-
     @Override
     public String toString() {
         return "DbRolePermission{" +
