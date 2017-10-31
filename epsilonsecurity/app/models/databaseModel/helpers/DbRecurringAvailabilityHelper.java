@@ -1,10 +1,8 @@
 package models.databaseModel.helpers;
 
-import models.databaseModel.scheduling.Day;
 import models.databaseModel.scheduling.DbRecurringAvailability;
+import models.databaseModel.scheduling.query.QDbRecurringAvailability;
 
-import javax.annotation.Nonnull;
-import java.util.Date;
 import java.util.List;
 
 
@@ -17,33 +15,11 @@ public final class DbRecurringAvailabilityHelper {
 
     }
 
-    /**
-     * creates a DbRecurringAvailability from userId, Day, Frequency, recurTimeStartBlock, recurTimeEndBlock, shiftTimeStartBlock, shiftTimeEndBlock
-     * @param userId
-     * @param day
-     * @param frequency
-     * @param recurTimeStartBlock
-     * @param recurTimeEndBlock
-     * @param shiftTimeStartBlock
-     * @param shiftTimeEndBlock
-     */
-    public static void createDbRecurringAvailability(@Nonnull Integer userId,
-                                                     @Nonnull Day day,
-                                                     @Nonnull Integer frequency,
-                                                     @Nonnull Integer recurTimeStartBlock,
-                                                     @Nonnull Integer recurTimeEndBlock,
-                                                     @Nonnull Integer shiftTimeStartBlock,
-                                                     @Nonnull Integer shiftTimeEndBlock) {
-        DbRecurringAvailability dbRecurringAvailability = new DbRecurringAvailability(userId, day, frequency, recurTimeStartBlock, recurTimeEndBlock, shiftTimeStartBlock, shiftTimeEndBlock);
+    public static void createDbRecurringAvailability(DbRecurringAvailability dbRecurringAvailability) {
         dbRecurringAvailability.save();
     }
 
-    /**
-     * deletes a DbRecurringAvailability by DbRecurringAvailabilityId
-     * @param id
-     */
-    public static void deleteDbRecurringAvailabilityById(Integer id) {
-        DbRecurringAvailability dbRecurringAvailability = readDbRecurringAvailabilityById(id);
+    public static void deleteDbRecurringAvailability(DbRecurringAvailability dbRecurringAvailability) {
         dbRecurringAvailability.delete();
     }
 
@@ -53,7 +29,11 @@ public final class DbRecurringAvailabilityHelper {
      * @return
      */
     public static DbRecurringAvailability readDbRecurringAvailabilityById(Integer id) {
-        DbRecurringAvailability dbRecurringAvailability = DbRecurringAvailability.find.byId(id);
+        DbRecurringAvailability dbRecurringAvailability = new QDbRecurringAvailability()
+                .id
+                .eq(id)
+                .findUnique();
+
         return dbRecurringAvailability;
     }
 
@@ -62,7 +42,9 @@ public final class DbRecurringAvailabilityHelper {
      * @return
      */
     public static List<DbRecurringAvailability> readAllDbRecurringAvailability() {
-        List<DbRecurringAvailability> dbRecurringAvailability = DbRecurringAvailability.find.all();
+        List<DbRecurringAvailability> dbRecurringAvailability = new QDbRecurringAvailability()
+                .findList();
+
         return dbRecurringAvailability;
     }
 }

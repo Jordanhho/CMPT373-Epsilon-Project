@@ -1,8 +1,8 @@
 package models.databaseModel.helpers;
 
 import models.databaseModel.roles.DbPermission;
+import models.databaseModel.roles.query.QDbPermission;
 
-import javax.annotation.Nonnull;
 import java.util.List;
 
 
@@ -15,21 +15,11 @@ public final class DbPermissionHelper {
 
     }
 
-    /**
-     * creates a DbPermission by name
-     * @param name
-     */
-    public static void createDbPermission(@Nonnull String name) {
-        DbPermission dbPermission = new DbPermission(name);
+    public static void createDbPermission(DbPermission dbPermission) {
         dbPermission.save();
     }
 
-    /**
-     * deletes a DbPermission by DbPermissionId
-     * @param id
-     */
-    public static void deleteDbPermissionById(@Nonnull Integer id) {
-        DbPermission dbPermission = readDbPermissionById(id);
+    public static void deleteDbPermission(DbPermission dbPermission) {
         dbPermission.delete();
     }
 
@@ -38,8 +28,12 @@ public final class DbPermissionHelper {
      * @param id
      * @return
      */
-    public static DbPermission readDbPermissionById(@Nonnull Integer id) {
-        DbPermission dbPermission = DbPermission.find.byId(id);
+    public static DbPermission readDbPermissionById(Integer id) {
+        DbPermission dbPermission = new QDbPermission()
+                .id
+                .eq(id)
+                .findUnique();
+
         return dbPermission;
     }
 
@@ -47,8 +41,10 @@ public final class DbPermissionHelper {
      * returns a list of all DbPermission
      * @return
      */
-    public static List<DbPermission> readAllDbPermission() {
-        List<DbPermission> dbPermission = DbPermission.find.all();
-        return dbPermission;
+    public static List<DbPermission> readAllDbPermissions() {
+        List<DbPermission> dbPermissionList = new QDbPermission()
+                .findList();
+
+        return dbPermissionList;
     }
 }

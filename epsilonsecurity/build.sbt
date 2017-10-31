@@ -16,6 +16,11 @@ libraryDependencies += javaJdbc
 libraryDependencies += "org.xerial" % "sqlite-jdbc" % "3.8.6"
 libraryDependencies += evolutions
 
+// Type Safe Queries (Query Beans)
+// http://ebean-orm.github.io/docs/query/typesafe
+libraryDependencies += "io.ebean" % "querybean-generator" % "10.1.2"
+libraryDependencies += "io.ebean" % "ebean-querybean" % "10.1.1"
+
 // see https://www.playframework.com/documentation/2.6.x/ScalaHttpFilters
 libraryDependencies += filters
 
@@ -30,10 +35,8 @@ libraryDependencies += "org.javatuples" % "javatuples" % "1.2"
 libraryDependencies += "junit" % "junit" % "4.12"
 libraryDependencies += "com.novocode" % "junit-interface" % "0.11" % "test"
 
-libraryDependencies += "io.ebean" % "querybean-generator" % "10.1.2"
-libraryDependencies += "io.ebean" % "ebean-querybean" % "10.1.1"
-
 testOptions += Tests.Argument(TestFrameworks.JUnit, "-v", "-a")
+javaOptions in Test += "-Dconfig.file=conf/application.test.conf"
 
 //-----------------Development Hooks-----------------------------
 

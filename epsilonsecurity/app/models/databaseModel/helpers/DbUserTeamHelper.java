@@ -1,12 +1,12 @@
 package models.databaseModel.helpers;
 
+import models.databaseModel.scheduling.DbTeam;
 import models.databaseModel.scheduling.DbUser;
-import io.ebean.Expr;
-import io.ebean.Expression;
 import models.databaseModel.scheduling.DbUserTeam;
-import scala.reflect.api.Exprs;
+import models.databaseModel.scheduling.query.QDbTeam;
+import models.databaseModel.scheduling.query.QDbUser;
+import models.databaseModel.scheduling.query.QDbUserTeam;
 
-import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,78 +19,91 @@ public final class DbUserTeamHelper {
 
     }
 
-    /**
-     * Creates a dbUser from teamId and userId
-     * @param teamId
-     * @param userId
-     */
-    public static void createDbUserTeam(@Nonnull Integer teamId, Integer userId) {
-        DbUserTeam dbUserTeam = new DbUserTeam(teamId, userId);
+    public static void createDbUserTeam(DbUserTeam dbUserTeam) {
         dbUserTeam.save();
     }
 
-    /**
-     * Deletes a DbUserTeam by DbUserTeam id
-     * @param userId
-     * @param teamId
-     */
-    public static void deleteDbUserTeamByUserAndTeamId(@Nonnull Integer userId, Integer teamId) {
-        DbUserTeam dbUserTeam = readDbTeamByUserAndTeamId(userId, teamId);
+
+    public static void deleteDbUserTeam(DbUserTeam dbUserTeam) {
         dbUserTeam.delete();
     }
 
     /**
      * Searches for a dbUserTeam by dbUserTeam id
+     *
      * @param userId
      * @param teamId
      * @return
      */
-    public static DbUserTeam readDbTeamByUserAndTeamId(@Nonnull Integer userId, @Nonnull Integer teamId) {
-        DbUserTeam dbUserTeam = DbUserTeam.find
-                .query()
-                .where()
-                .conjunction()
-                .add(Expr.eq(DbUserTeam.COLUMN_TEAM_ID, teamId))
-                .add(Expr.eq(DbUserTeam.COLUMN_USER_ID, userId))
-                .findOne();
+    public static DbUserTeam readDbTeamByUserAndTeamId(Integer userId, Integer teamId) {
+        DbUserTeam dbUserTeam = new QDbUserTeam()
+                .userId
+                .eq(userId)
+                .and()
+                .teamId
+                .eq(teamId)
+                .findUnique();
 
         return dbUserTeam;
     }
 
     /**
      * obtains list of all DbUserTeam
+     *
      * @return
      */
     public static List<DbUserTeam> readAllDbUserTeams() {
-        List<DbUserTeam> dbUserTeamList = DbUserTeam.find.all();
+        List<DbUserTeam> dbUserTeamList = new QDbUserTeam()
+                .findList();
+
         return dbUserTeamList;
     }
 
     /**
-     * finds a DbUser by UserTeamId
-     * @param id
+     * Read user team by user id
+     *
+     * @param userId
      * @return
      */
-    public static DbUser readDbUserByUserTeamId(@Nonnull Integer id){
-        DbUserTeam dbUserTeam = DbUserTeam.find.query().where().eq("id", id).findOne();
-        DbUser dbUser = DbUser.find.byId(dbUserTeam.getUserId());
-        return dbUser;
+    public static List<DbTeam> readDbUserTeamByUserId(Integer userId) {
+        List<DbUserTeam> dbUserTeamList = new QDbUserTeam()
+                .id
+                .eq(userId)
+                .findList();
+
+        List<DbTeam> teamList = new ArrayList<>();
+
+        for (DbUserTeam userTeam : dbUserTeamList) {
+            teamList.add(new QDbTeam()
+                    .id
+                    .eq(userTeam.getTeamId())
+                    .findUnique());
+        }
+
+        return teamList;
     }
 
     /**
      * Finds all users on that campus
+     *
      * @param teamId the campus location
      * @return a List of users from target campus
      */
-    public static List<DbUser> findUserByTeamId(@Nonnull Integer teamId) {
-        List<DbUserTeam> dbUserTeamList = DbUserTeam.find.query().where().eq(DbUserTeam.COLUMN_TEAM_ID, teamId).findList();
+    public static List<DbUser> findAllUsersByTeamId(Integer teamId) {
+        List<DbUserTeam> dbUserTeamList = new QDbUserTeam()
+                .teamId
+                .eq(teamId)
+                .findList();
+
         List<DbUser> userList = new ArrayList<>();
 
-        for(DbUserTeam userTeam : dbUserTeamList){
-            userList.add(DbUser.find.byId(userTeam.getUserId()));
+        for (DbUserTeam userTeam : dbUserTeamList) {
+            userList.add(new QDbUser()
+                    .id
+                    .eq(userTeam.getUserId())
+                    .findUnique());
         }
 
         return userList;
     }
-
 }

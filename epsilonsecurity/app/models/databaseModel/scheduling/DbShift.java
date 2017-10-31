@@ -1,12 +1,11 @@
 package models.databaseModel.scheduling;
 
-import javax.annotation.Nonnull;
+import io.ebean.Finder;
+import io.ebean.Model;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-
-import io.ebean.*;
 
 /**
  * Java Object for DbShift Table with DbShift event id,
@@ -14,33 +13,21 @@ import io.ebean.*;
 @Entity
 public class DbShift extends Model {
 
-    public static final String COLUMN_NAME = "name";
-    public static final String COLUMN_TIME_START = "time_start";
-    public static final String COLUMN_TIME_END = "time_end";
-    public static final String COLUMN_WAS_PRESENT = "was_present";
-
-
-    public static final String FORM_COLUMN_NAME = "name";
-    public static final String FORM_COLUMN_TIME_START = "timeStart";
-    public static final String FORM_COLUMN_TIME_END = "timeEnd";
-    public static final String FORM_COLUMN_WAS_PRESENT = "wasPresent";
-
-    // Fields
     @Id
-    @GeneratedValue
-    @Nonnull
     private Integer id;
 
-    @Nonnull
-    String name;
+    @Column(nullable = false)
+    private Integer shiftTypeId;
 
-    @Nonnull
-    private Integer timeStart;
+    @Column(nullable = false)
+    private Long timeStart;
 
-    @Nonnull
-    private Integer timeEnd;
+    @Column(nullable = false)
+    private Long timeEnd;
 
-    @Nonnull
+    @Column
+    private String description;
+
     private boolean wasPresent;
 
     /**
@@ -51,56 +38,76 @@ public class DbShift extends Model {
      * @param timeEnd   the end time of the shift
      *                  wasPresent  if the user was present for this shift
      */
-    public DbShift(@Nonnull String name, @Nonnull Integer timeStart, @Nonnull Integer timeEnd) {
-        //wasPresent are set with temporary values
-        this.name = name;
+    public DbShift(Integer shiftTypeId, Long timeStart, Long timeEnd) {
+        this.shiftTypeId = shiftTypeId;
         this.timeStart = timeStart;
         this.timeEnd = timeEnd;
         this.wasPresent = true;
     }
 
-    @Nonnull
+    public DbShift(Integer shiftTypeId, Long timeStart, Long timeEnd, String description) {
+        this.shiftTypeId = shiftTypeId;
+        this.timeStart = timeStart;
+        this.timeEnd = timeEnd;
+        this.wasPresent = true;
+        this.description = description;
+    }
+
+
     public Integer getId() {
         return id;
     }
 
-    @Nonnull
-    @Column(name = COLUMN_NAME)
-    public String getName() {
-        return name;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
-    @Nonnull
-    @Column(name = COLUMN_TIME_START)
-    public Integer getTimeStart() {
+    public Integer getShiftTypeId() {
+        return shiftTypeId;
+    }
+
+    public void setShiftTypeId(Integer shiftTypeId) {
+        this.shiftTypeId = shiftTypeId;
+    }
+
+    public Long getTimeStart() {
         return timeStart;
     }
 
-    @Nonnull
-    @Column(name = COLUMN_TIME_END)
-    public Integer getTimeEnd() {
+    public void setTimeStart(Long timeStart) {
+        this.timeStart = timeStart;
+    }
+
+    public Long getTimeEnd() {
         return timeEnd;
+    }
+
+    public void setTimeEnd(Long timeEnd) {
+        this.timeEnd = timeEnd;
+    }
+
+    public boolean isWasPresent() {
+        return wasPresent;
     }
 
     public void setWasPresent(boolean wasPresent) {
         this.wasPresent = wasPresent;
     }
 
-    @Nonnull
-    @Column(name = COLUMN_WAS_PRESENT)
-    public boolean isWasPresent() {
-        return wasPresent;
+    public static Finder<Integer, DbShift> find = new Finder<>(DbShift.class);
+
+    public String getDescription() {
+        return description;
     }
 
     @Override
     public String toString() {
         return "DbShift{" +
                 "id=" + id +
+                ", shiftTypeId=" + shiftTypeId +
                 ", timeStart=" + timeStart +
                 ", timeEnd=" + timeEnd +
                 ", wasPresent=" + wasPresent +
                 '}';
     }
-
-    public static Finder<Integer, DbShift> find = new Finder<>(DbShift.class);
 }

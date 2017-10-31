@@ -1,13 +1,11 @@
 package models.databaseModel.scheduling;
 
+import io.ebean.Finder;
+import io.ebean.Model;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-
-import io.ebean.*;
-
-import javax.annotation.Nonnull;
 
 /**
  * Java Object for DbOneTimeUnavailability Table with unavailability event id, user id and time block -> start and finish time of event
@@ -15,23 +13,16 @@ import javax.annotation.Nonnull;
 @Entity
 public class DbOneTimeUnavailability extends Model {
 
-    public static final String COLUMN_USER_TEAM_ID = "user_team_id";
-    public static final String COLUMN_TIME_START = "time_start";
-    public static final String COLUMN_TIME_END = "time_end";
-
     @Id
-    @GeneratedValue
-    @Nonnull
     private Integer id;
 
-    @Nonnull
+    @Column(nullable = false)
     private Integer userTeamId;
 
-    @Nonnull
-    private Integer timeStart;
+    private Long timeStart;
 
-    @Nonnull
-    private Integer timeEnd;
+    @Column(nullable = false)
+    private Long timeEnd;
 
     /**
      * The constructor for the OneTimeUnavailability
@@ -41,34 +32,45 @@ public class DbOneTimeUnavailability extends Model {
      * @param timeStart the time start of this OneTimeUnavailability
      * @param timeEnd   the time end of this OneTimeUnavailability
      */
-    public DbOneTimeUnavailability(@Nonnull Integer userTeamId, @Nonnull Integer timeStart, @Nonnull Integer timeEnd) {
+    public DbOneTimeUnavailability(Integer userTeamId, Long timeStart, Long timeEnd) {
         this.userTeamId = userTeamId;
         this.timeStart = timeStart;
         this.timeEnd = timeEnd;
     }
 
-    @Nonnull
     public Integer getId() {
         return id;
     }
 
-    @Nonnull
-    @Column(name = COLUMN_USER_TEAM_ID)
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
     public Integer getUserTeamId() {
         return userTeamId;
     }
 
-    @Nonnull
-    @Column(name = COLUMN_TIME_START)
-    public Integer getTimeStart() {
+    public void setUserTeamId(Integer userTeamId) {
+        this.userTeamId = userTeamId;
+    }
+
+    public Long getTimeStart() {
         return timeStart;
     }
 
-    @Nonnull
-    @Column(name = COLUMN_TIME_END)
-    public Integer getTimeEnd() {
+    public void setTimeStart(Long timeStart) {
+        this.timeStart = timeStart;
+    }
+
+    public Long getTimeEnd() {
         return timeEnd;
     }
+
+    public void setTimeEnd(Long timeEnd) {
+        this.timeEnd = timeEnd;
+    }
+
+    public static Finder<Integer, DbOneTimeUnavailability> find = new Finder<>(DbOneTimeUnavailability.class);
 
     @Override
     public String toString() {
@@ -79,7 +81,4 @@ public class DbOneTimeUnavailability extends Model {
                 ", timeEnd=" + timeEnd +
                 '}';
     }
-
-    public static Finder<Integer, DbOneTimeUnavailability> find = new Finder<>(DbOneTimeUnavailability.class);
-
 }

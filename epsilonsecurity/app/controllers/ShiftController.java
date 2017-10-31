@@ -1,53 +1,71 @@
 package controllers;
+
+import models.databaseModel.helpers.DbShiftHelper;
+import models.databaseModel.helpers.DbShiftTypeHelper;
 import models.databaseModel.scheduling.DbShift;
 import models.databaseModel.scheduling.DbUser;
 import models.queries.ScheduleUtil;
-import play.mvc.*;
+import play.data.Form;
+import play.data.FormFactory;
+import play.libs.Json;
+import play.mvc.Controller;
+import play.mvc.Result;
 
-import models.databaseModel.helpers.DbShiftHelper;
-
+import javax.inject.Inject;
 import java.util.List;
-import java.util.Map;
 
 public class ShiftController extends Controller {
 
-    public Result listShifts() {
-        return ok();
+    private static final String TIME_START = "start";
+    private static final String TIME_END = "end";
+    private final FormFactory formFactory;
+
+    @Inject
+    ShiftController(FormFactory formFactory) {
+        this.formFactory = formFactory;
+    }
+
+    private DbShift getDbShiftFromForm() {
+
+        // From the request, create a form that can handle a DbShift object.
+        Form<DbShift> form = formFactory.form(DbShift.class).bindFromRequest();
+
+        // Create a DbShift object from the form data.
+        DbShift dbShift = form.get();
+
+        return dbShift;
     }
 
     public Result createShift() {
-        final Map<String, String[]> values = request().body().asFormUrlEncoded();
 
-        String name = values.get(DbShift.FORM_COLUMN_NAME)[0];
-        Integer timeStart = Integer.parseInt(values.get(DbShift.FORM_COLUMN_TIME_START)[0]);
-        Integer timeEnd = Integer.parseInt(values.get(DbShift.FORM_COLUMN_TIME_END)[0]);
+        // Create a DbShift object from the form data
+        DbShift dbShift = getDbShiftFromForm();
 
-        DbShiftHelper.createDbShift(name, timeStart, timeEnd);
-
-        return ok();
-    }
-
-    public Result retrieveShift() {
-        return ok();
-    }
-
-    public Result deleteShift() {
-        final Map<String, String[]> values = request().body().asFormUrlEncoded();
-
-        String shiftName = values.get(DbShift.FORM_COLUMN_NAME)[0];
-        DbShiftHelper.deleteDbShiftByName(shiftName);
+        // Enter the DbTeam into the database.
+        DbShiftHelper.createDbShift(dbShift);
 
         return ok();
     }
 
-    public Result readUsersAvailableForShift(Integer teamId, Integer timeStart, Integer timeEnd) {
-        List<DbUser> dbUserList = ScheduleUtil.queryUsersBasedOnAvailiability(teamId, timeStart, timeEnd);
+    public Result readShifts() {
+        return ok();
+    }
 
+    //TODO: Refactor deleleShift and all related functions/routes.
+    public Result deleteShift(String name) {
 
-        for (DbUser dbUser : dbUserList) {
-            System.out.println(dbUser.getSfuEmail());
-        }
+        int shiftTypeID = DbShiftTypeHelper.readDbShiftTypeByName(name).getId();
+        DbShift dbShiftToDelete = DbShiftHelper.readDbShiftByShiftTypeId(shiftTypeID);
+        DbShiftHelper.deleteDbShift(dbShiftToDelete);
 
         return ok();
+    }
+
+    public Result readUsersAvailableForShift(Integer teamId) {
+        Long timeStart = Long.parseLong(request().getQueryString(TIME_START));
+        Long timeEnd = Long.parseLong(request().getQueryString(TIME_END));
+        List<DbUser> dbUserList = ScheduleUtil.queryUsersBasedOnAvailability(teamId, timeStart, timeEnd);
+
+        return ok(Json.toJson(dbUserList));
     }
 }

@@ -1,12 +1,10 @@
 package models.databaseModel.helpers;
 
 
-import io.ebean.Expr;
 import models.databaseModel.scheduling.DbOneTimeUnavailability;
 import models.databaseModel.scheduling.DbUser;
+import models.databaseModel.scheduling.query.QDbOneTimeUnavailability;
 
-import javax.annotation.Nonnull;
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -19,27 +17,11 @@ public final class DbOneTimeUnavailabilityHelper {
 
     }
 
-
-    /**
-     * creates a DbOneTimeUnavailability from userId, timeStart, timeEnd
-     *
-     * @param userTeamId
-     * @param timeStart
-     * @param timeEnd
-     */
-    public static void createDbOneTimeUnavailability(@Nonnull Integer userTeamId, @Nonnull Integer timeStart, @Nonnull Integer timeEnd) {
-        DbOneTimeUnavailability dbOneTimeUnavailability = new DbOneTimeUnavailability(userTeamId, timeStart, timeEnd);
+    public static void createDbOneTimeUnavailability(DbOneTimeUnavailability dbOneTimeUnavailability) {
+        dbOneTimeUnavailability.save();
     }
 
-
-    /**
-     * deletes a DbOneTimeUnavailability from DbOneTimeUnavailabilityId
-     *
-     * @param id
-     */
-
-    public static void deleteDbOneTimeUnavailabilityById(@Nonnull Integer id) {
-        DbOneTimeUnavailability dbOneTimeUnavailability = readDbOneTimeUnavailabilityById(id);
+    public static void deleteDbOneTimeUnavailabilityById(DbOneTimeUnavailability dbOneTimeUnavailability) {
         dbOneTimeUnavailability.delete();
     }
 
@@ -48,8 +30,12 @@ public final class DbOneTimeUnavailabilityHelper {
      *
      * @param id
      */
-    public static DbOneTimeUnavailability readDbOneTimeUnavailabilityById(@Nonnull Integer id) {
-        DbOneTimeUnavailability dbOneTimeUnavailability = DbOneTimeUnavailability.find.byId(id);
+    public static DbOneTimeUnavailability readDbOneTimeUnavailabilityById(Integer id) {
+        DbOneTimeUnavailability dbOneTimeUnavailability = new QDbOneTimeUnavailability()
+                .id
+                .eq(id)
+                .findUnique();
+
         return dbOneTimeUnavailability;
     }
 
@@ -59,7 +45,9 @@ public final class DbOneTimeUnavailabilityHelper {
      * @return
      */
     public static List<DbOneTimeUnavailability> readAllDbOneTimeUnavailability() {
-        List<DbOneTimeUnavailability> dbOneTimeUnavailability = DbOneTimeUnavailability.find.all();
+        List<DbOneTimeUnavailability> dbOneTimeUnavailability = new QDbOneTimeUnavailability()
+                .findList();
+
         return dbOneTimeUnavailability;
     }
 
@@ -70,14 +58,18 @@ public final class DbOneTimeUnavailabilityHelper {
      * @param timeEnd
      * @return
      */
-    public static List<DbOneTimeUnavailability> readDbOneTimeUnavailabilityByTimeRange(@Nonnull Integer timeStart, @Nonnull Integer timeEnd) {
-        List<DbOneTimeUnavailability> dbOneTimeUnavailabilityList = DbOneTimeUnavailability.find.query().where()
-                .disjunction()
-                .add(Expr.between(DbOneTimeUnavailability.COLUMN_TIME_START, DbOneTimeUnavailability.COLUMN_TIME_END, timeStart))
-                .add(Expr.between(DbOneTimeUnavailability.COLUMN_TIME_START, DbOneTimeUnavailability.COLUMN_TIME_END, timeEnd))
+    public static List<DbOneTimeUnavailability> readDbOneTimeUnavailabilityByTimeRange(Long timeStart, Long timeEnd) {
+        List<DbOneTimeUnavailability> dbOneTimeUnavailabilityList = new QDbOneTimeUnavailability()
+                .timeStart.lessOrEqualTo(timeStart)
+                .and()
+                .timeEnd.greaterOrEqualTo(timeStart)
+                .and()
+                .timeStart.lessOrEqualTo(timeStart)
+                .and()
+                .timeEnd.greaterOrEqualTo(timeEnd)
                 .findList();
+
+
         return dbOneTimeUnavailabilityList;
     }
-
-
 }

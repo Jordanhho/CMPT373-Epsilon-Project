@@ -10,6 +10,8 @@ The app provides scheduling facilities, a user database, a view of gathered stat
 
   1. Java 1.8
   2. SBT
+  3. Ebean Enhancement Plugin
+  4. Frontend Tooling
 
 #### Java 1.8
 
@@ -32,9 +34,23 @@ On a Mac you can install SBT (Scala Build Tool) with homebrew:
 $ brew install sbt@1
 ```
 
+#### Ebean Enhancement Plugin
+
+Follow the instructions in the [Type Safe Queries](docs/type-safe-queries.md) doc.
+
+#### Frontend Tooling
+
+Please refer to the dedicated [frontend README](epsilonsecurity/front/README.md).
+
 ## Building and Running
 
-At the IDEA start screen, open the `epsilonsecurity/` folder. Try compiling the project. SBT may spend a long time downloading resources—be patient.
+At the IDEA start screen, open the `epsilonsecurity/` folder.
+
+### Plugins
+
+The project requires plugins that are available through IntelliJ. Before compiling the project, read the instruction guide in [`docs/type-safe-queries-instruction.txt`](https://csil-git1.cs.surrey.sfu.ca/apa53/373-Epsilon/blob/master/docs/type-safe-queries-instruction.txt)
+
+Try compiling the project. SBT may spend a long time downloading resources—be patient.
 
 If all is successful, select 'SBT Run' from the configurations drop down and hit the Run button to launch the server. You will see SBT's output in the integrated console. Go to [`localhost:9000`](localhost:9000) to see your handiwork. The first load may take a while, as SBT is lazily compiling your web page. 
 
@@ -144,6 +160,15 @@ git config --global user.email "mcface@sfu.ca"
 
 If you actively develop with a different name/email you can use the `--local` flag to only set this email for this git repo.
 
+#### Frontend
+
+Read the [frontend README](epsilonsecurity/front/README.md) for information on contributing. 
+
+#### Tests 
+
+Tests are an important part of development. Write tests in corresponding packages in the `test/` directory. 
+
+When writing database tests, first extend `BaseDatabaseTest`. This base class will wipe the database before every test. For this reason make sure to keep tests truly atomic; write helper functions if you need to populate the database for multiple tests. 
 
 ## Troubleshooting:
 
