@@ -1,9 +1,12 @@
 <template>
-    <div id = "profile">
-        <div id='main-profile'>
+<div id = "profile">
+    <v-layout id='main-profile'>
+        <v-flex xs12 md3 class='profile-item'>
             <img :src="userPhoto" alt="" id= "user-photo">
-            <ul id= "user-info">
-                <li>
+        </v-flex>
+        <v-flex xs9 md6 class='profile-item'>
+            <ul id="user-info">
+                <li class='username'>
                     {{ userData.firstName }} {{ userData.lastName }}
                 </li>
                 <li>
@@ -13,45 +16,61 @@
                     {{ userData.phoneNumber }}
                 </li>
             </ul>
-           <span id="spacer"></span>
-            <div id="buttons">
-                <edit-user  id="edit-user"
-                            @edit="onClickEdit"
-                            v-bind:teams="teams"
-                            v-bind:userTeams="userTeams"
-                            v-bind:userData="userData">
-                </edit-user>
-                <disable-user
-                            id="disable-user"
-                            v-bind:enabled="userData.enabled"
-                            @disable="onClickDisable">
-                </disable-user>
-            </div>
-        </div>
-            <ul id="other-data">
-                <li>
-                    Teams:
-                    <ul id = "team-names">
-                        <li v-for="team in userTeams"
-                            class='team-list'>
-                            {{ team.name }}
-                        </li>
-                    </ul>
-                <li>
-                    Role: {{ userData.roleId }}
-                </li>
-
-                <li>
-                    SFU Email: {{ userData.sfuEmail }}
-                </li>
+        </v-flex>
+        <v-flex xs3 md3 id="buttons" class='profile-item'>
+            <v-layout wrap column>
+                <v-flex class="edit-button" xs6 offest-xs6 offset-md0>
+                    <edit-user
+                                @edit="onClickEdit"
+                                v-bind:teams="teams"
+                                v-bind:userTeams="userTeams"
+                                v-bind:userData="userData">
+                    </edit-user>
+                </v-flex>
+                <v-flex class="edit-button" xs6 offset-xs6 offset-md0>
+                    <disable-user
+                                v-bind:enabled="userData.enabled"
+                                @disable="onClickDisable">
+                    </disable-user>
+                </v-flex>
+            </v-layout>
+        </v-flex>
+    </v-layout>
+    <v-layout class='secondary-user-info'>
+        <v-flex xs2>
+            <ul>
+                <li class='info-tag'>teams:</li>
+                <li class='info-tag'>role</li>
+                <li class='info-tag'>sfu email</li>
             </ul>
-        </div>
+        </v-flex>
+        <v-flex id="other-data">
+        <ul>
+            <!-- TODO handle multiple teams in layout -->
+            <li>
+                <ul id="team-names">
+                    <li v-for="team in userTeams"
+                        class='team-list'>
+                        {{ team.name }}
+                    </li>
+                </ul>
+            </li>
+            <!-- <li>volunteer</li> -->
+            <li>{{ userData.roleId }}</li>
+            <li>{{ userData.sfuEmail }}</li>
+        </ul>
+        </v-flex>
+    </v-layout>
+    <qualifications></qualifications>
+</div>
+
 
 </template>
 
 <script>
     import EditUser from "./EditUser.vue";
     import DisableUser from "./DisableUser.vue";
+    import QualificationsView from './QualificationsView.vue'
     import axios from 'axios';
 
     export default {
@@ -112,6 +131,7 @@
         components: {
             "edit-user": EditUser,
             "disable-user": DisableUser,
+            'qualifications': QualificationsView,
         },
         watch: {
             id: function(val) {
@@ -137,8 +157,8 @@
 
 <style scoped lang='scss'>
     .team-list {
-        padding-left: 1em;
         font-size: 1em;
+        list-style-type: none;
     }
 
     #profile {
@@ -148,43 +168,52 @@
         flex-direction: column;
     }
 
-    #main-profile {
-        display: flex;
-        flex-direction: row;
-    }
-    #user-info, #user-photo, #other-data, #buttons {
-        flex-flow: row wrap;
-    }
-
     #other-data {
-        padding-top: 2em;
-        font-size: 1.5em;
+        padding-left: 2em;
     }
 
     #user-photo {
-        width: 150px;
-        height: 150px;
+        width: 80%;
+        height: auto;
         border-radius: 50%;
     }
 
     #user-info {
         list-style: none;
         text-align: left;
-        font-size: 2em;
+        font-size: 1.5em;
     }
 
-    #buttons {
-        display: flex;
+    .username {
+        font-size: 1.5em;
     }
 
-    #edit-user, #disable-user {
-        flex-flow: nowrap row;
-        height: 15%;
+    ul {
+        padding-left: 0;
     }
     li  {
         list-style: none;
     }
-    #spacer {
-        flex-grow: 1;
+    .info-header {
+        text-align: right;
     }
+
+    .edit-button {
+        max-height: 3em;
+    }
+
+    #main-profile, .profile-item {
+        max-height: 15em;
+    }
+
+    .info-tag {
+        text-align: right;
+        color: grey;
+    }
+
+    .secondary-user-info {
+        font-size: 1.3em;
+        max-height: 6em;
+    }
+
 </style>

@@ -1,21 +1,21 @@
 <template>
-
-    <v-layout id="manage-users">
-        <v-flex xs4>
-            <userlist   id="userlist"
-                        ref="userlist"
-                        v-bind:teams="teams"
-                        @clicked="onClickUserListViewItem">
-            </userlist>
-        </v-flex>
-        <v-flex xs8>
-            <router-view    id="profile"
+    <v-container fill-height>
+        <v-layout id="manage-users">
+            <v-flex xs4>
+                <userlist   id="userlist"
+                            ref="userlist"
                             v-bind:teams="teams"
-                            @edited="$refs.userlist.requestUsers()">
-            </router-view>
-        </v-flex>
-    </v-layout>
-
+                            @clicked="onClickUserListViewItem">
+                </userlist>
+            </v-flex>
+            <v-flex xs8>
+                <router-view    id="profile"
+                                v-bind:teams="teams"
+                                @edited="$refs.userlist.requestUsers()">
+                </router-view>
+            </v-flex>
+        </v-layout>
+    </v-container>
 </template>
 
 <script>

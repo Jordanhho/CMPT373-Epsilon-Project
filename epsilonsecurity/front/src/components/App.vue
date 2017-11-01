@@ -21,7 +21,7 @@
 				</template>
 			</v-list>
 		</v-navigation-drawer>
-		
+
 		<v-toolbar clipped-left fixed app dark class="primary">
 			<v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
 			<v-toolbar-title v-text="title"></v-toolbar-title>
@@ -36,12 +36,14 @@
 
 		<main>
 			<v-content>
-				<v-container fluid fill-height>
+				<!-- removed as children should handle their own v-container
+			 	behaviour and having nested v-containers is redundant -->
+				<!-- <v-container fluid fill-height> -->
 					<router-view></router-view>
-				</v-container>
+				<!-- </v-container> -->
 			</v-content>
 		</main>
-		
+
 	</v-app>
 </template>
 
