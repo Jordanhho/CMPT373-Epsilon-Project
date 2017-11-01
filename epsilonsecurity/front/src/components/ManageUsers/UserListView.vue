@@ -114,7 +114,7 @@ export default {
     max-height: 100%;
     padding: 0;
     flex-flow: column;
-    background: #EEEEEE;
+
 }
 
 #buttons {
@@ -125,7 +125,8 @@ export default {
 }
 
 #userlist{
-
+    padding: 2em;
+    background: #FBFBFB;
 }
 
 #add-user, #dropdown {

@@ -1,17 +1,3 @@
-<!--<div class="team-name">
-    <p>Teams: </p>
-    <div v-for="team in teams">
-        <input  :id="team.name"
-                type="checkbox"
-
-                v-model="listOfTeamIDsForUser"
-                @click="displayAllTeams">
-        <label :for="team.name">
-            {{ team.name }}
-        </label>
-    </div>
-</div>-->
-
 <template>
     <v-layout row justify-center>
         <v-dialog v-model="dialog" persistent max-width="500px">
