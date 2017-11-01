@@ -2,6 +2,8 @@ package models.databaseModel.roles;
 
 import io.ebean.Finder;
 import io.ebean.Model;
+import models.databaseModel.scheduling.DbUser;
+import models.databaseModel.scheduling.query.QDbUser;
 
 import javax.persistence.*;
 

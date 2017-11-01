@@ -30,10 +30,8 @@ PUT           /api/users/:userId                                                
 PUT           /api/users/:userId/:isEnabled                                      controllers.UserController.updateUsersEnabledStatus(userId: Integer, isEnabled: Boolean)
 
 # Delete a user by sfuEmail
-#DELETE        /api/users/:sfuEmail                                               controllers.UserController.deleteUserBySfuEmail(sfuEmail: String)
+DELETE        /api/users/:sfuEmail                                               controllers.UserController.deleteUserBySfuEmail(sfuEmail: String)
 
-# purpose: simply to test the MySchedule component integration to the backend
-GET             /api/users/:sfuEmail/shifts             controllers.UserController.getAllShifts(sfuEmail: String)
 
 #
 # DbUserShift
@@ -43,7 +41,7 @@ GET             /api/users/:sfuEmail/shifts             controllers.UserControll
 POST          /api/users/:userId/shifts/:shiftId                                 controllers.UserShiftController.createUserShift(userId: Integer, shiftId: Integer)
 
 # Read all shifts assigned to user
-GET           /api/users/:userId/shifts                                          controllers.UserShiftController.retrieveUserShift(userId: Integer)
+GET           /api/users/:userId/shifts                                          controllers.UserShiftController.retrieveShiftsByUserId(userId: Integer)
 
 # Unassign all users tied to a shift
 DELETE        /api/users/shifts/:shiftId                                         controllers.UserShiftController.deleteUserShifts(shiftId: Integer)

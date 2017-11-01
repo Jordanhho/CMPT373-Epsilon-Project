@@ -60,6 +60,20 @@ public final class DbUserTeamHelper {
     }
 
     /**
+     * Returns a list of all DbUserTeams associated to a given userId
+     *
+     * @param userId the database id of the target user
+     */
+    public static List<DbUserTeam> readAllDbUserTeamsByUserId(Integer userId) {
+        List<DbUserTeam> dbUserTeamList = new QDbUserTeam()
+                .userId
+                .eq(userId)
+                .findList();
+
+        return dbUserTeamList;
+    }
+
+    /**
      * Read user team by user id
      *
      * @param userId

@@ -36,15 +36,15 @@ public class DbShiftType extends Model {
         return name;
     }
 
-    public String getColorCode() {
-        return colorCode;
-    }
-
     public void setName(String name) {
         this.name = name;
     }
 
-    public void setColorCode(String colorCode){
+    public String getColorCode() {
+        return colorCode;
+    }
+
+    public void setColorCode(String colorCode) {
         this.colorCode = colorCode;
     }
 
