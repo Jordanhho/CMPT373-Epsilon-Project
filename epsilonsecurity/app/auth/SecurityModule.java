@@ -41,7 +41,7 @@ public class SecurityModule extends AbstractModule {
 
         Clients clients = new Clients(baseUrl + "/callback", casClient);
         Config config = new Config(clients);
-        config.addAuthorizer("admin", new RequireAnyRoleAuthorizer("ROLE_ADMIN"));
+//        config.addAuthorizer("admin", new RequireAnyRoleAuthorizer("ROLE_ADMIN"));
 //        config.setHttpActionAdapter(); // TODO: do we need this?
         bind(Config.class).toInstance(config);
 

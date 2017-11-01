@@ -3,6 +3,8 @@ GET           /assets/*file                             controllers.Assets.versi
 
 GET           /test                                     controllers.TestController.testy()
 
+GET             /callback          @org.pac4j.play.CallbackController.callback()
+
 GET             /ok     controllers.TestController.test()
 
 # redirect all other requests to the SPA page
