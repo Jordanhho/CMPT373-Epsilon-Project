@@ -12,6 +12,7 @@ import org.pac4j.core.config.Config;
 import org.pac4j.core.http.HttpActionAdapter;
 import org.pac4j.play.CallbackController;
 import org.pac4j.play.LogoutController;
+import org.pac4j.play.PlayWebContext;
 import org.pac4j.play.deadbolt2.Pac4jHandlerCache;
 import org.pac4j.play.deadbolt2.Pac4jRoleHandler;
 import org.pac4j.play.http.DefaultHttpActionAdapter;
@@ -21,6 +22,8 @@ import play.Configuration;
 import play.Environment;
 import play.Logger;
 import play.cache.SyncCacheApi;
+import play.mvc.Http;
+import play.mvc.Result;
 
 public class SecurityModule extends AbstractModule {
 
@@ -38,7 +41,7 @@ public class SecurityModule extends AbstractModule {
         bind(Pac4jRoleHandler.class).to(RoleHandler.class);
         PlayCacheSessionStore playCacheSessionStore = new PlayCacheSessionStore(getProvider(SyncCacheApi.class));
         bind(PlaySessionStore.class).toInstance(playCacheSessionStore);
-        final String baseUrl = "http://localhost:9000";
+        final String baseUrl = "http://localhost:9000"; // TODO: put this into conf
         CasConfiguration casConfiguration = new CasConfiguration("https://cas.sfu.ca/cas/login");
         casConfiguration.setProtocol(CasProtocol.CAS30);
         casConfiguration.setDefaultTicketValidator(new SfuCasTicketValidator("https://cas.sfu.ca"));
@@ -46,7 +49,6 @@ public class SecurityModule extends AbstractModule {
 
         Clients clients = new Clients(baseUrl + "/callback", casClient);
         Config config = new Config(clients);
-//        config.addAuthorizer("admin", new RequireAnyRoleAuthorizer("ROLE_ADMIN"));
         config.setHttpActionAdapter(new DefaultHttpActionAdapter());
         bind(Config.class).toInstance(config);
 
@@ -58,5 +60,6 @@ public class SecurityModule extends AbstractModule {
         logoutController.setDefaultUrl("/?defaulturlafterlogout");
         bind(LogoutController.class).toInstance(logoutController);
     }
+
 
 }
