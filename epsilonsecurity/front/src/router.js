@@ -21,6 +21,7 @@ const router = new VueRouter({
 				adminOnly: false 
 			}
 		},
+
 		{ 
 			path: '/my-schedule', 
 			component: MySchedule, 
@@ -29,6 +30,7 @@ const router = new VueRouter({
 				adminOnly: false 
 			}
 		},
+		// this is a red flag -- everything about /manage-users should be in 1 subtree.
          {
               path: '/manage-users',
               component: ManageUsers,
