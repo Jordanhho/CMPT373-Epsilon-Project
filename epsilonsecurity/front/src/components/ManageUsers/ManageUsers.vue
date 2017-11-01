@@ -52,7 +52,7 @@
 </script>
 
 <style scoped lang='scss'>
-    $user-list-width: 20%;
+    $user-list-width: 35%;
     #manage-users {
         background: white;
         width: 100%;
@@ -80,6 +80,7 @@
         flex-flow: row nowrap;
     }
     #profile {
+        display: flex;
         background: white;
     }
 

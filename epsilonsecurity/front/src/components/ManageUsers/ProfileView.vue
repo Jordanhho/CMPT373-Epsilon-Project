@@ -1,50 +1,50 @@
 <template>
+        <div>
     <div id = "profile">
-        <img :src="userPhoto" alt="" id= "user-photo">
-        <ul id= "user-info">
-            <li>
-                First Name: {{ userData.firstName }}
-            </li>
-            <li>
-                Last Name:  {{ userData.lastName }}
-            </li>
-            <li>
-                Teams:
-                <ul id = "team-names">
-                    <li v-for="team in userTeams"
-                        class='team-list'>
-                        {{ team.name }}
-                    </li>
-                </ul>
-            <li>
-                Role: {{ userData.roleId }}
-            </li>
-            <li>
-                Contact Email: {{ userData.contactEmail }}
-            </li>
-            <li>
-                SFU Email: {{ userData.sfuEmail }}
-            </li>
-            <li>
-                Phone Number: {{ userData.phoneNumber }}
-            </li>
-        </ul>
-        <div class="buttons">
-            <edit-user
-                        @edit="onClickEdit"
-                        v-bind:teams="teams"
-                        v-bind:userTeams="userTeams"
-                        v-bind:userData="userData">
-            </edit-user>
-            <button id="disable-user"
-                    @click="showDisableUser = true">
-                {{ userData.enabled ? "disable": "enable" }}
-            </button>
-            <disable-user   v-if="showDisableUser"
-                            @close="showDisableUser = false"
+            <img :src="userPhoto" alt="" id= "user-photo">
+            <ul id= "user-info">
+                <li>
+                    {{ userData.firstName }} {{ userData.lastName }}
+                </li>
+                <li>
+                    {{ userData.contactEmail }}
+                </li>
+                <li>
+                    {{ userData.phoneNumber }}
+                </li>
+            </ul>
+           <!-- <span id="spacer"></span>-->
+            <div id="buttons">
+                <edit-user  id="edit-user"
+                            @edit="onClickEdit"
+                            v-bind:teams="teams"
+                            v-bind:userTeams="userTeams"
+                            v-bind:userData="userData">
+                </edit-user>
+                <disable-user
+                            id="disable-user"
+                            v-bind:enabled="userData.enabled"
                             @disable="onClickDisable">
-            </disable-user>
+                </disable-user>
+            </div>
         </div>
+    <ul id="other-data">
+        <li>
+            Teams:
+            <ul id = "team-names">
+                <li v-for="team in userTeams"
+                    class='team-list'>
+                    {{ team.name }}
+                </li>
+            </ul>
+        <li>
+            Role: {{ userData.roleId }}
+        </li>
+
+        <li>
+            SFU Email: {{ userData.sfuEmail }}
+        </li>
+    </ul>
     </div>
 </template>
 
@@ -57,7 +57,6 @@
         name: 'user-profile',
         data(){
             return {
-                showDisableUser: false,
                 userPhoto: 'http://lorempixel.com/100/100/people',
                 userTeams: [],
                 userData: {
@@ -73,9 +72,6 @@
             }
         },
         methods: {
-            toggleDisableUser() {
-                this.showDisableUser = !(this.showDisableUser)
-            },
             onClickListElement (value) {
                 this.$emit('clicked', value);
             },
@@ -87,7 +83,6 @@
                     });
             },
             onClickDisable () {
-                this.showDisableUser = false;
                 axios.put('/api/users/' + this.userData.id + '/' + !this.userData.enabled)
                     .then(response => this.userData.enabled = !this.userData.enabled)
                     .catch(function (error) {
@@ -146,10 +141,11 @@
 
     #profile {
         display: flex;
+        flex-flow: column;
     }
 
     #user-info, #user-photo {
-        flex-flow: nowrap row;
+        flex-flow: row;
     }
 
     #user-photo {
@@ -164,9 +160,21 @@
     }
 
     #buttons {
-        float: right;
+        display: flex;
+    }
+
+    #other-data {
+        flex-flow: column;
+    }
+
+    #edit-user, #disable-user {
+        flex-flow: nowrap row;
+        height: 15%;
     }
     li  {
-        list-style:none;
+        list-style: none;
+    }
+    #spacer {
+        flex-grow: 1;
     }
 </style>

@@ -1,55 +1,62 @@
+<!--<div class="team-name">
+    <p>Teams: </p>
+    <div v-for="team in teams">
+        <input  :id="team.name"
+                type="checkbox"
+                :value="team.id"
+                v-model="listOfTeamIDsForUser"
+                @click="displayAllTeams()">
+        <label :for="team.name">{{ team.name }}</label>
+    </div>
+</div>-->
+
 <template>
-    <transition name="modal">
-        <div class="modal-mask">
-            <div class="modal-wrapper">
-                <div class="modal-container">
-                    <div class="first-name">
-                        <p>First Name: </p>
-                        <input placeholder="edit me" v-model="user.firstName">
-                    </div>
-                    <div class="last-name">
-                        <p>Last Name: </p>
-                        <input placeholder="edit me" v-model="user.lastName">
-                    </div>
-                    <div class="team-name">
-                        <p>Teams: </p>
-                        <div v-for="team in teams">
-                            <input  :id="team.name"
-                                    type="checkbox"
-                                    :value="team.id"
-                                    v-model="listOfTeamIDsForUser"
-                                    @click="displayAllTeams()">
-                            <label :for="team.name">{{ team.name }}</label>
-                        </div>
-                    </div>
-                    <div class="role">
-                        <p>Role: </p>
-                        <input  placeholder="edit me" v-model="user.roleId">
-                    </div>
-                    <div class="contact-email">
-                        <p>Contact Email: </p>
-                        <input placeholder="edit me" v-model="user.contactEmail">
-                    </div>
-                    <div class="sfu-email">
-                        <p>SFU Email: </p>
-                        <input placeholder="edit me" v-model="user.sfuEmail">
-                    </div>
-                    <div class="phone-number">
-                        <p>Phone Number: </p>
-                        <input placeholder="edit me" v-model="user.phoneNumber">
-                    </div>
-                    <div class="modal-footer">
-                        <button class="addButton" @click="$emit('add', user)">
-                            Add
-                        </button>
-                        <button class="closeButton" @click="$emit('close')">
-                            Cancel
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </transition>
+    <v-layout row justify-center>
+        <v-dialog v-model="dialog" persistent max-width="500px">
+            <v-btn color="primary" dark slot="activator" >Add</v-btn>
+            <v-card>
+                <v-card-title>
+                    <span class="headline">Add User</span>
+                </v-card-title>
+                <v-card-text>
+                    <v-container grid-list-md>
+                        <v-layout wrap>
+                            <v-flex xs12 sm6>
+                                <v-text-field label="First Name" required
+                                              v-model="userData.firstName"></v-text-field>
+                            </v-flex>
+                            <v-flex xs12 sm6>
+                                <v-text-field label="Last name" required
+                                              v-model="userData.lastName"></v-text-field>
+                            </v-flex>
+                            <v-flex xs12>
+                                <v-text-field label="Role" required
+                                              v-model="userData.roleId"></v-text-field>
+                            </v-flex>
+                            <v-flex xs12>
+                                <v-text-field label="SFU Email" required
+                                              v-model="userData.sfuEmail"></v-text-field>
+                            </v-flex>
+                            <v-flex xs12>
+                                <v-text-field label="Contact Email" required
+                                              v-model="userData.contactEmail"></v-text-field>
+                            </v-flex>
+                            <v-flex xs12>
+                                <v-text-field label="Phone Number" required
+                                              v-model="userData.phoneNumber"></v-text-field>
+                            </v-flex>
+                        </v-layout>
+                    </v-container>
+                    <small>*indicates required field</small>
+                </v-card-text>
+                <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn color="blue darken-1" flat @click.native="confirm">Add</v-btn>
+                    <v-btn color="blue darken-1" flat @click.native="closeDialog">Close</v-btn>
+                </v-card-actions>
+            </v-card>
+        </v-dialog>
+    </v-layout>
 </template>
 
 <script>
@@ -60,7 +67,7 @@
         data () {
             return {
                 listOfTeamIDsForUser: [],
-                user: {
+                userData: {
                     firstName: "",
                     lastName: "",
                     roleId: 4,
@@ -69,7 +76,8 @@
                     phoneNumber: "",
                     photoURL: "/assets/default.jpg",
                     enabled: true
-                }
+                },
+                dialog: false,
             }
         },
         components: {
@@ -79,6 +87,13 @@
             // debugging
             displayAllTeams() {
                 //alert(this.listOfTeamIDsForUser);
+            },
+            closeDialog() {
+                this.dialog = false;
+            },
+            confirm() {
+                this.$emit('add', this.userData);
+                this.closeDialog();
             },
         },
         props: {
@@ -91,14 +106,6 @@
 </script>
 
 <style scoped>
-    #add-user {
-        background: #ddd;
-        list-style: none;
-        padding: 16px 0;
-        display: flex;
-        flex-flow: column nowrap;
-    }
-
     .modal-mask {
         position: fixed;
         z-index: 9998;

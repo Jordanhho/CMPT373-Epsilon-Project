@@ -15,10 +15,10 @@
 <template>
     <v-layout row justify-center>
         <v-dialog v-model="dialog" persistent max-width="500px">
-            <v-btn color="primary" dark slot="activator" >Edit Button</v-btn>
+            <v-btn color="primary" dark slot="activator" >Edit</v-btn>
             <v-card>
                 <v-card-title>
-                    <span class="headline">Edit Profile</span>
+                    <span class="headline">Edit User</span>
                 </v-card-title>
                 <v-card-text>
                     <v-container grid-list-md>
@@ -108,14 +108,6 @@
 </script>
 
 <style scoped>
-    #edit-user {
-        background: #ddd;
-        list-style: none;
-        padding: 16px 0;
-        display: flex;
-        flex-flow: column nowrap;
-    }
-
     .modal-mask {
         position: fixed;
         z-index: 9998;
@@ -151,10 +143,6 @@
 
     .modal-body {
         margin: 20px 0;
-    }
-
-    .modal-default-button {
-        float: right;
     }
 
     /*

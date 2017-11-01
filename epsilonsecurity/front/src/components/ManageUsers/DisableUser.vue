@@ -1,25 +1,19 @@
 <template>
-    <transition name="modal">
-        <div class="modal-mask">
-            <div class="modal-wrapper">
-                <div class="modal-container">
-                    <div class="modal-header">
-                        <span name="header">
-                            Sure you want to disable?
-                        </span>
-                    </div>
-                    <div class="modal-footer">
-                        <button class="okayButton" @click="$emit('disable')">
-                            OK
-                        </button>
-                        <button class="closeButton" @click="$emit('close')">
-                            Cancel
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </transition>
+    <v-layout row justify-center>
+        <v-dialog v-model="dialog" persistent max-width="500px">
+            <v-btn color="primary" dark slot="activator" >{{ display }}</v-btn>
+            <v-card>
+                <v-card-title>
+                    <span class="headline">Are you sure you want to {{ display }} this user?</span>
+                </v-card-title>
+                <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn color="blue darken-1" flat @click.native="confirm"> {{ display}} </v-btn>
+                    <v-btn color="blue darken-1" flat @click.native="closeDialog">Close</v-btn>
+                </v-card-actions>
+            </v-card>
+        </v-dialog>
+    </v-layout>
 </template>
 
 <script>
@@ -28,24 +22,37 @@
         data () {
             return {
                 mainSections: [
-                ]
+                ],
+                dialog: false,
             }
         },
         components: {
 
-        }
+        },
+        methods: {
+            closeDialog() {
+                this.dialog = false;
+            },
+            confirm() {
+                this.$emit('disable');
+                this.closeDialog();
+            },
+        },
+        computed: {
+            display: function() {
+                return this.enabled ? 'disable':'enable';
+            }
+        },
+        props: {
+            enabled: {
+                type: Boolean,
+                required: true
+            }
+        },
     }
 </script>
 
 <style scoped>
-    #disable-user {
-        background: #ddd;
-        list-style: none;
-        padding: 16px 0;
-        display: flex;
-        flex-flow: column nowrap;
-    }
-
     .modal-mask {
         position: fixed;
         z-index: 9998;
@@ -83,9 +90,6 @@
         margin: 20px 0;
     }
 
-    .modal-default-button {
-        float: right;
-    }
 
     /*
      * The following styles are auto-applied to elements with

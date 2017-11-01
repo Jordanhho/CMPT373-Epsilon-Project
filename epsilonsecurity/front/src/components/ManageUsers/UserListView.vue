@@ -15,13 +15,7 @@
             <v-select id="dropdown" v-bind:items="teamList" v-model="selectedTeam" @input="requestUsers">
             </v-select>
             <!-- <span>Selected: {{ team }}</span> -->
-
-            <button id="add-user"
-                    @click="showAddUser = true">
-                Add User
-            </button>
-            <add-user v-if="showAddUser"
-                      @close="showAddUser = false"
+            <add-user id="add-user"
                       @add="onClickAdd"
                       v-bind:teams="teams">
             </add-user>
@@ -46,7 +40,6 @@
         name: 'scroll',
         data() {
             return {
-                showAddUser: false,
                 users: [],
                 selectedTeam: -1,
                 all: {
@@ -56,10 +49,6 @@
             }
         },
         methods: {
-            toggleAddUser() {
-                this.showAddUser = !(this.showAddUser)
-            },
-
             onClickListElement(value) {
                 this.$emit('clicked', value);
             },
@@ -69,11 +58,9 @@
                     .catch(function (error) {
                         console.log(error);
                     });
-                this.showAddUser = false;
             },
             populateUsers(response) {
                 this.users = response.data;
-                //console.log(JSON.stringify(this.users, null, 2));
             },
             requestUsers() {
                 var usersURL = '';
@@ -139,16 +126,6 @@
     }
 
     #add-user, #dropdown {
-        flex-flow: row nowrap;
     }
-
-    #dropdown {
-        width: 50%;
-    }
-
-    #add-user {
-        width: 20%;
-    }
-
 
 </style>
