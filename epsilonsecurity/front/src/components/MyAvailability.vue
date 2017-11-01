@@ -2,6 +2,7 @@
 	<v-container fluid fill-height>
 		<v-layout column wrap>
 			<v-flex xs12>
+
 				<!-- toast for submitted /editing availability -->
 				<v-snackbar
 					:timeout="1000"
@@ -11,12 +12,14 @@
 					<v-btn flat color="white class="text-xs-center""> {{ toastMsg }} </v-btn>
 				</v-snackbar>
 
+
 				<!-- submit availability status bar -->
 				<div id = "approval-bar">
 					<v-card dark color="primary " >
 						<v-card-text class="text-xs-center"> Status:  {{ availabilityStatus }}</v-card-text>
 					</v-card>
 				</div>
+
 
 				<div id = "my-calendar">
 					<!-- calendar -->
@@ -25,7 +28,6 @@
 						:config="config"
 						id="calendar">
 					</full-calendar>
-
 
 					<!-- floating add availbility button -->
 					<v-card-text style="height: 1px; position: relative" @click.stop="AvailabilityClick">
@@ -41,7 +43,6 @@
 						</v-btn>
 					</v-card-text>
 				</div>
-
 
 				<!-- bottom bar for submission -->
 				<div id="submission-bar">
@@ -64,27 +65,28 @@
 							<span class="headline">Availability Info</span>
 						</v-card-title>
 						<v-card-text>
-							<v-container grid-list-md>
-								<v-layout wrap>
-									<v-flex xs12>
+						<v-container grid-list-md>
+							<v-layout wrap>	
+								<v-flex xs12>
 
-										<p> Time Start: <input placeholder="edit me" v-model="availability.startTime"></p>
-										<p> Time End: <input placeholder="edit me" v-model="availability.endTime"></p>
-
-										<v-flex xs6>
-											<v-select
-												v-bind:items="campusList"
-												v-bind:error-messages="['Please select an option']"
-												v-model="availability.campus"
-												label="Campus"
-												class="input-group--focused"
-												item-text="text"
-											>
-											</v-select>
-										</v-flex>
+									<p> Time Start: <input placeholder="edit me" v-model="availability.timeStart"></p>
+									<p> Time End: <input placeholder="edit me" v-model="availability.timeEnd"></p>
+									
+									<v-flex xs6>
+										<v-select
+											v-bind:items="campusList"
+											v-bind:error-messages="['Please select an option']"
+											v-model="availability.campus"
+											label="Campus"
+											class="input-group--focused"
+											item-text="text"
+										>
+										</v-select>
 									</v-flex>
-								</v-layout>
-							</v-container>
+									
+								</v-flex>
+							</v-layout wrap>
+						</v-container grid-list-md>
 						</v-card-text>
 						<v-card-actions>
 							<v-spacer></v-spacer>
@@ -104,17 +106,17 @@
 						<v-card-title>
 							<span class="headline">Availability Submission</span>
 						</v-card-title>
-						<v-card-text>
-							<v-container grid-list-md>
-								<v-layout wrap>
+						<v-container grid-list-md>
+							<v-layout wrap>
+								<v-card-text>
 									<v-flex xs12>
 										<v-card-text>
 											Are you sure you want to submit?
 										</v-card-text>
 									</v-flex>
-								</v-layout>
-							</v-container>
-						</v-card-text>
+								</v-card-text>
+							</v-layout wrap>
+						</v-container grid-list-md>
 						<v-card-actions>
 							<v-spacer></v-spacer>
 							<v-btn color="primary" flat @click.stop="SubmittedAvailability">
@@ -149,13 +151,15 @@ window.jQuery = window.$ = require('jquery') // we need jquery too
 export default {
     data: function () {
 		return {
+
 			//Data contains list of avaliablities
 			availabilityList: [
 			],
 
 			availability: {
-				startTime: 0,
-				endTime: 0,
+				title: 'N/A',
+				timeStart: 0,
+				timeEnd: 0,
 				campus: ""
 			},
 
@@ -212,23 +216,20 @@ export default {
 				// triggered with an event is clicked
 				eventClick: this.AvailabilityClick,
 
-				// triggered after a selection is made, i.e user stops dragging.
-				select: this.AvailabilitySelection,
-
 				// triggered before an event is rendered - our chance to enhance the event.
 				eventRender: this.EventRender,
 
-				//register when user first drags
-				eventDragStart: this.EventStartDrag,
-
-				//register when user ends drags
-				eventDragEnd: this.EventEndDrag,
+				// triggered after a selection is made, i.e user stops dragging.
+				select: this.AvailabilitySelection,
+				
+				//trigger when attemping to delete an event
+				eventDestroy: this.AvailabilityDeletion,
 			},
 
 			eventSources: [
-				{
+				{	
 					events: function(start, end, timezone, callback) {
-
+							
 						//todo: able to edit  the availbilty
 
 					},
@@ -237,9 +238,10 @@ export default {
 				}
 			],
 
-			//do something on clicking avaialbility
 			clickedAvailability: {
+			},
 
+			selectedAvailability: {
 			}
 		}
 	},
@@ -250,21 +252,57 @@ export default {
 
 	methods: {
 
+        // handles user click event
+		AvailabilityClick: function(calEvent, jsEvent, view) {
+            //todo loads availbility before displaying
+
+			//todo able to edit availability
+			this.clickedAvailability = calEvent;
+			this.showCreateEditAvailability = true;
+		},	
+
+		//handles selection of availability on calendar
+		AvailabilitySelection: function(start, end, jsEvent, view) {
+			console.log("drag event start:", start);
+			console.log("drag event end:", end);
+			
+			//set the start and end of this availability
+			this.availability.timeStart = start;
+			this.availability.timeEnd = end;
+			
+			//todo create the event
+
+			//show edit avaialbility
+			this.showCreateEditAvailability = true;
+		},
+
 		//todo handle creation of an availability
         AvailabilityCreation: function(availability) {
             //debug print
-            console.log("Availability time start:", availability.startTime);
-            console.log("Availability time start:", availability.endTime);
+            console.log("Availability time start:", availability.timeStart);
+            console.log("Availability time start:", availability.timeEnd);
             console.log("Availability time start:", availability.campus);
 
             //add user to list
-            availabilityList.push({availability});
+			this.availabilityList.push({availability});
+			
+			//todo render event
 
+            //close window
+			this.showCreateEditAvailability = false;
 
-            //show msg that it has been created
-			this.showCreateEditAvail = false;
+			//show msg that it has been created
             this.toastMsg = "created Availability";
             this.showToast = true;
+		},
+
+		EventRender: function(event, element, view) {
+			// todo must also remove plugin on eventDestroy()
+		},
+
+		//TODO handles event destroy element is the Jqueiry element to be removed
+		AvailabilityDeletion(event, element, view) {
+
 		},
 
 		//submit availability
@@ -291,20 +329,6 @@ export default {
             this.toastMsg = "Submitted Availability";
             this.showToast = true;
         },
-
-        // handles user click event
-		AvailabilityClick: function(calEvent, jsEvent, view) {
-            //todo loads availbility before displaying
-
-			//todo able to edit availability
-			this.clickedAvailability = calEvent
-			this.showCreateEditAvailability = true
-		},
-
-		//handles selection of availability on calendar
-		AvailabilitySelection: function() {
-
-		}
 	},
 
     components: {
@@ -338,7 +362,7 @@ export default {
 
 #my-calendar {
 	width: 100%;
-	height: 80%;
+	height: 75%;
 	flex-flow: column nowrap;
 }
 
