@@ -38,8 +38,8 @@ public class DbUser extends Model {
     @Column(nullable = false)
     private String photoURL;
 
-    @Column
-    private boolean enabled;
+    @Column(columnDefinition = "integer default 1")
+    private Boolean enabled = true;
 
     public DbUser() {
         // Required empty constructor for FormFactory
@@ -57,7 +57,6 @@ public class DbUser extends Model {
         this.contactEmail = contactEmail;
         this.phoneNumber = phoneNumber;
         this.photoURL = photoURL;
-        this.enabled = true;
     }
 
     public Integer getId() {
@@ -125,9 +124,14 @@ public class DbUser extends Model {
         this.photoURL = photoURL;
     }
 
+    public boolean isEnabled() {
+        return enabled;
+    }
+
     public void setEnabled(boolean enabled){
         this.enabled = enabled;
     }
+
     public static Finder<Integer, DbUser> find = new Finder<>(DbUser.class);
 
 
