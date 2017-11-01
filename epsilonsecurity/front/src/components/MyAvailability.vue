@@ -9,7 +9,7 @@
 					:top="'top'"
 					v-model="showToast"
 				>
-					<v-btn flat color="white class="text-xs-center""> {{ toastMsg }} </v-btn>
+					<v-btn flat color="white" class="text-xs-center"> {{ toastMsg }} </v-btn>
 				</v-snackbar>
 
 				<!-- submit availability status bar (Header) -->
@@ -61,6 +61,7 @@
 					<full-calendar
 						:event-sources="eventSources"
 						:config="config"
+						ref="calendar"
 						id="calendar">
 					</full-calendar>
 
@@ -366,10 +367,10 @@ export default {
 
 			availability: {
 				title: 'Event',
-				timeStart: this.getTodaysMoment,
-				dateStart: this.getTodaysMoment,
-				timeEnd: this.getTodaysMoment,
-				dateEnd: this.getTodaysMoment,
+				timeStart: this.getTodaysMomentTime,
+				dateStart: this.getTodaysMomentDate,
+				timeEnd: this.getTodaysMomentTime,
+				dateEnd: this.getTodaysMomentDate,
 				campus: "Burnaby"
 			},
 
@@ -489,9 +490,14 @@ export default {
 			return duration
 		},
 
-		getTodaysMoment: function() {
-			var timeMoment = moment();
-			return timeMoment.start;
+		getTodaysMomentDate: function() {
+			var dateMoment = moment().format('LL'); 
+			return dateMoment;
+		},
+
+		getTodaysMomentTime: function() {
+			var timeMoment = moment().format('LT');
+			return timeMoment;
 		}
 	},
 
@@ -543,11 +549,18 @@ export default {
             //add availability list to be later added to database
 			//this.availabilityList.push({availability});
 			
-			//create new object for event
+			//combine the moment objects with date and time
+			var momentStartObj = moment();
+			momentStartObj.moment().format(availability.dateStart, availability.timeStart);
+
+			var momentEndObj = moment();
+			momentEndObj.moment().format(availability.dateEnd, availability.timeEnd);
+
+			//create new object for event with the newly created moment objects
 			var eventItem = {
 				id: -1,
-				start: availability.timeStart,
-				end: availability.timeEnd,
+				start: momentStartObj.start,
+				end: momentEndObj,
 				title: availability.campus,
 			}
 
@@ -619,7 +632,7 @@ export default {
 
 			//Yellow for vancouver
 			else if(availability.campus == "Vancouver") {
-				eventItem.color = "Yellow";
+				eventItem.color = "teal";
 			}
 			//purple if not specified for debug
 			else {
@@ -674,6 +687,14 @@ export default {
             this.toastMsg = "Submitted Availability";
             this.showToast = true;
 		},
+
+		populateAvailabilityList: function() {
+
+			//grab all generated client events
+			availabilityList = $('#calendar').fullCalendar('clientEvents');
+			this.availabilityList = response.data;
+		}
+
 	},
 
     components: {
@@ -681,13 +702,13 @@ export default {
 	},
 
 	//todo creates to avail database
-	// created: function() {
-    //     axios.get('api/onetimeavailabilites')
-	// 		.then()
-	// 		.catch(function (error) {
-    //         console.log(error);
-    //     });
-	// }
+	created: function() {
+		axios.get('api/onetimeavailabilites')
+			.then(this.populateAvailabilityList)
+			.catch(function (error) {
+			console.log(error);
+		});
+	}
 }
 </script>
 
