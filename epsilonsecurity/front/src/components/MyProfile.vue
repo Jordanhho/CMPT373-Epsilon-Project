@@ -19,12 +19,12 @@
             <div id= "info-body">
                 <div id = "tab">
                     <li v-for= "tab in tabs">
-                            {{tab.text}}    
+                        {{tab.text}}
                     </li>
                 </div>
                 <div id = "content">
                     <li v-for= "content in tabContent">
-                            {{content}}    
+                        {{content}}                                
                     </li>
                 </div>
                 <span id= "spacer"></span>
@@ -39,9 +39,10 @@
                     Qualification
                 </h1>
                 <div id = "q-body">        
-                    <qualification class="list" 
+                    <qualification class="list"
                     v-for= "qualification in qualificationNames" 
-                    v-bind:qualificationName="qualification">
+                    v-bind:qualificationName="qualification"
+                    v-bind:key="qualification">
                     </qualification>
                 </div>
         </div>

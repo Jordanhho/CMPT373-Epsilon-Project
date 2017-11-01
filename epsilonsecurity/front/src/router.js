@@ -38,7 +38,7 @@ const router = new VueRouter({
 		},
 		{ 
 			path: '/my-profile', 
-			component: MyProfile, // todo: create component
+			component: MyProfile, 
 			meta: { 
 				requiresAuth: true,
 				adminOnly: false 
