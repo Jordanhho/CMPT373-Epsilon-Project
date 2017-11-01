@@ -2,8 +2,10 @@ package auth;
 
 import be.objectify.deadbolt.java.cache.HandlerCache;
 import com.google.inject.AbstractModule;
+import org.jasig.cas.client.validation.Cas30ServiceTicketValidator;
 import org.pac4j.cas.client.CasClient;
 import org.pac4j.cas.config.CasConfiguration;
+import org.pac4j.cas.config.CasProtocol;
 import org.pac4j.core.authorization.authorizer.RequireAnyRoleAuthorizer;
 import org.pac4j.core.client.Clients;
 import org.pac4j.core.config.Config;
@@ -37,13 +39,15 @@ public class SecurityModule extends AbstractModule {
         PlayCacheSessionStore playCacheSessionStore = new PlayCacheSessionStore(getProvider(SyncCacheApi.class));
         bind(PlaySessionStore.class).toInstance(playCacheSessionStore);
         final String baseUrl = "http://localhost:9000";
-        CasConfiguration casConfiguration = new CasConfiguration("http://cas.sfu.ca/cas/login");
+        CasConfiguration casConfiguration = new CasConfiguration("https://cas.sfu.ca/cas/login");
+        casConfiguration.setProtocol(CasProtocol.CAS30);
+        casConfiguration.setDefaultTicketValidator(new SfuCasTicketValidator("https://cas.sfu.ca"));
         CasClient casClient = new CasClient(casConfiguration);
 
         Clients clients = new Clients(baseUrl + "/callback", casClient);
         Config config = new Config(clients);
 //        config.addAuthorizer("admin", new RequireAnyRoleAuthorizer("ROLE_ADMIN"));
-        config.setHttpActionAdapter(new DefaultHttpActionAdapter()); // TODO: do we need this?
+        config.setHttpActionAdapter(new DefaultHttpActionAdapter());
         bind(Config.class).toInstance(config);
 
         CallbackController callbackController = new CallbackController();

@@ -15,6 +15,8 @@ class FrontController @Inject()(cc: ControllerComponents, env: Environment) exte
   val config: Config = ConfigFactory.parseFile(new File("conf/frontend.conf")).resolve()
 
 //   new DummyDataBase
+  def index(path: String) = Action {
     Ok(views.html.index.render(env, config.getInt("webpack.port"), WebpackBuildFile.jsBundle, WebpackBuildFile.cssBundle))
+  }
 
 }
