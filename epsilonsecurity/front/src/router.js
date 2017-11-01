@@ -23,7 +23,7 @@ const router = new VueRouter({
 			}
 		},
 
-		{
+		{ 
 			path: '/my-schedule', 
 			component: MySchedule, 
 			meta: { 
@@ -55,7 +55,7 @@ const router = new VueRouter({
               adminOnly: true
             }
         },
-		{
+		{ 
 			path: '/manage-teams', 
 			component: MySchedule, // todo: create component
 			meta: { 
@@ -63,6 +63,16 @@ const router = new VueRouter({
 				adminOnly: true 
 			}
 		},
+		  {
+			  path: '/my-availability',
+			  component: MyAvailability,
+			  meta: {
+				  requiresAuth: true,
+				  adminOnly: false
+		  }
+		},
+
+
 		{
 			path: '/my-profile',
 			component: MyProfile,
