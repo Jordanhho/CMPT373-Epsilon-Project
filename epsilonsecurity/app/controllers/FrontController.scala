@@ -5,6 +5,7 @@ import java.io.File
 import com.google.inject.Inject
 import com.typesafe.config.{Config, ConfigFactory}
 import lib.WebpackBuildFile
+import models.DummyDatabase.DummyDataBase
 import play.Environment
 import play.api.mvc._
 
@@ -13,6 +14,7 @@ class FrontController @Inject()(cc: ControllerComponents, env: Environment) exte
 
 
   def index(path: String) = Action { request =>
+    //new DummyDataBase
     Ok(views.html.index.render(env, config.getInt("webpack.port"), WebpackBuildFile.jsBundle, WebpackBuildFile.cssBundle))
   }
 
