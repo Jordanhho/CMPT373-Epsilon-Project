@@ -36,11 +36,9 @@
 
 		<main>
 			<v-content>
-				<!-- removed as children should handle their own v-container
-			 	behaviour and having nested v-containers is redundant -->
-				<!-- <v-container fluid fill-height> -->
+				 <v-container fluid fill-height>
 					<router-view></router-view>
-				<!-- </v-container> -->
+				 </v-container>
 			</v-content>
 		</main>
 
