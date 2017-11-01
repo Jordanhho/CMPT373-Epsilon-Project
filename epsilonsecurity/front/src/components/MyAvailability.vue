@@ -66,6 +66,7 @@
 					</full-calendar>
 
 					<!-- floating add availbility button -->
+					<!--
 					<v-card-text style="height: 1px; position: relative" @click.stop="showCreateAvailability = true">
 						<v-btn
 							absolute
@@ -81,6 +82,7 @@
 							</v-icon>
 						</v-btn>
 					</v-card-text>
+					-->
 				</div>
 
 				<!-- bottom bar for submission (footer) -->
