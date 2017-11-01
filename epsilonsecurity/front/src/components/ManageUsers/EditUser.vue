@@ -105,11 +105,13 @@
             confirm() {
                 this.$emit('edit');
                 this.closeDialog();
-            },
+            }
         },
-        created: function() {
-            this.listOfTeamIDsForUser = this.userTeams.map(x => x.id);
+        watch: {
+            userTeams: function(val) {
+                this.listOfTeamIDsForUser = val.map(x => x.id);
             //console.log(JSON.stringify(this.userTeams, null, 2));
+        }
         }
     }
 </script>
