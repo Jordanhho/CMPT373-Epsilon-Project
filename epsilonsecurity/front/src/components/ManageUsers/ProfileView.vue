@@ -1,6 +1,6 @@
 <template>
-        <div>
     <div id = "profile">
+        <div id='main-profile'>
             <img :src="userPhoto" alt="" id= "user-photo">
             <ul id= "user-info">
                 <li>
@@ -13,7 +13,7 @@
                     {{ userData.phoneNumber }}
                 </li>
             </ul>
-           <!-- <span id="spacer"></span>-->
+           <span id="spacer"></span>
             <div id="buttons">
                 <edit-user  id="edit-user"
                             @edit="onClickEdit"
@@ -28,24 +28,25 @@
                 </disable-user>
             </div>
         </div>
-    <ul id="other-data">
-        <li>
-            Teams:
-            <ul id = "team-names">
-                <li v-for="team in userTeams"
-                    class='team-list'>
-                    {{ team.name }}
+            <ul id="other-data">
+                <li>
+                    Teams:
+                    <ul id = "team-names">
+                        <li v-for="team in userTeams"
+                            class='team-list'>
+                            {{ team.name }}
+                        </li>
+                    </ul>
+                <li>
+                    Role: {{ userData.roleId }}
+                </li>
+
+                <li>
+                    SFU Email: {{ userData.sfuEmail }}
                 </li>
             </ul>
-        <li>
-            Role: {{ userData.roleId }}
-        </li>
+        </div>
 
-        <li>
-            SFU Email: {{ userData.sfuEmail }}
-        </li>
-    </ul>
-    </div>
 </template>
 
 <script>
@@ -137,15 +138,25 @@
 <style scoped lang='scss'>
     .team-list {
         padding-left: 1em;
+        font-size: 1.2em;
     }
 
     #profile {
         display: flex;
-        flex-flow: column;
+        flex-direction: column;
     }
 
-    #user-info, #user-photo {
-        flex-flow: row;
+    #main-profile {
+        display: flex;
+        flex-direction: row;
+    }
+    #user-info, #user-photo, #other-data, #buttons {
+        flex-flow: row wrap;
+    }
+
+    #other-data {
+        padding-top: 2em;
+        font-size: 1.5em;
     }
 
     #user-photo {
@@ -157,14 +168,11 @@
     #user-info {
         list-style: none;
         text-align: left;
+        font-size: 2em;
     }
 
     #buttons {
         display: flex;
-    }
-
-    #other-data {
-        flex-flow: column;
     }
 
     #edit-user, #disable-user {

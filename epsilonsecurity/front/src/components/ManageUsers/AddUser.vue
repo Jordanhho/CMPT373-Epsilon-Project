@@ -45,6 +45,13 @@
                                 <v-text-field label="Phone Number" required
                                               v-model="userData.phoneNumber"></v-text-field>
                             </v-flex>
+
+                            <v-flex xs12>
+                                Teams:
+                            </v-flex>
+                            <v-flex xs12 v-for='team in teams'>
+                                <v-checkbox :label="team.name" v-model="listOfTeamIDsForUser":id="team.name" :value="team.id"></v-checkbox>
+                            </v-flex>
                         </v-layout>
                     </v-container>
                     <small>*indicates required field</small>
