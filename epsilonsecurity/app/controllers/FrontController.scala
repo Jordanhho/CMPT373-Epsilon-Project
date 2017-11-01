@@ -16,7 +16,5 @@ class FrontController @Inject()(cc: ControllerComponents, env: Environment) exte
 
 //   new DummyDataBase
     Ok(views.html.index.render(env, config.getInt("webpack.port"), WebpackBuildFile.jsBundle, WebpackBuildFile.cssBundle))
->>>>>>> master
-  }
 
 }
