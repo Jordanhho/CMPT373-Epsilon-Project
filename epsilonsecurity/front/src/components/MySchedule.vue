@@ -119,9 +119,9 @@ export default {
 								},
 								{
 									id: 3,
-									title: "Packade Patrol (Mock)",
+									title: "Parkade Patrol (Mock)",
 									start: moment().weekday(4).hour(16).format(),
-									end: moment().weekday(4).hour(16).minutes(30).format(),
+									end: moment().weekday(4).hour(16).add(30, 'minutes').format(),
 									campus: 'Surrey',
 									description: "If you see a nerd wearing a t-shirt with the number '42' inscribed, please bow respectfully."
 								},
