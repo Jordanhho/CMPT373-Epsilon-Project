@@ -142,6 +142,7 @@
     }
 
     #profile {
+        height: 100%;
         padding: 2em;
         display: flex;
         flex-direction: column;
