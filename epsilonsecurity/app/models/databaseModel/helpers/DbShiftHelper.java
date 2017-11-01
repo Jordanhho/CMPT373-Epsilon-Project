@@ -21,10 +21,20 @@ public final class DbShiftHelper {
         dbShift.save();
     }
 
-    public static DbShift readDbShiftByName(String shiftName) {
+    //This is more likely to return a list
+    public static DbShift readDbShiftByShiftTypeId(Integer shiftTypeId) {
         DbShift dbShift = new QDbShift()
-                .name
-                .eq(shiftName)
+                .shiftTypeId
+                .eq(shiftTypeId)
+                .findUnique();
+
+        return dbShift;
+    }
+
+    public static DbShift readDbShiftByShiftId(Integer shiftId) {
+        DbShift dbShift = new QDbShift()
+                .id
+                .eq(shiftId)
                 .findUnique();
 
         return dbShift;
@@ -50,10 +60,13 @@ public final class DbShiftHelper {
         return dbShiftList;
     }
 
-    public static void deleteDbShiftByName(DbShift dbShift) {
+    public static void deleteDbShift(DbShift dbShift) {
         dbShift.delete();
     }
 
+    public static void deleteShiftByName(String name) {
+
+    }
     /**
      * returns a list of all DbShift
      * @return

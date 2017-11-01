@@ -9,6 +9,7 @@ import play.mvc.Controller;
 import play.mvc.Result;
 
 import javax.inject.Inject;
+import java.util.List;
 
 
 public class UserController extends Controller {
@@ -47,19 +48,35 @@ public class UserController extends Controller {
         return ok(Json.toJson(dbUser));
     }
 
+    public Result readUserByUserId(Integer userId) {
+        DbUser dbUser = DbUserHelper.readDbUserById(userId);
+
+        return ok(Json.toJson(dbUser));
+    }
+
+    public Result readAllUsers() {
+        List<DbUser> dbUserList = DbUserHelper.readAllDbUsers();
+
+        return ok(Json.toJson(dbUserList));
+    }
+
     public Result updateUser(String sfuEmail) {
         return ok();
     }
 
-    public Result deleteUserBySfuEmail() {
+    public Result updateUserEnabled(Integer userId, Boolean enabled){
+        DbUserHelper.updateUserEnable(userId, enabled);
+        return ok();
+    }
 
-        DbUser dbUserFromForm = getDbUserFromForm();
+    public Result deleteUser(DbUser user){
+        DbUserHelper.deleteDbUser(user);
+        return ok();
+    }
 
-        // Read the DbUser to delete based on the form fields.
-        DbUser dbUserToDelete = DbUserHelper.readDbUserBySfuEmail(dbUserFromForm.getSfuEmail());
-
-        DbUserHelper.deleteDbUserBySfuEmail(dbUserToDelete);
-
+    public Result deleteUserBySfuEmail(String sfuEmail) {
+        DbUser dbUserToDelete = DbUserHelper.readDbUserBySfuEmail(sfuEmail);
+        DbUserHelper.deleteDbUser(dbUserToDelete);
         return ok();
     }
 }

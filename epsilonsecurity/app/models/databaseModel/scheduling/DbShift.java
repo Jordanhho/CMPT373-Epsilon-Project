@@ -17,13 +17,16 @@ public class DbShift extends Model {
     private Integer id;
 
     @Column(nullable = false)
-    private String name;
+    private Integer shiftTypeId;
 
     @Column(nullable = false)
     private Long timeStart;
 
     @Column(nullable = false)
     private Long timeEnd;
+
+    @Column
+    private String description;
 
     private boolean wasPresent;
 
@@ -35,12 +38,21 @@ public class DbShift extends Model {
      * @param timeEnd   the end time of the shift
      *                  wasPresent  if the user was present for this shift
      */
-    public DbShift(String name, Long timeStart, Long timeEnd) {
-        this.name = name;
+    public DbShift(Integer shiftTypeId, Long timeStart, Long timeEnd) {
+        this.shiftTypeId = shiftTypeId;
         this.timeStart = timeStart;
         this.timeEnd = timeEnd;
         this.wasPresent = true;
     }
+
+    public DbShift(Integer shiftTypeId, Long timeStart, Long timeEnd, String description) {
+        this.shiftTypeId = shiftTypeId;
+        this.timeStart = timeStart;
+        this.timeEnd = timeEnd;
+        this.wasPresent = true;
+        this.description = description;
+    }
+
 
     public Integer getId() {
         return id;
@@ -50,12 +62,12 @@ public class DbShift extends Model {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public Integer getShiftTypeId() {
+        return shiftTypeId;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setShiftTypeId(Integer shiftTypeId) {
+        this.shiftTypeId = shiftTypeId;
     }
 
     public Long getTimeStart() {
@@ -83,4 +95,19 @@ public class DbShift extends Model {
     }
 
     public static Finder<Integer, DbShift> find = new Finder<>(DbShift.class);
+
+    public String getDescription() {
+        return description;
+    }
+
+    @Override
+    public String toString() {
+        return "DbShift{" +
+                "id=" + id +
+                ", shiftTypeId=" + shiftTypeId +
+                ", timeStart=" + timeStart +
+                ", timeEnd=" + timeEnd +
+                ", wasPresent=" + wasPresent +
+                '}';
+    }
 }

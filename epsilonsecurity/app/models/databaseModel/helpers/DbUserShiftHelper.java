@@ -37,7 +37,7 @@ public final class DbUserShiftHelper {
         return dbUserShiftList;
     }
 
-    public static List<DbUserShift> readDbUserByShiftId(Integer userId) {
+    public static List<DbUserShift> readDbUserShiftByUserId(Integer userId) {
         List<DbUserShift> dbUserShiftList = new QDbUserShift()
                 .userTeamId
                 .eq(userId)

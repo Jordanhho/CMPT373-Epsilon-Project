@@ -33,4 +33,15 @@ public class TimeUtil {
         LocalDateTime localDateTime = LocalDateTime.ofInstant(instant, ZoneOffset.UTC);
         return localDateTime;
     }
+
+    /**
+     * Takes a database's epoch seconds, and converts it to a ISO 8601 UTC timestamp to be used by frontend
+     * @param epochSeconds time representation from the database
+     * @return String containing the newly formatted timestamp
+     */
+    public static String convertEpochSecondsToIsoUtcTime(Long epochSeconds) {
+        LocalDateTime localDateTime = getLocalDateTimeFromDataBase(epochSeconds);
+        ZonedDateTime zonedDateTime = localDateTime.atZone(ZoneOffset.UTC);
+        return zonedDateTime.toString();
+    }
 }

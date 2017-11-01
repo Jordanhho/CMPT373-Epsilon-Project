@@ -1,8 +1,8 @@
 package models.schedule;
 
-import models.EventId;
-import models.UserId;
-import models.UserIdable;
+import store.EventId;
+import store.UserId;
+import store.UserIdable;
 
 import javax.annotation.Nonnull;
 import java.util.Optional;
