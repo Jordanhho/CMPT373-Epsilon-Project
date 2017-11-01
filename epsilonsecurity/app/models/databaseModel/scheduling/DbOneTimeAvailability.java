@@ -80,4 +80,13 @@ public class DbOneTimeAvailability extends Model {
 
     public static Finder<Integer, DbOneTimeAvailability> find = new Finder<>(DbOneTimeAvailability.class);
 
+    @Override
+    public String toString() {
+        return "DbOneTimeAvailability{" +
+                "id=" + id +
+                ", userTeamId=" + userTeamId +
+                ", timeStart=" + timeStart +
+                ", timeEnd=" + timeEnd +
+                '}';
+    }
 }

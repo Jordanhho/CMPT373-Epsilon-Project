@@ -3,6 +3,8 @@ import VueRouter from 'vue-router'
 import MyFeed from './components/MyFeed.vue';
 import MySchedule from './components/MySchedule.vue';
 import MyAvailability from './components/MyAvailability.vue';
+import ManageUsers from './components/ManageUsers/ManageUsers.vue';
+import ProfileView from './components/ManageUsers/ProfileView.vue';
 // todo: import other components here
 import NotFound from './components/NotFound.vue';
 import store from './store/store'
@@ -20,6 +22,7 @@ const router = new VueRouter({
 				adminOnly: false 
 			}
 		},
+
 		{ 
 			path: '/my-schedule', 
 			component: MySchedule, 
@@ -28,6 +31,30 @@ const router = new VueRouter({
 				adminOnly: false 
 			}
 		},
+		// this is a red flag -- everything about /manage-users should be in 1 subtree.
+         {
+              path: '/manage-users',
+              component: ManageUsers,
+              meta: {
+                  requiresAuth: true,
+                  adminOnly: false
+              }
+         },
+        {
+            path: '/manage-users/:id',
+            component: ManageUsers,
+            children: [
+                {
+                    path: '',
+                    component: ProfileView,
+                    props: true
+                }
+                ],
+            meta: {
+              requiresAuth: true,
+              adminOnly: true
+            }
+        },
 		{ 
 			path: '/manage-teams', 
 			component: MySchedule, // todo: create component

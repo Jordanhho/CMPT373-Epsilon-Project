@@ -72,4 +72,13 @@ public class DbOneTimeUnavailability extends Model {
 
     public static Finder<Integer, DbOneTimeUnavailability> find = new Finder<>(DbOneTimeUnavailability.class);
 
+    @Override
+    public String toString() {
+        return "DbOneTimeUnavailability{" +
+                "id=" + id +
+                ", userTeamId=" + userTeamId +
+                ", timeStart=" + timeStart +
+                ", timeEnd=" + timeEnd +
+                '}';
+    }
 }

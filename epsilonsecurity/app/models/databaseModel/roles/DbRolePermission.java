@@ -2,6 +2,8 @@ package models.databaseModel.roles;
 
 import io.ebean.Finder;
 import io.ebean.Model;
+import models.databaseModel.scheduling.DbUser;
+import models.databaseModel.scheduling.query.QDbUser;
 
 import javax.persistence.*;
 
@@ -88,4 +90,14 @@ public class DbRolePermission extends Model {
 
     public static Finder<Integer, DbRolePermission> find = new Finder<>(DbRolePermission.class);
 
+    @Override
+    public String toString() {
+        return "DbRolePermission{" +
+                "id=" + id +
+                ", teamId=" + teamId +
+                ", roleId=" + roleId +
+                ", permissionId=" + permissionId +
+                ", accessLevel=" + accessLevel +
+                '}';
+    }
 }

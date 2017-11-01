@@ -134,4 +134,18 @@ public class DbRecurringAvailability extends Model {
     }
 
     public static Finder<Integer, DbRecurringAvailability> find = new Finder<>(DbRecurringAvailability.class);
+
+    @Override
+    public String toString() {
+        return "DbRecurringAvailability{" +
+                "id=" + id +
+                ", userId=" + userId +
+                ", day=" + day +
+                ", frequency=" + frequency +
+                ", recurTimeStartBlock=" + recurTimeStartBlock +
+                ", recurTimeEndBlock=" + recurTimeEndBlock +
+                ", shiftTimeStartBlock=" + shiftTimeStartBlock +
+                ", shiftTimeEndBlock=" + shiftTimeEndBlock +
+                '}';
+    }
 }

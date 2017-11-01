@@ -11,6 +11,7 @@ lazy val root = (project in file(".")).enablePlugins(PlayJava, PlayEbean)
 
 scalaVersion := "2.12.2"
 
+
 libraryDependencies += guice
 libraryDependencies += javaJdbc
 libraryDependencies += "org.xerial" % "sqlite-jdbc" % "3.8.6"
@@ -34,6 +35,17 @@ libraryDependencies += "io.ebean" % "ebean-querybean" % "10.1.1"
 
 // https://mvnrepository.com/artifact/org.javatuples/javatuples
 libraryDependencies += "org.javatuples" % "javatuples" % "1.2"
+
+// CAS Auth
+libraryDependencies += "org.pac4j" % "play-pac4j" % "4.0.0"
+libraryDependencies += "org.pac4j" % "pac4j-cas" % "2.1.0"
+// TODO: check if we keep this
+libraryDependencies ++= Seq(
+  ehcache
+)
+libraryDependencies ++= Seq(
+  "be.objectify" %% "deadbolt-java" % "2.6.1"
+)
 
 // testing
 libraryDependencies += "junit" % "junit" % "4.12"
@@ -68,4 +80,3 @@ frontEndBuild := {
 frontEndBuild := (frontEndBuild dependsOn cleanFrontEndBuild).value
 
 dist := (dist dependsOn frontEndBuild).value
-

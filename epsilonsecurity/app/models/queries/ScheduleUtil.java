@@ -145,7 +145,35 @@ public final class ScheduleUtil {
         //TODO implement when database schema is updated
     }
 
+    /**
+     * Get a list of all shifts (including campus) assigned to a user
+     * @param userId the database ID of the target user
+     * @return A list containing all the shift data required for the frontend
+     */
+    public static List<ShiftWithCampus> getShiftsWithCampusByUserId(Integer userId) {
+        DbUser targetUser = DbUserHelper.readDbUserById(userId);
+        List<DbUserTeam> dbUserTeamList = DbUserTeamHelper.readAllDbUserTeamsByUserId(targetUser.getId());
 
+        List<List<DbUserShift>> dbUserShiftList = new ArrayList<>();
+        for (DbUserTeam dbUserTeam : dbUserTeamList) {
+            dbUserShiftList.add(DbUserShiftHelper.readDbUserShiftByUserId(dbUserTeam.getUserId()));
+        }
+
+        List<ShiftWithCampus> shiftsWithCampusList = new ArrayList<>();
+        int i = 0;
+        for (List<DbUserShift> targetUserShiftList : dbUserShiftList) {
+            for (DbUserShift dbUserShift : targetUserShiftList) {
+                DbShift dbShift = DbShiftHelper.readDbShiftByShiftId(dbUserShift.getShiftId());
+                DbTeam dbTeam = DbTeamHelper.readDbTeamById(dbUserTeamList.get(i).getTeamId());
+                DbShiftType dbShiftType = DbShiftTypeHelper.readDbShiftTypeById(dbShift.getShiftTypeId());
+                ShiftWithCampus targetShift = new ShiftWithCampus(dbShift, dbTeam, dbShiftType);
+                shiftsWithCampusList.add(targetShift);
+            }
+            i++;
+        }
+
+        return shiftsWithCampusList;
+    }
 }
 
 

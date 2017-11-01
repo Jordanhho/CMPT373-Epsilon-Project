@@ -49,4 +49,13 @@ public class DbUserTeam extends Model {
     }
 
     public static Finder<Integer, DbUserTeam> find = new Finder<>(DbUserTeam.class);
+
+    @Override
+    public String toString() {
+        return "DbUserTeam{" +
+                "id=" + id +
+                ", teamId=" + teamId +
+                ", userId=" + userId +
+                '}';
+    }
 }

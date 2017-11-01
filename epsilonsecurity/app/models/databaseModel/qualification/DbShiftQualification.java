@@ -16,11 +16,11 @@ public class DbShiftQualification extends Model{
     @Column(nullable = false)
     private int qualificationId;
     @Column(nullable = false)
-    private int shiftNameId;
+    private int shiftTypeId;
 
-    public DbShiftQualification(int qualificationId, int shiftNameId) {
+    public DbShiftQualification(int qualificationId, int shiftTypeId) {
         this.qualificationId = qualificationId;
-        this.shiftNameId = shiftNameId;
+        this.shiftTypeId = shiftTypeId;
     }
 
     public int getId() {
@@ -31,15 +31,15 @@ public class DbShiftQualification extends Model{
         return qualificationId;
     }
 
-    public int getShiftNameId() {
-        return shiftNameId;
+    public int getShiftTypeId() {
+        return shiftTypeId;
     }
 
     @Override
     public String toString(){
         return "DbShiftQualification{" +
                 "id=" + id +
-                ", shiftNameId=" + shiftNameId +
+                ", shiftTypeId=" + shiftTypeId +
                 ", qualificationId='" + qualificationId +
                 '}';
     }

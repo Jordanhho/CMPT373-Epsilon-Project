@@ -1,30 +1,50 @@
 package models.databaseModel.helpers;
 
-import models.databaseModel.qualification.DbShiftQualification;
-import models.databaseModel.scheduling.DbShiftName;
-import models.databaseModel.scheduling.query.QDbShiftName;
+
+import models.databaseModel.scheduling.DbShiftQualification;
+import models.databaseModel.scheduling.query.QDbShiftQualification;
 
 import java.util.List;
 
-public class DbShiftQualificationHelper {
+
+/**
+ * CRUD operations for DbShiftQualification class
+ */
+public final class DbShiftQualificationHelper {
+
     private DbShiftQualificationHelper() {
+
     }
 
-    public static void createShiftQualification(int qualificationId, int shiftNameId){
-        DbShiftQualification shiftQualification = new DbShiftQualification(qualificationId, shiftNameId);
-        shiftQualification.save();
+    public static void createDbShiftQualification(DbShiftQualification dbShiftQualification) {
+        dbShiftQualification.save();
     }
 
-    public static DbShiftQualification readShiftQualificationById(int id) {
-        return DbShiftQualification.find.byId(id);
+
+    public static DbShiftQualification readDbShiftQualByShiftTypeIdAndQualId(Integer shiftTypeId, Integer qualificationId) {
+        DbShiftQualification dbShiftQualification = new QDbShiftQualification()
+                .shiftTypeId
+                .eq(shiftTypeId)
+                .and()
+                .qualificationId
+                .eq(qualificationId)
+                .findUnique();
+
+        return dbShiftQualification;
     }
 
-    public static void deleteShiftQualificationById(int id){
-        DbShiftQualification dbShiftQualification = readShiftQualificationById(id);
+    public static void deleteDbShiftQualification(DbShiftQualification dbShiftQualification) {
         dbShiftQualification.delete();
     }
 
-    public static List<DbShiftQualification> readAllQualification(){
-        return DbShiftQualification.find.all();
+    /**
+     * returns a list of all DbShiftQualification
+     */
+    public static List<DbShiftQualification> readAllDbShiftQualification() {
+        List<DbShiftQualification> dbShiftQualificationList = new QDbShiftQualification()
+                .findList();
+
+        return dbShiftQualificationList;
     }
+
 }

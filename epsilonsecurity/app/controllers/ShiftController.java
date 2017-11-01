@@ -1,6 +1,7 @@
 package controllers;
 
 import models.databaseModel.helpers.DbShiftHelper;
+import models.databaseModel.helpers.DbShiftTypeHelper;
 import models.databaseModel.scheduling.DbShift;
 import models.databaseModel.scheduling.DbUser;
 import models.queries.ScheduleUtil;
@@ -50,9 +51,13 @@ public class ShiftController extends Controller {
         return ok();
     }
 
+    //TODO: Refactor deleleShift and all related functions/routes.
     public Result deleteShift(String name) {
-        DbShift dbShiftToDelete = DbShiftHelper.readDbShiftByName(name);
-        DbShiftHelper.deleteDbShiftByName(dbShiftToDelete);
+
+        int shiftTypeID = DbShiftTypeHelper.readDbShiftTypeByName(name).getId();
+        DbShift dbShiftToDelete = DbShiftHelper.readDbShiftByShiftTypeId(shiftTypeID);
+        DbShiftHelper.deleteDbShift(dbShiftToDelete);
+
         return ok();
     }
 
