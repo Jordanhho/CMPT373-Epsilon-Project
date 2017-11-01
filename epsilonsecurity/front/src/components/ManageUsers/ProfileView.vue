@@ -30,12 +30,7 @@
             </li>
         </ul>
         <div class="buttons">
-            <button id="edit-user"
-                    @click="showEditUser = true">
-                Edit User
-            </button>
-            <edit-user  v-if="showEditUser"
-                        @close="showEditUser = false"
+            <edit-user
                         @edit="onClickEdit"
                         v-bind:teams="teams"
                         v-bind:userTeams="userTeams"
@@ -62,7 +57,6 @@
         name: 'user-profile',
         data(){
             return {
-                showEditUser: false,
                 showDisableUser: false,
                 userPhoto: 'http://lorempixel.com/100/100/people',
                 userTeams: [],
@@ -79,10 +73,6 @@
             }
         },
         methods: {
-            toggleEditUser() {
-                this.showEditUser = !(this.showEditUser)
-            },
-
             toggleDisableUser() {
                 this.showDisableUser = !(this.showDisableUser)
             },
@@ -90,7 +80,6 @@
                 this.$emit('clicked', value);
             },
             onClickEdit () {
-                this.showEditUser = false;
                 axios.put('/api/users/' + this.userData.id, this.userData)
                     .then(response => this.$emit('edited'))
                     .catch(function (error) {

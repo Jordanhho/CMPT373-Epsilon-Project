@@ -1,92 +1,51 @@
-<template>
-    <transition name="modal">
-        <div class="modal-mask">
-            <div class="modal-wrapper">
-                <div class="modal-container">
-                    <div class="first-name">
-                        <p>First Name: </p>
-                        <input  v-model="userData.firstName"
-                                placeholder="edit me">
-                    </div>
-                    <div class="last-name">
-                        <p>Last Name: </p>
-                        <input  v-model="userData.lastName"
-                                placeholder="edit me">
-                    </div>
-                    <div class="team-name">
-                        <p>Teams: </p>
-                        <div v-for="team in teams">
-                            <input  :id="team.name"
-                                    type="checkbox"
-                                    :value="team.id"
-                                    v-model="listOfTeamIDsForUser"
-                                    @click="displayAllTeams">
-                            <label :for="team.name">
-                                {{ team.name }}
-                            </label>
-                        </div>
-                    </div>
-                    <div class="role">
-                        <p>Role: </p>
-                        <input  v-model="userData.role"
-                                placeholder="edit me">
-                    </div>
-                    <div class="contact-email">
-                        <p>Contact Email: </p>
-                        <input  v-model="userData.contactEmail"
-                                placeholder="edit me">
-                    </div>
-                    <div class="sfu-email">
-                        <p>SFU Email: </p>
-                        <input  v-model="userData.sfuEmail"
-                                placeholder="edit me">
-                    </div>
-                    <div class="phone-number">
-                        <p>Phone Number: </p>
-                        <input  v-model="userData.phoneNumber"
-                                placeholder="edit me">
-                    </div>
-                    <div class="modal-footer">
-                        <button class="editButton"
-                                @click="$emit('edit')">
-                            Edit
-                        </button>
-                        <button class="closeButton"
-                                @click="$emit('close')">
-                            Cancel
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </transition>
-</template>
+<!--<div class="team-name">
+    <p>Teams: </p>
+    <div v-for="team in teams">
+        <input  :id="team.name"
+                type="checkbox"
+                :value="team.id"
+                v-model="listOfTeamIDsForUser"
+                @click="displayAllTeams">
+        <label :for="team.name">
+            {{ team.name }}
+        </label>
+    </div>
+</div>-->
 
 <template>
     <v-layout row justify-center>
         <v-dialog v-model="dialog" persistent max-width="500px">
-            <v-btn color="primary" dark slot="activator">Open Dialog</v-btn>
+            <v-btn color="primary" dark slot="activator" >Edit Button</v-btn>
             <v-card>
                 <v-card-title>
-                    <span class="headline">User Profile</span>
+                    <span class="headline">Edit Profile</span>
                 </v-card-title>
                 <v-card-text>
                     <v-container grid-list-md>
                         <v-layout wrap>
-                            <v-flex xs12 sm6 md4>
-                                <v-text-field label="First Name" value="userData.role"></v-text-field>
+                            <v-flex xs12 sm6>
+                                <v-text-field label="First Name" required
+                                              v-model="userData.firstName"></v-text-field>
                             </v-flex>
-                            <v-flex xs12 sm6 md4>
-                                <v-text-field label="Legal middle name" hint="example of helper text only on focus"></v-text-field>
-                            </v-flex>
-                            <v-flex xs12 sm6 md4>
-                                <v-text-field label="Legal last name" hint="example of persistent helper text"
-                                              persistent-hint
-                                              required
-                                ></v-text-field>
+                            <v-flex xs12 sm6>
+                                <v-text-field label="Last name" required
+                                              v-model="userData.lastName"></v-text-field>
                             </v-flex>
                             <v-flex xs12>
-                                <v-text-field label="Email" required></v-text-field>
+                                <v-text-field label="Role" required
+                                              v-model="userData.roleId"></v-text-field>
+                            </v-flex>
+                            <v-flex xs12>
+                                <v-text-field label="SFU Email" required
+                                              v-model="userData.sfuEmail"></v-text-field>
+                            </v-flex>
+                            <v-flex xs12>
+                                <v-text-field label="Contact Email" required
+                                              v-model="userData.contactEmail"></v-text-field>
+                            </v-flex>
+                            <v-flex xs12>
+                                <v-text-field label="Phone Number" required
+                                              v-model="userData.phoneNumber"></v-text-field>
                             </v-flex>
                         </v-layout>
                     </v-container>
@@ -94,8 +53,8 @@
                 </v-card-text>
                 <v-card-actions>
                     <v-spacer></v-spacer>
-                    <v-btn color="blue darken-1" flat @click.native="dialog = false">Close</v-btn>
-                    <v-btn color="blue darken-1" flat @click.native="dialog = false">Save</v-btn>
+                    <v-btn color="blue darken-1" flat @click.native="confirm">Edit</v-btn>
+                    <v-btn color="blue darken-1" flat @click.native="closeDialog">Close</v-btn>
                 </v-card-actions>
             </v-card>
         </v-dialog>
@@ -109,6 +68,7 @@
         data () {
             return {
                 listOfTeamIDsForUser: [],
+                dialog: false,
             }
         },
         components: {
@@ -131,6 +91,13 @@
         methods: {
             displayAllTeams() {
                 alert(this.listOfTeamIDsForUser);
+            },
+            closeDialog() {
+              this.dialog = false;
+            },
+            confirm() {
+                this.$emit('edit');
+                this.closeDialog();
             },
         },
         created: function() {
