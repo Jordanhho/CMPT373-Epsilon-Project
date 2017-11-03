@@ -7,7 +7,9 @@ organization := "ca.sfu"
 
 version := "1.0-SNAPSHOT"
 
-lazy val root = (project in file(".")).enablePlugins(PlayJava, PlayEbean)
+lazy val root = project
+  .in(file("."))
+  .enablePlugins(PlayJava, PlayEbean)
 
 scalaVersion := "2.12.2"
 
@@ -31,10 +33,9 @@ libraryDependencies += ws
 // https://mvnrepository.com/artifact/org.javatuples/javatuples
 libraryDependencies += "org.javatuples" % "javatuples" % "1.2"
 
-// CAS Auth
+// -------------- CAS Authentication -----------
 libraryDependencies += "org.pac4j" % "play-pac4j" % "4.0.0"
 libraryDependencies += "org.pac4j" % "pac4j-cas" % "2.1.0"
-// TODO: check if we keep this
 libraryDependencies ++= Seq(
   ehcache
 )
@@ -42,7 +43,7 @@ libraryDependencies ++= Seq(
   "be.objectify" %% "deadbolt-java" % "2.6.1"
 )
 
-// testing
+// ---------------- Tests -----------------------
 libraryDependencies += "junit" % "junit" % "4.12"
 libraryDependencies += "com.novocode" % "junit-interface" % "0.11" % "test"
 
@@ -76,3 +77,7 @@ frontEndBuild := {
 frontEndBuild := (frontEndBuild dependsOn cleanFrontEndBuild).value
 
 dist := (dist dependsOn frontEndBuild).value
+
+// --------------- Dist Configuration
+
+
