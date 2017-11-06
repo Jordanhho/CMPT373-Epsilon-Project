@@ -295,7 +295,7 @@
 							<v-card-actions>
 								<v-spacer></v-spacer>
 								<v-btn color="primary" flat @click.stop="AvailabilityEdit(availability)" :disabled="availabilitySubmitted">
-									Edit
+									Add
 								</v-btn>
 								<v-btn color="primary" flat @click.stop="AvailabilityDeletion(availability)" :disabled="availabilitySubmitted">
 									Delete
@@ -737,7 +737,7 @@ export default {
 
 #my-calendar {
 	width: 100%;
-	height: 35em;
+	height: 40em;
 	flex-flow: column nowrap;
 }
 
