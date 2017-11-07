@@ -7,7 +7,7 @@
 			id="calendar">
 		</full-calendar>
 
-		<v-dialog v-model="showEventInfo">
+		<v-dialog v-model="dialog">
       <v-card> 
         <v-card-title>
 					<span class="headline">Shift Info</span>
@@ -142,7 +142,7 @@ export default {
 					textColor: "white"
 				}
 			],
-			showEventInfo: false,
+			dialog: false,
 			clickedShift: {}
 		}
 	},
@@ -171,7 +171,7 @@ export default {
 		handleEventClick: function(calEvent, jsEvent, view) {
 			console.log("Shift was clicked.")
 			this.clickedShift = calEvent
-			this.showEventInfo = true
+			this.dialog = true
 		},
 		handleEventSelection: function(start, end, jsEvent, view) {
 			console.log("Shift selection ended.")

@@ -37,7 +37,6 @@ export default new Vuex.Store({
     }
 	},
 	actions: {
-
     login: function({commit}, credentials) {
 			// todo: use the passed in credentials
 			// mock: send user credentials to backend - async
