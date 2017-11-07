@@ -15,7 +15,8 @@ class FrontController @Inject()(cc: ControllerComponents, env: Environment) exte
 
   def index(path: String) = Action { request =>
 //    new DummyDataBase
-    Ok(views.html.index.render(env, config.getInt("webpack.port"), WebpackBuildFile.jsBundle, WebpackBuildFile.cssBundle))
+//    Ok(views.html.index.render(env, config.getInt("webpack.port")))
+    Ok(views.html.index.render())
   }
 
 }

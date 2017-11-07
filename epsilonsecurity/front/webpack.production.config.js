@@ -8,7 +8,8 @@ module.exports = {
     entry: path.resolve('./src/main.js'),
     output: {
         path: path.resolve('../public/bundle'),
-        filename: 'js.bundle.[hash].js'
+//        filename: 'js.bundle.[hash].js'
+        filename: 'js_bundle.js'
     },
     module: {
 			rules: [
@@ -45,16 +46,17 @@ module.exports = {
         new webpack.optimize.UglifyJsPlugin({
             sourceMap: true
         }),
-        new ExtractTextPlugin("style.bundle.[contentHash].css"),
+//        new ExtractTextPlugin("style.bundle.[contentHash].css"),
+        new ExtractTextPlugin("style_bundle.css"),
         new OptimizeCssAssetsPlugin({
             cssProcessor: require('cssnano'),
             cssProcessorOptions: { discardComments: {removeAll: true } }
         }),
-        new CompressionPlugin({
-            asset: "[path].gz[query]",
-            test: /\.(js|css)$/,
-            minRatio: 0.8,
-            deleteOriginalAssets: false
-        })
+//        new CompressionPlugin({
+//            asset: "[path].gz[query]",
+//            test: /\.(js|css)$/,
+//            minRatio: 0.8,
+//            deleteOriginalAssets: false
+//        })
     ]
 };
