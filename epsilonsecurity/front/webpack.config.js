@@ -4,9 +4,10 @@ let path = require('path');
 module.exports = {
 	entry: path.resolve('./src/main.js'),
 	output: {
-			path: path.resolve('../public/js'),
+			// path: path.resolve('../public/js'),
+			path: path.join(__dirname, '../public/js'),
+			publicPath: '/',
 			filename: 'build.js',
-			// publicPath: '/'
 	},
 	resolve: {
 		extensions: ['.js', '.vue', '.json'],
@@ -62,5 +63,5 @@ module.exports = {
 	},
 	// todo: why does it not not show exact line where 
 	// error occured in source code
-	devtool: "cheap-eval-source-map"
+	// devtool: "cheap-eval-source-map"
 };

@@ -1,3 +1,5 @@
+@(env: play.Environment, port: Int, jsBundle: String, cssBundle: String)
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -5,11 +7,20 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!-- todo: bundle this with webpack -->
+    <link href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons' rel="stylesheet">
     <title>Document</title>
-    <link rel="stylesheet" href="/assets/bundle/style_bundle.css">
+    @if(env.isProd) {
+        <link rel="stylesheet" href="/assets/bundle/@cssBundle">
+    }
 </head>
 <body>
-    <p>hello world!</p>
-    <script src="'/assets/bundle/js_bundle.js"></script>
+    <!-- @("isDev: " + env.isDev + ", port: " + port + ", jsBundle: " + jsBundle + ", cssBundle: " + cssBundle) -->
+    <div id="app-container"></div>
+    @if(env.isDev) {
+        <script src="http://localhost:@port/build.js"></script>
+    } else {
+        <script src="/assets/bundle/@jsBundle"></script>
+    }
 </body>
 </html>

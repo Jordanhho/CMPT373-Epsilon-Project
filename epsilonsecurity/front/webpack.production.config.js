@@ -4,13 +4,20 @@ const webpack = require('webpack');
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const CompressionPlugin = require('compression-webpack-plugin');
+
 module.exports = {
     entry: path.resolve('./src/main.js'),
     output: {
         path: path.resolve('../public/bundle'),
 //        filename: 'js.bundle.[hash].js'
-        filename: 'js_bundle.js'
-    },
+        filename: 'bundle.js'
+		},
+		resolve: {
+			extensions: ['.js', '.vue', '.json'],
+			alias: {
+				'vue$': 'vue/dist/vue.esm.js',
+			}
+		},
     module: {
 			rules: [
 				{
@@ -21,14 +28,9 @@ module.exports = {
 				{
 					test: /\.vue$/,
 					loader: 'vue-loader',
-					options: {}
-				},
-				{
-					test:  /\.s[a|c]ss$/,
-					use: ExtractTextPlugin.extract({
-							fallback: 'style-loader',
-							use: ['css-loader', 'sass-loader']
-					})
+					options: {
+						extractCSS: true
+					}
 				},
 				{
 					test: /\.(png|jpg|gif|svg)$/,
@@ -47,7 +49,7 @@ module.exports = {
             sourceMap: true
         }),
 //        new ExtractTextPlugin("style.bundle.[contentHash].css"),
-        new ExtractTextPlugin("style_bundle.css"),
+        new ExtractTextPlugin("bundle.css"),
         new OptimizeCssAssetsPlugin({
             cssProcessor: require('cssnano'),
             cssProcessorOptions: { discardComments: {removeAll: true } }
