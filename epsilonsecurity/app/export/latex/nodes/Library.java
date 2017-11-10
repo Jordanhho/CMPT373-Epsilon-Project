@@ -18,7 +18,7 @@ public class Library implements Node {
         this.optionalArguments = optionalArguments;
     }
 
-    static Library named(String name) {
+    public static Library named(String name) {
         return new Library(name, new ArrayList<>(), new ArrayList<>());
     }
 

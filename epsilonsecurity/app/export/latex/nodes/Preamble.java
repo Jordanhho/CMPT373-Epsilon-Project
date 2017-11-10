@@ -56,7 +56,7 @@ public class Preamble implements Node {
         Comment.of("Macros");
     }
 
-    public DocumentClass getDocumentClass() {
+    private DocumentClass getDocumentClass() {
         return new DocumentClass(paperSize, fontSize, DocumentType.ARTICLE);
     }
 }
