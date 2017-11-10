@@ -2,7 +2,7 @@ package controllers;
 
 import models.databaseModel.helpers.DbUserQualificationHelper;
 import models.databaseModel.qualification.DbQualification;
-import models.databaseModel.scheduling.DbUserQualification;
+import models.databaseModel.qualification.DbUserQualification;
 import play.data.Form;
 import play.data.FormFactory;
 import play.libs.Json;

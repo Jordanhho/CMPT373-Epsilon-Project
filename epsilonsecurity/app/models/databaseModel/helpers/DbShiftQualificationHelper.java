@@ -1,8 +1,8 @@
 package models.databaseModel.helpers;
 
 
-import models.databaseModel.scheduling.DbShiftQualification;
-import models.databaseModel.scheduling.query.QDbShiftQualification;
+import models.databaseModel.qualification.DbShiftQualification;
+import models.databaseModel.qualification.query.QDbShiftQualification;
 
 import java.util.List;
 

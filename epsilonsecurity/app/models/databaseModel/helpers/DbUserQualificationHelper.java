@@ -3,8 +3,8 @@ package models.databaseModel.helpers;
 
 import models.databaseModel.qualification.DbQualification;
 import models.databaseModel.qualification.query.QDbQualification;
-import models.databaseModel.scheduling.DbUserQualification;
-import models.databaseModel.scheduling.query.QDbUserQualification;
+import models.databaseModel.qualification.DbUserQualification;
+import models.databaseModel.qualification.query.QDbUserQualification;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -77,5 +77,4 @@ public final class DbUserQualificationHelper {
 
         return dbUserQualificationList;
     }
-
 }
