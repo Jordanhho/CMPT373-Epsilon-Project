@@ -1,9 +1,12 @@
 package models.databaseModel.helpers;
 
 
+import models.databaseModel.qualification.DbQualification;
 import models.databaseModel.qualification.DbShiftQualification;
+import models.databaseModel.qualification.query.QDbQualification;
 import models.databaseModel.qualification.query.QDbShiftQualification;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -20,8 +23,7 @@ public final class DbShiftQualificationHelper {
         dbShiftQualification.save();
     }
 
-
-    public static DbShiftQualification readDbShiftQualByShiftTypeIdAndQualId(Integer shiftTypeId, Integer qualificationId) {
+    public static DbShiftQualification readDbShiftQualificationById(Integer shiftTypeId, Integer qualificationId) {
         DbShiftQualification dbShiftQualification = new QDbShiftQualification()
                 .shiftTypeId
                 .eq(shiftTypeId)
@@ -31,6 +33,21 @@ public final class DbShiftQualificationHelper {
                 .findUnique();
 
         return dbShiftQualification;
+    }
+
+    public static List<DbQualification> readDbQualificationByShiftTypeId(Integer shiftTypeId){
+        List<DbShiftQualification> dbShiftQualificationList = new QDbShiftQualification()
+                .shiftTypeId
+                .eq(shiftTypeId)
+                .findList();
+        List<DbQualification> dbQualificationList = new ArrayList<>();
+        for(DbShiftQualification shiftQualification : dbShiftQualificationList){
+            dbQualificationList.add(new QDbQualification()
+                .id
+                .eq(shiftQualification.getQualificationId())
+                .findUnique());
+        }
+        return dbQualificationList;
     }
 
     public static void deleteDbShiftQualification(DbShiftQualification dbShiftQualification) {

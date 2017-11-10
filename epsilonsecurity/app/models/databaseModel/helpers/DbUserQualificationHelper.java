@@ -5,6 +5,8 @@ import models.databaseModel.qualification.DbQualification;
 import models.databaseModel.qualification.query.QDbQualification;
 import models.databaseModel.qualification.DbUserQualification;
 import models.databaseModel.qualification.query.QDbUserQualification;
+import models.databaseModel.scheduling.DbUser;
+import models.databaseModel.scheduling.query.QDbUser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,20 +25,7 @@ public final class DbUserQualificationHelper {
         dbUserQualification.save();
     }
 
-    public static DbUserQualification readDbUserQualificationById(Integer userId, Integer qualificationId) {
-        DbUserQualification dbUserQualification = new QDbUserQualification()
-                .userId
-                .eq(userId)
-                .and()
-                .qualificationId
-                .eq(qualificationId)
-                .findUnique();
-
-        return dbUserQualification;
-    }
-
-
-    public static DbUserQualification readDbUserQualByUserIdAndQualId(Integer userId, Integer qualificationId) {
+    public static DbUserQualification readDbUserQualificationByIds(Integer userId, Integer qualificationId) {
         DbUserQualification dbUserQualification = new QDbUserQualification()
                 .userId
                 .eq(userId)
@@ -61,6 +50,21 @@ public final class DbUserQualificationHelper {
                 .findUnique());
         }
         return dbQualificationList;
+    }
+
+    public static List<DbUser> readDbUserByQualificationId(Integer qualificationId){
+        List <DbUserQualification> dbUserQualificationList = new QDbUserQualification()
+                .qualificationId
+                .eq(qualificationId)
+                .findList();
+        List<DbUser> dbUserList = new ArrayList<>();
+        for(DbUserQualification userQualification : dbUserQualificationList){
+            dbUserList.add(new QDbUser()
+                .id
+                .eq(userQualification.getUserId())
+                .findUnique());
+        }
+        return dbUserList;
     }
 
     public static void deleteDbUserQualification(DbUserQualification dbUserQualification) {

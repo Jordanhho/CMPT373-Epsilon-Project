@@ -2,9 +2,11 @@ package models.queries;
 
 
 import models.databaseModel.helpers.*;
+import models.databaseModel.qualification.DbQualification;
 import models.databaseModel.scheduling.*;
 import models.databaseModel.scheduling.query.QDbUserShift;
 import models.databaseModel.scheduling.query.QDbUserTeam;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
@@ -16,16 +18,48 @@ import java.util.Set;
  */
 public final class ScheduleUtil {
 
-    //Search for available users based on teamId, start and end time of shift
-    public static List<DbUser> queryUsersBasedOnAvailability(Integer teamId, Long timeStart, Long timeEnd) {
+    /**
+     * Search for available users based on teamId, start and end time of shift
+     * function searches for users with the team in question
+     * and any availability matching the time range
+     * intersect them to find qualified users in the right team and are available at that time,
+     * and remove any user assigned with a shift in that time range
+    */
 
-        //find all users in right team/location
-        List<DbUserTeam> userTeamListByLocation = new QDbUserTeam()
-                .teamId
-                .eq(teamId)
-                .findList();
+    public static List<DbUser> queryUsersBasedOnAvailability(Integer teamId, Integer shiftTypeId, Long timeStart, Long timeEnd) {
 
-        //find all availability in right time range
+        List<DbUserTeam> userTeamListByLocation = DbUserTeamHelper.readDbUserTeamByTeamId(teamId);
+
+        List<DbUserTeam> userTeamListByAvailability = getDbUserTeamsByAvailability(timeStart, timeEnd);
+
+        List<DbUserTeam> userTeamListByShift = getDbUserTeamsByShift(timeStart, timeEnd);
+
+        List<DbUser> dbUserList = new ArrayList<>();
+
+        Set<DbUserTeam> filteredList = new LinkedHashSet<>(userTeamListByAvailability);
+
+        //find intersection of userTeam list by location and time range
+        filteredList.retainAll(new LinkedHashSet<>(userTeamListByLocation));
+
+        //remove elements with in time-range unavailability and shift time
+        filteredList.removeAll(userTeamListByShift);
+
+        for (DbUserTeam userTeam : filteredList){
+            dbUserList.add(DbUserHelper.readDbUserById(userTeam.getUserId()));
+        }
+
+        //intersect with user with matching qualification
+        dbUserList.retainAll(getUserByQualification(shiftTypeId));
+
+        return dbUserList;
+    }
+
+
+    /**
+     * find all availability in right time range and matching userTeam
+     */
+    private static List<DbUserTeam> getDbUserTeamsByAvailability(Long timeStart, Long timeEnd) {
+
         List<DbOneTimeAvailability> oneTimeAvailabilityList = DbOneTimeAvailabilityHelper
                 .readDbOneTimeAvailabilityByTimeRange(timeStart, timeEnd);
 
@@ -34,20 +68,13 @@ public final class ScheduleUtil {
         for(DbOneTimeAvailability oneTimeAvailability : oneTimeAvailabilityList){
             userTeamListByAvailability.add(DbUserTeam.find.byId(oneTimeAvailability.getUserTeamId()));
         }
+        return userTeamListByAvailability;
+    }
 
-        //return all unavailability in range
-        List<DbOneTimeUnavailability> oneTimeUnavailabilityList = DbOneTimeUnavailabilityHelper
-                .readDbOneTimeUnavailabilityByTimeRange(timeStart, timeEnd);
-
-        List<DbUserTeam> userTeamListByUnavailability = new ArrayList<>();
-
-        for(DbOneTimeUnavailability oneTimeUnavailability : oneTimeUnavailabilityList){
-            if(oneTimeUnavailability.getUserTeamId().equals(teamId)){
-                userTeamListByUnavailability.add(DbUserTeam.find.byId(oneTimeUnavailability.getUserTeamId()));
-            }
-        }
-
-        //return all shifts in range
+    /**
+     * find all shift in range and matching userTeam
+     */
+    private static List<DbUserTeam> getDbUserTeamsByShift(Long timeStart, Long timeEnd) {
         List<DbShift> shifts = DbShiftHelper.readDbShiftByTime(timeStart, timeEnd);
 
         List<DbUserShift> userShiftList = new ArrayList<>();
@@ -61,49 +88,39 @@ public final class ScheduleUtil {
         for(DbUserShift userShift : userShiftList){
             userTeamListByShift.add(DbUserTeam.find.byId(userShift.getUserTeamId()));
         }
+        return userTeamListByShift;
+    }
 
-        //combine list1 & list2
-        //then subtract list3 & list4
-        List<DbUser> dbUserList = new ArrayList<>();
+    /**
+     * get list of user qualified for the job
+     */
+    public static List<DbUser> getUserByQualification(Integer shiftTypeId) {
+        List<DbQualification> qualificationList = DbShiftQualificationHelper.readDbQualificationByShiftTypeId(shiftTypeId);
+        Set<DbUser> qualifiedUserList = new LinkedHashSet<>(new ArrayList<DbUser>());
 
-        Set<DbUserTeam> filteredList = new LinkedHashSet<>(userTeamListByAvailability);
-
-        //find intersection of userTeam list by location and time range
-        filteredList.retainAll(userTeamListByLocation);
-
-        //remove elements with in time-range unavailability and shift time
-        filteredList.removeAll(userTeamListByUnavailability);
-        filteredList.removeAll(userTeamListByShift);
-
-        for (DbUserTeam userTeam : filteredList){
-            dbUserList.add(DbUserHelper.readDbUserById(userTeam.getUserId()));
+        for (DbQualification qualification : qualificationList){
+            qualifiedUserList.retainAll(DbUserQualificationHelper.readDbUserByQualificationId(qualification.getId()));
         }
-
-        return dbUserList;
-    }
-
-
-    /**
-     * Get all shifts between two dates or time periods on same day
-     * @param timeStart
-     * @param timeEnd
-     * @return
-     */
-    public static List<DbShift> getAllShiftsBetweenTimePeriods(Long timeStart, Long timeEnd) {
-        List<DbShift> dbShiftList = new ArrayList<>();
-        dbShiftList = DbShiftHelper.readDbShiftByTime(timeStart, timeEnd);
-        return dbShiftList;
+        return new ArrayList<>(qualifiedUserList);
     }
 
     /**
-     * get all information about one specific user
-     * @param userId
-     * @return
+     * find all unavailability in range and matching userTeam
      */
-    public static DbUser getInfoOnUser(Integer userId) {
-        DbUser dbUser = DbUserHelper.readDbUserById(userId);
-        return dbUser;
+    private static List<DbUserTeam> getDbUserTeamsByUnavailability(Integer teamId, Long timeStart, Long timeEnd) {
+        List<DbOneTimeUnavailability> oneTimeUnavailabilityList = DbOneTimeUnavailabilityHelper
+                .readDbOneTimeUnavailabilityByTimeRange(timeStart, timeEnd);
+
+        List<DbUserTeam> userTeamListByUnavailability = new ArrayList<>();
+
+        for(DbOneTimeUnavailability oneTimeUnavailability : oneTimeUnavailabilityList){
+            if(oneTimeUnavailability.getUserTeamId().equals(teamId)){
+                userTeamListByUnavailability.add(DbUserTeam.find.byId(oneTimeUnavailability.getUserTeamId()));
+            }
+        }
+        return userTeamListByUnavailability;
     }
+
 
     /**
      * get all users from a team/Campus
@@ -126,24 +143,6 @@ public final class ScheduleUtil {
         return dbUserList;
     }
 
-    /**
-     * get list of users available for a job also need to be refactored to take into user's qualification into account.
-     * @param
-     * @return
-     */
-    public static List<DbUser> getListOfUserForJob() {
-        //TODO implement when database schema is updated
-        return null;
-    }
-
-    /**
-     * Get user's qualification for job(s)
-     * @param
-     * @return
-     */
-    public static void getUserQualificationForJob() {
-        //TODO implement when database schema is updated
-    }
 
     /**
      * Get a list of all shifts (including campus) assigned to a user
