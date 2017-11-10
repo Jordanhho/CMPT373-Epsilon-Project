@@ -16,6 +16,11 @@ libraryDependencies += javaJdbc
 libraryDependencies += "org.xerial" % "sqlite-jdbc" % "3.8.6"
 libraryDependencies += evolutions
 
+// Play-Mailer Plugin
+// https://github.com/playframework/play-mailer
+libraryDependencies += "com.typesafe.play" %% "play-mailer" % "6.0.1"
+libraryDependencies += "com.typesafe.play" %% "play-mailer-guice" % "6.0.1"
+
 // Type Safe Queries (Query Beans)
 // http://ebean-orm.github.io/docs/query/typesafe
 libraryDependencies += "io.ebean" % "querybean-generator" % "10.1.2"

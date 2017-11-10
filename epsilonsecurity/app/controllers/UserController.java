@@ -1,5 +1,7 @@
 package controllers;
 
+import email.MailerService;
+import email.MailerServiceCron;
 import models.databaseModel.helpers.DbUserHelper;
 import models.databaseModel.scheduling.DbUser;
 import play.data.Form;
@@ -9,18 +11,20 @@ import play.mvc.Controller;
 import play.mvc.Result;
 
 import javax.inject.Inject;
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.List;
 
 
 public class UserController extends Controller {
 
     private final FormFactory formFactory;
+    private final MailerService mailerService;
+    private final MailerServiceCron mailerServiceCron;
 
     @Inject
-    public UserController(FormFactory formFactory) {
+    public UserController(FormFactory formFactory, MailerServiceCron mailerServiceCron, MailerService mailerService) {
         this.formFactory = formFactory;
+        this.mailerServiceCron = mailerServiceCron;
+        this.mailerService = mailerService;
     }
 
     private DbUser getDbUserFromForm() {
@@ -58,6 +62,7 @@ public class UserController extends Controller {
 
     public Result readAllUsers() {
         List<DbUser> dbUserList = DbUserHelper.readAllDbUsers();
+        mailerServiceCron.initialize();
 
         return ok(Json.toJson(dbUserList));
     }
