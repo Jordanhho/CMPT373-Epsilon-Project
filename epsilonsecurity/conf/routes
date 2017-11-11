@@ -1,15 +1,15 @@
 # allow requests for static assets
-GET             /assets/*file                                                      controllers.Assets.versioned(path="/public", file: Asset)
+GET           /assets/*file                                                      controllers.Assets.versioned(path="/public", file: Asset)
 
-GET             /test                                     controllers.TestController.testy()
+GET           /test                                                              controllers.TestController.testy()
 
-GET             /callback          @org.pac4j.play.CallbackController.callback()
+GET           /callback                                                          @org.pac4j.play.CallbackController.callback()
 
-GET             /ok     controllers.TestController.test()
+GET           /ok                                                                controllers.TestController.test()
 
 # redirect all other requests to the SPA page
 # ...except API requests with the prefix '/api'
-GET           /$p<(?!api).*>                            controllers.FrontController.index(p: String)
+GET           /$p<(?!api).*>                                                     controllers.FrontController.index(p: String)
 
 # TODO: Consider making a custom router to handle '/api' requests
 # see: https://www.playframework.com/documentation/2.6.x/ScalaRouting#the-routes-file-syntax
@@ -61,6 +61,9 @@ DELETE        /api/users/shifts/:shiftId                                        
 GET           /api/users/teams/:teamId                                           controllers.UserTeamController.readAllUsersByTeamId(teamId: Integer)
 
 GET           /api/users/:userId/teams                                           controllers.UserTeamController.readDbUserTeamByUserId(userId: Integer)
+
+# Assign a user to a list of teams
+POST          /api/users/:userId/teams                                           controllers.UserTeamController.createUserTeam(userId: Integer)
 
 # Assign a user to a team
 POST          /api/users/:userId/teams/:teamId                                   controllers.UserTeamController.createUserTeam(userId: Integer, teamId: Integer)
