@@ -37,6 +37,15 @@ public class UserTeamController extends Controller {
         return ok();
     }
 
+    public Result deleteUserFromAllTeams(Integer userId) {
+        List<DbUserTeam> userTeamList = DbUserTeamHelper.readAllDbUserTeamsByUserId(userId);
+        for (DbUserTeam userTeam : userTeamList) {
+            DbUserTeamHelper.deleteDbUserTeam(userTeam);
+        }
+
+        return ok();
+    }
+
     public Result readDbUserTeamByUserId(Integer userId) {
         List<DbTeam> dbTeamList = DbUserTeamHelper.readDbUserTeamByUserId(userId);
 

@@ -1,15 +1,15 @@
 # allow requests for static assets
-GET             /assets/*file                                                      controllers.Assets.versioned(path="/public", file: Asset)
+GET           /assets/*file                                                      controllers.Assets.versioned(path="/public", file: Asset)
 
-GET             /test                                     controllers.TestController.testy()
+GET           /test                                                              controllers.TestController.testy()
 
-GET             /callback          @org.pac4j.play.CallbackController.callback()
+GET           /callback                                                          @org.pac4j.play.CallbackController.callback()
 
-GET             /ok     controllers.TestController.test()
+GET           /ok                                                                controllers.TestController.test()
 
 # redirect all other requests to the SPA page
 # ...except API requests with the prefix '/api'
-GET           /$p<(?!api).*>                            controllers.FrontController.index(p: String)
+GET           /$p<(?!api).*>                                                     controllers.FrontController.index(p: String)
 
 # TODO: Consider making a custom router to handle '/api' requests
 # see: https://www.playframework.com/documentation/2.6.x/ScalaRouting#the-routes-file-syntax
@@ -70,6 +70,9 @@ GET           /api/users/:userId/teams/:teamId                                  
 
 # Delete a user-team pair by userId and teamId
 DELETE        /api/users/:userId/teams/:teamId                                   controllers.UserTeamController.deleteUserTeam(userId: Integer, teamId: Integer)
+
+# Delete a user from all teams
+DELETE        /api/users/:userId/teams                                           controllers.UserTeamController.deleteUserFromAllTeams(userId: Integer)
 
 
 #
