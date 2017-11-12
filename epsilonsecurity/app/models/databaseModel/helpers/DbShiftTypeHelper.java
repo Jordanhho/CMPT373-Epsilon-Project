@@ -8,7 +8,8 @@ import java.util.List;
 
 public class DbShiftTypeHelper {
 
-    private DbShiftTypeHelper() {}
+    private DbShiftTypeHelper() {
+    }
 
     public static void createDbShiftType(DbShiftType dbShiftType) {
         dbShiftType.save();
@@ -25,6 +26,15 @@ public class DbShiftTypeHelper {
                 .findUnique();
 
         return dbShiftType;
+    }
+
+    public static List<DbShiftType> readAllDbShiftTypeById(Integer id) {
+        List<DbShiftType> dbShiftTypeList = new QDbShiftType()
+                .id
+                .eq(id)
+                .findList();
+
+        return dbShiftTypeList;
     }
 
     public static DbShiftType readDbShiftTypeByName(String name) {

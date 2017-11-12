@@ -3,7 +3,6 @@ package models.databaseModel.helpers;
 
 import models.databaseModel.scheduling.DbShift;
 import models.databaseModel.scheduling.query.QDbShift;
-import models.databaseModel.scheduling.query.QDbUser;
 
 import java.util.List;
 
@@ -40,13 +39,23 @@ public final class DbShiftHelper {
         return dbShift;
     }
 
+    public static List<DbShift> readAllDbShiftByShiftId(Integer shiftId) {
+        List<DbShift> dbShiftList = new QDbShift()
+                .id
+                .eq(shiftId)
+                .findList();
+
+        return dbShiftList;
+    }
+
     /**
      * returns a List of DBshift by timeStart, timeEnd
+     *
      * @param timeStart
      * @param timeEnd
      * @return
      */
-    public static List<DbShift> readDbShiftByTime(Long timeStart, Long timeEnd){
+    public static List<DbShift> readDbShiftByTime(Long timeStart, Long timeEnd) {
         List<DbShift> dbShiftList = new QDbShift()
                 .timeStart.lessOrEqualTo(timeStart)
                 .and()
@@ -67,8 +76,10 @@ public final class DbShiftHelper {
     public static void deleteShiftByName(String name) {
 
     }
+
     /**
      * returns a list of all DbShift
+     *
      * @return
      */
     public static List<DbShift> readAllDbShift() {

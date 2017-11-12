@@ -37,10 +37,26 @@ public final class DbUserShiftHelper {
         return dbUserShiftList;
     }
 
-    public static List<DbUserShift> readDbUserShiftByUserId(Integer userId) {
+    public static List<DbUserShift> readAllDbUserShiftByUserId(Integer userId) {
         List<DbUserShift> dbUserShiftList = new QDbUserShift()
                 .userTeamId
                 .eq(userId)
+                .findList();
+
+        return dbUserShiftList;
+    }
+
+    public static DbUserShift readADbUserShiftByUserId(Integer userId) {
+        DbUserShift dbUserShift = new QDbUserShift()
+                .userTeamId
+                .eq(userId)
+                .findUnique();
+
+        return dbUserShift;
+    }
+
+    public static List<DbUserShift> readAllDbUserShifts() {
+        List<DbUserShift> dbUserShiftList = new QDbUserShift()
                 .findList();
 
         return dbUserShiftList;

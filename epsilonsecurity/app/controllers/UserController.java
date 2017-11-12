@@ -1,7 +1,5 @@
 package controllers;
 
-import email.MailerService;
-import email.MailerServiceCron;
 import models.databaseModel.helpers.DbUserHelper;
 import models.databaseModel.scheduling.DbUser;
 import play.data.Form;
@@ -17,14 +15,10 @@ import java.util.List;
 public class UserController extends Controller {
 
     private final FormFactory formFactory;
-    private final MailerService mailerService;
-    private final MailerServiceCron mailerServiceCron;
 
     @Inject
-    public UserController(FormFactory formFactory, MailerServiceCron mailerServiceCron, MailerService mailerService) {
+    public UserController(FormFactory formFactory) {
         this.formFactory = formFactory;
-        this.mailerServiceCron = mailerServiceCron;
-        this.mailerService = mailerService;
     }
 
     private DbUser getDbUserFromForm() {
@@ -62,7 +56,6 @@ public class UserController extends Controller {
 
     public Result readAllUsers() {
         List<DbUser> dbUserList = DbUserHelper.readAllDbUsers();
-        mailerServiceCron.initialize();
 
         return ok(Json.toJson(dbUserList));
     }
