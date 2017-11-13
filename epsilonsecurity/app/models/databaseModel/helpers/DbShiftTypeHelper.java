@@ -25,7 +25,7 @@ public class DbShiftTypeHelper {
                 .query()
                 .where()
                 .eq(DbShiftType.COLUMN_NAME, name)
-                .findOne();
+                .findUnique();
 
         return dbShiftType;
     }
@@ -35,7 +35,7 @@ public class DbShiftTypeHelper {
                 .query()
                 .where()
                 .eq(DbShiftType.COLUMN_COLOR_CODE, colorCode)
-                .findOne();
+                .findUnique();
 
         return dbShiftType;
     }

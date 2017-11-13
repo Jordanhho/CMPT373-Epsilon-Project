@@ -33,7 +33,7 @@ public final class DbUserQualificationHelper {
                 .eq(DbUserQualification.COLUMN_USER_ID, userId)
                 .and()
                 .eq(DbUserQualification.COLUMN_QUALIFICATION_ID, qualificationId)
-                .findOne();
+                .findUnique();
 
         return dbUserQualification;
     }

@@ -20,7 +20,6 @@ public final class DbUserTeamHelper {
         dbUserTeam.save();
     }
 
-
     public static void deleteDbUserTeam(DbUserTeam dbUserTeam) {
         dbUserTeam.delete();
     }
@@ -46,6 +45,16 @@ public final class DbUserTeamHelper {
                 .query()
                 .where()
                 .eq(DbUserTeam.COLUMN_USER_ID, userId)
+                .findList();
+
+        return dbUserTeamList;
+    }
+
+    public static List<DbUserTeam> readAllDbUserTeamsByTeamId(Integer teamId) {
+        List<DbUserTeam> dbUserTeamList = DbUserTeam.find
+                .query()
+                .where()
+                .eq(DbUserTeam.COLUMN_TEAM_ID, teamId)
                 .findList();
 
         return dbUserTeamList;

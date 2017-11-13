@@ -34,7 +34,7 @@ public final class DbQualificationHelper {
                 .query()
                 .where()
                 .eq(DbQualification.COLUMN_QUALIFICATION_NAME, name)
-                .findOne();
+                .findUnique();
 
         return dbQualification;
     }

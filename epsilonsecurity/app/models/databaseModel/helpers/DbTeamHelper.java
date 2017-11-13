@@ -35,7 +35,7 @@ public final class DbTeamHelper {
                 .query()
                 .where()
                 .eq(DbTeam.COLUMN_NAME, name)
-                .findOne();
+                .findUnique();
 
         return dbTeam;
     }
