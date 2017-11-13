@@ -1,8 +1,6 @@
 package models.databaseModel.helpers;
 
 import models.databaseModel.scheduling.DbShiftType;
-import models.databaseModel.scheduling.query.QDbShiftType;
-
 
 import java.util.List;
 
@@ -19,35 +17,30 @@ public class DbShiftTypeHelper {
     }
 
     public static DbShiftType readDbShiftTypeById(Integer id) {
-        DbShiftType dbShiftType = new QDbShiftType()
-                .id
-                .eq(id)
-                .findUnique();
-
-        return dbShiftType;
+        return DbShiftType.find.byId(id);
     }
 
     public static DbShiftType readDbShiftTypeByName(String name) {
-        DbShiftType dbShiftType = new QDbShiftType()
-                .name
-                .eq(name)
-                .findUnique();
+        DbShiftType dbShiftType = DbShiftType.find
+                .query()
+                .where()
+                .eq(DbShiftType.COLUMN_NAME, name)
+                .findOne();
 
         return dbShiftType;
     }
 
     public static DbShiftType readDbShiftTypeByColorCode(String colorCode) {
-        DbShiftType dbShiftType = new QDbShiftType()
-                .colorCode
-                .eq(colorCode)
-                .findUnique();
+        DbShiftType dbShiftType = DbShiftType.find
+                .query()
+                .where()
+                .eq(DbShiftType.COLUMN_COLOR_CODE, colorCode)
+                .findOne();
 
         return dbShiftType;
     }
 
     public static List<DbShiftType> readAllDbShiftTypes() {
-        List<DbShiftType> dbShiftTypeList = new QDbShiftType()
-                .findList();
-        return dbShiftTypeList;
+        return DbShiftType.find.all();
     }
 }
