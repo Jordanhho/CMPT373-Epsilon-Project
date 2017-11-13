@@ -3,8 +3,6 @@ package models.queries;
 
 import models.databaseModel.helpers.*;
 import models.databaseModel.scheduling.*;
-import models.databaseModel.scheduling.query.QDbUserShift;
-import models.databaseModel.scheduling.query.QDbUserTeam;
 
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
@@ -20,10 +18,7 @@ public final class ScheduleUtil {
     public static List<DbUser> queryUsersBasedOnAvailability(Integer teamId, Long timeStart, Long timeEnd) {
 
         //find all users in right team/location
-        List<DbUserTeam> userTeamListByLocation = new QDbUserTeam()
-                .teamId
-                .eq(teamId)
-                .findList();
+        List<DbUserTeam> userTeamListByLocation = DbUserTeamHelper.readAllDbUserTeamsByTeamId(teamId);
 
         //find all availability in right time range
         List<DbOneTimeAvailability> oneTimeAvailabilityList = DbOneTimeAvailabilityHelper
@@ -53,7 +48,11 @@ public final class ScheduleUtil {
         List<DbUserShift> userShiftList = new ArrayList<>();
 
         for(DbShift shift : shifts){
-            userShiftList.add(new QDbUserShift().shiftId.eq(shift.getId()).findUnique());
+            userShiftList.add(DbUserShift.find
+                    .query()
+                    .where()
+                    .eq(DbUserShift.COLUMN_SHIFT_ID, shift.getId())
+                    .findUnique());
         }
 
         List<DbUserTeam> userTeamListByShift = new ArrayList<>();
@@ -82,43 +81,21 @@ public final class ScheduleUtil {
         return dbUserList;
     }
 
-
-    /**
-     * Get all shifts between two dates or time periods on same day
-     * @param timeStart
-     * @param timeEnd
-     * @return
-     */
     public static List<DbShift> getAllShiftsBetweenTimePeriods(Long timeStart, Long timeEnd) {
         List<DbShift> dbShiftList = new ArrayList<>();
         dbShiftList = DbShiftHelper.readDbShiftByTime(timeStart, timeEnd);
         return dbShiftList;
     }
 
-    /**
-     * get all information about one specific user
-     * @param userId
-     * @return
-     */
     public static DbUser getInfoOnUser(Integer userId) {
-        DbUser dbUser = DbUserHelper.readDbUserById(userId);
-        return dbUser;
+        return DbUserHelper.readDbUserById(userId);
     }
 
-    /**
-     * get all users from a team/Campus
-     * @param teamId
-     * @return
-     */
     public static List<DbUser> getAllUsersFromCampusTeam(Integer teamId) {
         //find all users in team/campus
-        List<DbUserTeam> userTeamListByLocation = new QDbUserTeam()
-                .teamId
-                .eq(teamId)
-                .findList();
+        List<DbUserTeam> userTeamListByLocation = DbUserTeamHelper.readAllDbUserTeamsByTeamId(teamId);
 
         List<DbUser> dbUserList = new ArrayList<>();
-
         for (DbUserTeam userTeam: userTeamListByLocation){
             dbUserList.add(DbUserHelper.readDbUserById(userTeam.getUserId()));
         }
@@ -156,15 +133,14 @@ public final class ScheduleUtil {
 
         List<List<DbUserShift>> dbUserShiftList = new ArrayList<>();
         for (DbUserTeam dbUserTeam : dbUserTeamList) {
-            // TODO: replace getUserId() with getId()
-            dbUserShiftList.add(DbUserShiftHelper.readDbUserShiftByUserTeamId(dbUserTeam.getUserId()));
+            dbUserShiftList.add(DbUserShiftHelper.readDbUserShiftByUserTeamId(dbUserTeam.getId()));
         }
 
         List<ShiftWithCampus> shiftsWithCampusList = new ArrayList<>();
         int i = 0;
         for (List<DbUserShift> targetUserShiftList : dbUserShiftList) {
             for (DbUserShift dbUserShift : targetUserShiftList) {
-                DbShift dbShift = DbShiftHelper.readDbShiftByShiftId(dbUserShift.getShiftId());
+                DbShift dbShift = DbShiftHelper.readDbShiftById(dbUserShift.getShiftId());
                 DbTeam dbTeam = DbTeamHelper.readDbTeamById(dbUserTeamList.get(i).getTeamId());
                 DbShiftType dbShiftType = DbShiftTypeHelper.readDbShiftTypeById(dbShift.getShiftTypeId());
                 ShiftWithCampus targetShift = new ShiftWithCampus(dbShift, dbTeam, dbShiftType);
