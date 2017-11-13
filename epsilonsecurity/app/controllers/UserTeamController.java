@@ -1,7 +1,9 @@
 package controllers;
 
+import models.databaseModel.helpers.DbTeamHelper;
 import models.databaseModel.scheduling.DbTeam;
 import models.databaseModel.scheduling.DbUser;
+import models.queries.TeamIdArrayForm;
 import play.data.Form;
 import play.data.FormFactory;
 import play.libs.Json;
@@ -10,6 +12,7 @@ import models.databaseModel.scheduling.DbUserTeam;
 import models.databaseModel.helpers.DbUserTeamHelper;
 
 import javax.inject.Inject;
+import java.util.ArrayList;
 import java.util.List;
 
 public class UserTeamController extends Controller {
@@ -26,11 +29,28 @@ public class UserTeamController extends Controller {
         return form.get();
     }
 
+    private Integer[] getDbTeamListFromForm() {
+        Form<TeamIdArrayForm> form = formFactory.form(TeamIdArrayForm.class).bindFromRequest();
+        return form.get().getTeamIdList();
+    }
+
     public Result listUserTeams() {
         return ok();
     }
 
-    public Result createUserTeam(Integer userId) {
+    public Result createUserTeamByUserIdAndTeamIdArray(Integer userId) {
+        Integer[] teamIdArray = getDbTeamListFromForm();
+        List<DbTeam> dbTeamList = new ArrayList<>();
+
+        // Ensure all teamIds provided are valid by making invalid teamIds generate null DbTeams
+        for (Integer teamId : teamIdArray) {
+            dbTeamList.add(DbTeamHelper.readDbTeamById(teamId));
+        }
+
+        for (DbTeam dbTeam : dbTeamList) {
+            DbUserTeam dbUserTeam = new DbUserTeam(dbTeam.getId(), userId);
+            DbUserTeamHelper.createDbUserTeam(dbUserTeam);
+        }
         return ok();
     }
 
