@@ -29,7 +29,7 @@ public class UserTeamController extends Controller {
         return form.get();
     }
 
-    private Integer[] getDbTeamListFromForm() {
+    private Integer[] getDbTeamArrayFromForm() {
         Form<TeamIdArrayForm> form = formFactory.form(TeamIdArrayForm.class).bindFromRequest();
         return form.get().getTeamIdList();
     }
@@ -39,7 +39,7 @@ public class UserTeamController extends Controller {
     }
 
     public Result createUserTeamByUserIdAndTeamIdArray(Integer userId) {
-        Integer[] teamIdArray = getDbTeamListFromForm();
+        Integer[] teamIdArray = getDbTeamArrayFromForm();
         List<DbTeam> dbTeamList = new ArrayList<>();
 
         // Ensure all teamIds provided are valid by making invalid teamIds generate null DbTeams
