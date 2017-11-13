@@ -2,9 +2,7 @@ package models.databaseModel.helpers;
 
 
 import models.databaseModel.qualification.DbQualification;
-import models.databaseModel.qualification.query.QDbQualification;
 import models.databaseModel.qualification.DbUserQualification;
-import models.databaseModel.qualification.query.QDbUserQualification;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,42 +21,34 @@ public final class DbUserQualificationHelper {
         dbUserQualification.save();
     }
 
-    public static DbUserQualification readDbUserQualificationById(Integer userId, Integer qualificationId) {
-        DbUserQualification dbUserQualification = new QDbUserQualification()
-                .userId
-                .eq(userId)
-                .and()
-                .qualificationId
-                .eq(qualificationId)
-                .findUnique();
-
-        return dbUserQualification;
+    public static DbUserQualification readDbUserQualificationById(Integer id) {
+        return DbUserQualification.find.byId(id);
     }
 
 
     public static DbUserQualification readDbUserQualByUserIdAndQualId(Integer userId, Integer qualificationId) {
-        DbUserQualification dbUserQualification = new QDbUserQualification()
-                .userId
-                .eq(userId)
+        DbUserQualification dbUserQualification = DbUserQualification.find
+                .query()
+                .where()
+                .eq(DbUserQualification.COLUMN_USER_ID, userId)
                 .and()
-                .qualificationId
-                .eq(qualificationId)
-                .findUnique();
+                .eq(DbUserQualification.COLUMN_QUALIFICATION_ID, qualificationId)
+                .findOne();
 
         return dbUserQualification;
     }
 
-    public static List<DbQualification> readDbQualificationByUserId(Integer userId){
-        List<DbUserQualification> dbUserQualificationList = new QDbUserQualification()
-                .userId
-                .eq(userId)
+    public static List<DbQualification> readAllDbQualificationsByUserId(Integer userId){
+        List<DbUserQualification> dbUserQualificationList = DbUserQualification.find
+                .query()
+                .where()
+                .eq(DbUserQualification.COLUMN_USER_ID, userId)
                 .findList();
+
         List<DbQualification> dbQualificationList = new ArrayList<>();
         for(DbUserQualification userQualification : dbUserQualificationList){
-            dbQualificationList.add(new QDbQualification()
-                .id
-                .eq(userQualification.getQualificationId())
-                .findUnique());
+            dbQualificationList.add(DbQualification.find
+                    .byId(userQualification.getQualificationId()));
         }
         return dbQualificationList;
     }
@@ -67,14 +57,7 @@ public final class DbUserQualificationHelper {
         dbUserQualification.delete();
     }
 
-    /**
-     * returns a list of all DbUserQualification
-     * @return
-     */
     public static List<DbUserQualification> readAllDbUserQualification() {
-        List<DbUserQualification> dbUserQualificationList = new QDbUserQualification()
-                .findList();
-
-        return dbUserQualificationList;
+        return DbUserQualification.find.all();
     }
 }
