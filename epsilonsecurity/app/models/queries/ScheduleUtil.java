@@ -156,7 +156,8 @@ public final class ScheduleUtil {
 
         List<List<DbUserShift>> dbUserShiftList = new ArrayList<>();
         for (DbUserTeam dbUserTeam : dbUserTeamList) {
-            dbUserShiftList.add(DbUserShiftHelper.readDbUserShiftByUserId(dbUserTeam.getUserId()));
+            // TODO: replace getUserId() with getId()
+            dbUserShiftList.add(DbUserShiftHelper.readDbUserShiftByUserTeamId(dbUserTeam.getUserId()));
         }
 
         List<ShiftWithCampus> shiftsWithCampusList = new ArrayList<>();
