@@ -13,6 +13,12 @@ import javax.persistence.Id;
 @Entity
 public class DbShift extends Model {
 
+    public static final String COLUMN_SHIFT_TYPE_ID = "shift_type_id";
+    public static final String COLUMN_TIME_START = "time_start";
+    public static final String COLUMN_TIME_END = "time_end";
+    public static final String COLUMN_DESCRIPTION = "description";
+    public static final String COLUMN_WAS_PRESENT = "was_present";
+
     @Id
     private Integer id;
 
@@ -30,14 +36,6 @@ public class DbShift extends Model {
 
     private boolean wasPresent;
 
-    /**
-     * The Constructor of this Shift
-     * id  the Id of the shift
-     *
-     * @param timeStart the start time of the shift
-     * @param timeEnd   the end time of the shift
-     *                  wasPresent  if the user was present for this shift
-     */
     public DbShift(Integer shiftTypeId, Long timeStart, Long timeEnd) {
         this.shiftTypeId = shiftTypeId;
         this.timeStart = timeStart;
