@@ -19,12 +19,6 @@ public class DbRole extends Model {
     @Column(nullable = false, unique = true)
     private String name;
 
-    /**
-     * The constructor for the role table
-     * id  the id of the role
-     *
-     * @param name the name of the role
-     */
     public DbRole(String name) {
         this.name = name;
     }
