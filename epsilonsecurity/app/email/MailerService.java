@@ -32,7 +32,7 @@ public class MailerService {
             date.add(Calendar.DATE, 1);
         }
 
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM-dd-yyyy");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy");
         return simpleDateFormat.format(date.getTime());
     }
 
@@ -72,27 +72,15 @@ public class MailerService {
                         "\n" +
                         "{3}" +
                         "\n" +
-                        "\n" +
                         "You have a total of {4} hour(s) and {5} shift(s)." +
                         "\n" +
                         "\n" +
-                        "If you have any questions about your schedule, please contact me, " +
+                        "If you have any questions about your schedule, please contact your team lead " +
                         "by email, as soon as possible." +
                         "\n" +
                         "\n" +
-                        "Kitty Lo" +
-                        "\n" +
-                        "Surrey Team Lead" +
-                        "\n" +
-                        "Student Safety Engagement Program" +
-                        "\n" +
-                        "Simon Fraser University" +
-                        "\n" +
-                        "Email: ssepsur@sfu.ca" +
-                        "\n" +
-                        "\n" +
                         "Note: This email account is used for information distribution only. " +
-                        "Not replies nor email should be sent directly to this account"
+                        "No replies nor email should be sent directly to this account."
                 );
 
         return messageFormat.format(args);
@@ -105,10 +93,13 @@ public class MailerService {
                                           Integer totalNumberOfShifts,
                                           ArrayList<String> scheduleList,
                                           ArrayList<Long> scheduleHoursList) {
+
+        System.out.println("Sent email to: " + firstName + " " + lastName);
+
         Email email = new Email()
                 .setSubject("SSEP - Your next week's schedule")
                 .setFrom("joshredditbot@gmail.com")
-                .addTo("373-epsilon@sfu.ca")
+                .addTo("joshredditbot@gmail.com")
                 .setBodyText(setScheduleReminderBody(firstName,
                         lastName,
                         totalNumberOfShifts,
