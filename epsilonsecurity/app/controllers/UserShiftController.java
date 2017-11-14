@@ -1,6 +1,5 @@
 package controllers;
 
-import email.MailerServiceCron;
 import models.databaseModel.helpers.DbUserShiftHelper;
 import models.databaseModel.scheduling.DbUserShift;
 import models.queries.ScheduleUtil;
@@ -17,12 +16,10 @@ import java.util.List;
 public class UserShiftController extends Controller {
 
     private final FormFactory formFactory;
-    private final MailerServiceCron mailerServiceCron;
 
     @Inject
-    UserShiftController(FormFactory formFactory, MailerServiceCron mailerServiceCron) {
+    UserShiftController(FormFactory formFactory) {
         this.formFactory = formFactory;
-        this.mailerServiceCron = mailerServiceCron;
     }
 
     private DbUserShift getDbUserShiftFromForm() {
