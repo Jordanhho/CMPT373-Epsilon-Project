@@ -38,6 +38,15 @@ public final class DbUserHelper {
         return dbUser;
     }
 
+    public static List<DbUser> readAllDbUserByRoleId(Integer roleId) {
+        List<DbUser> dbUserList = new QDbUser()
+                .roleId
+                .eq(roleId)
+                .findList();
+
+        return dbUserList;
+    }
+
     public static DbUser readDbUserBySfuEmail(String sfuEmail) {
         DbUser dbUser = new QDbUser()
                 .sfuEmail

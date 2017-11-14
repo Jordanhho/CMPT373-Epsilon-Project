@@ -2,8 +2,6 @@ package models.databaseModel.roles;
 
 import io.ebean.Finder;
 import io.ebean.Model;
-import models.databaseModel.scheduling.DbUser;
-import models.databaseModel.scheduling.query.QDbUser;
 
 import javax.persistence.*;
 
@@ -36,7 +34,7 @@ public class DbRolePermission extends Model {
      * @param teamId       the team id of the RolePermission
      * @param roleId       the role Id of the RolePermission
      * @param permissionId the permission Id of the RolePermission
-     * @param accessLevel        the permission accessLevel of the RolePermission
+     * @param accessLevel  the permission accessLevel of the RolePermission
      */
     public DbRolePermission(Integer teamId,
                             Integer roleId,
