@@ -1,8 +1,8 @@
 package controllers;
 
 import email.MailerServiceCron;
-import models.databaseModel.helpers.*;
-import models.databaseModel.scheduling.*;
+import models.databaseModel.helpers.DbUserShiftHelper;
+import models.databaseModel.scheduling.DbUserShift;
 import models.queries.ScheduleUtil;
 import models.queries.ShiftWithCampus;
 import play.data.Form;
@@ -12,12 +12,7 @@ import play.mvc.Controller;
 import play.mvc.Result;
 
 import javax.inject.Inject;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.TimeZone;
-import java.util.concurrent.TimeUnit;
 
 public class UserShiftController extends Controller {
 
@@ -54,80 +49,6 @@ public class UserShiftController extends Controller {
 
     public Result createUserShift(Integer userId, Integer shiftId) {
         // TODO: Implement createUserShift() with input parameters
-
-        Integer totalNumberOfShifts = 0;
-        String formattedDate;
-        ArrayList<String> scheduleList = new ArrayList<>();
-        ArrayList<Long> scheduleHoursList = new ArrayList<>();
-
-        for (DbUser dbUser : DbUserHelper.readAllDbUsers()) {
-
-//            System.out.println();
-//            System.out.println(dbUser.getFirstName() + " " + dbUser.getLastName() + " " + dbUser.getId());
-
-            for (DbUserTeam dbUserTeam : DbUserTeamHelper.readAllDbUserTeamsByUserId(dbUser.getId())) {
-
-//                System.out.println(dbUserTeam);
-
-                for (DbUserShift dbUserShift : DbUserShiftHelper.readAllDbUserShiftByUserId(dbUserTeam.getId())) {
-
-                    totalNumberOfShifts++;
-
-                    for (DbShift dbShift : DbShiftHelper.readAllDbShiftByShiftId(dbUserShift.getShiftId())) {
-
-//                        System.out.println(dbShift.getShiftTypeId());
-
-//                        System.out.println(dbShift.getTimeStart());
-                        Date startDate = new Date(dbShift.getTimeStart() * 1000L);
-                        Date endDate = new Date(dbShift.getTimeEnd() * 1000L);
-
-                        long duration = endDate.getTime() - startDate.getTime();
-                        long diffInHours = TimeUnit.MILLISECONDS.toHours(duration);
-                        System.out.println("Duration: " + duration);
-
-                        System.out.println("Diff in hours: " + diffInHours);
-
-                        SimpleDateFormat startDateFormatter = new SimpleDateFormat("MM/dd/yyyy HH:mm");
-                        SimpleDateFormat endDateFormatter = new SimpleDateFormat("HH:mm");
-
-                        TimeZone timeZone = TimeZone.getTimeZone("PST");
-                        startDateFormatter.setTimeZone(timeZone);
-                        endDateFormatter.setTimeZone(timeZone);
-
-                        formattedDate = startDateFormatter.format(startDate);
-//                        System.out.println(formattedDate);
-
-                        String formattedDate2 = endDateFormatter.format(endDate);
-//                        System.out.println(formattedDate2);
-
-                        scheduleHoursList.add(diffInHours);
-
-                        for (DbShiftType dbShiftType : DbShiftTypeHelper.readAllDbShiftTypeById(dbShift.getShiftTypeId())) {
-
-//                            System.out.println("ShiftType: " + dbShiftType.getName());
-//                            System.out.println(formattedDate + " - " + formattedDate2 + ", " + dbShiftType.getName());
-                            scheduleList.add(formattedDate + " - " + formattedDate2 + ", " + dbShiftType.getName());
-
-                        }
-
-                    }
-                }
-            }
-
-//            System.out.println(scheduleList);
-
-            mailerServiceCron.initScheduleReminderEmailCron(dbUser.getFirstName(),
-                    dbUser.getLastName(),
-                    totalNumberOfShifts,
-                    scheduleList,
-                    scheduleHoursList);
-
-//            System.out.println("Total Number of shifts: " + totalNumberOfShifts);
-            totalNumberOfShifts = 0;
-            scheduleList.clear();
-            scheduleHoursList.clear();
-        }
-
         return ok();
     }
 
