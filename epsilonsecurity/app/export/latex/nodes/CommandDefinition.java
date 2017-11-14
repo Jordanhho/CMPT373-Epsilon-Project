@@ -5,26 +5,33 @@ import com.google.common.collect.Lists;
 public class CommandDefinition implements Node {
 
     private String name;
-    private String definition;
+    private Node definition;
     private Integer argCount;
 
-    private CommandDefinition(String name, String definition, Integer argCount) {
+    private CommandDefinition(String name, Node definition, Integer argCount) {
         this.name = name;
         this.definition = definition;
         this.argCount = argCount;
     }
 
     public static CommandDefinition of(String name, Integer argCount, String definition) {
+        return new CommandDefinition(name,
+                                     SimpleNode.of(definition),
+                                     argCount);
+    }
+
+    public static CommandDefinition of(String name, Integer argCount, Node definition) {
         return new CommandDefinition(name, definition, argCount);
     }
 
     @Override
     public void laTeXRepresentation(StringBuilder builder) {
-        builder.append("\\newcommand");
+        Command.named("newcommand")
+            .laTeXRepresentation(builder);
         Lists.newArrayList(
-            RequiredArgument.of("\\" + name),
-            OptionalArgument.of("\\" + argCount),
-            RequiredArgument.of("\\" + definition)
+            RequiredArgument.of(Command.named(name)),
+            OptionalArgument.of(argCount.toString()),
+            RequiredArgument.of(definition)
         )
             .forEach( argument -> argument.laTeXRepresentation(builder));
 

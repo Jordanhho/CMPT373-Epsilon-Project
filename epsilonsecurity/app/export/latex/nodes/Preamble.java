@@ -53,7 +53,9 @@ public class Preamble implements Node {
         )
             .forEach( node -> node.laTeXRepresentation(builder) );
         libraries.forEach(library -> library.laTeXRepresentation(builder));
-        Comment.of("Macros");
+        Comment.of("Macros")
+            .laTeXRepresentation(builder);
+        commandDefinitions.forEach(commandDefn -> commandDefn.laTeXRepresentation(builder));
     }
 
     private DocumentClass getDocumentClass() {

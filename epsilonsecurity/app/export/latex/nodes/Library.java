@@ -37,8 +37,9 @@ public class Library implements Node {
     @Override
     public void laTeXRepresentation(StringBuilder builder) {
         builder.append("\\usepackage");
-        requiredArguments.forEach( arg -> arg.laTeXRepresentation(builder));
         optionalArguments.forEach( arg -> arg.laTeXRepresentation(builder));
+        requiredArguments.add(RequiredArgument.of(name));
+        requiredArguments.forEach( arg -> arg.laTeXRepresentation(builder));
         Nodes.newLineOn(builder);
     }
 }
