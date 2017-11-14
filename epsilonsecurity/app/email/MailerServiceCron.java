@@ -20,6 +20,7 @@ public class MailerServiceCron {
     private final MailerService mailerService;
 
     private static final int NUMBER_OF_DAYS = 6;
+    private static final int NUMBER_OF_SECONDS_DELAY = 10;
 
     @Inject
     public MailerServiceCron(ActorSystem actorSystem,
@@ -50,8 +51,8 @@ public class MailerServiceCron {
         }
 
         this.actorSystem.scheduler().schedule(
-                Duration.create(NUMBER_OF_DAYS, TimeUnit.SECONDS), // initialDelay
-                Duration.create(1, TimeUnit.MINUTES), // initialDelay
+                Duration.create(NUMBER_OF_SECONDS_DELAY, TimeUnit.SECONDS), // initialDelay
+                Duration.create(NUMBER_OF_DAYS, TimeUnit.DAYS), // interval
                 () -> mailerService.sendScheduleReminderEmail(firstName,
                         lastName,
                         totalNumberOfShifts,
@@ -60,6 +61,7 @@ public class MailerServiceCron {
                 this.executionContext
         );
     }
+
 
     public void initialize() {
 
