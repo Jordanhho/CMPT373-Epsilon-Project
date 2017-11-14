@@ -6,6 +6,6 @@ public class MailerModule extends AbstractModule {
 
     @Override
     protected void configure() {
-        bind(MailerServiceCron.class).asEagerSingleton();
+//        bind(MailerServiceCron.class).asEagerSingleton();
     }
 }
