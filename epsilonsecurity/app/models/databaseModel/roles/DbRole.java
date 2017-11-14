@@ -13,18 +13,14 @@ import javax.persistence.Id;
 @Entity
 public class DbRole extends Model {
 
+    public static final String COLUMN_NAME = "name";
+
     @Id
     private Integer id;
 
     @Column(nullable = false, unique = true)
     private String name;
 
-    /**
-     * The constructor for the role table
-     * id  the id of the role
-     *
-     * @param name the name of the role
-     */
     public DbRole(String name) {
         this.name = name;
     }

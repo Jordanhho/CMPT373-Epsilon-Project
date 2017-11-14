@@ -2,8 +2,6 @@ package models.databaseModel.roles;
 
 import io.ebean.Finder;
 import io.ebean.Model;
-import models.databaseModel.scheduling.DbUser;
-import models.databaseModel.scheduling.query.QDbUser;
 
 import javax.persistence.*;
 
@@ -12,6 +10,11 @@ import javax.persistence.*;
  */
 @Entity
 public class DbRolePermission extends Model {
+
+    public static final String COLUMN_TEAM_ID = "team_id";
+    public static final String COLUMN_ROLE_ID = "role_id";
+    public static final String COLUMN_PERMISSION_ID = "permission_id";
+    public static final String COLUMN_ACCESS_LEVEL = "access_level";
 
     @Id
     private Integer id;
@@ -29,15 +32,6 @@ public class DbRolePermission extends Model {
     @Enumerated(EnumType.STRING)
     private AccessLevel accessLevel;
 
-    /**
-     * The constructor of the RolePermission table
-     * Id  the id of the RolePermission
-     *
-     * @param teamId       the team id of the RolePermission
-     * @param roleId       the role Id of the RolePermission
-     * @param permissionId the permission Id of the RolePermission
-     * @param accessLevel        the permission accessLevel of the RolePermission
-     */
     public DbRolePermission(Integer teamId,
                             Integer roleId,
                             Integer permissionId,
