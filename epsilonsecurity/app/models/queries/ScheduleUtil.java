@@ -133,7 +133,7 @@ public final class ScheduleUtil {
 
         List<List<DbUserShift>> dbUserShiftList = new ArrayList<>();
         for (DbUserTeam dbUserTeam : dbUserTeamList) {
-            dbUserShiftList.add(DbUserShiftHelper.readDbUserShiftByUserTeamId(dbUserTeam.getId()));
+            dbUserShiftList.add(DbUserShiftHelper.readDbShiftByUserTeamId(dbUserTeam.getId()));
         }
 
         List<ShiftWithCampus> shiftsWithCampusList = new ArrayList<>();
@@ -150,6 +150,16 @@ public final class ScheduleUtil {
         }
 
         return shiftsWithCampusList;
+    }
+
+
+    public static List<HourByShiftType> getListOfHourByShiftType(int userId){
+        List<HourByShiftType> hourByShiftTypeList = new ArrayList<>();
+
+        List<DbShift> shiftList = DbShiftHelper.readDbShiftByUserId(userId);
+        //Use a hash map here?
+        List<Integer> shiftTypeIdList = DbShiftHelper.readUniqueShiftTypeIdFromShiftList(shiftList);
+        return hourByShiftTypeList;
     }
 }
 
