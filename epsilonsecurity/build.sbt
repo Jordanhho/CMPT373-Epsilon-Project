@@ -44,22 +44,12 @@ libraryDependencies += "com.novocode" % "junit-interface" % "0.11" % "test"
 testOptions += Tests.Argument(TestFrameworks.JUnit, "-v", "-a")
 javaOptions in Test += "-Dconfig.file=conf/application.test.conf"
 
-//-----------------Development Hooks-----------------------------
+// when in dev-mode, spinup the webpack dev-server after starting Play
 
 PlayKeys.playRunHooks += WebpackServer(file("./front"))
 
-//-----------------Production front-end build -------------------
 
-//lazy val cleanFrontEndBuild = taskKey[Unit]("Remove the old front-end build")
-//
-//cleanFrontEndBuild := {
-//  val d = file("public/bundle")
-//  if (d.exists()) {
-//    d.listFiles.foreach(f => {
-//      if(f.isFile) f.delete
-//    })
-//  }
-//}
+// build the frontend before packaging
 
 lazy val frontEndBuild = taskKey[Unit]("Execute the npm build command to build the front-end")
 
@@ -67,7 +57,5 @@ frontEndBuild := {
   println(Process("npm install", file("front")).!!)
   println(Process("npm run prod", file("front")).!!)
 }
-
-//frontEndBuild := (frontEndBuild dependsOn cleanFrontEndBuild).value
 
 dist := (dist dependsOn frontEndBuild).value
