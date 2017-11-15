@@ -7,13 +7,6 @@ GET           /callback                                                         
 
 GET           /ok                                                                controllers.TestController.test()
 
-# redirect all other requests to the SPA page
-# ...except API requests with the prefix '/api'
-GET           /$p<(?!api).*>                                                     controllers.FrontController.index(p: String)
-
-# TODO: Consider making a custom router to handle '/api' requests
-# see: https://www.playframework.com/documentation/2.6.x/ScalaRouting#the-routes-file-syntax
-
 # ----------------------- USER APIs ----------------------
 
 #
@@ -247,5 +240,13 @@ GET           /api/recurringavailabilites/:recurringAvailabilityId              
 # Delete recurring availability by recurringAvailabilityId
 DELETE        /api/recurringavailabilites/:recurringAvailabilityId               controllers.RecurringAvailabilityController.deleteRecurringAvailability(recurringAvailabilityId: Integer)
 
+#------------------------------------------------------------------------
+# Redirect all other requests without a '/api' prefix to the SPA document
+# - This section MUST be below all the '/api' routes
+# - Regex was previously used to keep it above, but result was a complicated
+#   rendering pipeline.
+# - In the future, all '/api' endpoints might be moved to a separate ApiRouter
+#   see [https://www.playframework.com/documentation/2.6.x/ScalaSirdRouter]
+#------------------------------------------------------------------------
 
-
+GET         /          controllers.Assets.at(path="/public", file="index.html")

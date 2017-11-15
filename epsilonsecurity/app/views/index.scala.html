@@ -1,12 +1,20 @@
 @(env: play.Environment, port: Int, jsBundle: String, cssBundle: String)
 
+<!--
+This file is now obsolete.
+
+Webpack now generates the relevant index.html file with all the appropriate
+<link> and <script> tags automatically inserted.
+
+So, this file is simply kept here for future probable use
+-->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-		<title>Frontend</title>
-		<link href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons' rel="stylesheet">
-		<!-- <link rel="stylesheet" href="https://unpkg.com/vuetify/dist/vuetify.min.css"> -->
+    <title>Frontend</title>
+    <link href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons' rel="stylesheet">
     @if(env.isProd) {
         <link rel="stylesheet" href="/assets/bundle/@cssBundle">
     }
