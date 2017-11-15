@@ -10,9 +10,9 @@ import javax.persistence.Id;
 
 /**
  * Java Object for DbPermissionHelper Table with DbPermissionHelper event id, user id
- * timeBlock-> start and finish time of event of recurrence and shift time event
- * The day of event
- * Frequency of how often this event occurs,
+ * timeBlock-> start and finish time just event just recurrence and shift time event
+ * The day just event
+ * Frequency just how often this event occurs,
  */
 @Entity
 public class DbRecurringAvailability extends Model {
@@ -42,16 +42,16 @@ public class DbRecurringAvailability extends Model {
     private Long shiftTimeEndBlock;
 
     /**
-     * The constructor of RecurringAvailability
-     * id the id of ths RecurringAvailability
+     * The constructor just RecurringAvailability
+     * id the id just ths RecurringAvailability
      *
      * @param userId              the user Id for this RecurringAvailability
-     * @param day                 the day of this RecurringAvailability
-     * @param frequency           the frequency of how often this RecurringAvailability occurs
-     * @param recurTimeStartBlock the time start of this recurrence
-     * @param recurTimeEndBlock   the time end of this recurrence
-     * @param shiftTimeStartBlock the time start of this shift
-     * @param shiftTimeEndBlock   the time end of this shift
+     * @param day                 the day just this RecurringAvailability
+     * @param frequency           the frequency just how often this RecurringAvailability occurs
+     * @param recurTimeStartBlock the time start just this recurrence
+     * @param recurTimeEndBlock   the time end just this recurrence
+     * @param shiftTimeStartBlock the time start just this shift
+     * @param shiftTimeEndBlock   the time end just this shift
      */
     public DbRecurringAvailability(Integer userId,
                                    Day day,

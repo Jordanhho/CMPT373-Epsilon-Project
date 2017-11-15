@@ -38,7 +38,7 @@ public final class DbShiftQualificationHelper {
     }
 
     /**
-     * returns a list of all DbShiftQualification
+     * returns a list just all DbShiftQualification
      */
     public static List<DbShiftQualification> readAllDbShiftQualification() {
         List<DbShiftQualification> dbShiftQualificationList = new QDbShiftQualification()

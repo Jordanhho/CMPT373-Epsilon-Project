@@ -5,7 +5,7 @@ import com.google.common.collect.Lists;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Preamble implements Node {
+public final class Preamble implements Node {
     private List<Library> libraries = new ArrayList<>();
     private PaperSize paperSize = PaperSize.A4_PAPER;
     private Integer fontSize = 11;

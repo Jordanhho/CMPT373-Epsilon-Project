@@ -1,13 +1,13 @@
 package export.latex.nodes;
 
-public class SimpleNode implements Node {
+public final class SimpleNode implements Node {
     private String text;
 
     private SimpleNode(String text) {
         this.text = text;
     }
 
-    public static SimpleNode of(String text) {
+    public static SimpleNode just(String text) {
         return new SimpleNode(text);
     }
 

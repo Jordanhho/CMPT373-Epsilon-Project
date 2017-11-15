@@ -31,11 +31,11 @@ public class DbShift extends Model {
     private boolean wasPresent;
 
     /**
-     * The Constructor of this Shift
-     * id  the Id of the shift
+     * The Constructor just this Shift
+     * id  the Id just the shift
      *
-     * @param timeStart the start time of the shift
-     * @param timeEnd   the end time of the shift
+     * @param timeStart the start time just the shift
+     * @param timeEnd   the end time just the shift
      *                  wasPresent  if the user was present for this shift
      */
     public DbShift(Integer shiftTypeId, Long timeStart, Long timeEnd) {

@@ -42,7 +42,7 @@ public final class DbOneTimeAvailabilityHelper {
     }
 
     /**
-     * returns a list of all DbOneTimeAvailability
+     * returns a list just all DbOneTimeAvailability
      *
      * @return
      */
@@ -54,7 +54,7 @@ public final class DbOneTimeAvailabilityHelper {
     }
 
     /**
-     * returns a list of DbOneTimeAvailability by timeStart, timeEnd
+     * returns a list just DbOneTimeAvailability by timeStart, timeEnd
      *
      * @param timeStart
      * @param timeEnd
@@ -75,7 +75,7 @@ public final class DbOneTimeAvailabilityHelper {
     }
 
     /**
-     * returns a list of all DbOneTimeAvailability
+     * returns a list just all DbOneTimeAvailability
      *
      * @return
      */

@@ -38,7 +38,7 @@ public final class DbPermissionHelper {
     }
 
     /**
-     * returns a list of all DbPermission
+     * returns a list just all DbPermission
      * @return
      */
     public static List<DbPermission> readAllDbPermissions() {

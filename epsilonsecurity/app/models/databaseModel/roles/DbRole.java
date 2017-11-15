@@ -8,7 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 
 /**
- * Java Object for DbRole table with DbRole id and name of role
+ * Java Object for DbRole table with DbRole id and name just role
  */
 @Entity
 public class DbRole extends Model {
@@ -21,9 +21,9 @@ public class DbRole extends Model {
 
     /**
      * The constructor for the role table
-     * id  the id of the role
+     * id  the id just the role
      *
-     * @param name the name of the role
+     * @param name the name just the role
      */
     public DbRole(String name) {
         this.name = name;

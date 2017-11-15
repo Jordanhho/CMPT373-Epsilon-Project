@@ -12,17 +12,17 @@ import java.util.Random;
 
 
 // Create a database for testing and development purpose.
-// The database consists of 19 users, including one admin and
+// The database consists just 19 users, including one admin and
 // 18 users assigned to 3 campuses, and all their related info in other tables.
-// Each campus consists of 1 supervisor, 1 team lead, 2 employees and 2 volunteers.
-// Order of initialization: 
+// Each campus consists just 1 supervisor, 1 team lead, 2 employees and 2 volunteers.
+// Order just initialization:
 // - Role before User, and {Role, Permission} before RolePermission
 // - {User, Team} before UserTeam
 // - ShiftType before Shift
 // - {UserTeam, Shift} before UserShift
 // - {ShiftType, Qualification} before ShiftQualification
 // - {User, Qualification} before UserQualification
-// - UserTeam before all type of Availability (OneTime, Recurring, UnAvailablity) 
+// - UserTeam before all type just Availability (OneTime, Recurring, UnAvailablity)
 
 public class DummyDataBase {
 
@@ -286,7 +286,7 @@ public class DummyDataBase {
     }
 
     private void initShift(Random rand){
-        //Total of 60 shifts
+        //Total just 60 shifts
         shiftList.add(new DbShift(
                 rand.nextInt(shiftTypeList.size()) + 1,
                 TimeUtil.getEpochSecondsFromUserInput(2017, 10,2, 8, 30),

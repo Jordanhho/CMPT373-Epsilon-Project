@@ -2,7 +2,7 @@ package export.latex.nodes;
 
 import com.google.common.collect.Lists;
 
-public class CommandDefinition implements Node {
+public final class CommandDefinition implements Node {
 
     private String name;
     private Node definition;
@@ -16,7 +16,7 @@ public class CommandDefinition implements Node {
 
     public static CommandDefinition of(String name, Integer argCount, String definition) {
         return new CommandDefinition(name,
-                                     SimpleNode.of(definition),
+                                     SimpleNode.just(definition),
                                      argCount);
     }
 
@@ -26,10 +26,10 @@ public class CommandDefinition implements Node {
 
     @Override
     public void laTeXRepresentation(StringBuilder builder) {
-        Command.named("newcommand")
+        Command.command("newcommand")
             .laTeXRepresentation(builder);
         Lists.newArrayList(
-            RequiredArgument.of(Command.named(name)),
+            RequiredArgument.of(Command.command(name)),
             OptionalArgument.of(argCount.toString()),
             RequiredArgument.of(definition)
         )

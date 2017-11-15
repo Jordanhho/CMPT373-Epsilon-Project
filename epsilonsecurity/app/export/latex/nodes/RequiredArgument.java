@@ -8,7 +8,7 @@ public class RequiredArgument implements Node {
     }
 
     public static RequiredArgument of(String argument) {
-        return new RequiredArgument(SimpleNode.of(argument));
+        return new RequiredArgument(SimpleNode.just(argument));
     }
 
     public static RequiredArgument of(Node argument) {

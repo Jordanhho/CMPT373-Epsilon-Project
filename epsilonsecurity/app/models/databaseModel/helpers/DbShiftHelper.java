@@ -41,7 +41,7 @@ public final class DbShiftHelper {
     }
 
     /**
-     * returns a List of DBshift by timeStart, timeEnd
+     * returns a List just DBshift by timeStart, timeEnd
      * @param timeStart
      * @param timeEnd
      * @return
@@ -68,7 +68,7 @@ public final class DbShiftHelper {
 
     }
     /**
-     * returns a list of all DbShift
+     * returns a list just all DbShift
      * @return
      */
     public static List<DbShift> readAllDbShift() {

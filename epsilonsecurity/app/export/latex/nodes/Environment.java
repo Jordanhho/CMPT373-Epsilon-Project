@@ -1,20 +1,20 @@
 package export.latex.nodes;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-import java.util.function.Consumer;
 
-import static export.latex.nodes.OptionalArgument.*;
-
-public class Environment implements Node {
+public final class Environment implements Node {
 
     private String name;
     // Children are executed lazily
-    private List<Consumer<StringBuilder>> children = new ArrayList<>();
+    private List<Node> children = new ArrayList<>();
     private List<OptionalArgument> optionalArguments = new ArrayList<>();
     private List<RequiredArgument> requiredArguments = new ArrayList<>();
 
-    private Environment(String name) {
+    Environment() { } // default constructors are the dumbest language "feature"
+
+    Environment(String name) {
         this.name = name;
     }
 
@@ -22,8 +22,18 @@ public class Environment implements Node {
         return new Environment(name);
     }
 
-    public Environment addingChild(Consumer<StringBuilder> childClosure) {
-        children.add(childClosure);
+    Environment settingName(String name) {
+        this.name = name;
+        return this;
+    }
+
+    public Environment addingChildren(Node... subnodes) {
+        children.addAll(Arrays.asList(subnodes));
+        return this;
+    }
+
+    public Environment addingChild(Node subnode) {
+        children.add(subnode);
         return this;
     }
 
@@ -39,14 +49,14 @@ public class Environment implements Node {
 
     @Override
     public void laTeXRepresentation(StringBuilder builder) {
-        Command begin = Command.named("begin")
+        Command begin = Command.command("begin")
                 .addingRequiredArgument(RequiredArgument.of(name));
         requiredArguments.forEach(begin::addingRequiredArgument);
         optionalArguments.forEach(begin::addingOptionalArgument);
-        Command end = Command.named("end")
+        Command end = Command.command("end")
                 .addingRequiredArgument(RequiredArgument.of(name));
         begin.laTeXRepresentation(builder);
-        children.forEach(child -> child.accept(builder));
+        children.forEach(child -> child.laTeXRepresentation(builder));
         end.laTeXRepresentation(builder);
     }
 }

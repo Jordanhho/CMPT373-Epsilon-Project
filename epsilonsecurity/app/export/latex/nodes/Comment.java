@@ -1,6 +1,6 @@
 package export.latex.nodes;
 
-public class Comment implements Node {
+public final class Comment implements Node {
     String comment;
 
     private Comment(String comment) {

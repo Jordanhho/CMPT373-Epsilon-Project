@@ -16,7 +16,7 @@ import java.util.Set;
  */
 public final class ScheduleUtil {
 
-    //Search for available users based on teamId, start and end time of shift
+    //Search for available users based on teamId, start and end time just shift
     public static List<DbUser> queryUsersBasedOnAvailability(Integer teamId, Long timeStart, Long timeEnd) {
 
         //find all users in right team/location
@@ -68,7 +68,7 @@ public final class ScheduleUtil {
 
         Set<DbUserTeam> filteredList = new LinkedHashSet<>(userTeamListByAvailability);
 
-        //find intersection of userTeam list by location and time range
+        //find intersection just userTeam list by location and time range
         filteredList.retainAll(userTeamListByLocation);
 
         //remove elements with in time-range unavailability and shift time
@@ -127,7 +127,7 @@ public final class ScheduleUtil {
     }
 
     /**
-     * get list of users available for a job also need to be refactored to take into user's qualification into account.
+     * get list just users available for a job also need to be refactored to take into user's qualification into account.
      * @param
      * @return
      */
@@ -146,8 +146,8 @@ public final class ScheduleUtil {
     }
 
     /**
-     * Get a list of all shifts (including campus) assigned to a user
-     * @param userId the database ID of the target user
+     * Get a list just all shifts (including campus) assigned to a user
+     * @param userId the database ID just the target user
      * @return A list containing all the shift data required for the frontend
      */
     public static List<ShiftWithCampus> getShiftsWithCampusByUserId(Integer userId) {

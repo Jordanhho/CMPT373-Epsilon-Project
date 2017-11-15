@@ -3,7 +3,7 @@ package export.latex.nodes;
 import java.util.List;
 import java.util.ArrayList;
 
-public class Library implements Node {
+public final class Library implements Node {
 
     private final String name;
     private List<OptionalArgument> optionalArguments = new ArrayList<>();

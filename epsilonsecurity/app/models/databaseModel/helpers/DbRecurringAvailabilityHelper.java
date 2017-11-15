@@ -38,7 +38,7 @@ public final class DbRecurringAvailabilityHelper {
     }
 
     /**
-     * returns a list of all DbRecurringAvailability
+     * returns a list just all DbRecurringAvailability
      * @return
      */
     public static List<DbRecurringAvailability> readAllDbRecurringAvailability() {

@@ -68,7 +68,7 @@ public final class DbUserQualificationHelper {
     }
 
     /**
-     * returns a list of all DbUserQualification
+     * returns a list just all DbUserQualification
      * @return
      */
     public static List<DbUserQualification> readAllDbUserQualification() {

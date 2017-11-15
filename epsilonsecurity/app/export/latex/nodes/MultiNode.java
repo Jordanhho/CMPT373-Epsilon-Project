@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class MultiNode implements Node {
+public final class MultiNode implements Node {
     private List<Node> subnodes = new ArrayList<>();
 
     private Boolean isOnSeparateLines = true;

@@ -37,7 +37,7 @@ public final class DbRoleHelper {
     }
 
     /**
-     * returns a list of all DbRole
+     * returns a list just all DbRole
      * @return
      */
     public static List<DbRole> readAllDbRole() {

@@ -9,7 +9,9 @@ import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 
+import static export.latex.nodes.Command.command;
 import static export.latex.nodes.RequiredArgument.of;
+import static export.latex.nodes.SimpleNode.just;
 
 public class PDFExportableSchedule implements PDFExportable {
 
@@ -58,7 +60,33 @@ public class PDFExportableSchedule implements PDFExportable {
 
     private DocumentBody constructDocumentBody() {
         DocumentBody body = new DocumentBody();
+        Environment initialEnvironment = constructInitialEnvironments();
         return body;
+    }
+
+    private Environment constructInitialEnvironments() {
+        Environment landscape = Environment.begin("landscape");
+        return landscape.addingChildren(
+            command("thispagestyle") .addingRequiredArgument(of(just("empty"))),
+            command("noindent"),
+            command("label") .addingRequiredArgument(of(just("tab:daypack")))
+        );
+    }
+
+    private Environment initializeTableEnvironment() {
+        Environment tableEnvironment = Environment.begin("tabularx")
+            .addingRequiredArgument(of(command("columnwidth")))
+            .addingRequiredArgument(of(just("|RRRRRRR|")));
+        MultiNode landscapeTableWorkaround = MultiNode.of(
+            command("caption*")
+                .addingRequiredArgument(of(
+                    command("textbf")
+                        .addingRequiredArgument(of(just("SFU Security Schedule")))
+                )),
+            just("//")
+        );
+        tableEnvironment.addingChild(landscapeTableWorkaround);
+        return tableEnvironment;
     }
 
     private static List<Library> requiredLibraries() {
@@ -86,41 +114,41 @@ public class PDFExportableSchedule implements PDFExportable {
             CommandDefinition.of("VolunteerColor", 0, "YellowOrange!70"),
             CommandDefinition.of("SupervisorColor", 0, "Thistle!20"),
             CommandDefinition.of("BlankRow", 0,
-                                 Command.named("multicolumn")
+                                 command("multicolumn")
                                      .addingRequiredArgument(of("7"))
                                      .addingRequiredArgument(of("|c|"))
                                      .addingRequiredArgument(of(""))
             ),
             CommandDefinition.of("TitleRow", 2, MultiNode.of(
-                Command.named("hline"),
-                Command.named("rowcolor")
+                command("hline"),
+                command("rowcolor")
                     .addingRequiredArgument(of("#1")),
-                Command.named("multicolumn")
+                command("multicolumn")
                     .addingRequiredArgument(of(((Integer) 7).toString()))
                     .addingRequiredArgument(of("|c|"))
-                    .addingRequiredArgument(of(Command.named("textsc")
+                    .addingRequiredArgument(of(command("textsc")
                         .addingRequiredArgument(of("#2"))
                     )),
-                Command.named("hline")
+                command("hline")
 
             )),
             CommandDefinition.of("SpecialShift", 1, MultiNode.of(
-                Command.named("cellcolor")
-                    .addingRequiredArgument(of(Command.named("SpecialShiftSubColor"))),
-                Command.named("textsc")
+                command("cellcolor")
+                    .addingRequiredArgument(of(command("SpecialShiftSubColor"))),
+                command("textsc")
                     .addingRequiredArgument(of("#1")))
                 .setOneLine()
             ),
             CommandDefinition.of("TimeCell", 1, MultiNode.of(
-                Command.named("cellcolor")
-                    .addingRequiredArgument(of(Command.named("TimeColor"))),
-                SimpleNode.of("#1"))
+                command("cellcolor")
+                    .addingRequiredArgument(of(command("TimeColor"))),
+                just("#1"))
                 .setOneLine()
             ),
             CommandDefinition.of("AssigneeCell", 1, MultiNode.of(
-                Command.named("cellcolor")
-                    .addingRequiredArgument(of(Command.named("AssigneeColor"))),
-                SimpleNode.of("#1"))
+                command("cellcolor")
+                    .addingRequiredArgument(of(command("AssigneeColor"))),
+                just("#1"))
                 .setOneLine()
             )
         );

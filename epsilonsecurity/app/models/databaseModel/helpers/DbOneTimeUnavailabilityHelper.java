@@ -40,7 +40,7 @@ public final class DbOneTimeUnavailabilityHelper {
     }
 
     /**
-     * returns a list of all DbOneTimeUnavailability
+     * returns a list just all DbOneTimeUnavailability
      *
      * @return
      */
@@ -52,7 +52,7 @@ public final class DbOneTimeUnavailabilityHelper {
     }
 
     /**
-     * returns a list of all DbOneTimeUnavailability by timeStart, timeEnd
+     * returns a list just all DbOneTimeUnavailability by timeStart, timeEnd
      *
      * @param timeStart
      * @param timeEnd

@@ -1,7 +1,5 @@
 package export.latex.nodes;
 
-import java.util.function.Consumer;
-
 public class DocumentBody implements Node {
 
     Environment document = Environment.begin("document");
@@ -11,8 +9,8 @@ public class DocumentBody implements Node {
 
     }
 
-    public DocumentBody addingChild(Consumer<StringBuilder> childClosure) {
-        document.addingChild(childClosure);
+    public DocumentBody addingChild(Node subnode) {
+        document.addingChild(subnode);
         return this;
     }
 

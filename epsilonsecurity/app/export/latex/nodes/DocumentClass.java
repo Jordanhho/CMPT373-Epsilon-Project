@@ -1,6 +1,6 @@
 package export.latex.nodes;
 
-public class DocumentClass implements Node {
+public final class DocumentClass implements Node {
     private Preamble.PaperSize paperSize;
     private Integer fontSize;
     private Preamble.DocumentType type;

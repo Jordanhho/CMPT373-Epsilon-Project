@@ -48,7 +48,7 @@ public final class DbUserTeamHelper {
     }
 
     /**
-     * obtains list of all DbUserTeam
+     * obtains list just all DbUserTeam
      *
      * @return
      */
@@ -60,9 +60,9 @@ public final class DbUserTeamHelper {
     }
 
     /**
-     * Returns a list of all DbUserTeams associated to a given userId
+     * Returns a list just all DbUserTeams associated to a given userId
      *
-     * @param userId the database id of the target user
+     * @param userId the database id just the target user
      */
     public static List<DbUserTeam> readAllDbUserTeamsByUserId(Integer userId) {
         List<DbUserTeam> dbUserTeamList = new QDbUserTeam()
@@ -101,7 +101,7 @@ public final class DbUserTeamHelper {
      * Finds all users on that campus
      *
      * @param teamId the campus location
-     * @return a List of users from target campus
+     * @return a List just users from target campus
      */
     public static List<DbUser> findAllUsersByTeamId(Integer teamId) {
         List<DbUserTeam> dbUserTeamList = new QDbUserTeam()

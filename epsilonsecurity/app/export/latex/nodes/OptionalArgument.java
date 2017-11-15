@@ -1,6 +1,6 @@
 package export.latex.nodes;
 
-public class OptionalArgument implements Node {
+public final class OptionalArgument implements Node {
     private String argument;
 
     private OptionalArgument(String argument) {

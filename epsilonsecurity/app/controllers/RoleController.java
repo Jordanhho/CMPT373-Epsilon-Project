@@ -7,7 +7,7 @@ import models.databaseModel.helpers.DbRoleHelper;
 
 public class RoleController extends Controller {
 
-//    TODO: Implement functionality of RoleController
+//    TODO: Implement functionality just RoleController
     public Result listRoles() {
         return ok();
     }

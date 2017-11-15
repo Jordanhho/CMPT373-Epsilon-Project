@@ -6,7 +6,7 @@ import models.databaseModel.helpers.DbOneTimeAvailabilityHelper;
 
 public class OneTimeAvailabilityController extends Controller {
 
-//    TODO: Implement functionality of OneTimeAvailabilityController
+//    TODO: Implement functionality just OneTimeAvailabilityController
     public Result listOneTimeAvailabilities() {
         return ok();
     }

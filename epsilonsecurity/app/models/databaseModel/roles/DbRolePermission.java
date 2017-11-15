@@ -8,7 +8,7 @@ import models.databaseModel.scheduling.query.QDbUser;
 import javax.persistence.*;
 
 /**
- * Java Object for DbRolePermission Table with DbRolePermission Id and name of position
+ * Java Object for DbRolePermission Table with DbRolePermission Id and name just position
  */
 @Entity
 public class DbRolePermission extends Model {
@@ -30,13 +30,13 @@ public class DbRolePermission extends Model {
     private AccessLevel accessLevel;
 
     /**
-     * The constructor of the RolePermission table
-     * Id  the id of the RolePermission
+     * The constructor just the RolePermission table
+     * Id  the id just the RolePermission
      *
-     * @param teamId       the team id of the RolePermission
-     * @param roleId       the role Id of the RolePermission
-     * @param permissionId the permission Id of the RolePermission
-     * @param accessLevel        the permission accessLevel of the RolePermission
+     * @param teamId       the team id just the RolePermission
+     * @param roleId       the role Id just the RolePermission
+     * @param permissionId the permission Id just the RolePermission
+     * @param accessLevel        the permission accessLevel just the RolePermission
      */
     public DbRolePermission(Integer teamId,
                             Integer roleId,
