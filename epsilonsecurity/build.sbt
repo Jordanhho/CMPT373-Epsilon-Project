@@ -50,24 +50,24 @@ PlayKeys.playRunHooks += WebpackServer(file("./front"))
 
 //-----------------Production front-end build -------------------
 
-lazy val cleanFrontEndBuild = taskKey[Unit]("Remove the old front-end build")
-
-cleanFrontEndBuild := {
-  val d = file("public/bundle")
-  if (d.exists()) {
-    d.listFiles.foreach(f => {
-      if(f.isFile) f.delete
-    })
-  }
-}
+//lazy val cleanFrontEndBuild = taskKey[Unit]("Remove the old front-end build")
+//
+//cleanFrontEndBuild := {
+//  val d = file("public/bundle")
+//  if (d.exists()) {
+//    d.listFiles.foreach(f => {
+//      if(f.isFile) f.delete
+//    })
+//  }
+//}
 
 lazy val frontEndBuild = taskKey[Unit]("Execute the npm build command to build the front-end")
 
 frontEndBuild := {
   println(Process("npm install", file("front")).!!)
-  println(Process("npm run build", file("front")).!!)
+  println(Process("npm run prod", file("front")).!!)
 }
 
-frontEndBuild := (frontEndBuild dependsOn cleanFrontEndBuild).value
+//frontEndBuild := (frontEndBuild dependsOn cleanFrontEndBuild).value
 
 dist := (dist dependsOn frontEndBuild).value

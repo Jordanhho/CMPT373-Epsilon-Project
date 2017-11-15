@@ -19,6 +19,6 @@ public class HomeController extends Controller {
         this.env = env;
     }
     public Result index(String id) {
-        return status(200, index.render(env, 8080, "stuff.js", "stuff.css"));
+        return status(200, index.render(env, 3000, "bundle.js", "bundle.css"));
     }
 }
