@@ -87,7 +87,7 @@ public final class DbUserTeamHelper {
 
         for (DbUserTeam userTeam : dbUserTeamList) {
             userList.add(DbUser.find
-                    .byId(userTeam.getTeamId()));
+                    .byId(userTeam.getUserId()));
         }
 
         return userList;
