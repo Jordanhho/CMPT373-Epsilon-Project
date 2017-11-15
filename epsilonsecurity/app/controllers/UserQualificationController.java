@@ -2,7 +2,7 @@ package controllers;
 
 import models.databaseModel.helpers.DbUserQualificationHelper;
 import models.databaseModel.qualification.DbQualification;
-import models.databaseModel.scheduling.DbUserQualification;
+import models.databaseModel.qualification.DbUserQualification;
 import play.data.Form;
 import play.data.FormFactory;
 import play.libs.Json;
@@ -36,7 +36,7 @@ public class UserQualificationController extends Controller {
     }
 
     public Result readQualificationByUserId(Integer userId){
-        List<DbQualification> dbQualificationList = DbUserQualificationHelper.readDbQualificationByUserId(userId);
+        List<DbQualification> dbQualificationList = DbUserQualificationHelper.readAllDbQualificationsByUserId(userId);
         return ok(Json.toJson(dbQualificationList));
     }
 }

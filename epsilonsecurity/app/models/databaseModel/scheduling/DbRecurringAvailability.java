@@ -17,6 +17,14 @@ import javax.persistence.Id;
 @Entity
 public class DbRecurringAvailability extends Model {
 
+    public static final String COLUMN_USER_ID = "user_id";
+    public static final String COLUMN_DAY = "day";
+    public static final String COLUMN_FREQUENCY = "frequency";
+    public static final String COLUMN_RECUR_TIME_START_BLOCK = "recur_time_start_block";
+    public static final String COLUMN_RECUR_TIME_END_BLOCK = "recur_time_end_block";
+    public static final String COLUMN_SHIFT_TIME_START_BLOCK = "shift_time_start_block";
+    public static final String COLUMN_SHIFT_TIME_END_BLOCK = "shift_time_end_block";
+
     @Id
     private Integer id;
 

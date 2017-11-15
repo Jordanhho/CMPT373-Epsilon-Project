@@ -10,6 +10,10 @@ import javax.persistence.Id;
 
 @Entity
 public class DbUserQualification extends Model{
+
+    public static final String COLUMN_USER_ID = "user_id";
+    public static final String COLUMN_QUALIFICATION_ID = "qualification_id";
+
     @Id
     @GeneratedValue
     private int id;

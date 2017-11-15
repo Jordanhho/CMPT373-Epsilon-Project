@@ -13,6 +13,10 @@ import javax.persistence.Id;
 @Entity
 public class DbOneTimeUnavailability extends Model {
 
+    public static final String COLUMN_USER_TEAM_ID = "user_team_id";
+    public static final String COLUMN_TIME_START = "time_start";
+    public static final String COLUMN_TIME_END = "time_end";
+
     @Id
     private Integer id;
 

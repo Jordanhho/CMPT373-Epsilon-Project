@@ -1,7 +1,6 @@
 package models.databaseModel.helpers;
 
 import models.databaseModel.scheduling.DbRecurringAvailability;
-import models.databaseModel.scheduling.query.QDbRecurringAvailability;
 
 import java.util.List;
 
@@ -23,28 +22,18 @@ public final class DbRecurringAvailabilityHelper {
         dbRecurringAvailability.delete();
     }
 
-    /**
-     * finds a DbRecurringAvailability by DbRecurringAvailabilityId
-     * @param id
-     * @return
-     */
     public static DbRecurringAvailability readDbRecurringAvailabilityById(Integer id) {
-        DbRecurringAvailability dbRecurringAvailability = new QDbRecurringAvailability()
-                .id
-                .eq(id)
-                .findUnique();
-
-        return dbRecurringAvailability;
+        return DbRecurringAvailability.find.byId(id);
     }
 
+<<<<<<< HEAD
     /**
      * returns a list just all DbRecurringAvailability
      * @return
      */
+=======
+>>>>>>> master
     public static List<DbRecurringAvailability> readAllDbRecurringAvailability() {
-        List<DbRecurringAvailability> dbRecurringAvailability = new QDbRecurringAvailability()
-                .findList();
-
-        return dbRecurringAvailability;
+        return DbRecurringAvailability.find.all();
     }
 }

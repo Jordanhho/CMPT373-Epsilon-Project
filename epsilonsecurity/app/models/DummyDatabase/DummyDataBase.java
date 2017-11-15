@@ -1,7 +1,8 @@
 package models.DummyDatabase;
 
 import models.databaseModel.helpers.*;
-import models.databaseModel.qualification.DbQualification;
+import models.databaseModel.qualification.*;
+import models.databaseModel.qualification.DbUserQualification;
 import models.databaseModel.roles.*;
 import models.databaseModel.scheduling.*;
 import models.queries.TimeUtil;

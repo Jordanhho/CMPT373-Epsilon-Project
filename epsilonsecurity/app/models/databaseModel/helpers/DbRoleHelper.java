@@ -1,7 +1,6 @@
 package models.databaseModel.helpers;
 
 import models.databaseModel.roles.DbRole;
-import models.databaseModel.roles.query.QDbRole;
 
 import java.util.List;
 
@@ -22,28 +21,18 @@ public final class DbRoleHelper {
         dbRole.delete();
     }
 
-    /**
-     * finds a DbRole by DbRoleId
-     * @param id
-     * @return
-     */
     public static DbRole readDbRoleById(Integer id) {
-        DbRole dbRole = new QDbRole()
-                .id
-                .eq(id)
-                .findUnique();
-
-        return dbRole;
+        return DbRole.find.byId(id);
     }
 
+<<<<<<< HEAD
     /**
      * returns a list just all DbRole
      * @return
      */
+=======
+>>>>>>> master
     public static List<DbRole> readAllDbRole() {
-        List<DbRole> dbRoleList = new QDbRole()
-                .findList();
-
-        return dbRoleList;
+        return DbRole.find.all();
     }
 }

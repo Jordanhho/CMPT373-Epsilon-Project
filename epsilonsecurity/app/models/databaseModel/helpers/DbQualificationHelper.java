@@ -1,7 +1,6 @@
 package models.databaseModel.helpers;
 
 import models.databaseModel.qualification.DbQualification;
-import models.databaseModel.qualification.query.QDbQualification;
 
 import java.util.List;
 
@@ -27,27 +26,20 @@ public final class DbQualificationHelper {
 
 
     public static DbQualification readDbQualificationById(Integer id) {
-        DbQualification dbQualification = new QDbQualification()
-                .id
-                .eq(id)
-                .findUnique();
-
-        return dbQualification;
+        return DbQualification.find.byId(id);
     }
 
     public static DbQualification readDbQualificationByName(String name) {
-        DbQualification dbQualification = new QDbQualification()
-                .qualificationName
-                .eq(name)
+        DbQualification dbQualification = DbQualification.find
+                .query()
+                .where()
+                .eq(DbQualification.COLUMN_QUALIFICATION_NAME, name)
                 .findUnique();
 
         return dbQualification;
     }
 
     public static List<DbQualification> readAllDbQualification() {
-        List<DbQualification> dbQualificationList = new QDbQualification()
-                .findList();
-
-        return dbQualificationList;
+        return DbQualification.find.all();
     }
 }

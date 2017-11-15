@@ -14,18 +14,23 @@ import javax.persistence.Id;
 @Entity
 public class DbPermission extends Model {
 
+    public static final String COLUMN_NAME = "name";
+
     @Id
     private Integer id;
 
     @Column(nullable = false, unique = true)
     private String name;
 
+<<<<<<< HEAD
     /**
      * Constructor for Permission table
      * Id  the id just the permission
      *
      * @param name the name just this permission
      */
+=======
+>>>>>>> master
     public DbPermission(String name) {
         this.name = name;
     }
