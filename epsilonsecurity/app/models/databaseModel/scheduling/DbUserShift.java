@@ -8,10 +8,13 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 
 /**
- * Java Object for DbUserShift Table with DbUserShift event id, user id, shift id
+ * Java Object for DbUserShift Table with DbUserShift event id, user team id, shift id
  */
 @Entity
 public class DbUserShift extends Model {
+
+    public static final String COLUMN_USER_TEAM_ID = "user_team_id";
+    public static final String COLUMN_SHIFT_ID = "shift_id";
 
     @Id
     private Integer id;
@@ -22,13 +25,6 @@ public class DbUserShift extends Model {
     @Column(nullable = false)
     private Integer shiftId;
 
-    /**
-     * The Constructor of this UserShift
-     * id  the id of this userShift
-     *
-     * @param userTeamId  the id of the userTeam for this userShift
-     * @param shiftId the id of the shift for this userShift
-     */
     public DbUserShift(Integer userTeamId, Integer shiftId) {
         this.userTeamId = userTeamId;
         this.shiftId = shiftId;

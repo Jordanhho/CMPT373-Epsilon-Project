@@ -10,6 +10,9 @@ import javax.persistence.Id;
 
 @Entity
 public class DbQualification extends Model {
+
+    public static final String COLUMN_QUALIFICATION_NAME = "qualification_name";
+
     @Id
     @GeneratedValue
     private int id;
