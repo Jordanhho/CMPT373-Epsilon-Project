@@ -1,26 +1,23 @@
 <template>
-    <v-container fill-height>
-        <v-layout id="manage-users">
-            <v-flex xs4>
-                <userlist   id="userlist"
-                            ref="userlist"
+    <v-layout class="manage-users">
+        <v-flex xs4 class='scroll-y'>
+            <userlist   class="userlist"
+                        ref="userlist"
+                        v-bind:teams="teams"
+                        @clicked="onClickUserListViewItem">
+            </userlist>
+        </v-flex>
+        <v-flex xs8 class='scroll-y'>
+            <router-view    class="profile"
                             v-bind:teams="teams"
-                            @clicked="onClickUserListViewItem">
-                </userlist>
-            </v-flex>
-            <v-flex xs8>
-                <router-view    id="profile"
-                                v-bind:teams="teams"
-                                @edited="$refs.userlist.requestUsers()">
-                </router-view>
-            </v-flex>
-        </v-layout>
-    </v-container>
+                            @edited="$refs.userlist.requestUsers()">
+            </router-view>
+        </v-flex>
+    </v-layout>
 </template>
 
 <script>
     import UserListView from './UserListView.vue';
-    import QualificationsView from './QualificationsView.vue';
     import ProfileView from './ProfileView.vue';
     import Icon from 'vue-awesome/components/Icon.vue';
     import axios from 'axios';
@@ -43,7 +40,6 @@
         },
         components: {
             "userlist": UserListView,
-            'qualifications': QualificationsView,
             'profile': ProfileView,
             Icon
         },
@@ -61,35 +57,22 @@
     #manage-users {
         background: white;
         width: 100%;
-        height: 100%;
-        top: 0;
         position: relative;
         display: flex;
-    }
-
-    #profile-main {
         height: 100%;
     }
 
-    #userlist {
+    .userlist {
+        background: white;
+        height: inherit;
+        padding: 2em;
+    }
+
+    .profile {
+        background: white;
         height: 100%;
-        background: white;
-        flex-flow: row nowrap;
+        padding: 2em;
+        overflow-y: visible;
     }
-
-    #profile, #qualifications {
-        height: 50%;
-        width: 100%;
-        flex-flow: row nowrap;
-    }
-    #profile {
-        display: flex;
-        background: white;
-    }
-
-    #qualifications {
-        background: white;
-    }
-
 
 </style>

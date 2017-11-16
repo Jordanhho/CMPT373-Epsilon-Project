@@ -1,5 +1,5 @@
 <template>
-<div id = "profile">
+<v-container clipped enable-resize-watcher class='hack-height'>
     <v-layout id='main-profile'>
         <v-flex xs12 md3 class='profile-item'>
             <img :src="userPhoto" alt="" id= "user-photo">
@@ -62,7 +62,7 @@
         </v-flex>
     </v-layout>
     <qualifications></qualifications>
-</div>
+</v-container>
 
 
 </template>
@@ -161,19 +161,12 @@
         list-style-type: none;
     }
 
-    #profile {
-        height: 100%;
-        padding: 2em;
-        display: flex;
-        flex-direction: column;
-    }
-
     #other-data {
         padding-left: 2em;
     }
 
     #user-photo {
-        width: 80%;
+        width: 10em;
         height: auto;
         border-radius: 50%;
     }
@@ -182,6 +175,10 @@
         list-style: none;
         text-align: left;
         font-size: 1.5em;
+    }
+
+    .hack-height {
+        height: 20em;
     }
 
     .username {

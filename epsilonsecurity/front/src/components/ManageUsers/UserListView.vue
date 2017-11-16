@@ -14,7 +14,7 @@
                             v-bind:teams="teams"></add-user>
             </v-flex>
             <v-flex xs12>
-                <ul id="scroll">
+                <ul id="listedItems">
                     <listed-user    v-for="user in users"
                                     @clicked="onClickListElement"
                                     v-bind:user="user"></listed-user>
@@ -103,8 +103,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-#scroll {
-    overflow-y: scroll;
+#listedItems {
     overflow-x: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -125,11 +124,7 @@ export default {
 }
 
 #userlist{
-    padding: 2em;
     background: #FBFBFB;
-}
-
-#add-user, #dropdown {
 }
 
 </style>
