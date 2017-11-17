@@ -7,13 +7,7 @@ GET           /callback                                                         
 
 GET           /ok                                                                controllers.TestController.test()
 
-# redirect all other requests to the SPA page
-# ...except API requests with the prefix '/api'
-GET           /$p<(?!api).*>                                                     controllers.FrontController.index(p: String)
-
-# TODO: Consider making a custom router to handle '/api' requests
-# see: https://www.playframework.com/documentation/2.6.x/ScalaRouting#the-routes-file-syntax
-
+GET           /$p<(?!api).*>      controllers.HomeController.index(p: String)
 # ----------------------- USER APIs ----------------------
 
 #
@@ -73,6 +67,9 @@ GET           /api/users/:userId/teams/:teamId                                  
 
 # Delete a user-team pair by userId and teamId
 DELETE        /api/users/:userId/teams/:teamId                                   controllers.UserTeamController.deleteUserTeam(userId: Integer, teamId: Integer)
+
+# Delete a user from all teams
+DELETE        /api/users/:userId/teams                                           controllers.UserTeamController.deleteUserFromAllTeams(userId: Integer)
 
 
 #
@@ -174,6 +171,14 @@ GET           /api/rolepermissions/:rolePermissionId                            
 DELETE        /api/rolepermissions/:rolePermissionId                             controllers.RolePermissionController.deleteRolePermission(rolePermissionId: Integer)
 
 #
+# DbQualification
+#
+
+# List all qualifications in the database
+GET           /api/qualifications                                                controllers.QualificationController.listAllQualifications()
+
+
+#
 # DbUserQualification
 #
 
@@ -238,6 +243,3 @@ GET           /api/recurringavailabilites/:recurringAvailabilityId              
 
 # Delete recurring availability by recurringAvailabilityId
 DELETE        /api/recurringavailabilites/:recurringAvailabilityId               controllers.RecurringAvailabilityController.deleteRecurringAvailability(recurringAvailabilityId: Integer)
-
-
-

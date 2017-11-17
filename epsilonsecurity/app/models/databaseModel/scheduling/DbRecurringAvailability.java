@@ -3,9 +3,7 @@ package models.databaseModel.scheduling;
 import io.ebean.Finder;
 import io.ebean.Model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 
 /**
@@ -16,6 +14,14 @@ import javax.persistence.Id;
  */
 @Entity
 public class DbRecurringAvailability extends Model {
+
+    public static final String COLUMN_USER_ID = "user_id";
+    public static final String COLUMN_DAY = "day";
+    public static final String COLUMN_FREQUENCY = "frequency";
+    public static final String COLUMN_RECUR_TIME_START_BLOCK = "recur_time_start_block";
+    public static final String COLUMN_RECUR_TIME_END_BLOCK = "recur_time_end_block";
+    public static final String COLUMN_SHIFT_TIME_START_BLOCK = "shift_time_start_block";
+    public static final String COLUMN_SHIFT_TIME_END_BLOCK = "shift_time_end_block";
 
     @Id
     private Integer id;
@@ -40,6 +46,10 @@ public class DbRecurringAvailability extends Model {
 
     @Column(nullable = false)
     private Long shiftTimeEndBlock;
+
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private Status status = Status.Open;
 
     /**
      * The constructor of RecurringAvailability
@@ -133,6 +143,14 @@ public class DbRecurringAvailability extends Model {
         this.shiftTimeEndBlock = shiftTimeEndBlock;
     }
 
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
     public static Finder<Integer, DbRecurringAvailability> find = new Finder<>(DbRecurringAvailability.class);
 
     @Override
@@ -146,6 +164,7 @@ public class DbRecurringAvailability extends Model {
                 ", recurTimeEndBlock=" + recurTimeEndBlock +
                 ", shiftTimeStartBlock=" + shiftTimeStartBlock +
                 ", shiftTimeEndBlock=" + shiftTimeEndBlock +
+                ", status=" + status +
                 '}';
     }
 }

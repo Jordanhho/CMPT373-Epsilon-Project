@@ -10,6 +10,9 @@ import javax.persistence.Id;
 @Entity
 public class DbUserTeam extends Model {
 
+    public static final String COLUMN_TEAM_ID = "team_id";
+    public static final String COLUMN_USER_ID = "user_id";
+
     @Id
     private Integer id;
 

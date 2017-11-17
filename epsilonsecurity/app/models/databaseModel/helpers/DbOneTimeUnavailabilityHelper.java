@@ -1,9 +1,8 @@
 package models.databaseModel.helpers;
 
 
+import io.ebean.Expr;
 import models.databaseModel.scheduling.DbOneTimeUnavailability;
-import models.databaseModel.scheduling.DbUser;
-import models.databaseModel.scheduling.query.QDbOneTimeUnavailability;
 
 import java.util.List;
 
@@ -25,48 +24,23 @@ public final class DbOneTimeUnavailabilityHelper {
         dbOneTimeUnavailability.delete();
     }
 
-    /**
-     * finds a DbOneTimeUnavailability from DbOneTimeUnavailabilityId
-     *
-     * @param id
-     */
     public static DbOneTimeUnavailability readDbOneTimeUnavailabilityById(Integer id) {
-        DbOneTimeUnavailability dbOneTimeUnavailability = new QDbOneTimeUnavailability()
-                .id
-                .eq(id)
-                .findUnique();
-
-        return dbOneTimeUnavailability;
+        return DbOneTimeUnavailability.find.byId(id);
     }
 
-    /**
-     * returns a list of all DbOneTimeUnavailability
-     *
-     * @return
-     */
     public static List<DbOneTimeUnavailability> readAllDbOneTimeUnavailability() {
-        List<DbOneTimeUnavailability> dbOneTimeUnavailability = new QDbOneTimeUnavailability()
-                .findList();
-
-        return dbOneTimeUnavailability;
+        return DbOneTimeUnavailability.find.all();
     }
 
-    /**
-     * returns a list of all DbOneTimeUnavailability by timeStart, timeEnd
-     *
-     * @param timeStart
-     * @param timeEnd
-     * @return
-     */
     public static List<DbOneTimeUnavailability> readDbOneTimeUnavailabilityByTimeRange(Long timeStart, Long timeEnd) {
-        List<DbOneTimeUnavailability> dbOneTimeUnavailabilityList = new QDbOneTimeUnavailability()
-                .timeStart.lessOrEqualTo(timeStart)
-                .and()
-                .timeEnd.greaterOrEqualTo(timeStart)
-                .and()
-                .timeStart.lessOrEqualTo(timeStart)
-                .and()
-                .timeEnd.greaterOrEqualTo(timeEnd)
+        List<DbOneTimeUnavailability> dbOneTimeUnavailabilityList = DbOneTimeUnavailability.find
+                .query()
+                .where()
+                .disjunction()
+                .add(Expr.between
+                        (DbOneTimeUnavailability.COLUMN_TIME_START, DbOneTimeUnavailability.COLUMN_TIME_END, timeStart))
+                .add(Expr.between
+                        (DbOneTimeUnavailability.COLUMN_TIME_START, DbOneTimeUnavailability.COLUMN_TIME_END, timeEnd))
                 .findList();
 
 

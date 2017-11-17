@@ -10,6 +10,10 @@ import javax.persistence.Id;
 
 @Entity
 public class DbShiftQualification extends Model{
+
+    public static final String COLUMN_QUALIFICATION_ID = "qualification_id";
+    public static final String COLUMN_SHIFT_TYPE_ID = "shift_type_id";
+
     @Id
     @GeneratedValue
     private int id;

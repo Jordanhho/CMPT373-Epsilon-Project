@@ -13,6 +13,11 @@ import javax.persistence.Id;
 
 @Entity
 public class DbUser extends Model {
+    public static final String COLUMN_ROLE_ID = "role_id";
+    public static final String COLUMN_CONTACT_EMAIL = "contact_email";
+    public static final String COLUMN_SFU_EMAIL = "sfu_email";
+    public static final String COLUMN_PHONE_NUMBER = "phone_number";
+    public static final String COLUMN_PHOTO_URL = "photo_url";
 
     @Id
     private Integer id;
