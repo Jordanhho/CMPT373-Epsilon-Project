@@ -60,7 +60,9 @@ public final class DbUserHelper {
     }
 
     public static List<DbUser> readAllDbUsers() {
-        return DbUser.find.all();
+        List<DbUser> dbUserList = DbUser.find.all();
+        dbUserList.removeIf(dbUser -> dbUser.getRoleId() == 1);
+        return dbUserList;
     }
 
 }
