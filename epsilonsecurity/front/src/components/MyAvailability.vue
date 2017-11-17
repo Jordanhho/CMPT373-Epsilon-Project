@@ -1,5 +1,4 @@
 <template>
-
 		<v-container fluid fill-width fill-height class="pa-0">
 			<v-layout column wrap>
 				<v-flex xs12>
@@ -110,7 +109,6 @@
 								<v-card-text>
 									<v-container grid-list-xs>
                                         <v-layout wrap>
-
 
                                             <!-- date  picker -->
                                             <v-flex xs6>
@@ -343,7 +341,6 @@
 							</v-card-actions>
 						</v-card>
 					</v-dialog>
-
 				</v-flex>
 			</v-layout>
 		</v-container>
@@ -734,14 +731,6 @@ export default {
             this.showToast = true;
 		},
 
-		PopulateAvailabilityList: function() {
-
-			//grab all generated client events
-			availabilityList = $('#calendar').fullCalendar('clientEvents');
-			this.availabilityList = response.data;
-		},
-
-
 		getNextWeekMonday: function() {
 			// //create a moment object that is the starting monday of the current day and next week
 			var nextMondayDate = moment().startOf('isoweek').add(7, 'days').format("YYYY-MM-DD");
@@ -792,7 +781,18 @@ export default {
 			var combinedNextWeekTimeDate = moment(currentDate + " " + currentTime, ["YYYY-MM-DD HH:MMA"]);
 			date = combinedNextWeekTimeDate;
 			$('#calendar').fullCalendar('gotoDate', date);
-		}
+		},
+
+		PopulateAvailabilityList: function() {
+			//grab all generated client events
+			availabilityList = $('#calendar').fullCalendar('clientEvents');
+			console.log("list of events: " + availabilityList);
+			
+			
+			//this.availabilityList = response.data;
+		},
+
+
 	},
 
     components: {
@@ -806,6 +806,8 @@ export default {
 			console.log(error);
 		});
 	},
+
+
 
 	mounted () {
 
