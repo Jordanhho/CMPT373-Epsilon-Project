@@ -1,6 +1,6 @@
 <template>
 	<v-container fluid fill-height class="pa-0">
-	<!-- <div id="my-schedule"> -->
+	<!-- <div id="my-shift"> -->
 		<full-calendar 
 			:event-sources="eventSources"
 			:config="config"
@@ -197,7 +197,7 @@ export default {
 @import '~fullcalendar/dist/fullcalendar.css';
 @import '../stylus/main';
 
-#my-schedule
+#my-shift
 	background: white
 	width: 100%
 	position: relative

@@ -5,6 +5,7 @@ import MySchedule from './components/MySchedule.vue';
 import ManageUsers from './components/ManageUsers/ManageUsers.vue';
 import ProfileView from './components/ManageUsers/ProfileView.vue';
 import MyProfile from './components/MyProfile.vue';
+import ManageSchedule from './components/ManageSchedule.vue'
 // todo: import other components here
 import NotFound from './components/NotFound.vue';
 import store from './store/store'
@@ -71,6 +72,15 @@ const router = new VueRouter({
 				adminOnly: false
 			}
 		},
+		{
+			path: '/manage-schedules',
+			component: ManageSchedule,
+			meta: {
+				requiresAuth: true,
+				adminOnly: true
+			}
+		},
+
 		// todo: other routes here
 		{ 
 			path: '*', 
