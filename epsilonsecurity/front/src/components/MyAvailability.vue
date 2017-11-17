@@ -69,29 +69,31 @@
 						
 					<!-- floating add availbility button printDayWeek showCreateAvailability = true -->
 					<div id="add-button"> 
-						<v-card-text style="height: 1px; position: relative" @click.stop="showAvailabilityEditor = true">
-							<v-btn
-								absolute
-								dark
-								fab
-								top
-								right
-								color="blue"
-								:disabled="availabilitySubmitted"
-							>
+						<v-card-text style="height: 1px; position: relative" @click.stop="showCreateAvailability = true">
+							<v-btn absolute dark fab top right color="blue" :disabled="availabilitySubmitted">
 								<v-icon>
 									add
 								</v-icon>
 							</v-btn>
 						</v-card-text>
+
 					</div>
 
 
 					<!-- bottom bar for submission (footer) -->
-					<div id="submission-bar">
-						<v-card class="text-xs-center" dark color = "white">
+					<div id="option-bar">
+						<v-card class="text-xs-center" dark color="white" >
+
 							<v-card-actions>
-								<v-btn color="primary" block @click.stop="AvailabilitySubmitConfirmation" :disabled="availabilitySubmitted">
+								<v-btn dark color="blue" block @click.stop="saveLocallyConfirmation = true" :disabled="availabilitySubmitted">
+									Save Locally
+								</v-btn>
+
+								<v-btn dark color="red" block @click.stop="deleteLocallyConfirmation = true" :disabled="availabilitySubmitted">
+									Delete Locally
+								</v-btn>
+
+								<v-btn color="primary" block @click.stop="showConfirmSubmission = true" :disabled="availabilitySubmitted">
 									Submit
 								</v-btn>
 							</v-card-actions>
@@ -99,9 +101,9 @@
 					</div>
 
 
-					<!-- popup creating availability from + button -->
+					<!-- popup editor for clicking on availability, dragging event availability, clicking + button -->
 					<v-layout row justify-center>
-						<v-dialog v-model="showAvailabilityEditor" persistent max-width="400px">
+						<v-dialog v-model="showCreateAvailability" max-width="400px" lazy full-width>
 							<v-card>
 								<v-card-title>
 									<span class="headline">Availability Info</span>
@@ -112,12 +114,7 @@
 
                                             <!-- date  picker -->
                                             <v-flex xs6>
-                                                <v-dialog
-                                                    persistent
-                                                    v-model="dateStartModal"
-                                                    lazy
-                                                    full-width
-                                                >
+                                                <v-dialog v-model="dateStartModal" lazy full-width>
                                                     <v-text-field
                                                         slot="activator"
                                                         label="Date"
@@ -153,12 +150,7 @@
 
                                             <!-- time start picker -->
                                             <v-flex xs6s>
-                                                <v-dialog
-                                                    persistent
-                                                    v-model="timeStartModal"
-                                                    lazy
-                                                    full-width
-                                                >
+                                                <v-dialog v-model="timeStartModal" lazy full-width>
                                                     <v-text-field
                                                         slot="activator"
                                                         label="Time Start"
@@ -168,15 +160,13 @@
                                                         readonly
                                                         required
                                                         persistent-hint
-                                                        :disabled="availabilitySubmitted"
-                                                    >
+                                                        :disabled="availabilitySubmitted">
                                                     </v-text-field>
                                                     <v-time-picker
                                                         v-model="availability.timeStart"
                                                         :allowed-hours="allowedTimes.hours"
                                                         :allowed-minutes="allowedTimes.minutes"
-                                                        actions
-                                                    >
+                                                        actions>
                                                         <template scope="{ save, cancel }">
                                                             <v-card-actions>
                                                                 <v-btn flat color="primary" @click="save" :disabled="availabilitySubmitted">
@@ -195,12 +185,7 @@
 
                                             <!-- time end picker -->
                                             <v-flex xs6>
-                                                <v-dialog
-                                                    persistent
-                                                    v-model="timeEndModal"
-                                                    lazy
-                                                    full-width
-                                                >
+                                                <v-dialog v-model="timeEndModal" lazy full-width>
                                                     <v-text-field
                                                         slot="activator"
                                                         label="Time End"
@@ -210,15 +195,13 @@
                                                         readonly
                                                         required
                                                         persistent-hint
-                                                        :disabled="availabilitySubmitted"
-                                                    >
+                                                        :disabled="availabilitySubmitted">
                                                     </v-text-field>
                                                     <v-time-picker
                                                         v-model="availability.timeEnd"
                                                         :allowed-hours="allowedTimes.hours"
                                                         :allowed-minutes="allowedTimes.minutes"
-                                                        actions
-                                                    >
+                                                        actions>
                                                         <template scope="{ save, cancel }">
                                                             <v-card-actions>
                                                                 <v-btn flat color="primary" @click="save" :disabled="availabilitySubmitted">
@@ -245,8 +228,7 @@
                                                     single-line
                                                     required
                                                     persistent-hint
-                                                    :disabled="availabilitySubmitted"
-                                                >
+                                                    :disabled="availabilitySubmitted">
                                                 </v-select>
                                             </v-flex>
 
@@ -255,16 +237,10 @@
 								</v-card-text>
 								<v-card-actions>
 									<v-spacer></v-spacer>
-									<v-btn color="primary" flat @click.stop="AvailabilityCreation(availability)" :disabled="availabilitySubmitted">
+									<v-btn color="primary" flat @click.stop="availabilityCreation(availability)" :disabled="availabilitySubmitted, showEditAvailability">
 										Create
 									</v-btn>
-									<v-btn color="primary" flat @click.stop="AvailabilityEdit(availability, currentSelectedEvent)" :disabled="availabilitySubmitted">
-										Edit
-									</v-btn>
-									<v-btn color="primary" flat @click.stop="AvailabilityDeletion(availability, currentSelectedEvent)" :disabled="availabilitySubmitted">
-										Delete
-									</v-btn>
-									<v-btn color="primary" flat @click.stop="showAvailabilityEditor = false">
+									<v-btn color="primary" flat @click.stop="showCreateAvailability = false">
 										Close
 									</v-btn>
 								</v-card-actions>
@@ -273,47 +249,222 @@
 					</v-layout>
 
 
-					<!--&lt;!&ndash; popup for when clicked on existing availability or dragging to create an availability &ndash;&gt;-->
-					<!--<v-layout row justify-center>-->
-						<!--<v-dialog v-model="showEditAvailability" persistent max-width="500px">-->
-							<!--<v-card>-->
-								<!--<v-card-title>-->
-									<!--<span class="headline">Availability Info</span>-->
-								<!--</v-card-title>-->
-								<!--<v-card-text>-->
-									<!--<v-container grid-list-md>-->
-										<!--<v-flex xs12 sm6 md4>-->
-											<!--<v-text-field label="Time Start" v-model="availability.timeStart" :disabled="availabilitySubmitted"></v-text-field>-->
-											<!--<v-text-field label="Time End" v-model="availability.timeEnd" :disabled="availabilitySubmitted"></v-text-field>-->
-										<!--</v-flex>-->
-										<!--<v-flex xs12 sm6 md4>-->
-											<!--<v-select-->
-												<!--v-bind:items="campusList"-->
-												<!--v-model="availability.campus"-->
-												<!--label="Campus"-->
-												<!--item-value="text"-->
-												<!--single-line-->
-												<!--:disabled="availabilitySubmitted"-->
-											<!--&gt;-->
-											<!--</v-select>-->
-										<!--</v-flex>-->
-									<!--</v-container grid-list-md>-->
-								<!--</v-card-text>-->
-								<!--<v-card-actions>-->
-									<!--<v-spacer></v-spacer>-->
-									<!--<v-btn color="primary" flat @click.stop="AvailabilityEdit(availability)" :disabled="availabilitySubmitted">-->
-										<!--Add-->
-									<!--</v-btn>-->
-									<!--<v-btn color="primary" flat @click.stop="AvailabilityDeletion(availability)" :disabled="availabilitySubmitted">-->
-										<!--Delete-->
-									<!--</v-btn>-->
-									<!--<v-btn color="primary" flat @click.stop="showEditAvailability = false">-->
-										<!--Close-->
-									<!--</v-btn>-->
-								<!--</v-card-actions>-->
-							<!--</v-card>-->
-						<!--</v-dialog>-->
-					<!--</v-layout>-->
+
+
+
+					<!-- popup editor for clicking on availability, dragging event availability, clicking + button -->
+					<v-layout row justify-center>
+						<v-dialog v-model="showEditAvailability" max-width="400px" lazy full-width>
+							<v-card>
+								<v-card-title>
+									<span class="headline">Availability Info</span>
+								</v-card-title>
+								<v-card-text>
+									<v-container grid-list-xs>
+                                        <v-layout wrap>
+
+                                            <!-- date  picker -->
+                                            <v-flex xs6>
+                                                <v-dialog v-model="dateStartModal" lazy full-width>
+                                                    <v-text-field
+                                                        slot="activator"
+                                                        label="Date"
+                                                        hint="Date of availability"
+                                                        v-model="availability.date"
+                                                        prepend-icon="event"
+                                                        readonly
+                                                        required
+                                                        persistent-hint
+                                                        :disabled="availabilitySubmitted"
+                                                    >
+                                                    </v-text-field>
+                                                    <v-date-picker
+                                                        v-model="availability.date"
+                                                        first-day-of-week="1"
+                                                        :allowed-dates="allowedDates"
+                                                    >
+                                                        <template scope="{ save, cancel }">
+                                                            <v-card-actions>
+                                                                <v-btn flat color="primary" @click="save" :disabled="availabilitySubmitted">
+                                                                    Save
+                                                                </v-btn>
+                                                                <v-spacer></v-spacer>
+                                                                <v-btn flat color="primary" @click="cancel">
+                                                                    Cancel
+                                                                </v-btn>
+                                                            </v-card-actions>
+                                                        </template>
+                                                    </v-date-picker>
+                                                </v-dialog>
+                                            </v-flex>
+
+
+                                            <!-- time start picker -->
+                                            <v-flex xs6s>
+                                                <v-dialog v-model="timeStartModal" lazy full-width>
+                                                    <v-text-field
+                                                        slot="activator"
+                                                        label="Time Start"
+                                                        hint="Start time of availability"
+                                                        v-model="availability.timeStart"
+                                                        prepend-icon="access_time"
+                                                        readonly
+                                                        required
+                                                        persistent-hint
+                                                        :disabled="availabilitySubmitted">
+                                                    </v-text-field>
+                                                    <v-time-picker
+                                                        v-model="availability.timeStart"
+                                                        :allowed-hours="allowedTimes.hours"
+                                                        :allowed-minutes="allowedTimes.minutes"
+                                                        actions>
+                                                        <template scope="{ save, cancel }">
+                                                            <v-card-actions>
+                                                                <v-btn flat color="primary" @click="save" :disabled="availabilitySubmitted">
+                                                                    Save
+                                                                </v-btn>
+                                                                <v-spacer></v-spacer>
+                                                                <v-btn flat color="primary" @click="cancel">
+                                                                    Cancel
+                                                                </v-btn>
+                                                            </v-card-actions>
+                                                        </template>
+                                                    </v-time-picker>
+                                                </v-dialog>
+                                            </v-flex>
+
+
+                                            <!-- time end picker -->
+                                            <v-flex xs6>
+                                                <v-dialog v-model="timeEndModal" lazy full-width>
+                                                    <v-text-field
+                                                        slot="activator"
+                                                        label="Time End"
+                                                        hint="Time start of availability"
+                                                        v-model="availability.timeEnd"
+                                                        prepend-icon="access_time"
+                                                        readonly
+                                                        required
+                                                        persistent-hint
+                                                        :disabled="availabilitySubmitted">
+                                                    </v-text-field>
+                                                    <v-time-picker
+                                                        v-model="availability.timeEnd"
+                                                        :allowed-hours="allowedTimes.hours"
+                                                        :allowed-minutes="allowedTimes.minutes"
+                                                        actions>
+                                                        <template scope="{ save, cancel }">
+                                                            <v-card-actions>
+                                                                <v-btn flat color="primary" @click="save" :disabled="availabilitySubmitted">
+                                                                    Save
+                                                                </v-btn>
+                                                                <v-spacer></v-spacer>
+                                                                <v-btn flat color="primary" @click="cancel">
+                                                                    Cancel
+                                                                </v-btn>
+                                                            </v-card-actions>
+                                                        </template>
+                                                    </v-time-picker>
+                                                </v-dialog>
+                                            </v-flex>
+
+                                            <!-- Campus -->
+                                            <v-flex xs6>
+                                                <v-select
+                                                    v-bind:items="campusList"
+                                                    v-model="availability.campus"
+                                                    label="Campus"
+                                                    hint="Campus of availability"
+                                                    item-value="text"
+                                                    single-line
+                                                    required
+                                                    persistent-hint
+                                                    :disabled="availabilitySubmitted">
+                                                </v-select>
+                                            </v-flex>
+
+                                        </v-layout>
+									</v-container>
+								</v-card-text>
+								<v-card-actions>
+									<v-spacer></v-spacer>
+									<v-btn color="primary" flat @click.stop="availabilityEdit(availability, currentSelectedEvent)" :disabled="availabilitySubmitted">
+										Edit
+									</v-btn>
+									<v-btn color="primary" flat @click.stop="availabilityDeletion(availability, currentSelectedEvent)" :disabled="availabilitySubmitted">
+										Delete
+									</v-btn>
+									<v-btn color="primary" flat @click.stop="showEditAvailability = false">
+										Close
+									</v-btn>
+								</v-card-actions>
+							</v-card>
+						</v-dialog>
+					</v-layout>
+
+
+
+
+
+
+
+
+
+
+					<!-- popup for when save locally is clicked -->
+					<v-dialog v-model="saveLocallyConfirmation">
+						<v-card>
+							<v-container grid-list-md>
+								<v-layout wrap>
+									<v-card-text>
+										<v-flex xs12>
+											<v-card-text class="text-xs-center">
+												Confirm Save of availability Schedule locally?
+											</v-card-text>
+										</v-flex>
+									</v-card-text>
+								</v-layout wrap>
+							</v-container grid-list-md>
+							<v-card-actions>
+								<v-btn color="primary" block @click.stop="saveAvailabilityListLocally">
+									Save
+								</v-btn>
+								<v-spacer></v-spacer>
+								<v-btn color="primary" block @click.stop="saveLocallyConfirmation = false">
+									Cancel
+								</v-btn>
+							</v-card-actions>
+						</v-card>
+					</v-dialog>
+
+
+					<!-- popup for when delete locally is clicked -->
+					<v-dialog v-model="deleteLocallyConfirmation">
+						<v-card>
+							<v-container grid-list-md>
+								<v-layout wrap>
+									<v-card-text>
+										<v-flex xs12>
+											<v-card-text class="text-xs-center">
+												Confirm Deletion of availability Schedule locally?
+											</v-card-text>
+										</v-flex>
+									</v-card-text>
+								</v-layout wrap>
+							</v-container grid-list-md>
+							<v-card-actions>
+								<v-btn color="primary" flat @click.stop="deleteAvailabilityListLocally">
+									Delete
+								</v-btn>
+								<v-spacer></v-spacer>
+								<v-btn color="primary" flat @click.stop="deleteLocallyConfirmation = false">
+									Cancel
+								</v-btn>
+							</v-card-actions>
+						</v-card>
+					</v-dialog>
+
+
 
 
 					<!-- popup for when submit availbility is clicked -->
@@ -331,16 +482,19 @@
 								</v-layout wrap>
 							</v-container grid-list-md>
 							<v-card-actions>
-								<v-spacer></v-spacer>
-								<v-btn color="primary" flat @click.stop="AvailabilitySubmitComplete">
+								<v-btn color="primary" flat @click.stop="availabilitySubmitComplete">
 									Submit
 								</v-btn>
+								<v-spacer></v-spacer>
 								<v-btn color="primary" flat @click.stop="showConfirmSubmission = false">
 									Cancel
 								</v-btn>
 							</v-card-actions>
 						</v-card>
 					</v-dialog>
+
+
+
 				</v-flex>
 			</v-layout>
 		</v-container>
@@ -362,40 +516,47 @@ export default {
     data: function () {
 		return {
 
-			// ----------------- MODALS --------------------------------
+			//-------------------- initialization functions --------------------
 
+
+
+			//------------------ options -------------------------------
+			saveLocallyConfirmation: false,
+			deleteLocallyConfirmation: false,
+
+			// ----------------- MODALS --------------------------------
 			//creation of availability window
-            showAvailabilityEditor: false,
-			//showCreateAvailability: false,
+			showCreateAvailability: false,
 
 			//edit of availability window
-			//showEditAvailability: false,
+			showEditAvailability: false,
 
 			//status of availability
 			availabilityStatus: "Open",
 
 			// ----------------- Submission ---------------------------
-
 			//boolean for if avail is submitted
 			availabilitySubmitted: false,
 
 			//submission availabiliy popup
 			showConfirmSubmission: false,
 
-
 			// ----------------- TOAST MSG ---------------------------
-
 			//toast msg
 			toastMsg: "Nothing here",
 			showToast: false,
 
-
 			//---------------- Time, Date ----------------------------
-
 			//time picker/date picker modals
 			dateStartModal: false,
 			timeStartModal: false,
 			timeEndModal: false,
+
+			visibleRange: {
+                start: this.getNextWeekMonday(),
+            	end: this.getNextWeekSunday(),
+            },
+
 
 			//ranged of allowed dates for date picker
 			allowedDates: null,
@@ -422,7 +583,6 @@ export default {
 			},
 
 			//-------------------- Campus selection -----------------------
-
 			//for selection of campus
 			campusList: [
 				{ text: 'Burnaby'},
@@ -431,7 +591,6 @@ export default {
 			],
 
 			//---------------- availability type and list ------------------
-
 			//current event
 			currentSelectedEvent: null,
 
@@ -472,10 +631,6 @@ export default {
 				nowIndicator: true,
 
 				//restrict calendar view to next week only
-				visibleRange: {
-					start: this.getNextWeekMonday(),
-					end: this.getNextWeekSunday(),
-				},
 
 				//sets first day of week to monday
 				firstDay: 1,
@@ -483,27 +638,24 @@ export default {
 				//sets week number calculation to ISO
 				weekNumberCalculation: "ISO",
 
-				//sets the default time full calendar shows on open
-				gotoDate: this.CalendarSetViewDate,
-
 				//----------------- selection of events --------------------------
 				//allows resizing of events
 				editable: false,
 
-				// allows dragging on calendar.
+				//allows dragging on calendar.
 				selectable: true,
 
-				// allows to make an event on calendar
+				//allows to make an event on calendar
 				selectHelper: true,
 
 				//do not allow event overlap selection
 				selectOverlap: false,
 
-				// triggered with an event is clicked
-				eventClick: this.AvailabilityClick,
+				//triggered with an event is clicked
+				eventClick: this.availabilityClick,
 
-				// triggered after a selection is made, i.e user stops dragging.
-				select: this.AvailabilitySelection,
+				//triggered after a selection is made, i.e user stops dragging.
+				select: this.availabilitySelection,
 
 				//minimum distance click has to move inorder to detect as event PREVENT MISCLICKS
 				selectMinDistance: 5,
@@ -522,25 +674,11 @@ export default {
 					start: "00:00",
 					end: "24:00",
 				},
-
-				//--------------------- event creation, deletion -----------------------
-				// triggered before an event is rendered - our chance to enhance the event.
-				renderEvent: this.AvailabilityRender,
-				
-				//todo trigger when attemping to delete an event
-				//eventDestroy: this.AvailabilityDeletion,
 			},
 
 			eventSources: [
 				{	
 					//todo add events
-					events: [ 
-						{
-							start: this.getNextWeekMonday(),
-							end: this.getNextWeekSunday(),
-							rendering: 'inverse-background',
-						}
-					]
 				}
 			],
 
@@ -558,17 +696,13 @@ export default {
 	methods: {
 
         //handles user clicking on event
-		AvailabilityClick: function(event, jsEvent, view) {
+		availabilityClick: function(event, jsEvent, view) {
 			//todo loads availbility before displaying
 
-			
-
-			console.log("CLICKED EVENT!");
-			console.log("THis event title: " + event.title + "\n" +
+			console.log("This event title: " + event.title + "\n" +
 					 "time start: " + event.start + "\n" +
 					 "time end: " + event.end + "\n" 
 			);
-
 
 			//todo able to edit availability
 			this.clickedAvailability = event;
@@ -589,48 +723,30 @@ export default {
 
 			this.currentSelectedEvent = event;
 
-			//this.$emit(event);
-			this.showAvailabilityEditor = true;
-
-			//this.showEditAvailability = true;
+			this.showEditAvailability = true;
 		},	
 
 		//handles drag selection of availability on calendar
-		AvailabilitySelection: function(start, end, jsEvent, view) {
-			
+		availabilitySelection: function(start, end, jsEvent, view) {
+			console.log("click event")
 			//only allows deletion before submission
 			if (this.availabilitySubmitted == false) {
 
-				//set the format of the date 
-				//start = moment().format("YYYY-MM-DD");
-				//this.availability.date = start;
-
-				//set the format of the start and end moment objs
-				//start = moment().format("HH:mmA");
-				//end = moment().format("HH:mmA");
-
-				//set the start and end of this availability
+				//set the start and end of this availability selection
 				this.availability.date = start.format("YYYY-MM-DD");
 				this.availability.timeStart = start.format("HH:mma");
 				this.availability.timeEnd = end.format("HH:mma");
 
 				//show edit avaialbility
-                this.showAvailabilityEditor = true;
-				//this.showCreateAvailability = true;
-				//this.showEditAvailability = true;
+				this.showCreateAvailability = true;
 			}
 			else {
 				//do nothing as submission is denied after submission of availability
 			}
 		},
 
-		//creates an event
-		AvailabilityRender: function(event) {
-			// todo must also remove plugin on eventDestroy()
-		},
-
 		//todo handle creation of an availability
-        AvailabilityCreation: function(availability) {
+        availabilityCreation: function(availability) {
             //debug print
 			console.log("New Avail date:", availability.date);
 			console.log("New Avail time start:", availability.timeStart);
@@ -672,21 +788,17 @@ export default {
 			//render event
 			$('#calendar').fullCalendar('renderEvent', eventItem, true);
 
-			//This function seems to be defined such that the above only works
-			//AvailabilityRender(eventItem);
-
             //close window
             this.showAvailabilityEditor = false;
-			//this.showCreateAvailability = false;
+			this.showCreateAvailability = false;
 
 			//show msg that it has been created
-            this.toastMsg = "Created Availability";
+			this.toastMsg = "Created Availability";
             this.showToast = true;
 		},
 
 		//todo handle creation of an availability
-        AvailabilityEdit: function(availability, event) {
-
+        availabilityEdit: function(availability, event) {
 
 			//combine the moment objects with date and time
 			var momentStartObj = moment(availability.date + " " + availability.timeStart, ["YYYY-MM-DD HH:mma"]);
@@ -695,28 +807,6 @@ export default {
 			event.start = momentStartObj;
 			event.end = momentEndObj;
 			event.title = availability.campus;
-
-			// var eventItem = {
-			// 	id: availability.id,
-			// 	start: momentStartObj,
-			// 	end: momentEndObj,
-			// 	title: availability.campus,
-			// }
-
-
-
-            // //debug print
-            // console.log("Edit Avail time start:", availability.timeStart);
-            // console.log("Edit Avail ime end:", availability.timeEnd);
-            // console.log("Edit Avail time campus:", availability.campus);
-			
-			// //create new object for event
-			// var eventItem = {
-			// 	id: -1, //id init as -1 for now
-			// 	start: availability.timeStart,
-			// 	end: availability.timeEnd,
-			// 	title: availability.campus,
-			// }
 
 			//change color for event based on campus
 			//red for burnaby
@@ -739,17 +829,10 @@ export default {
 			//change text color for white
 			event.textColor = "white"
 
-			// //render event
-			// //$('#calendar').fullCalendar('renderEvent', eventItem, true);
-
 			 $('#calendar').fullCalendar('updateEvent', event);
 
-
-
-
 			//close window
-			this.showAvailabilityEditor = false;
-			//this.showEditAvailability = false;
+			this.showEditAvailability = false;
 
 			//show msg that it has been created
             this.toastMsg = "Edited Availability";
@@ -757,34 +840,35 @@ export default {
 		},
 
 		//Deletes the event if button for deletion is pressed
-		AvailabilityDeletion: function() {
+		availabilityDeletion: function(availability, event) {
+			//TODO deleting an event
+
 			//delete event
-			this.$refs.calendar.$emit('remove-event', this.clickedAvailability);
-			this.clickedAvailability = {};
+			// this.$refs.calendar.$emit('remove-event', event);
+			// this.clickedAvailability = {};
+
+			//delete event
+			// console.log("destroying event: " + event);
+			// $('#calendar').fullCalendar('eventDestroy', event);
+
 
 			//turn off popup after deletion
-			this.showAvailabilityEditor = false;
-			//this.showEditAvailability = false;
-		},
-
-		//submit availability
-        AvailabilitySubmitConfirmation: function() {
-			this.showConfirmSubmission = true;
+			this.showEditAvailability = false;
 		},
 
 		//blocks out most user interaction when availability is submitted
-		AvailabilitySubmitComplete: function() {
+		availabilitySubmitComplete: function() {
 
 			this.getAvailabilityList();
 
 			//disables resizing of events, editing of events, selection of new events
-            this.editable = false;
-            this.selectable = false;
-            this.selectHelper = false;
+			$('#calendar').fullCalendar('editable', false);
+			$('#calendar').fullCalendar('selectable', false);
+			$('#calendar').fullCalendar('selectHelper', false);
 
             //set values
-            //this.availabilityStatus = "Pending";
-			//this.availabilitySubmitted = true;
+            this.availabilityStatus = "Pending";
+			this.availabilitySubmitted = true;
 
 			//close popup
             this.showConfirmSubmission = false;
@@ -838,12 +922,45 @@ export default {
 			return  roundedTime;
 		},
 
-		CalendarSetViewDate(date) {
-			var nextMondayDate = this.getNextWeekMonday();
-			var currentTime = this.getTodayMomentTime();
-			var combinedNextWeekTimeDate = moment(currentDate + " " + currentTime, ["YYYY-MM-DD HH:MMA"]);
-			date = combinedNextWeekTimeDate;
-			$('#calendar').fullCalendar('gotoDate', date);
+
+
+
+
+		initializeCalendarView() {
+			
+			$('#calendar').fullCalendar('gotoDate', this.getNextWeekMonday());
+
+			//constrain calendar view 
+			$('#calendar').fullCalendar({
+				validRange: {
+					start: this.getNextWeekMonday(),
+					end: this.getNextWeekSunday()
+				}
+			});
+
+
+
+			// $('#calendar').fullCalendar({
+			// 	validRange: function() {
+			// 		return {
+			// 			start: this.getNextWeekMondayDate(),
+			// 			end: this.getNextWeekSundayDate()
+			// 		};
+			// 	}
+			// });
+
+
+			// //set visible dates for calendar
+			// $('#calendar').fullCalendar({
+			// 	visibleRange: function() {
+			// 		return {
+			// 			start: this.getNextWeekMondayDate(),
+			// 			end: this.getNextWeekSundayDate()
+			// 		};
+			// 	}
+			// });
+
+
 		},
 
 		populateAvailabilityList: function() {
@@ -860,6 +977,15 @@ export default {
 			this.availabilityList = $('#calendar').fullCalendar('clientEvents');
 			console.log("list of events: " + this.availabilityList);
 			return this.availabilityList;
+		},
+
+
+		saveAvailabilityListLocally: function() {
+
+		},
+
+		deleteAvailabilityListLocally: function() {
+
 		},
 
 
@@ -899,6 +1025,9 @@ export default {
 
 	mounted () {
 
+		//initialize calendar view
+		this.initializeCalendarView();
+
 		//set the day restrictions
 		this.nextWeekRange.min = this.getNextWeekMondayDate();
 		this.nextWeekRange.max = this.getNextWeekSundayDate();
@@ -928,14 +1057,14 @@ export default {
 }
 
 #my-calendar {
-	height: 80%;
+	height: 75%;
 }
 
 #add-button {
-	height: 0em;
+	height: 0.5em;
 }
 
-#submission-bar {
+#option-bar {
 	height: 4em;
 }
 
