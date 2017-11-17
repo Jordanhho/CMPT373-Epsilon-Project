@@ -44,6 +44,9 @@ libraryDependencies += "com.novocode" % "junit-interface" % "0.11" % "test"
 testOptions += Tests.Argument(TestFrameworks.JUnit, "-v", "-a")
 javaOptions in Test += "-Dconfig.file=conf/application.test.conf"
 
+// https://github.com/playframework/playframework/issues/4590
+//PlayKeys.externalizeResources := false
+
 // when in dev-mode, spinup the webpack dev-server after starting Play
 
 PlayKeys.playRunHooks += WebpackServer(file("./front"))
