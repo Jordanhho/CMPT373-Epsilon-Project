@@ -4,8 +4,6 @@ package models.queries;
 import models.databaseModel.helpers.*;
 import models.databaseModel.qualification.DbQualification;
 import models.databaseModel.scheduling.*;
-import models.databaseModel.scheduling.query.QDbUserShift;
-import models.databaseModel.scheduling.query.QDbUserTeam;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -80,7 +78,11 @@ public final class ScheduleUtil {
         List<DbUserShift> userShiftList = new ArrayList<>();
 
         for(DbShift shift : shifts){
-            userShiftList.add(new QDbUserShift().shiftId.eq(shift.getId()).findUnique());
+            userShiftList.add(DbUserShift.find
+                    .query()
+                    .where()
+                    .eq(DbUserShift.COLUMN_SHIFT_ID, shift.getId())
+                    .findUnique());
         }
 
         List<DbUserTeam> userTeamListByShift = new ArrayList<>();
@@ -129,9 +131,10 @@ public final class ScheduleUtil {
      */
     public static List<DbUser> getAllUsersFromCampusTeam(Integer teamId) {
         //find all users in team/campus
-        List<DbUserTeam> userTeamListByLocation = new QDbUserTeam()
-                .teamId
-                .eq(teamId)
+        List<DbUserTeam> userTeamListByLocation = DbUserTeam.find
+                .query()
+                .where()
+                .eq(DbUserTeam.COLUMN_TEAM_ID, teamId)
                 .findList();
 
         List<DbUser> dbUserList = new ArrayList<>();
@@ -155,7 +158,7 @@ public final class ScheduleUtil {
 
         List<List<DbUserShift>> dbUserShiftList = new ArrayList<>();
         for (DbUserTeam dbUserTeam : dbUserTeamList) {
-            dbUserShiftList.add(DbUserShiftHelper.readDbUserShiftByUserId(dbUserTeam.getUserId()));
+            dbUserShiftList.add(DbUserShiftHelper.readDbUserShiftByUserTeamId(dbUserTeam.getId()));
         }
 
         List<ShiftWithCampus> shiftsWithCampusList = new ArrayList<>();

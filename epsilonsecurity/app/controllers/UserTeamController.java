@@ -2,6 +2,7 @@ package controllers;
 
 import models.databaseModel.scheduling.DbTeam;
 import models.databaseModel.scheduling.DbUser;
+import models.databaseModel.scheduling.DbUserTeam;
 import play.libs.Json;
 import play.mvc.*;
 import models.databaseModel.helpers.DbUserTeamHelper;
@@ -27,7 +28,7 @@ public class UserTeamController extends Controller {
     }
 
     public Result readAllUsersByTeamId(Integer teamId) {
-        List<DbUser> dbUserList = DbUserTeamHelper.readAllUserByTeamId(teamId);
+        List<DbUser> dbUserList = DbUserTeamHelper.readAllDbUsersByTeamId(teamId);
 
         return ok(Json.toJson(dbUserList));
     }
@@ -36,8 +37,17 @@ public class UserTeamController extends Controller {
         return ok();
     }
 
+    public Result deleteUserFromAllTeams(Integer userId) {
+        List<DbUserTeam> userTeamList = DbUserTeamHelper.readAllDbUserTeamsByUserId(userId);
+        for (DbUserTeam userTeam : userTeamList) {
+            DbUserTeamHelper.deleteDbUserTeam(userTeam);
+        }
+
+        return ok();
+    }
+
     public Result readDbUserTeamByUserId(Integer userId) {
-        List<DbTeam> dbTeamList = DbUserTeamHelper.readDbUserTeamByUserId(userId);
+        List<DbTeam> dbTeamList = DbUserTeamHelper.readAllDbTeamsByUserId(userId);
 
         return ok(Json.toJson(dbTeamList));
     }

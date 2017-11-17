@@ -1,9 +1,8 @@
 package models.databaseModel.helpers;
 
 
+import io.ebean.Expr;
 import models.databaseModel.scheduling.DbShift;
-import models.databaseModel.scheduling.query.QDbShift;
-import models.databaseModel.scheduling.query.QDbUser;
 
 import java.util.List;
 
@@ -23,38 +22,26 @@ public final class DbShiftHelper {
 
     //This is more likely to return a list
     public static DbShift readDbShiftByShiftTypeId(Integer shiftTypeId) {
-        DbShift dbShift = new QDbShift()
-                .shiftTypeId
-                .eq(shiftTypeId)
+        DbShift dbShift = DbShift.find
+                .query()
+                .where()
+                .eq(DbShift.COLUMN_SHIFT_TYPE_ID, shiftTypeId)
                 .findUnique();
 
         return dbShift;
     }
 
-    public static DbShift readDbShiftByShiftId(Integer shiftId) {
-        DbShift dbShift = new QDbShift()
-                .id
-                .eq(shiftId)
-                .findUnique();
-
-        return dbShift;
+    public static DbShift readDbShiftByShiftId(Integer id) {
+        return DbShift.find.byId(id);
     }
 
-    /**
-     * returns a List of DBshift by timeStart, timeEnd
-     * @param timeStart
-     * @param timeEnd
-     * @return
-     */
     public static List<DbShift> readDbShiftByTime(Long timeStart, Long timeEnd){
-        List<DbShift> dbShiftList = new QDbShift()
-                .timeStart.lessOrEqualTo(timeStart)
-                .and()
-                .timeEnd.greaterOrEqualTo(timeStart)
-                .and()
-                .timeStart.lessOrEqualTo(timeStart)
-                .and()
-                .timeEnd.greaterOrEqualTo(timeEnd)
+        List<DbShift> dbShiftList = DbShift.find
+                .query()
+                .where()
+                .disjunction()
+                .add(Expr.between(DbShift.COLUMN_TIME_START, DbShift.COLUMN_TIME_END, timeStart))
+                .add(Expr.between(DbShift.COLUMN_TIME_START, DbShift.COLUMN_TIME_END, timeEnd))
                 .findList();
 
         return dbShiftList;
@@ -67,15 +54,9 @@ public final class DbShiftHelper {
     public static void deleteShiftByName(String name) {
 
     }
-    /**
-     * returns a list of all DbShift
-     * @return
-     */
-    public static List<DbShift> readAllDbShift() {
-        List<DbShift> dbShift = new QDbShift()
-                .findList();
 
-        return dbShift;
+    public static List<DbShift> readAllDbShift() {
+        return DbShift.find.all();
     }
 
 }

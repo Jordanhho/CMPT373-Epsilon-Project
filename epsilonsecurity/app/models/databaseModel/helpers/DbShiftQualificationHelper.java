@@ -3,8 +3,6 @@ package models.databaseModel.helpers;
 
 import models.databaseModel.qualification.DbQualification;
 import models.databaseModel.qualification.DbShiftQualification;
-import models.databaseModel.qualification.query.QDbQualification;
-import models.databaseModel.qualification.query.QDbShiftQualification;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,29 +21,29 @@ public final class DbShiftQualificationHelper {
         dbShiftQualification.save();
     }
 
-    public static DbShiftQualification readDbShiftQualificationById(Integer shiftTypeId, Integer qualificationId) {
-        DbShiftQualification dbShiftQualification = new QDbShiftQualification()
-                .shiftTypeId
-                .eq(shiftTypeId)
+
+    public static DbShiftQualification readDbShiftQualByShiftTypeIdAndQualId(Integer shiftTypeId, Integer qualificationId) {
+        DbShiftQualification dbShiftQualification = DbShiftQualification.find
+                .query()
+                .where()
+                .eq(DbShiftQualification.COLUMN_SHIFT_TYPE_ID, shiftTypeId)
                 .and()
-                .qualificationId
-                .eq(qualificationId)
+                .eq(DbShiftQualification.COLUMN_QUALIFICATION_ID, qualificationId)
                 .findUnique();
 
         return dbShiftQualification;
     }
 
     public static List<DbQualification> readDbQualificationByShiftTypeId(Integer shiftTypeId){
-        List<DbShiftQualification> dbShiftQualificationList = new QDbShiftQualification()
-                .shiftTypeId
-                .eq(shiftTypeId)
+        List<DbShiftQualification> dbShiftQualificationList = DbShiftQualification.find
+                .query()
+                .where()
+                .eq(DbShiftQualification.COLUMN_SHIFT_TYPE_ID, shiftTypeId)
                 .findList();
         List<DbQualification> dbQualificationList = new ArrayList<>();
         for(DbShiftQualification shiftQualification : dbShiftQualificationList){
-            dbQualificationList.add(new QDbQualification()
-                .id
-                .eq(shiftQualification.getQualificationId())
-                .findUnique());
+            dbQualificationList.add(DbQualification.find
+                    .byId(shiftQualification.getQualificationId()));
         }
         return dbQualificationList;
     }
@@ -54,14 +52,8 @@ public final class DbShiftQualificationHelper {
         dbShiftQualification.delete();
     }
 
-    /**
-     * returns a list of all DbShiftQualification
-     */
     public static List<DbShiftQualification> readAllDbShiftQualification() {
-        List<DbShiftQualification> dbShiftQualificationList = new QDbShiftQualification()
-                .findList();
-
-        return dbShiftQualificationList;
+        return DbShiftQualification.find.all();
     }
 
 }
