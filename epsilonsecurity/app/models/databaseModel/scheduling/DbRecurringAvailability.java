@@ -3,9 +3,7 @@ package models.databaseModel.scheduling;
 import io.ebean.Finder;
 import io.ebean.Model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 
 /**
@@ -48,6 +46,10 @@ public class DbRecurringAvailability extends Model {
 
     @Column(nullable = false)
     private Long shiftTimeEndBlock;
+
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private Status status = Status.Open;
 
     /**
      * The constructor of RecurringAvailability
@@ -141,6 +143,14 @@ public class DbRecurringAvailability extends Model {
         this.shiftTimeEndBlock = shiftTimeEndBlock;
     }
 
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
     public static Finder<Integer, DbRecurringAvailability> find = new Finder<>(DbRecurringAvailability.class);
 
     @Override
@@ -154,6 +164,7 @@ public class DbRecurringAvailability extends Model {
                 ", recurTimeEndBlock=" + recurTimeEndBlock +
                 ", shiftTimeStartBlock=" + shiftTimeStartBlock +
                 ", shiftTimeEndBlock=" + shiftTimeEndBlock +
+                ", status=" + status +
                 '}';
     }
 }
