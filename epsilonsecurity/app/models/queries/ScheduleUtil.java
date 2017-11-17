@@ -133,7 +133,7 @@ public final class ScheduleUtil {
 
         List<List<DbUserShift>> dbUserShiftList = new ArrayList<>();
         for (DbUserTeam dbUserTeam : dbUserTeamList) {
-            dbUserShiftList.add(DbUserShiftHelper.readDbShiftByUserTeamId(dbUserTeam.getId()));
+            dbUserShiftList.add(DbUserShiftHelper.readDbUserShiftByUserTeamId(dbUserTeam.getId()));
         }
 
         List<ShiftWithCampus> shiftsWithCampusList = new ArrayList<>();
@@ -153,12 +153,30 @@ public final class ScheduleUtil {
     }
 
 
-    public static List<HourByShiftType> getListOfHourByShiftType(int userId){
+    public static List<HourByShiftType> getListOfHourWithShiftTypeByUserId(int userId){
         List<HourByShiftType> hourByShiftTypeList = new ArrayList<>();
 
         List<DbShift> shiftList = DbShiftHelper.readDbShiftByUserId(userId);
         //Use a hash map here?
         List<Integer> shiftTypeIdList = DbShiftHelper.readUniqueShiftTypeIdFromShiftList(shiftList);
+        for(int shiftTypeId : shiftTypeIdList){
+            hourByShiftTypeList.add(
+                    new HourByShiftType(
+                        shiftTypeId,
+                        DbShiftTypeHelper.readDbShiftTypeById(shiftTypeId).getName(),
+                        0
+                    ));
+        }
+        for(DbShift shift : shiftList){
+            float shiftHour = TimeUtil.calculateHourBetweenEpochSecondInstants(shift.getTimeStart(), shift.getTimeEnd());
+            for(HourByShiftType hourByShiftType : hourByShiftTypeList){
+                if(shift.getShiftTypeId().equals(hourByShiftType.getShiftTypeId())){
+                    hourByShiftType.addHour(shiftHour);
+                    break;
+                }
+            }
+        }
+
         return hourByShiftTypeList;
     }
 }

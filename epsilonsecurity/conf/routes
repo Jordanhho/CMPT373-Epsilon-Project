@@ -110,6 +110,9 @@ GET           /api/users/teams/:teamId/shifts?start=TIMESTART&end=TIMEEND       
 # List all shifts in the database
 GET           /api/shifts                                                        controllers.ShiftController.readShifts()
 
+# List an user's all shift hours broken down by shift type
+GET           /api/shift/hours/:userId                                           controllers.ShiftController.readHoursWithShiftTypeByUserId(userId: Integer)
+
 # Create a shift
 POST          /api/shifts                                                        controllers.ShiftController.createShift()
 
