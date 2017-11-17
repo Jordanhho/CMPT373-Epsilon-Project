@@ -3,9 +3,7 @@ package models.databaseModel.scheduling;
 import io.ebean.Finder;
 import io.ebean.Model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 /**
  * Java Object for DbOneTimeUnavailability Table with unavailability event id, user id and time block -> start and finish time of event
@@ -27,6 +25,10 @@ public class DbOneTimeUnavailability extends Model {
 
     @Column(nullable = false)
     private Long timeEnd;
+
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private Status status = Status.Open;
 
     /**
      * The constructor for the OneTimeUnavailability
@@ -74,6 +76,14 @@ public class DbOneTimeUnavailability extends Model {
         this.timeEnd = timeEnd;
     }
 
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
     public static Finder<Integer, DbOneTimeUnavailability> find = new Finder<>(DbOneTimeUnavailability.class);
 
     @Override
@@ -83,6 +93,7 @@ public class DbOneTimeUnavailability extends Model {
                 ", userTeamId=" + userTeamId +
                 ", timeStart=" + timeStart +
                 ", timeEnd=" + timeEnd +
+                ", status=" + status +
                 '}';
     }
 }
