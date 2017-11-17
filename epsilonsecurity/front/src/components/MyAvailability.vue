@@ -101,7 +101,7 @@
 
 					<!-- popup creating availability from + button -->
 					<v-layout row justify-center>
-						<v-dialog v-model="showAvailabilityEditor" persistent max-width="350px">
+						<v-dialog v-model="showAvailabilityEditor" persistent max-width="400px">
 							<v-card>
 								<v-card-title>
 									<span class="headline">Availability Info</span>
@@ -258,10 +258,10 @@
 									<v-btn color="primary" flat @click.stop="AvailabilityCreation(availability)" :disabled="availabilitySubmitted">
 										Create
 									</v-btn>
-									<v-btn color="primary" flat @click.stop="AvailabilityEdit(availability)" :disabled="availabilitySubmitted">
+									<v-btn color="primary" flat @click.stop="AvailabilityEdit(availability, currentSelectedEvent)" :disabled="availabilitySubmitted">
 										Edit
 									</v-btn>
-									<v-btn color="primary" flat @click.stop="AvailabilityDeletion(availability)" :disabled="availabilitySubmitted">
+									<v-btn color="primary" flat @click.stop="AvailabilityDeletion(availability, currentSelectedEvent)" :disabled="availabilitySubmitted">
 										Delete
 									</v-btn>
 									<v-btn color="primary" flat @click.stop="showAvailabilityEditor = false">
@@ -432,6 +432,9 @@ export default {
 
 			//---------------- availability type and list ------------------
 
+			//current event
+			currentSelectedEvent: null,
+
 			//Data contains list of avaliablities
 			availabilityList: [
 			],
@@ -549,15 +552,47 @@ export default {
 	computed: {
 	},
 
+
+
+
 	methods: {
 
         //handles user clicking on event
-		AvailabilityClick: function(calEvent, jsEvent, view) {
+		AvailabilityClick: function(event, jsEvent, view) {
 			//todo loads availbility before displaying
 
+			
+
+			console.log("CLICKED EVENT!");
+			console.log("THis event title: " + event.title + "\n" +
+					 "time start: " + event.start + "\n" +
+					 "time end: " + event.end + "\n" 
+			);
+
+
 			//todo able to edit availability
-			this.clickedAvailability = calEvent;
-			this.showEditAvailability = true;
+			this.clickedAvailability = event;
+
+			//set currently selected availability to this event's data
+			this.availability.title = event.title;
+			this.availability.date = moment(event.start, ["YYYY-MM-DD"]).format("YYYY-MM-DD");
+			this.availability.timeStart = moment(event.start, ["HH:mma"]).format("HH:mma");
+			this.availability.timeEnd = moment(event.end, ["HH:mma"]).format("HH:mma");
+			this.availability.campus = event.title;
+
+			console.log("Avail title " + this.availability.title + "\n" +
+					"date: " + this.availability.date + "\n" +
+					 "time start: " + this.availability.timeStart + "\n" +
+					 "time end: " + this.availability.timeEnd + "\n" +
+					 "campus: " + this.availability.campus
+			);
+
+			this.currentSelectedEvent = event;
+
+			//this.$emit(event);
+			this.showAvailabilityEditor = true;
+
+			//this.showEditAvailability = true;
 		},	
 
 		//handles drag selection of availability on calendar
@@ -576,8 +611,8 @@ export default {
 
 				//set the start and end of this availability
 				this.availability.date = start.format("YYYY-MM-DD");
-				this.availability.timeStart = start.format("HH:mmA");
-				this.availability.timeEnd = end.format("HH:mmA");
+				this.availability.timeStart = start.format("HH:mma");
+				this.availability.timeEnd = end.format("HH:mma");
 
 				//show edit avaialbility
                 this.showAvailabilityEditor = true;
@@ -603,8 +638,8 @@ export default {
             console.log("New Avail time campus:", availability.campus);
 			
 			//combine the moment objects with date and time
-			var momentStartObj = moment(availability.date + " " + availability.timeStart, ["YYYY-MM-DD HH:mmA"]);
-			var momentEndObj = moment(availability.date + " " + availability.timeEnd, ["YYYY-MM-DD HH:mmA"]);
+			var momentStartObj = moment(availability.date + " " + availability.timeStart, ["YYYY-MM-DD HH:mma"]);
+			var momentEndObj = moment(availability.date + " " + availability.timeEnd, ["YYYY-MM-DD HH:mma"]);
 
 			//create new object for event with the newly created moment objects
 			var eventItem = {
@@ -624,7 +659,7 @@ export default {
 			}
 			//Yellow for vancouver
 			else if(availability.campus == "Vancouver") {
-				eventItem.color = "Yellow";
+				eventItem.color = "teal";
 			}
 			//purple if not specified -> for debug
 			else {
@@ -641,7 +676,7 @@ export default {
 			//AvailabilityRender(eventItem);
 
             //close window
-            showAvailabilityEditor = false;
+            this.showAvailabilityEditor = false;
 			//this.showCreateAvailability = false;
 
 			//show msg that it has been created
@@ -650,46 +685,71 @@ export default {
 		},
 
 		//todo handle creation of an availability
-        AvailabilityEdit: function(availability) {
-            //debug print
-            console.log("Edit Avail time start:", availability.timeStart);
-            console.log("Edit Avail ime end:", availability.timeEnd);
-            console.log("Edit Avail time campus:", availability.campus);
+        AvailabilityEdit: function(availability, event) {
+
+
+			//combine the moment objects with date and time
+			var momentStartObj = moment(availability.date + " " + availability.timeStart, ["YYYY-MM-DD HH:mma"]);
+			var momentEndObj = moment(availability.date + " " + availability.timeEnd, ["YYYY-MM-DD HH:mma"]);
+
+			event.start = momentStartObj;
+			event.end = momentEndObj;
+			event.title = availability.campus;
+
+			// var eventItem = {
+			// 	id: availability.id,
+			// 	start: momentStartObj,
+			// 	end: momentEndObj,
+			// 	title: availability.campus,
+			// }
+
+
+
+            // //debug print
+            // console.log("Edit Avail time start:", availability.timeStart);
+            // console.log("Edit Avail ime end:", availability.timeEnd);
+            // console.log("Edit Avail time campus:", availability.campus);
 			
-			//create new object for event
-			var eventItem = {
-				id: -1, //id init as -1 for now
-				start: availability.timeStart,
-				end: availability.timeEnd,
-				title: availability.campus,
-			}
+			// //create new object for event
+			// var eventItem = {
+			// 	id: -1, //id init as -1 for now
+			// 	start: availability.timeStart,
+			// 	end: availability.timeEnd,
+			// 	title: availability.campus,
+			// }
 
 			//change color for event based on campus
 			//red for burnaby
 			if(availability.campus == "Burnaby") {
-				eventItem.color = "red";
+				event.color = "red";
 			}
 			//blue for surrey
 			else if(availability.campus == "Surrey") {
-				eventItem.color = "blue";
+				event.color = "blue";
 			}
 			//Yellow for vancouver
 			else if(availability.campus == "Vancouver") {
-				eventItem.color = "teal";
+				event.color = "teal";
 			}
 			//purple if not specified for debug
 			else {
-				eventItem.color = "purple";
+				event.color = "purple";
 			}
 
 			//change text color for white
-			eventItem.textColor = "white"
+			event.textColor = "white"
 
-			//render event
-			$('#calendar').fullCalendar('renderEvent', eventItem, true);
+			// //render event
+			// //$('#calendar').fullCalendar('renderEvent', eventItem, true);
 
-            //close window
-			this.showEditAvailability = false;
+			 $('#calendar').fullCalendar('updateEvent', event);
+
+
+
+
+			//close window
+			this.showAvailabilityEditor = false;
+			//this.showEditAvailability = false;
 
 			//show msg that it has been created
             this.toastMsg = "Edited Availability";
@@ -703,7 +763,8 @@ export default {
 			this.clickedAvailability = {};
 
 			//turn off popup after deletion
-			this.showEditAvailability = false;
+			this.showAvailabilityEditor = false;
+			//this.showEditAvailability = false;
 		},
 
 		//submit availability
@@ -714,14 +775,16 @@ export default {
 		//blocks out most user interaction when availability is submitted
 		AvailabilitySubmitComplete: function() {
 
+			this.getAvailabilityList();
+
 			//disables resizing of events, editing of events, selection of new events
             this.editable = false;
             this.selectable = false;
             this.selectHelper = false;
 
             //set values
-            this.availabilityStatus = "Pending";
-			this.availabilitySubmitted = true;
+            //this.availabilityStatus = "Pending";
+			//this.availabilitySubmitted = true;
 
 			//close popup
             this.showConfirmSubmission = false;
@@ -783,15 +846,40 @@ export default {
 			$('#calendar').fullCalendar('gotoDate', date);
 		},
 
-		PopulateAvailabilityList: function() {
+		populateAvailabilityList: function() {
 			//grab all generated client events
-			availabilityList = $('#calendar').fullCalendar('clientEvents');
-			console.log("list of events: " + availabilityList);
+			this.availabilityList = $('#calendar').fullCalendar('clientEvents');
+			console.log("list of events: " + this.availabilityList);
 			
 			
 			//this.availabilityList = response.data;
 		},
 
+
+		getAvailabilityList: function() {
+			this.availabilityList = $('#calendar').fullCalendar('clientEvents');
+			console.log("list of events: " + this.availabilityList);
+			return this.availabilityList;
+		},
+
+
+		populateAvailabilityListFromDatabase: function() {
+
+		},
+
+
+		initializeAvailabilitiesList: function() {
+				axios.post('/api/onetimeavailabilites', )
+				.then(response => this.requestAvailability)
+				.catch(function (error) {
+					console.log(error);
+				});
+		},
+
+		requestAvailability() {
+			var availabilityURL = '';
+			availabilityURL = '/api/onetimeavailabilites'
+		}
 
 	},
 
@@ -801,7 +889,7 @@ export default {
 	//todo creates to avail database
 	created: function() {
 		axios.get('api/onetimeavailabilites')
-			.then(this.PopulateAvailabilityList)
+			.then(this.populateAvailabilityList)
 			.catch(function (error) {
 			console.log(error);
 		});
