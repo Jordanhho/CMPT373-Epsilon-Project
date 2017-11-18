@@ -65,3 +65,4 @@ frontEndBuild := {
 }
 
 dist := (dist dependsOn frontEndBuild).value
+stage := (stage dependsOn frontEndBuild).value
