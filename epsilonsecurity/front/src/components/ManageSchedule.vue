@@ -58,7 +58,7 @@
 
 					<!-- popup editor for clicking on shift, dragging event shift, clicking + button -->
 					<v-layout row justify-center>
-						<v-dialog v-model="showCreateShift" max-width="400px" lazy full-width>
+						<v-dialog v-model="showCreateShift" max-width="400px" persistent lazy full-width>
 							<v-card>
 								<v-card-title>
 									<span class="headline">Shift Info</span>
@@ -69,7 +69,7 @@
 
                                             <!-- date  picker -->
                                             <v-flex xs6>
-                                                <v-dialog v-model="dateStartModal" lazy full-width>
+                                                <v-dialog v-model="dateStartModal" persistent lazy full-width>
                                                     <v-text-field
                                                         slot="activator"
                                                         label="Date"
@@ -102,7 +102,7 @@
 
                                             <!-- time start picker -->
                                             <v-flex xs6s>
-                                                <v-dialog v-model="timeStartModal" lazy full-width>
+                                                <v-dialog v-model="timeStartModal" persistent lazy full-width>
                                                     <v-text-field
                                                         slot="activator"
                                                         label="Time Start"
@@ -137,7 +137,7 @@
 
                                             <!-- time end picker -->
                                             <v-flex xs6>
-                                                <v-dialog v-model="timeEndModal" lazy full-width>
+                                                <v-dialog v-model="timeEndModal" persistent lazy full-width>
                                                     <v-text-field
                                                         slot="activator"
                                                         label="Time End"
@@ -203,7 +203,7 @@
 
 					<!-- popup editor for clicking on shift, dragging event shift, clicking + button -->
 					<v-layout row justify-center>
-						<v-dialog v-model="showEditShift" max-width="400px" lazy full-width>
+						<v-dialog v-model="showEditShift" max-width="400px" persistent lazy full-width>
 							<v-card>
 								<v-card-title>
 									<span class="headline">Shift Info</span>
@@ -214,7 +214,7 @@
 
                                             <!-- date  picker -->
                                             <v-flex xs6>
-                                                <v-dialog v-model="dateStartModal" lazy full-width>
+                                                <v-dialog v-model="dateStartModal" persistent lazy full-width>
                                                     <v-text-field
                                                         slot="activator"
                                                         label="Date"
@@ -246,7 +246,7 @@
 
                                             <!-- time start picker -->
                                             <v-flex xs6s>
-                                                <v-dialog v-model="timeStartModal" lazy full-width>
+                                                <v-dialog v-model="timeStartModal" persistent lazy full-width>
                                                     <v-text-field
                                                         slot="activator"
                                                         label="Time Start"
@@ -280,7 +280,7 @@
 
                                             <!-- time end picker -->
                                             <v-flex xs6>
-                                                <v-dialog v-model="timeEndModal" lazy full-width>
+                                                <v-dialog v-model="timeEndModal" persistent lazy full-width>
                                                     <v-text-field
                                                         slot="activator"
                                                         label="Time End"
@@ -348,7 +348,7 @@
 
 
 					<!-- popup for when save locally is clicked -->
-					<v-dialog v-model="saveLocallyConfirmation">
+					<v-dialog v-model="saveLocallyConfirmation" persistent lazy full-width>
 						<v-card>
 							<v-container grid-list-md>
 								<v-layout wrap>
@@ -375,7 +375,7 @@
 
 
 					<!-- popup for when delete locally is clicked -->
-					<v-dialog v-model="deleteLocallyConfirmation">
+					<v-dialog v-model="deleteLocallyConfirmation" persistent lazy full-width>
 						<v-card>
 							<v-container grid-list-md>
 								<v-layout wrap>
@@ -402,7 +402,7 @@
 
 
 					<!-- popup for when submitshift is clicked -->
-					<v-dialog v-model="showConfirmSubmission">
+					<v-dialog v-model="showConfirmSubmission" persistent lazy full-width>
 						<v-card>
 							<v-container grid-list-md>
 								<v-layout wrap>
@@ -657,6 +657,9 @@ export default {
 				end: momentEndObj,
 				title: shift.campus,
 			}
+
+			//TODO set color depending on campus
+
 			//change color for event based on campus
 			//red for burnaby
 			// if(shift.campus == "Burnaby") {
@@ -695,6 +698,9 @@ export default {
 			event.start = momentStartObj;
 			event.end = momentEndObj;
 			event.title = shift.campus;
+
+			//TODO set color depending on campus
+
 			//change color for event based on campus
 			//red for burnaby
 			// if(shift.campus == "Burnaby") {
@@ -750,12 +756,10 @@ export default {
 			$('#calendar').fullCalendar('selectHelper', false);
 
             //set values
-            this.shiftStatus = "Pending";
 			this.shiftSubmitted = true;
 
 			//close popup
             this.showConfirmSubmission = false;
-
 		},
 
 
@@ -779,16 +783,9 @@ export default {
 
 
 		initializeCalendarView() {
-            
-            //set calendar to go to a particular date
-			//$('#calendar').fullCalendar('gotoDate', this.getTodayMoment());
+			
+			//TODO Load existing shifts in database
 
-			//constrain calendar view 
-			// $('#calendar').fullCalendar({
-			// 	validRange: {
-			// 		start: this.getTodayMomentTime(),
-			// 	}
-			// });
 		},
 
 		populateShiftList: function() {
