@@ -13,11 +13,7 @@
 <body>
     <div id="app-container"></div>
     @if(env.isDev) {
-        @*Find an elegant solution*@
-
-        @*uncomment the below code if running dev-server on own computer.*@
         <script src="http://localhost:@port/bundle.js"></script>
-        @*uncomment the below code if running dev-server on sfu vm.*@
     } else {
         <script src="/assets/bundle/@jsBundle"></script>
     }
