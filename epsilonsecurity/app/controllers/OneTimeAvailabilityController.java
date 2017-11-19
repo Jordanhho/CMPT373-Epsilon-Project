@@ -29,12 +29,14 @@ public class OneTimeAvailabilityController extends Controller {
     }
 
     private DbOneTimeAvailability[] getDbOneTimeAvailabilityArrayFromForm() {
-        Form<OneTimeAvailabilityArrayForm> form = formFactory.form(OneTimeAvailabilityArrayForm.class).bindFromRequest();
+        Form<OneTimeAvailabilityArrayForm> form = formFactory
+                .form(OneTimeAvailabilityArrayForm.class).bindFromRequest();
         return form.get().getDbOneTimeAvailabilities();
     }
 
     public Result listOneTimeAvailabilities() {
-        List<DbOneTimeAvailability> dbOneTimeAvailabilityList = DbOneTimeAvailabilityHelper.readAllDbOneTimeAvailability();
+        List<DbOneTimeAvailability> dbOneTimeAvailabilityList = DbOneTimeAvailabilityHelper
+                .readAllDbOneTimeAvailability();
         return ok(Json.toJson(dbOneTimeAvailabilityList));
     }
 
@@ -67,8 +69,8 @@ public class OneTimeAvailabilityController extends Controller {
     public Result readOneTimeAvailabilitiesByTimeRange() {
         Long timeStart = Long.parseLong(request().getQueryString(TIME_START));
         Long timeEnd = Long.parseLong(request().getQueryString(TIME_END));
-        List<DbOneTimeAvailability> dbOneTimeAvailabilityList =
-                DbOneTimeAvailabilityHelper.readDbOneTimeAvailabilityByTimeRange(timeStart, timeEnd);
+        List<DbOneTimeAvailability> dbOneTimeAvailabilityList = DbOneTimeAvailabilityHelper
+                .readDbOneTimeAvailabilityByTimeRange(timeStart, timeEnd);
 
         return ok(Json.toJson(dbOneTimeAvailabilityList));
     }
