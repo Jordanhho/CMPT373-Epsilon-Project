@@ -927,14 +927,14 @@ export default {
 
 		},
 
-		populateAvailabilityList: function() {
-			//grab all generated client events
-			this.availabilityList = $('#calendar').fullCalendar('clientEvents');
-			console.log("list of events: " + this.availabilityList);
-			
-			
-			//this.availabilityList = response.data;
-		},
+//		populateAvailabilityList: function() {
+//			//grab all generated client events
+//			this.availabilityList = $('#calendar').fullCalendar('clientEvents');
+//			console.log("list of events: " + this.availabilityList);
+//
+//
+//			//this.availabilityList = response.data;
+//		},
 
 
 		getAvailabilityList: function() {
@@ -945,17 +945,32 @@ export default {
 
 
 		saveAvailabilityListLocally: function() {
-
+            console.log("Avail list: " + this.availabilityList);
+            saveLocallyConfirmation = false;
 		},
 
 		deleteAvailabilityListLocally: function() {
+            saveLocallyConfirmation = false;
+		},
 
+		getAvailabilityListFromDatabase: function() {
+		    axios.get('/api/')
+                .then(response => this.requestAvailability)
+                .catch(function (error) {
+                    console.log(error);
+                });
 		},
 
 
-		populateAvailabilityListFromDatabase: function() {
 
+		populateAvailabilityList(response) {
+            this.availabilityList = response.data;
 		},
+
+
+
+
+
 
 
 		initializeAvailabilitiesList: function() {
@@ -965,6 +980,7 @@ export default {
 					console.log(error);
 				});
 		},
+
 
 		requestAvailability() {
 			var availabilityURL = '';
@@ -978,11 +994,17 @@ export default {
 
 	//todo creates to avail database
 	created: function() {
+
+        console.log("get availabilities from database~!");
 		axios.get('api/onetimeavailabilites')
 			.then(this.populateAvailabilityList)
 			.catch(function (error) {
 			console.log(error);
 		});
+
+
+
+
 	},
 
 
