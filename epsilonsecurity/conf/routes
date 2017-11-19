@@ -195,11 +195,11 @@ GET           /api/onetimeavailabilites                                         
 # List all one time availabilities in a time range
 GET           /api/onetimeavailabilites?start=TIMESTART&end=TIMEEND              controllers.OneTimeAvailabilityController.readOneTimeAvailabilitiesByTimeRange()
 
-# Create a one time availability
-POST          /api/onetimeavailabilites                                          controllers.OneTimeAvailabilityController.createOneTimeAvailability()
+# Create one time availabilities from an array
+POST          /api/onetimeavailabilites                                          controllers.OneTimeAvailabilityController.createOneTimeAvailabilityFromArray()
 
 # Read a one time availability by oneTimeAvailabilityId
-GET           /api/onetimeavailabilites/:oneTimeAvailabilityId                   controllers.OneTimeAvailabilityController.retrieveOneTimeAvailability(oneTimeAvailabilityId: Integer)
+GET           /api/onetimeavailabilites/:oneTimeAvailabilityId                   controllers.OneTimeAvailabilityController.readOneTimeAvailabilityById(oneTimeAvailabilityId: Integer)
 
 # Delete a one time availability by oneTimeAvailabilityId
 DELETE        /api/onetimeavailabilites/:oneTimeAvailabilityId                   controllers.OneTimeAvailabilityController.deleteOneTimeAvailability(oneTimeAvailabilityId: Integer)
