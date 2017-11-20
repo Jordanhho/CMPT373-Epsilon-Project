@@ -1,8 +1,6 @@
 package models.databaseModel.helpers;
 
-import models.databaseModel.roles.DbPermission;
 import models.databaseModel.roles.DbRolePermission;
-import models.databaseModel.roles.query.QDbRolePermission;
 
 import java.util.List;
 
@@ -23,28 +21,11 @@ public final class DbRolePermissionHelper {
         dbRolePermission.delete();
     }
 
-    /**
-     * finds a DbRolePermission by DbRolePermissionId
-     * @param id
-     * @return
-     */
     public static DbRolePermission readDbRolePermissionById(Integer id) {
-        DbRolePermission dbRolePermission = new QDbRolePermission()
-                .id
-                .eq(id)
-                .findUnique();
-
-        return dbRolePermission;
+        return DbRolePermission.find.byId(id);
     }
 
-    /**
-     * returns a list of all DbRolePermission
-     * @return
-     */
     public static List<DbRolePermission> readAllDbRolePermission() {
-        List<DbRolePermission> dbRolePermission = new QDbRolePermission()
-                .findList();
-
-        return dbRolePermission;
+        return DbRolePermission.find.all();
     }
 }

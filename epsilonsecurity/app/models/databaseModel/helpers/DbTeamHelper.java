@@ -1,7 +1,6 @@
 package models.databaseModel.helpers;
 
 import models.databaseModel.scheduling.DbTeam;
-import models.databaseModel.scheduling.query.QDbTeam;
 
 import java.util.List;
 
@@ -27,28 +26,21 @@ public final class DbTeamHelper {
 
 
     public static DbTeam readDbTeamById(Integer id) {
-        DbTeam dbTeam = new QDbTeam()
-                .id
-                .eq(id)
-                .findUnique();
-
-        return dbTeam;
+        return DbTeam.find.byId(id);
     }
 
 
     public static DbTeam readDbTeamByName(String name) {
-        DbTeam dbTeam = new QDbTeam()
-                .name
-                .eq(name)
+        DbTeam dbTeam = DbTeam.find
+                .query()
+                .where()
+                .eq(DbTeam.COLUMN_NAME, name)
                 .findUnique();
 
         return dbTeam;
     }
 
     public static List<DbTeam> readAllDbTeam() {
-        List<DbTeam> dbTeamList = new QDbTeam()
-                .findList();
-
-        return dbTeamList;
+        return DbTeam.find.all();
     }
 }

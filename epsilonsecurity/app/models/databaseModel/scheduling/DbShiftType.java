@@ -10,6 +10,9 @@ import javax.persistence.Id;
 @Entity
 public class DbShiftType extends Model {
 
+    public static final String COLUMN_NAME = "name";
+    public static final String COLUMN_COLOR_CODE = "color_code";
+
     @Id
     private Integer id;
 
@@ -23,10 +26,6 @@ public class DbShiftType extends Model {
         this.name = name;
         this.colorCode = colorCode;
     }
-
-    // public DbShiftType(String name) {
-    //     this.name = name;
-    // }
 
     public Integer getId() {
         return id;

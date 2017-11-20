@@ -21,11 +21,6 @@ libraryDependencies += evolutions
 libraryDependencies += "com.typesafe.play" %% "play-mailer" % "6.0.1"
 libraryDependencies += "com.typesafe.play" %% "play-mailer-guice" % "6.0.1"
 
-// Type Safe Queries (Query Beans)
-// http://ebean-orm.github.io/docs/query/typesafe
-libraryDependencies += "io.ebean" % "querybean-generator" % "10.1.2"
-libraryDependencies += "io.ebean" % "ebean-querybean" % "10.1.1"
-
 // see https://www.playframework.com/documentation/2.6.x/ScalaHttpFilters
 libraryDependencies += filters
 
@@ -54,30 +49,18 @@ libraryDependencies += "com.novocode" % "junit-interface" % "0.11" % "test"
 testOptions += Tests.Argument(TestFrameworks.JUnit, "-v", "-a")
 javaOptions in Test += "-Dconfig.file=conf/application.test.conf"
 
-//-----------------Development Hooks-----------------------------
+// when in dev-mode, spinup the webpack dev-server after starting Play
 
 PlayKeys.playRunHooks += WebpackServer(file("./front"))
 
-//-----------------Production front-end build -------------------
 
-lazy val cleanFrontEndBuild = taskKey[Unit]("Remove the old front-end build")
-
-cleanFrontEndBuild := {
-  val d = file("public/bundle")
-  if (d.exists()) {
-    d.listFiles.foreach(f => {
-      if(f.isFile) f.delete
-    })
-  }
-}
+// build the frontend before packaging
 
 lazy val frontEndBuild = taskKey[Unit]("Execute the npm build command to build the front-end")
 
 frontEndBuild := {
   println(Process("npm install", file("front")).!!)
-  println(Process("npm run build", file("front")).!!)
+  println(Process("npm run prod", file("front")).!!)
 }
-
-frontEndBuild := (frontEndBuild dependsOn cleanFrontEndBuild).value
 
 dist := (dist dependsOn frontEndBuild).value

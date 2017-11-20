@@ -1,7 +1,6 @@
 package models.databaseModel.helpers;
 
 import models.databaseModel.scheduling.DbUserShift;
-import models.databaseModel.scheduling.query.QDbUserShift;
 
 import java.util.List;
 
@@ -29,34 +28,20 @@ public final class DbUserShiftHelper {
     }
 
     public static List<DbUserShift> readDbUserShiftByShiftId(Integer shiftId) {
-        List<DbUserShift> dbUserShiftList = new QDbUserShift()
-                .shiftId
-                .eq(shiftId)
+        List<DbUserShift> dbUserShiftList = DbUserShift.find
+                .query()
+                .where()
+                .eq(DbUserShift.COLUMN_SHIFT_ID, shiftId)
                 .findList();
 
         return dbUserShiftList;
     }
 
-    public static List<DbUserShift> readAllDbUserShiftByUserId(Integer userId) {
-        List<DbUserShift> dbUserShiftList = new QDbUserShift()
-                .userTeamId
-                .eq(userId)
-                .findList();
-
-        return dbUserShiftList;
-    }
-
-    public static DbUserShift readDbUserShiftByUserId(Integer userId) {
-        DbUserShift dbUserShift = new QDbUserShift()
-                .userTeamId
-                .eq(userId)
-                .findUnique();
-
-        return dbUserShift;
-    }
-
-    public static List<DbUserShift> readAllDbUserShifts() {
-        List<DbUserShift> dbUserShiftList = new QDbUserShift()
+    public static List<DbUserShift> readDbUserShiftByUserTeamId(Integer userTeamId) {
+        List<DbUserShift> dbUserShiftList = DbUserShift.find
+                .query()
+                .where()
+                .eq(DbUserShift.COLUMN_USER_TEAM_ID, userTeamId)
                 .findList();
 
         return dbUserShiftList;
