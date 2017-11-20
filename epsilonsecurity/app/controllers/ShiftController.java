@@ -72,4 +72,8 @@ public class ShiftController extends Controller {
     public Result readHoursWithShiftTypeByUserId(Integer userId){
         return ok(Json.toJson(ScheduleUtil.getListOfHourWithShiftTypeByUserId(userId)));
     }
+
+    public Result readHoursWorkingByUserId(Integer userId){
+        return ok(Json.toJson(ScheduleUtil.getTotalHourWorkingByUserID(userId)));
+    }
 }

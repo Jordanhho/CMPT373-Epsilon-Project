@@ -152,6 +152,15 @@ public final class ScheduleUtil {
         return shiftsWithCampusList;
     }
 
+    public static float getTotalHourWorkingByUserID(int userId){
+        float hoursWorking = 0;
+        List<DbShift> shiftList = DbShiftHelper.readDbShiftByUserId(userId);
+        for(DbShift shift: shiftList){
+            hoursWorking += TimeUtil.calculateHourBetweenEpochSecondInstants(shift.getTimeStart(), shift.getTimeEnd());
+        }
+        return hoursWorking;
+    }
+
 
     public static List<HourByShiftType> getListOfHourWithShiftTypeByUserId(int userId){
         List<HourByShiftType> hourByShiftTypeList = new ArrayList<>();
