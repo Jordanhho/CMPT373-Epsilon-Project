@@ -40,5 +40,7 @@ module.exports = {
 	},
 	devServer: {
 		port: DEV_SERVER_PORT,
+		host: "0.0.0.0",
+		disableHostCheck: true, // this is not secure or advised.
 	}
 };
