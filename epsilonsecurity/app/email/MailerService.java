@@ -96,8 +96,8 @@ public class MailerService {
 
         Email email = new Email()
                 .setSubject("SSEP - Your next week's schedule")
-                .setFrom("joshredditbot@gmail.com")
-                .addTo("joshredditbot@gmail.com")
+                .setFrom("")
+                .addTo("")
                 .setBodyText(setScheduleReminderBody(firstName,
                         lastName,
                         totalNumberOfShifts,
