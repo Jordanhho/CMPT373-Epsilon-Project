@@ -90,6 +90,7 @@ public class MailerService {
 
     public void sendScheduleReminderEmail(String firstName,
                                           String lastName,
+                                          String userEmail,
                                           Integer totalNumberOfShifts,
                                           ArrayList<String> scheduleList,
                                           ArrayList<Long> scheduleHoursList) {

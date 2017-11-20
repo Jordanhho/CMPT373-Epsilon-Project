@@ -37,6 +37,7 @@ public class MailerServiceCron {
 
     public void initScheduleReminderEmailCron(String firstName,
                                               String lastName,
+                                              String userEmail,
                                               Integer totalNumberOfShifts,
                                               ArrayList<String> scheduleList,
                                               ArrayList<Long> scheduleHoursList) {
@@ -55,6 +56,7 @@ public class MailerServiceCron {
                 Duration.create(NUMBER_OF_DAYS, TimeUnit.DAYS), // interval
                 () -> mailerService.sendScheduleReminderEmail(firstName,
                         lastName,
+                        userEmail,
                         totalNumberOfShifts,
                         scheduleListCopy,
                         scheduleHoursListCopy),
@@ -137,6 +139,7 @@ public class MailerServiceCron {
 
             initScheduleReminderEmailCron(dbUser.getFirstName(),
                     dbUser.getLastName(),
+                    dbUser.getContactEmail(),
                     totalNumberOfShifts,
                     scheduleList,
                     scheduleHoursList);
