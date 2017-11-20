@@ -3,7 +3,6 @@ package models.databaseModel.helpers;
 
 import io.ebean.Expr;
 import models.databaseModel.scheduling.DbShift;
-import models.databaseModel.scheduling.DbUserShift;
 import models.databaseModel.scheduling.DbUserTeam;
 
 import java.util.ArrayList;
@@ -32,6 +31,16 @@ public final class DbShiftHelper {
                 .findUnique();
 
         return dbShift;
+    }
+
+    public static List<DbShift> readAllDbShiftByShiftId(Integer shiftId) {
+        List<DbShift> dbShiftList = DbShift.find
+                .query()
+                .where()
+                .eq(DbShift.COLUMN_ID,   shiftId)
+                .findList();
+
+        return dbShiftList;
     }
 
 
