@@ -1,5 +1,6 @@
 package controllers;
 
+import models.DummyDatabase.DummyDataBase;
 import models.databaseModel.helpers.DbUserHelper;
 import models.databaseModel.scheduling.DbUser;
 import play.data.Form;

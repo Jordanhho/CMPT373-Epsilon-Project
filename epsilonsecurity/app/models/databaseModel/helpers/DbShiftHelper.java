@@ -31,6 +31,16 @@ public final class DbShiftHelper {
         return dbShift;
     }
 
+    public static List<DbShift> readAllDbShiftByShiftId(Integer shiftTypeId) {
+        List<DbShift> dbShiftList = DbShift.find
+                .query()
+                .where()
+                .eq(DbShift.COLUMN_SHIFT_TYPE_ID, shiftTypeId)
+                .findList();
+
+        return dbShiftList;
+    }
+
     public static DbShift readDbShiftById(Integer id) {
         return DbShift.find.byId(id);
     }

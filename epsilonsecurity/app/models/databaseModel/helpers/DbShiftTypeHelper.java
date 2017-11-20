@@ -22,9 +22,10 @@ public class DbShiftTypeHelper {
     }
 
     public static List<DbShiftType> readAllDbShiftTypeById(Integer id) {
-        List<DbShiftType> dbShiftTypeList = new QDbShiftType()
-                .id
-                .eq(id)
+        List<DbShiftType> dbShiftTypeList = DbShiftType.find
+                .query()
+                .where()
+                .eq(DbShiftType.COLUMN_ID, id)
                 .findList();
 
         return dbShiftTypeList;

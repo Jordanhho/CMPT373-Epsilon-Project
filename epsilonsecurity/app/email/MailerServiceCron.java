@@ -89,7 +89,7 @@ public class MailerServiceCron {
                 }
 
                 // Go through all the user shifts based on the user's team id
-                for (DbUserShift dbUserShift : DbUserShiftHelper.readAllDbUserShiftByUserId(dbUserTeam.getId())) {
+                for (DbUserShift dbUserShift : DbUserShiftHelper.readDbUserShiftByShiftId(dbUserTeam.getId())) {
 
                     // Increment shift counter for the user
                     totalNumberOfShifts++;
