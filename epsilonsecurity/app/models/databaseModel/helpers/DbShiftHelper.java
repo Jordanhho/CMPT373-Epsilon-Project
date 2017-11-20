@@ -35,7 +35,7 @@ public final class DbShiftHelper {
         List<DbShift> dbShiftList = DbShift.find
                 .query()
                 .where()
-                .eq(DbShift.COLUMN_SHIFT_TYPE_ID, shiftTypeId)
+                .eq(DbShift.COLUMN_ID, shiftTypeId)
                 .findList();
 
         return dbShiftList;

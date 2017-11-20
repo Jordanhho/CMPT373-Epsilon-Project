@@ -66,14 +66,19 @@ public class MailerServiceCron {
     public void initialize() {
 
         Integer totalNumberOfShifts = 0;
+
         String formattedShiftStartDate;
         String formattedShiftEndDate;
+        String teamName = "";
+
         ArrayList<String> scheduleList = new ArrayList<>();
         ArrayList<Long> scheduleHoursList = new ArrayList<>();
-        String teamName = "";
+
         Date shiftStartDate;
         Date shiftEndDate;
+
         TimeZone timeZone;
+
         long shiftDurationInMilli;
         long shiftDurationInHours;
 
@@ -89,7 +94,7 @@ public class MailerServiceCron {
                 }
 
                 // Go through all the user shifts based on the user's team id
-                for (DbUserShift dbUserShift : DbUserShiftHelper.readDbUserShiftByShiftId(dbUserTeam.getId())) {
+                for (DbUserShift dbUserShift : DbUserShiftHelper.readDbUserShiftByUserTeamId(dbUserTeam.getId())) {
 
                     // Increment shift counter for the user
                     totalNumberOfShifts++;
@@ -120,9 +125,11 @@ public class MailerServiceCron {
                         // Add hours worked to list
                         scheduleHoursList.add(shiftDurationInHours);
 
-                        for (DbShiftType dbShiftType : DbShiftTypeHelper.readAllDbShiftTypeById(dbShift.getShiftTypeId())) {
+                        for (DbShiftType dbShiftType : DbShiftTypeHelper.readAllDbShiftTypeById(
+                                dbShift.getShiftTypeId())) {
 
-                            scheduleList.add(formattedShiftStartDate + " - " + formattedShiftEndDate + ", " + dbShiftType.getName() + " - " + teamName);
+                            scheduleList.add(formattedShiftStartDate + " - " + formattedShiftEndDate + ", "
+                                    + dbShiftType.getName() + " - " + teamName);
                         }
                     }
                 }

@@ -94,8 +94,6 @@ public class MailerService {
                                           ArrayList<String> scheduleList,
                                           ArrayList<Long> scheduleHoursList) {
 
-        System.out.println("Sent email to: " + firstName + " " + lastName);
-
         Email email = new Email()
                 .setSubject("SSEP - Your next week's schedule")
                 .setFrom("joshredditbot@gmail.com")
