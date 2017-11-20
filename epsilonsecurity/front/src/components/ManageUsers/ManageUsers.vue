@@ -1,13 +1,12 @@
 <template>
     <v-layout class="manage-users">
-        <v-flex xs4 class='scroll-y'>
+        <v-flex v-if='renderLeft()' xs12 sm12 md4 class='scroll-y'>
             <userlist   class="userlist"
                         ref="userlist"
-                        v-bind:teams="teams"
-                        @clicked="onClickUserListViewItem">
+                        v-bind:teams="teams">
             </userlist>
         </v-flex>
-        <v-flex xs8 class='scroll-y'>
+        <v-flex v-if='renderRight()' xs12 sm12 md8 class='scroll-y'>
             <router-view    class="profile"
                             v-bind:teams="teams"
                             @edited="$refs.userlist.requestUsers()">
@@ -27,16 +26,23 @@
         data() {
             return {
                 teams: [],
-                userID: -1,
             }
         },
         methods: {
-            onClickUserListViewItem(value) {
-                this.userID = value;
-            },
             populateTeamList(response) {
                 this.teams = response.data;
             },
+            renderLeft() {
+                return this.$vuetify.breakpoint.mdAndUp ||
+                    (this.$vuetify.breakpoint.smAndDown && !this.focused());
+            },
+            renderRight() {
+                return this.$vuetify.breakpoint.mdAndUp ||
+                    (this.$vuetify.breakpoint.smAndDown && this.focused());
+            },
+            focused() {
+                return this.$route.name == 'userManagementProfile';
+            }
         },
         components: {
             "userlist": UserListView,
@@ -73,6 +79,9 @@
         height: 100%;
         padding: 2em;
         overflow-y: visible;
+    }
+    .hide {
+        display: none;
     }
 
 </style>

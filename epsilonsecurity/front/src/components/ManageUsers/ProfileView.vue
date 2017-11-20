@@ -1,5 +1,8 @@
 <template>
 <v-container clipped enable-resize-watcher class='hack-height'>
+    <router-link v-if='$vuetify.breakpoint.mdAndDown' xs12 exact to="/manage-users/" class="listed-user" tag="li">
+        <v-btn color="primary" dark><icon name='arrow-left' class='back'></icon></v-btn>
+    </router-link>
     <v-layout id='main-profile'>
         <v-flex xs12 md3 class='profile-item'>
             <img :src="userPhoto" alt="" id= "user-photo">
@@ -18,7 +21,7 @@
             </ul>
         </v-flex>
         <v-flex xs3 md3 id="buttons" class='profile-item'>
-            <v-layout wrap column>
+            <v-layout wrap column align-right>
                 <v-flex class="edit-button" xs6 offest-xs6 offset-md0>
                     <edit-user
                                 @edit="onClickEdit"
@@ -72,6 +75,7 @@
     import DisableUser from "./DisableUser.vue";
     import QualificationsView from './QualificationsView.vue'
     import axios from 'axios';
+    import Icon from 'vue-awesome/components/Icon.vue'
 
     export default {
         name: 'user-profile',
@@ -132,6 +136,7 @@
             "edit-user": EditUser,
             "disable-user": DisableUser,
             'qualifications': QualificationsView,
+            Icon
         },
         watch: {
             id: function(val) {
@@ -140,6 +145,10 @@
         },
         mounted: function () {
             this.sendRequests(this.id);
+            this.$emit('updated');
+        },
+        updated: function() {
+            this.$emit('updated');
         },
         props: {
             teams: {
@@ -211,6 +220,10 @@
     .secondary-user-info {
         font-size: 1.3em;
         max-height: 6em;
+    }
+    .back{
+        font-size: 25em;
+        color: white;
     }
 
 </style>

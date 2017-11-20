@@ -16,7 +16,6 @@
             <v-flex xs12>
                 <ul id="listedItems">
                     <listed-user    v-for="user in users"
-                                    @clicked="onClickListElement"
                                     v-bind:user="user"></listed-user>
                 </ul>
             </v-flex>
@@ -45,9 +44,6 @@ export default {
         }
     },
     methods: {
-        onClickListElement(value) {
-            this.$emit('clicked', value);
-        },
         onClickAdd(user) {
             axios.post('/api/users', user)
             .then(response => this.requestUsers())
