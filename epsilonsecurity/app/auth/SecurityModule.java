@@ -42,12 +42,13 @@ public class SecurityModule extends AbstractModule {
         PlayCacheSessionStore playCacheSessionStore = new PlayCacheSessionStore(getProvider(SyncCacheApi.class));
         bind(PlaySessionStore.class).toInstance(playCacheSessionStore);
         final String baseUrl = "http://cmpt373-1177e.cmpt.sfu.ca:9000"; // TODO: put this into conf
+        final String baseUrlDev = "http://localhost:9000";
         CasConfiguration casConfiguration = new CasConfiguration("https://cas.sfu.ca/cas/login");
         casConfiguration.setProtocol(CasProtocol.CAS30);
         casConfiguration.setDefaultTicketValidator(new SfuCasTicketValidator("https://cas.sfu.ca"));
         CasClient casClient = new CasClient(casConfiguration);
 
-        Clients clients = new Clients(baseUrl + "/callback", casClient);
+        Clients clients = new Clients(baseUrlDev + "/callback", casClient);
         Config config = new Config(clients);
         config.setHttpActionAdapter(new DefaultHttpActionAdapter());
         bind(Config.class).toInstance(config);

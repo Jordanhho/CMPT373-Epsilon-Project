@@ -28,9 +28,14 @@
                     </li>
                 </div>
                 <span id= "spacer"></span>
-                <div id = "hours">
-                    <span id= "number-hours">{{hoursNumber}}</span>
-                    <span id= "hours-text">HOURS</span>    
+                <div id= "hours">
+                    <div id = "hours-no-graph">
+                        <span id= "number-hours">{{hoursNumber}}</span>
+                        <span id= "hours-text">HOURS</span>    
+                    </div>    
+                    <v-btn color = "primary" dark @click.stop= "graphDspl = true">
+                        Detailed Hours
+                    </v-btn>
                 </div>
             </div>
         </div>
@@ -46,12 +51,23 @@
                     </qualification>
                 </div>
         </div>
+
+        <v-dialog v-model="graphDspl" max-width="500px">
+            <v-card-title>Working Hours By Shift Type</v-card-title>
+            <pie-chart :data="chartData" id= "pie-chart"></pie-chart>
+        </v-dialog>
     </div>
+
 </template>
 
 <script>
 import Icon from 'vue-awesome/components/Icon.vue'
 import Qualification from './Qualification.vue'
+import Chartkick from 'chartkick'
+import VueChartkick from 'vue-chartkick'
+import Chart from 'chart.js'
+
+
 import axios from 'axios'
 
 export default {
@@ -66,15 +82,13 @@ export default {
                 {text: 'Team: '},
                 {text: 'Role: '}
             ],
-            tabContent: [
-                // {text: 'adall@sfu.ca'},
-                // {text: 'Burnaby, Surrey'},
-                // {text: 'Volunteer'}
-            ],
-            hoursNumber: "14",
+            tabContent: [],
+            hoursNumber: '',
+            graphDspl: false,
+            chartData: [],
             qualificationNames: [],
             loggedInUserId: 15,
-            roleId: ''
+            roleId: '',
         }
     },
     methods: {
@@ -110,12 +124,22 @@ export default {
             }
         },
         populateRoleName(roleData){
-            //alert(JSON.stringify(roleData.data, null, 2));\
+            //alert(JSON.stringify(roleData.data, null, 2));
             this.tabContent.splice(3, 0 , roleData.data.name);
         },
+        populateHourData(hourData){
+            this.hoursNumber = hourData.data;
+        },
+        populateChartData(hourByShiftTypeData){
+            var listLength = hourByShiftTypeData.data.length;
+            for(var i = 0; i < listLength; i++){
+                this.chartData.splice(i, 0, [hourByShiftTypeData.data[i].shiftTypeName, hourByShiftTypeData.data[i].hour]);
+            }
+        }
     },
     components: {
-        Qualification
+        Qualification,
+        Chart
     },
     created: function () {
         axios.get('/api/users/' + this.loggedInUserId)
@@ -130,6 +154,16 @@ export default {
         });
         axios.get('/api/qualification/' + this.loggedInUserId)
         .then(this.populateQualificationData)
+        .catch(function(error){
+            console.log(error)
+        });
+        axios.get('/api/shifts/hours/' + this.loggedInUserId)
+        .then(this.populateHourData)
+        .catch(function(error){
+            console.log(error)
+        });
+        axios.get('/api/shifts/hours/byType/' + this.loggedInUserId)
+        .then(this.populateChartData)
         .catch(function(error){
             console.log(error)
         });
@@ -199,10 +233,16 @@ export default {
     }
     #hours{
         display: flex;
-        flex-flow: row nowrap;
+        flex-flow: column nowrap;
         margin-right: 10%;
+        align-items: left;
+    }
+    #hours-no-graph{
+        display: flex;
+        flex-flow: row nowrap;
         font-size: 1.5em;
         text-align: right;
+        margin-left: 10%;
     }
     #spacer{
         flex-grow: 1;
@@ -214,6 +254,10 @@ export default {
         align-self: flex-end;
         padding-bottom: 1.7em;
         padding-left: .5em;
+    }
+    #pie-chart{
+        background: white;
+        height: 20%;
     }
     #qualificationList{
         margin-top: 3%;
