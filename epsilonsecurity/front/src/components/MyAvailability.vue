@@ -2,13 +2,6 @@
 		<v-container fluid fill-width fill-height class="pa-0">
 			<v-layout column wrap>
 				<v-flex xs12>
-			
-					<!-- toast for submitted, creating /editing availability -->
-					<v-snackbar :timeout="1000" :top="'top'" v-model="showToast">
-						<v-btn flat color="white" class="text-xs-center"> {{ toastMsg }} </v-btn>
-					</v-snackbar>
-
-
 										
 					<div id = "center-content">
 
@@ -131,7 +124,7 @@
                                                     >
                                                         <template scope="{ save, cancel }">
                                                             <v-card-actions>
-                                                                <v-btn flat color="primary" @click="save" :disabled="availabilitySubmitted">
+                                                                <v-btn flat color="primary" @click="save">
                                                                     Save
                                                                 </v-btn>
                                                                 <v-spacer></v-spacer>
@@ -242,9 +235,9 @@
 									</v-btn>
 								</v-card-actions>
 							</v-card>
+	
 						</v-dialog>
 					</v-layout>
-
 
 					<!-- popup editor for clicking on availability, dragging event availability, clicking + button -->
 					<v-layout row justify-center>
@@ -505,7 +498,7 @@ export default {
 			showEditAvailability: false,
 
 			//status of availability
-			availabilityStatus: "Open",
+			availabilityStatus: null,
 
 			// ----------------- Submission ---------------------------
 			//boolean for if avail is submitted
@@ -514,22 +507,12 @@ export default {
 			//submission availabiliy popup
 			showConfirmSubmission: false,
 
-			// ----------------- TOAST MSG ---------------------------
-			//toast msg
-			toastMsg: "Nothing here",
-			showToast: false,
-
 			//---------------- Time, Date ----------------------------
 			//time picker/date picker modals
 			dateStartModal: false,
 			timeStartModal: false,
 			timeEndModal: false,
-
-			visibleRange: {
-                start: this.getNextWeekMonday(),
-            	end: this.getNextWeekSunday(),
-            },
-
+			timeBoundCheck: false,
 
 			//ranged of allowed dates for date picker
 			allowedDates: null,
@@ -557,32 +540,25 @@ export default {
 
 			//-------------------- Campus selection -----------------------
 			//for selection of campus
-			campusList: [
-				{ text: 'Burnaby'},
-				{ text: 'Surrey'},
-				{ text: 'Vancouver'},
-			],
+			campusList: [],
 
 			//---------------- availability type and list ------------------
 			//current event
 			currentSelectedEvent: null,
 
 			//Data contains list of avaliablities
-			availabilityList: [
-			],
+			availabilityList: [],
 
 			availability: {
 				title: "",
 				date: this.getNextWeekMonday(),
 				timeStart: this.getTodayMomentTime(0),
 				timeEnd: this.getTodayMomentTime(60),
-				campus: "Burnaby"
+				campus: null,
 			},
 
 			//--------------- calendar config ------------------------------
 			config: {
-
-				// ------------ calendar view ----------------------
 				defaultView: 'agendaWeek',
 				height: 'parent',
 				allDaySlot: false,
@@ -594,59 +570,36 @@ export default {
 					right: 'month,agendaWeek,agendaDay'
 				},
 
-				//15 minute increment
-				slotDuration: '00:15:00',
+				slotDuration: '00:15:00', //15 minute increment
+				scrollTime: '00:00:00', // scroll calendar to the specified time (12 AM)
+				nowIndicator: true, //shows today
 
-				// scroll calendar to the specified time (12 AM)
-				scrollTime: '00:00:00',
-
-				//shows today
-				nowIndicator: true,
-
-				//restrict calendar view to next week only
-
-				//sets first day of week to monday
-				firstDay: 1,
-
-				//sets week number calculation to ISO
-				weekNumberCalculation: "ISO",
+				firstDay: 1, //sets first day of week to monday
+				weekNumberCalculation: "ISO", //sets week number calculation to ISO
 
 				//----------------- selection of events --------------------------
-				//allows resizing of events
-				editable: false,
 
-				//allows dragging on calendar.
-				selectable: true,
+				editable: false, //allows resizing of events
+				selectable: true, //allows dragging on calendar.
+				selectHelper: true, //allows to make an event on calendar
+				selectOverlap: false, //do not allow event overlap selection
+				eventClick: this.availabilityClick, //triggered with an event is clicked
+				select: this.availabilitySelection, //triggered after a selection is made, i.e user stops dragging.
+				selectMinDistance: 5, //minimum distance click has to move inorder to detect as event PREVENT MISCLICKS
+				selectLongPressDelay: 1000, //minimum miliseconds user holds down before it counts as a selectable
 
-				//allows to make an event on calendar
-				selectHelper: true,
-
-				//do not allow event overlap selection
-				selectOverlap: false,
-
-				//triggered with an event is clicked
-				eventClick: this.availabilityClick,
-
-				//triggered after a selection is made, i.e user stops dragging.
-				select: this.availabilitySelection,
-
-				//minimum distance click has to move inorder to detect as event PREVENT MISCLICKS
-				selectMinDistance: 5,
-
-				//minimum miliseconds user holds down before it counts as a selectable
-				selectLongPressDelay: 1000,
-
-				//restrict selection of an event to maximxum one day
-				selectConstraint: {
+				selectConstraint: { //restrict selection of an event to maximxum one day
 					start: "00:00",
 					end: "24:00"
 				},
 
-				//restrict event to maximum one day
-				eventConstraint: {
+				eventConstraint: { //restrict event to maximum one day
 					start: "00:00",
 					end: "24:00",
 				},
+
+				updateEvent: this.availabilityEdit,
+				removeEvents: this.availabilityDeletion,
 			},
 
 			eventSources: [
@@ -665,36 +618,74 @@ export default {
 
 	methods: {
 
-        //handles user clicking on event
+	 	//------------------- calendar functions -----------------------
+
+		initializeCalendarView() {
+			
+			$('#calendar').fullCalendar('gotoDate', this.getNextWeekMonday());
+
+			//constrain calendar view 
+			$('#calendar').fullCalendar({
+				validRange: {
+					start: this.getNextWeekMonday(),
+					end: this.getNextWeekSunday()
+				}
+			});
+
+			// $('#calendar').fullCalendar({
+			// 	validRange: function() {
+			// 		return {
+			// 			start: this.getNextWeekMondayDate(),
+			// 			end: this.getNextWeekSundayDate()
+			// 		};
+			// 	}
+			// });
+
+
+			// //set visible dates for calendar
+			// $('#calendar').fullCalendar({
+			// 	visibleRange: function() {
+			// 		return {
+			// 			start: this.getNextWeekMondayDate(),
+			// 			end: this.getNextWeekSundayDate()
+			// 		};
+			// 	}
+			// });
+
+
+		},
+
+
+		//check bounds on timepicker
+		checkTimePickerBounds: function() {
+			var testStartTime = moment(availability.timeStart);
+			var testEndTime = moment(availability.timeEnd);
+
+			if(testStartTime < testEndTime) {
+				timeBoundCheck = true;
+			}
+			else {
+				timeBoundCheck = false;
+			}
+		},
+	
+	 
+	 	//handles user clicking on event
 		availabilityClick: function(event, jsEvent, view) {
-			//todo loads availbility before displaying
-
-			console.log("This event title: " + event.title + "\n" +
-					 "time start: " + event.start + "\n" +
-					 "time end: " + event.end + "\n" 
-			);
-
-			//todo able to edit availability
-			this.clickedAvailability = event;
 
 			//set currently selected availability to this event's data
+			this.currentSelectedEvent = event;
 			this.availability.title = event.title;
 			this.availability.date = moment(event.start, ["YYYY-MM-DD"]).format("YYYY-MM-DD");
 			this.availability.timeStart = moment(event.start, ["HH:mma"]).format("HH:mma");
 			this.availability.timeEnd = moment(event.end, ["HH:mma"]).format("HH:mma");
 			this.availability.campus = event.title;
-
-			console.log("Avail title " + this.availability.title + "\n" +
-					"date: " + this.availability.date + "\n" +
-					 "time start: " + this.availability.timeStart + "\n" +
-					 "time end: " + this.availability.timeEnd + "\n" +
-					 "campus: " + this.availability.campus
-			);
-
-			this.currentSelectedEvent = event;
-
+			
+			//close modal
 			this.showEditAvailability = true;
 		},	
+
+
 
 		//handles drag selection of availability on calendar
 		availabilitySelection: function(start, end, jsEvent, view) {
@@ -715,13 +706,11 @@ export default {
 			}
 		},
 
+
+
+
 		//todo handle creation of an availability
         availabilityCreation: function(availability) {
-            //debug print
-			console.log("New Avail date:", availability.date);
-			console.log("New Avail time start:", availability.timeStart);
-			console.log("New Avail time end:", availability.timeEnd);
-            console.log("New Avail time campus:", availability.campus);
 			
 			//combine the moment objects with date and time
 			var momentStartObj = moment(availability.date + " " + availability.timeStart, ["YYYY-MM-DD HH:mma"]);
@@ -734,17 +723,18 @@ export default {
 				end: momentEndObj,
 				title: availability.campus,
 			}
+
 			//change color for event based on campus
 			//red for burnaby
-			if(availability.campus == "Burnaby") {
+			if(availability.campus == 1) {
 				eventItem.color = "red";
 			}
 			//blue for surrey
-			else if(availability.campus == "Surrey") {
+			else if(availability.campus == 2) {
 				eventItem.color = "blue";
 			}
 			//Yellow for vancouver
-			else if(availability.campus == "Vancouver") {
+			else if(availability.campus == 3) {
 				eventItem.color = "teal";
 			}
 			//purple if not specified -> for debug
@@ -759,13 +749,10 @@ export default {
 			$('#calendar').fullCalendar('renderEvent', eventItem, true);
 
             //close window
-            this.showAvailabilityEditor = false;
 			this.showCreateAvailability = false;
-
-			//show msg that it has been created
-			this.toastMsg = "Created Availability";
-            this.showToast = true;
 		},
+
+
 
 		//todo handle creation of an availability
         availabilityEdit: function(availability, event) {
@@ -780,15 +767,15 @@ export default {
 
 			//change color for event based on campus
 			//red for burnaby
-			if(availability.campus == "Burnaby") {
+			if(availability.campus == 1) {
 				event.color = "red";
 			}
 			//blue for surrey
-			else if(availability.campus == "Surrey") {
+			else if(availability.campus == 2) {
 				event.color = "blue";
 			}
 			//Yellow for vancouver
-			else if(availability.campus == "Vancouver") {
+			else if(availability.campus == 3) {
 				event.color = "teal";
 			}
 			//purple if not specified for debug
@@ -799,27 +786,18 @@ export default {
 			//change text color for white
 			event.textColor = "white"
 
-			 $('#calendar').fullCalendar('updateEvent', event);
+			//update event
+			$('#calendar').fullCalendar('updateEvent', this.event);
 
 			//close window
 			this.showEditAvailability = false;
-
-			//show msg that it has been created
-            this.toastMsg = "Edited Availability";
-            this.showToast = true;
 		},
 
 		//Deletes the event if button for deletion is pressed
 		availabilityDeletion: function(availability, event) {
 			//TODO deleting an event
 
-			//delete event
-			// this.$refs.calendar.$emit('remove-event', event);
-			// this.clickedAvailability = {};
-
-			//delete event
-			// console.log("destroying event: " + event);
-			// $('#calendar').fullCalendar('eventDestroy', event);
+			$('#calendar').fullCalendar('removeEvents', event.id);
 
 			//turn off popup after deletion
 			this.showEditAvailability = false;
@@ -836,16 +814,18 @@ export default {
 			$('#calendar').fullCalendar('selectHelper', false);
 
             //set values
-            this.availabilityStatus = "Pending";
+            //this.availabilityStatus = ;
 			this.availabilitySubmitted = true;
 
 			//close popup
             this.showConfirmSubmission = false;
-
-			//toast msg
-            this.toastMsg = "Submitted Availability";
-            this.showToast = true;
 		},
+
+
+
+		//---------------------------- moment helpers -----------------------------
+
+
 
 		getNextWeekMonday: function() {
 			// //create a moment object that is the starting monday of the current day and next week
@@ -892,86 +872,45 @@ export default {
 		},
 
 
-		initializeCalendarView() {
-			
-			$('#calendar').fullCalendar('gotoDate', this.getNextWeekMonday());
-
-			//constrain calendar view 
-			$('#calendar').fullCalendar({
-				validRange: {
-					start: this.getNextWeekMonday(),
-					end: this.getNextWeekSunday()
-				}
-			});
-
-			// $('#calendar').fullCalendar({
-			// 	validRange: function() {
-			// 		return {
-			// 			start: this.getNextWeekMondayDate(),
-			// 			end: this.getNextWeekSundayDate()
-			// 		};
-			// 	}
-			// });
 
 
-			// //set visible dates for calendar
-			// $('#calendar').fullCalendar({
-			// 	visibleRange: function() {
-			// 		return {
-			// 			start: this.getNextWeekMondayDate(),
-			// 			end: this.getNextWeekSundayDate()
-			// 		};
-			// 	}
-			// });
+		//--------------------------- axios requests, gets
 
 
-		},
 
-//		populateAvailabilityList: function() {
-//			//grab all generated client events
-//			this.availabilityList = $('#calendar').fullCalendar('clientEvents');
-//			console.log("list of events: " + this.availabilityList);
-//
-//
-//			//this.availabilityList = response.data;
-//		},
-
-
+		//retrives all events on local calendar
 		getAvailabilityList: function() {
 			this.availabilityList = $('#calendar').fullCalendar('clientEvents');
 			console.log("list of events: " + this.availabilityList);
 			return this.availabilityList;
 		},
 
-
+		//save locally 
 		saveAvailabilityListLocally: function() {
             console.log("Avail list: " + this.availabilityList);
-            saveLocallyConfirmation = false;
+            this.saveLocallyConfirmation = false;
 		},
 
+		//delete locally
 		deleteAvailabilityListLocally: function() {
-            saveLocallyConfirmation = false;
+            this.saveLocallyConfirmation = false;
 		},
-
-		getAvailabilityListFromDatabase: function() {
-		    axios.get('/api/')
-                .then(response => this.requestAvailability)
-                .catch(function (error) {
-                    console.log(error);
-                });
-		},
-
-
 
 		populateAvailabilityList(response) {
             this.availabilityList = response.data;
 		},
 
+		populateUserTeamList(response) {
+            this.campusList = response.data;
+		},
 
 
 
-
-
+		//---------------------- package into json and send to database ---------------------
+		requestAvailability() {
+			var availabilityURL = '';
+			availabilityURL = '/api/onetimeavailabilites'
+		},
 
 		initializeAvailabilitiesList: function() {
 				axios.post('/api/onetimeavailabilites', )
@@ -980,14 +919,14 @@ export default {
 					console.log(error);
 				});
 		},
+	},
 
-
-		requestAvailability() {
-			var availabilityURL = '';
-			availabilityURL = '/api/onetimeavailabilites'
-		}
+	//initialize the last weeks availabilites incremented by a week, initialize the current user's list of teams
+	computed: {
 
 	},
+
+
 
     components: {
 	},
@@ -995,19 +934,26 @@ export default {
 	//todo creates to avail database
 	created: function() {
 
-        console.log("get availabilities from database~!");
-		axios.get('api/onetimeavailabilites')
-			.then(this.populateAvailabilityList)
+		//todo : get all availabilities from a user id from database
+        // console.log("get availabilities from database~!");
+		// axios.get('api/onetimeavailabilites')
+		// 	.then(this.populateAvailabilityList)
+		// 	.catch(function (error) {
+		// 	console.log(error);
+		// });
+
+		console.log("availabilities: " + this.availabilityList);
+
+		//get all team ids from userid
+		console.log("get list of teams this user belongs to!");
+		axios.get('/api/users/' + this.userId + '/teams')
+			.then(this.populateUserTeamList)
 			.catch(function (error) {
 			console.log(error);
 		});
-
-
-
-
+		
+		console.log("campus list: " + this.campusList);
 	},
-
-
 
 	mounted () {
 
@@ -1034,8 +980,6 @@ export default {
 	background: white;
 	width: 100%;
 	height: 100%;
-	//display: flex;
-	//flex-flow: column nowrap;
 }
 
 #center-content {
@@ -1053,10 +997,10 @@ export default {
 	width: 100%;
 }
 
-#add-button {
-	height: 0.5em;
-	width: 100%;
-}
+// #add-button {
+// 	height: 0.5em;
+// 	width: 100%;
+// }
 
 #option-bar {
 	height: 4em;
