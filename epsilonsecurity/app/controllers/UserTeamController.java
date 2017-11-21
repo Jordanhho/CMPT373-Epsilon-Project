@@ -81,7 +81,7 @@ public class UserTeamController extends Controller {
         return ok();
     }
 
-    public Result readDbUserTeamByUserId(Integer userId) {
+    public Result readDbTeamByUserId(Integer userId) {
         List<DbTeam> dbTeamList = DbUserTeamHelper.readAllDbTeamsByUserId(userId);
 
         return ok(Json.toJson(dbTeamList));

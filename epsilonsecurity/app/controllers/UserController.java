@@ -1,5 +1,6 @@
 package controllers;
 
+import models.DummyDatabase.DummyDataBase;
 import models.databaseModel.helpers.DbUserHelper;
 import models.databaseModel.scheduling.DbUser;
 import play.data.Form;
@@ -57,6 +58,7 @@ public class UserController extends Controller {
     }
 
     public Result readAllUsers() {
+        new DummyDataBase();
         List<DbUser> dbUserList = DbUserHelper.readAllDbUsers();
 
         return ok(Json.toJson(dbUserList));
