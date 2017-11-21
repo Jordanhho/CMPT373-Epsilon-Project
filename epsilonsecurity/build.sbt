@@ -49,13 +49,16 @@ libraryDependencies += "com.novocode" % "junit-interface" % "0.11" % "test"
 testOptions += Tests.Argument(TestFrameworks.JUnit, "-v", "-a")
 javaOptions in Test += "-Dconfig.file=conf/application.test.conf"
 
-// when in dev-mode, spinup the webpack dev-server after starting Play
+// [in dev-mode], Akka Http Server listens on this port.
+// https://www.playframework.com/documentation/2.5.x/ConfigFile#Using-with-the-run-command
+PlayKeys.devSettings := Seq("play.server.http.port" -> "9000") // default = 9000
 
+
+// [in dev-mode], spin up the webpack dev-server after starting Play
 PlayKeys.playRunHooks += WebpackServer(file("./front"))
 
 
-// build the frontend before packaging
-
+// [in prod-mode], build the frontend before packaging
 lazy val frontEndBuild = taskKey[Unit]("Execute the npm build command to build the front-end")
 
 frontEndBuild := {
@@ -64,3 +67,4 @@ frontEndBuild := {
 }
 
 dist := (dist dependsOn frontEndBuild).value
+stage := (stage dependsOn frontEndBuild).value
