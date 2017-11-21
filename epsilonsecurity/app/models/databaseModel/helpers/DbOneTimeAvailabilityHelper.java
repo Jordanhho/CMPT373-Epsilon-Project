@@ -30,6 +30,16 @@ public final class DbOneTimeAvailabilityHelper {
         return DbOneTimeAvailability.find.all();
     }
 
+    public static List<DbOneTimeAvailability> readDbOneTimeAvailabilityByUserTeamId(Integer userTeamId) {
+        List<DbOneTimeAvailability> dbOneTimeAvailabilityList = DbOneTimeAvailability.find
+                .query()
+                .where()
+                .eq(DbOneTimeAvailability.COLUMN_USER_TEAM_ID, userTeamId)
+                .findList();
+
+        return dbOneTimeAvailabilityList;
+    }
+
     public static List<DbOneTimeAvailability> readDbOneTimeAvailabilityByTimeRange(Long timeStart, Long timeEnd) {
         List<DbOneTimeAvailability> dbOneTimeAvailabilityList = DbOneTimeAvailability.find
                 .query()
