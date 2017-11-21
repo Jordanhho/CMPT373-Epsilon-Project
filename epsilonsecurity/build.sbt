@@ -16,6 +16,11 @@ libraryDependencies += javaJdbc
 libraryDependencies += "org.xerial" % "sqlite-jdbc" % "3.8.6"
 libraryDependencies += evolutions
 
+// Play-Mailer Plugin
+// https://github.com/playframework/play-mailer
+libraryDependencies += "com.typesafe.play" %% "play-mailer" % "6.0.1"
+libraryDependencies += "com.typesafe.play" %% "play-mailer-guice" % "6.0.1"
+
 // see https://www.playframework.com/documentation/2.6.x/ScalaHttpFilters
 libraryDependencies += filters
 
