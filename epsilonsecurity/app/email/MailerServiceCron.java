@@ -65,6 +65,11 @@ public class MailerServiceCron {
     }
 
 
+    private boolean isShiftOver(DbShift dbShift) {
+        return (dbShift.getTimeEnd() * 1000L) < System.currentTimeMillis();
+    }
+
+
     public void initialize() {
 
         Integer totalNumberOfShifts = 0;
@@ -98,40 +103,44 @@ public class MailerServiceCron {
                 // Go through all the user shifts based on the user's team id
                 for (DbUserShift dbUserShift : DbUserShiftHelper.readDbUserShiftByUserTeamId(dbUserTeam.getId())) {
 
-                    // Increment shift counter for the user
-                    totalNumberOfShifts++;
-
                     // Go through all the shifts based on the user's shift id
                     for (DbShift dbShift : DbShiftHelper.readAllDbShiftByShiftId(dbUserShift.getShiftId())) {
 
-                        // Date takes in milliseconds, but shift time is in unix time, seconds.
-                        shiftStartDate = new Date(dbShift.getTimeStart() * 1000L);
-                        shiftEndDate = new Date(dbShift.getTimeEnd() * 1000L);
+                        if (!isShiftOver(dbShift)) {
 
-                        // Get amount of hours worked per shift
-                        shiftDurationInMilli = shiftEndDate.getTime() - shiftStartDate.getTime();
-                        shiftDurationInHours = TimeUnit.MILLISECONDS.toHours(shiftDurationInMilli);
+                            // Get the number of shifts of the user
+                            totalNumberOfShifts = DbShiftHelper.readAllDbShiftByShiftId(dbUserShift.getShiftId()).size();
 
-                        // Format the start and end dates
-                        SimpleDateFormat startDateFormatter = new SimpleDateFormat("MM/dd/yyyy HH:mm");
-                        SimpleDateFormat endDateFormatter = new SimpleDateFormat("HH:mm");
+                            // Date takes in milliseconds, but shift time is in unix time, seconds.
+                            shiftStartDate = new Date(dbShift.getTimeStart() * 1000L);
+                            shiftEndDate = new Date(dbShift.getTimeEnd() * 1000L);
 
-                        // Set the timezone of the dates
-                        timeZone = TimeZone.getTimeZone("PST");
-                        startDateFormatter.setTimeZone(timeZone);
-                        endDateFormatter.setTimeZone(timeZone);
+                            // Get amount of hours worked per shift
+                            shiftDurationInMilli = shiftEndDate.getTime() - shiftStartDate.getTime();
+                            shiftDurationInHours = TimeUnit.MILLISECONDS.toHours(shiftDurationInMilli);
 
-                        formattedShiftStartDate = startDateFormatter.format(shiftStartDate);
-                        formattedShiftEndDate = endDateFormatter.format(shiftEndDate);
+                            // Format the start and end dates
+                            SimpleDateFormat startDateFormatter = new SimpleDateFormat("MM/dd/yyyy HH:mm");
+                            SimpleDateFormat endDateFormatter = new SimpleDateFormat("HH:mm");
 
-                        // Add hours worked to list
-                        scheduleHoursList.add(shiftDurationInHours);
+                            // Set the timezone of the dates
+                            timeZone = TimeZone.getTimeZone("PST");
+                            startDateFormatter.setTimeZone(timeZone);
+                            endDateFormatter.setTimeZone(timeZone);
 
-                        for (DbShiftType dbShiftType : DbShiftTypeHelper.readAllDbShiftTypeById(
-                                dbShift.getShiftTypeId())) {
+                            formattedShiftStartDate = startDateFormatter.format(shiftStartDate);
+                            formattedShiftEndDate = endDateFormatter.format(shiftEndDate);
 
-                            scheduleList.add(formattedShiftStartDate + " - " + formattedShiftEndDate + ", "
-                                    + dbShiftType.getName() + " - " + teamName);
+                            // Add hours worked to list
+                            scheduleHoursList.add(shiftDurationInHours);
+
+                            for (DbShiftType dbShiftType : DbShiftTypeHelper.readAllDbShiftTypeById(
+                                    dbShift.getShiftTypeId())) {
+
+                                scheduleList.add(formattedShiftStartDate + " - " + formattedShiftEndDate + ", "
+                                        + dbShiftType.getName() + " - " + teamName);
+
+                            }
                         }
                     }
                 }
