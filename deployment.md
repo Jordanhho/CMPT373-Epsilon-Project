@@ -1,33 +1,33 @@
 # Deploying the Project
 
-### Connect to vm
+### Connect to the VM
 
-	ssh ueyee@cmpt373-1177e.cmpt.sfu.ca
+	ssh username@cmpt373-1177e.cmpt.sfu.ca
 
 ### Directory structure in vm
 
-	USER_HOME
-	  |
-	  |-- <project>
-	  |__ __config
-	          |__ production.db
-	          |__ application.prod.conf
+    /home/username
+          |
+          |-- <project>
+          |__ __config
+                  |__ production.db
+                  |__ application.prod.conf
 
-### Copying relevant configuration files to production machine.
+### Copy Relevant Configuration Files to Production Machine.
 
 > You only need to do this once.
 
 Create a directory containing `application.prod.conf` and `production.db`, then copy that directory to the vm via ssh.
 	
-	scp -r ./__config ueyee@cmpt373-1177e.cmpt.sfu.ca:/home/ueyee/__config
+	scp -r /local/path/to/__config username@cmpt373-1177e.cmpt.sfu.ca:/home/username/__config
 
-### Pull latest production code
+### Pull Latest Production Code
 
 Until we setup a continous deployment pipeline, this will have to be done manually.
 
 1. Pull the latest commit from the 'production' branch on Gitlab
 	
-		cd <project>
+		cd <project>/epsilonsecurity
 		git checkout production
 		git pull
 
@@ -50,29 +50,22 @@ Visit the url below to see our handwork.
 
 	cmpt373-1177e.cmpt.sfu.ca
 
-----------------------------------------------------------------------
+### Important Info
 
-### Snippets
+Only once instance of a running process can bind to TCP port 80 at a time. So, only one instance of the production server should be running at any given time on the vm. If you want to test things out, ensure that no instance is already running before spinning up yours (following the instructions above).
 
-	// copy from local machine to remote machine
-	scp localfile user@host:/path/to/whereyouwant/thefile
+---
 
-	// copy the production.db to remote vm
-	scp ./production.conf ueyee@cmpt373-1177e.cmpt.sfu.ca:/home/ueyee/production.conf
+### References
 
-	sudo lsof -n -i :80
-	sudo npm install -g webpack
+How Play suggests a production build should be configured - [here](https://www.playframework.com/documentation/2.6.x/ApplicationSecret#the-application-secret)
 
-	target/universal/stage/bin/epsilonsecurity
+Why `sbt stage` is good for production - [here](https://www.playframework.com/documentation/2.6.x/Deploying#running-a-production-server-in-place)
 
-	// running the project in production mode
-	target/universal/stage/bin/epsilonsecurity -Dconfig.file=/absolute/path/to/production.conf
+Why having a separate production `.conf` file is best practice - [here](https://www.playframework.com/documentation/2.6.x/ApplicationSecret#production-configuration-file)
 
-	sudo target/universal/stage/bin/epsilonsecurity -Dconfig.file=/home/ueyee/__config/application.prod.conf > /dev/null &
+---
 
-	//todo: don't use a PID file
-	rm -f /home/ueyee/373-Epsilon/epsilonsecurity/target/universal/stage/RUNNING_PID
+### Known Issues
 
-
-
-
+None for now.
