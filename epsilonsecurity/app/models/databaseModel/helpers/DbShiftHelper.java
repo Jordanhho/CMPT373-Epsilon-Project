@@ -3,7 +3,10 @@ package models.databaseModel.helpers;
 
 import io.ebean.Expr;
 import models.databaseModel.scheduling.DbShift;
+import models.databaseModel.scheduling.DbUserShift;
+import models.databaseModel.scheduling.DbUserTeam;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -25,10 +28,30 @@ public final class DbShiftHelper {
         DbShift dbShift = DbShift.find
                 .query()
                 .where()
-                .eq(DbShift.COLUMN_SHIFT_TYPE_ID, shiftTypeId)
+                .eq(DbShift.COLUMN_SHIFT_TYPE_ID,   shiftTypeId)
                 .findUnique();
 
         return dbShift;
+    }
+
+
+    public static List<DbShift> readDbShiftByUserId(Integer userId){
+        List<DbUserTeam> userTeamList = DbUserTeamHelper.readAllDbUserTeamsByUserId(userId);
+        List<DbShift> shiftList = new ArrayList<>();
+        for(DbUserTeam userTeam : userTeamList){
+            shiftList.addAll(DbUserShiftHelper.readDbShiftByUserTeamId(userTeam.getId()));
+        }
+        return shiftList;
+    }
+
+    public static ArrayList<Integer> readUniqueShiftTypeIdFromShiftList(List<DbShift> shiftList){
+        ArrayList<Integer> shiftTypeIdList = new ArrayList<>();
+        for(DbShift dbShift : shiftList){
+            if(!shiftTypeIdList.contains(dbShift.getShiftTypeId())){
+                shiftTypeIdList.add(dbShift.getShiftTypeId());
+            }
+        }
+        return shiftTypeIdList;
     }
 
     public static DbShift readDbShiftById(Integer id) {
@@ -51,9 +74,6 @@ public final class DbShiftHelper {
         dbShift.delete();
     }
 
-    public static void deleteShiftByName(String name) {
-
-    }
 
     public static List<DbShift> readAllDbShift() {
         return DbShift.find.all();

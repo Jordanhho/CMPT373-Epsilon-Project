@@ -151,6 +151,43 @@ public final class ScheduleUtil {
         return shiftsWithCampusList;
     }
 
+    public static float getTotalHourWorkingByUserID(int userId){
+        float hoursWorking = 0;
+        List<DbShift> shiftList = DbShiftHelper.readDbShiftByUserId(userId);
+        for(DbShift shift: shiftList){
+            hoursWorking += TimeUtil.calculateHourBetweenEpochSecondInstants(shift.getTimeStart(), shift.getTimeEnd());
+        }
+        return hoursWorking;
+    }
+
+
+    public static List<HourByShiftType> getListOfHourWithShiftTypeByUserId(int userId){
+        List<HourByShiftType> hourByShiftTypeList = new ArrayList<>();
+
+        List<DbShift> shiftList = DbShiftHelper.readDbShiftByUserId(userId);
+        //Use a hash map here?
+        List<Integer> shiftTypeIdList = DbShiftHelper.readUniqueShiftTypeIdFromShiftList(shiftList);
+        for(int shiftTypeId : shiftTypeIdList){
+            hourByShiftTypeList.add(
+                    new HourByShiftType(
+                        shiftTypeId,
+                        DbShiftTypeHelper.readDbShiftTypeById(shiftTypeId).getName(),
+                        0
+                    ));
+        }
+        for(DbShift shift : shiftList){
+            float shiftHour = TimeUtil.calculateHourBetweenEpochSecondInstants(shift.getTimeStart(), shift.getTimeEnd());
+            for(HourByShiftType hourByShiftType : hourByShiftTypeList){
+                if(shift.getShiftTypeId().equals(hourByShiftType.getShiftTypeId())){
+                    hourByShiftType.addHour(shiftHour);
+                    break;
+                }
+            }
+        }
+
+        return hourByShiftTypeList;
+    }
+
     /**
      * Get the status of a user's DbOneTimeAvailability within a time range from a specific team
      * Note: Since availabilities are submitting weekly, all availabilities within a week will have

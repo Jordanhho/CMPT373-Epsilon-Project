@@ -18,7 +18,7 @@ public final class DbOneTimeAvailabilityHelper {
         dbOneTimeAvailability.save();
     }
 
-    public static void deleteDbOneTimeAvailabilityById(DbOneTimeAvailability dbOneTimeAvailability) {
+    public static void deleteDbOneTimeAvailability(DbOneTimeAvailability dbOneTimeAvailability) {
         dbOneTimeAvailability.delete();
     }
 
