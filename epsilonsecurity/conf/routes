@@ -114,10 +114,10 @@ GET           /api/users/teams/:teamId/shifts?start=TIMESTART&end=TIMEEND       
 GET           /api/shifts                                                                              controllers.ShiftController.readShifts()
 
 # List an user's total hours of working
-GET           /api/shifts/hours/:userId                                          controllers.ShiftController.readHoursWithShiftTypeByUserId(userId: Integer)
+GET           /api/shifts/hours/:userId                                                                controllers.ShiftController.readHoursWithShiftTypeByUserId(userId: Integer)
 
 # List an user's all shift hours broken down by shift type
-GET           /api/shifts/hours/byType/:userId                                   controllers.ShiftController.readHoursWithShiftTypeByUserId(userId: Integer)
+GET           /api/shifts/hours/byType/:userId                                                         controllers.ShiftController.readHoursWithShiftTypeByUserId(userId: Integer)
 
 # Create a shift
 POST          /api/shifts                                                                              controllers.ShiftController.createShift()
@@ -205,10 +205,10 @@ GET           /api/onetimeavailabilites?start=TIMESTART&end=TIMEEND             
 GET           /api/users/:userId/teams/:teamId/onetimeavailabilites?start=TIMESTART&end=TIMEEND        controllers.OneTimeAvailabilityController.readOneTimeAvailabilityStatus(userId: Integer, teamId: Integer)
 
 # Create one time availabilities from an array
-POST          /api/onetimeavailabilites                                          controllers.OneTimeAvailabilityController.createOneTimeAvailabilityFromArray()
+POST          /api/onetimeavailabilites                                                                controllers.OneTimeAvailabilityController.createOneTimeAvailabilityFromArray()
 
 # Read a one time availability by oneTimeAvailabilityId
-GET           /api/onetimeavailabilites/:oneTimeAvailabilityId                   controllers.OneTimeAvailabilityController.readOneTimeAvailabilityById(oneTimeAvailabilityId: Integer)
+GET           /api/onetimeavailabilites/:oneTimeAvailabilityId                                         controllers.OneTimeAvailabilityController.readOneTimeAvailabilityById(oneTimeAvailabilityId: Integer)
 
 # Delete a one time availability by oneTimeAvailabilityId
 DELETE        /api/onetimeavailabilites/:oneTimeAvailabilityId                                         controllers.OneTimeAvailabilityController.deleteOneTimeAvailability(oneTimeAvailabilityId: Integer)
