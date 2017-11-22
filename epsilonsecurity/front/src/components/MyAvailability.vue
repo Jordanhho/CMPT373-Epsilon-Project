@@ -59,7 +59,7 @@
 			</v-flex>
 
 			<v-flex xs12 id="add-button">
-				<v-card-text style="height: 1px; position: relative" @click.stop="showCreateAvailability = true">
+				<v-card-text style="height: 1px; position: relative" @click.stop="showEditorAvailability = true, showCreateAvailability = true">
 					<v-btn absolute dark fab top right color="blue" :disabled="availabilitySubmitted">
 						<v-icon>
 							add
@@ -211,16 +211,16 @@
 
 						<v-card-actions>
 							<v-spacer></v-spacer>
-							<v-btn v-if="showCreateAvailability" color="primary" flat @click.stop="availabilityCreation(availability)" :disabled="availabilitySubmitted, showEditAvailability">
+							<v-btn  v-if="showCreateAvailability" color="primary" flat @click.stop="availabilityCreation(availability)" :disabled="availabilitySubmitted">
 								Create
-							</v-btn>
-							<v-btn v-if="showEditAvailability"  color="primary" flat @click.stop="availabilityEdit(availability, currentSelectedEvent)" :disabled="availabilitySubmitted">
+							</v-btn> 
+							<v-btn v-if="showEditAvailability" color="primary" flat @click.stop="availabilityEdit(availability, currentSelectedEvent)" :disabled="availabilitySubmitted">
 								Edit
 							</v-btn>
-							<v-btn color="primary" flat @click.stop="availabilityDeletion(availability, currentSelectedEvent)" :disabled="availabilitySubmitted">
+							<v-btn v-if="showEditAvailability" color="primary" flat @click.stop="availabilityDeletion(availability, currentSelectedEvent)" :disabled="availabilitySubmitted">
 								Delete
-							</v-btn>
-							<v-btn color="primary" flat @click.stop="showCreateAvailability = false">
+							</v-btn> 
+							<v-btn color="primary" flat @click.stop="showEditorAvailability = false">
 								Close
 							</v-btn>
 						</v-card-actions>
@@ -470,6 +470,8 @@ export default {
 			this.$emit('edit');
 			this.showEditAvailability = true;
 			this.showEditorAvailability = true;
+			console.log("editor window is: " + this.showEditorAvailability);
+			console.log("edit value: " + this.showEditAvailability);
 		},
 
 
@@ -489,6 +491,8 @@ export default {
 				this.$emit('create');
 				this.showCreateAvailability = true;
 				this.showEditorAvailability = true;
+				console.log("editor window is: " + this.showEditorAvailability);
+				console.log("create value: " + this.showEditAvailability);
 			}
 			else {
 				//do nothing as submission is denied after submission of availability
@@ -511,7 +515,11 @@ export default {
 
 		//TODO compares the current availability to any preexisting availability if their time conflicts
 		checkIfAvailabilityConflicts() {
-
+			//get local list of events
+			var eventList = $('#calendar').fullCalendar('clientEvents');
+			for(i = 0; i < eventList.length; i ++) {
+				//if(eventList[i].)
+			}
 		},
 
 		//TODO handle creation of an availability
@@ -570,10 +578,16 @@ export default {
 				//render event
 				$('#calendar').fullCalendar('renderEvent', eventItem, true);
 
-				//close window
+				//show toast message
 				toastMsg: "Created Availability!";
 				showToast: true;
+
+				//close window
 				this.showCreateAvailability = false;
+				this.showEditorAvailability = false;
+
+				console.log("editor window is: " + this.showEditorAvailability);
+				console.log("create value: " + this.showEditAvailability);
 			}
 		},
 
@@ -630,11 +644,16 @@ export default {
 				//update event
 				$('#calendar').fullCalendar('updateEvent', this.event);
 
+				//show toast message
 				toastMsg: "Edited Availability!";
 				showToast: true;
 
 				//close window
 				this.showEditAvailability = false;
+				this.showEditorAvailability = false;
+
+				console.log("editor window is: " + this.showEditorAvailability);
+				console.log("edit value: " + this.showEditAvailability);
 			}
 		},
 
@@ -855,7 +874,7 @@ export default {
 }
 
 #add-button {
-	height: 0.5em;
+	height: 0;
 	width: 100%;
 }
 
