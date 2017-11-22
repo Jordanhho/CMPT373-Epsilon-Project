@@ -211,15 +211,15 @@
 
 						<v-card-actions>
 							<v-spacer></v-spacer>
-							<v-btn  v-if="showCreateAvailability" color="primary" flat @click.stop="availabilityCreation(availability)" :disabled="availabilitySubmitted">
+							<v-btn  v-if="showCreateAvailability" color="primary" flat @click.stop="availabilityCreation" :disabled="availabilitySubmitted">
 								Create
-							</v-btn> 
+							</v-btn>
 							<v-btn v-if="showEditAvailability" color="primary" flat @click.stop="availabilityEdit(availability, currentSelectedEvent)" :disabled="availabilitySubmitted">
 								Edit
 							</v-btn>
 							<v-btn v-if="showEditAvailability" color="primary" flat @click.stop="availabilityDeletion(availability, currentSelectedEvent)" :disabled="availabilitySubmitted">
 								Delete
-							</v-btn> 
+							</v-btn>
 							<v-btn color="primary" flat @click.stop="showEditorAvailability = false">
 								Close
 							</v-btn>
@@ -311,8 +311,7 @@ export default {
 			dateStartModal: false,
 			timeStartModal: false,
 			timeEndModal: false,
-			timeBoundCheck: false,
-
+			
 			//ranged of allowed dates for date picker
 			allowedDates: null,
 
@@ -502,14 +501,17 @@ export default {
 
 		//check bounds on timepicker
 		checkTimePickerBounds: function() {
-			var testStartTime = moment(availability.timeStart);
-			var testEndTime = moment(availability.timeEnd);
+			var testStartMoment = moment(this.availability.timeStart, ["HH:mma"]);
+			var testEndMoment = moment(this.availability.timeEnd, ["HH:mma"]);
+			console.log("start: " + testStartMoment);
+			console.log("end: " + testEndMoment);
+			console.log("check condition: " + (testStartMoment < testEndMoment) );
 
-			if(testStartTime < testEndTime) {
-				this.timeBoundCheck = true;
+			if(testStartMoment < testEndMoment) {
+				return true;
 			}
 			else {
-				this.timeBoundCheck = false;
+				return false;
 			}
 		},
 
@@ -523,14 +525,16 @@ export default {
 		},
 
 		//TODO handle creation of an availability
-		availabilityCreation: function(availability) {
+		availabilityCreation: function() {
 
+			var correctTimeBounds = this.checkTimePickerBounds();
 			//check if timeEnd is before timeStart
-			if(!this.checkTimePickerBounds()) {
+			console.log(" returned check is: " + correctTimeBounds);
+			if(correctTimeBounds == false) {
 
 				//make a toast msg
-				toastMsg: "Error, availability timeEnd is before availability timeStart";
-				showToast: true;
+				this.toastMsg = "Error, availability timeEnd is before availability timeStart";
+				this.showToast = true;
 
 				//do not close window until user fixes their error
 				this.showCreateAvailability = true;
@@ -541,30 +545,30 @@ export default {
 			// }
 
 			//all conditions passed, create the new availability
-			else {
+			else if(correctTimeBounds == true) {
 				//combine the moment objects with date and time
-				var momentStartObj = moment(availability.date + " " + availability.timeStart, ["YYYY-MM-DD HH:mma"]);
-				var momentEndObj = moment(availability.date + " " + availability.timeEnd, ["YYYY-MM-DD HH:mma"]);
+				var momentStartObj = moment(this.availability.date + " " + this.availability.timeStart, ["YYYY-MM-DD HH:mma"]);
+				var momentEndObj = moment(this.availability.date + " " + this.availability.timeEnd, ["YYYY-MM-DD HH:mma"]);
 
 				//create new object for event with the newly created moment objects
 				var eventItem = {
 					id: -1,
 					start: momentStartObj,
 					end: momentEndObj,
-					title: availability.campus,
+					title: this.availability.campus,
 				}
 
 				//change color for event based on campus
 				//red for burnaby
-				if(availability.campus == 1) {
+				if(this.availability.campus == 1) {
 					eventItem.color = "red";
 				}
 				//blue for surrey
-				else if(availability.campus == 2) {
+				else if(this.availability.campus == 2) {
 					eventItem.color = "blue";
 				}
 				//Yellow for vancouver
-				else if(availability.campus == 3) {
+				else if(this.availability.campus == 3) {
 					eventItem.color = "teal";
 				}
 				//purple if not specified -> for debug
