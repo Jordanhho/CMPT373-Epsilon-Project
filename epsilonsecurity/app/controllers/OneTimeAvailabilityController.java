@@ -1,6 +1,5 @@
 package controllers;
 
-import models.DummyDatabase.DummyDataBase;
 import models.databaseModel.helpers.DbOneTimeAvailabilityHelper;
 import models.databaseModel.scheduling.DbOneTimeAvailability;
 import models.databaseModel.scheduling.Status;
@@ -11,7 +10,6 @@ import play.data.FormFactory;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
-
 
 import javax.inject.Inject;
 import java.util.List;
@@ -33,13 +31,8 @@ public class OneTimeAvailabilityController extends Controller {
     }
 
     private DbOneTimeAvailability[] getDbOneTimeAvailabilityArrayFromForm() {
-<<<<<<< HEAD
-        DummyDataBase database = new DummyDataBase();
-        Form<OneTimeAvailabilityArrayForm> form = formFactory.form(OneTimeAvailabilityArrayForm.class).bindFromRequest();
-=======
         Form<OneTimeAvailabilityArrayForm> form = formFactory
                 .form(OneTimeAvailabilityArrayForm.class).bindFromRequest();
->>>>>>> master
         return form.get().getDbOneTimeAvailabilities();
     }
 

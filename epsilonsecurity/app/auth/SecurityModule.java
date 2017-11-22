@@ -51,14 +51,10 @@ public class SecurityModule extends AbstractModule {
         bind(Pac4jRoleHandler.class).to(RoleHandler.class);
         PlayCacheSessionStore playCacheSessionStore = new PlayCacheSessionStore(getProvider(SyncCacheApi.class));
         bind(PlaySessionStore.class).toInstance(playCacheSessionStore);
-<<<<<<< HEAD
-        final String baseUrl = "http://localhost:9000"; // TODO: put this into conf
-=======
 
 
         String baseUrl = this.getApiServerUrl();
 
->>>>>>> master
         CasConfiguration casConfiguration = new CasConfiguration("https://cas.sfu.ca/cas/login");
         casConfiguration.setProtocol(CasProtocol.CAS30);
         casConfiguration.setDefaultTicketValidator(new SfuCasTicketValidator("https://cas.sfu.ca"));
