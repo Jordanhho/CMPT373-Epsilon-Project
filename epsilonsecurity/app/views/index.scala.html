@@ -2,6 +2,7 @@
 
 <!DOCTYPE html>
 <html lang="en">
+<<<<<<< HEAD
 <head>
     <meta charset="UTF-8">
     <title>Frontend</title>
@@ -24,3 +25,24 @@
     }
 </body>
 </html>
+=======
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Frontend</title>
+        <link href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons' rel="stylesheet">
+        @if(env.isProd) {
+            <link rel="stylesheet" href="/assets/bundle/@cssBundle">
+        }
+        </head>
+    <body>
+        <div id="app-container"></div>
+        @if(env.isDev) {
+            <script src="http://localhost:@port/bundle.js"></script>
+        } else {
+            <script src="/assets/bundle/@jsBundle"></script>
+        }
+    </body>
+</html>
+>>>>>>> master

@@ -1,6 +1,7 @@
 package controllers;
 
 import models.databaseModel.helpers.DbUserShiftHelper;
+import models.databaseModel.scheduling.DbShift;
 import models.databaseModel.scheduling.DbUserShift;
 import models.queries.ScheduleUtil;
 import models.queries.ShiftWithCampus;
@@ -49,10 +50,10 @@ public class UserShiftController extends Controller {
         return ok();
     }
 
-    public Result retrieveUserShift(Integer userTeamId) {
-        List<DbUserShift> dbUserShiftList = DbUserShiftHelper.readDbUserShiftByUserTeamId(userTeamId);
+    public Result retrieveShift(Integer userTeamId) {
+        List<DbShift> dbShiftList = DbUserShiftHelper.readDbShiftByUserTeamId(userTeamId);
 
-        return ok(Json.toJson(dbUserShiftList));
+        return ok(Json.toJson(dbShiftList));
     }
 
     public Result retrieveShiftsByUserId(Integer userId) {

@@ -3,7 +3,9 @@ package controllers;
 import models.DummyDatabase.DummyDataBase;
 import models.databaseModel.helpers.DbOneTimeAvailabilityHelper;
 import models.databaseModel.scheduling.DbOneTimeAvailability;
+import models.databaseModel.scheduling.Status;
 import models.queries.OneTimeAvailabilityArrayForm;
+import models.queries.ScheduleUtil;
 import play.data.Form;
 import play.data.FormFactory;
 import play.libs.Json;
@@ -31,13 +33,19 @@ public class OneTimeAvailabilityController extends Controller {
     }
 
     private DbOneTimeAvailability[] getDbOneTimeAvailabilityArrayFromForm() {
+<<<<<<< HEAD
         DummyDataBase database = new DummyDataBase();
         Form<OneTimeAvailabilityArrayForm> form = formFactory.form(OneTimeAvailabilityArrayForm.class).bindFromRequest();
+=======
+        Form<OneTimeAvailabilityArrayForm> form = formFactory
+                .form(OneTimeAvailabilityArrayForm.class).bindFromRequest();
+>>>>>>> master
         return form.get().getDbOneTimeAvailabilities();
     }
 
     public Result listOneTimeAvailabilities() {
-        List<DbOneTimeAvailability> dbOneTimeAvailabilityList = DbOneTimeAvailabilityHelper.readAllDbOneTimeAvailability();
+        List<DbOneTimeAvailability> dbOneTimeAvailabilityList = DbOneTimeAvailabilityHelper
+                .readAllDbOneTimeAvailability();
         return ok(Json.toJson(dbOneTimeAvailabilityList));
     }
 
@@ -70,9 +78,17 @@ public class OneTimeAvailabilityController extends Controller {
     public Result readOneTimeAvailabilitiesByTimeRange() {
         Long timeStart = Long.parseLong(request().getQueryString(TIME_START));
         Long timeEnd = Long.parseLong(request().getQueryString(TIME_END));
-        List<DbOneTimeAvailability> dbOneTimeAvailabilityList =
-                DbOneTimeAvailabilityHelper.readDbOneTimeAvailabilityByTimeRange(timeStart, timeEnd);
+        List<DbOneTimeAvailability> dbOneTimeAvailabilityList = DbOneTimeAvailabilityHelper
+                .readDbOneTimeAvailabilityByTimeRange(timeStart, timeEnd);
 
         return ok(Json.toJson(dbOneTimeAvailabilityList));
     }
+
+    public Result readOneTimeAvailabilityStatus(Integer userId, Integer teamId) {
+        Long timeStart = Long.parseLong(request().getQueryString(TIME_START));
+        Long timeEnd = Long.parseLong(request().getQueryString(TIME_END));
+        Status status = ScheduleUtil.getOneTimeAvailStatus(userId, teamId, timeStart, timeEnd);
+        return ok(Json.toJson(status));
+    }
+
 }

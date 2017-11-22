@@ -44,4 +44,19 @@ public class TimeUtil {
         ZonedDateTime zonedDateTime = localDateTime.atZone(ZoneOffset.UTC);
         return zonedDateTime.toString();
     }
+
+    public static float calculateHourBetweenEpochSecondInstants(Long epochStart, Long epochEnd) throws IllegalArgumentException{
+        if(epochEnd >= epochStart){
+            if (epochStart.equals(epochEnd)){
+                return 0;
+            }
+            else{
+                Long timeDifference = epochEnd - epochStart;
+                return (timeDifference/ 3600f);
+            }
+        }
+        else{
+            throw new IllegalArgumentException();
+        }
+    }
 }
