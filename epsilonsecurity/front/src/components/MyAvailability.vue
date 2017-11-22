@@ -59,7 +59,7 @@
 			</v-flex>
 
 			<v-flex xs12 id="add-button">
-				<v-card-text style="height: 1px; position: relative" @click.stop="showEditorAvailability = true, showCreateAvailability = true">
+				<v-card-text style="height: 1px; position: relative" @click.stop="showEditorWindow = true, showCreateOptions = true">
 					<v-btn absolute dark fab top right color="blue" :disabled="availabilitySubmitted">
 						<v-icon>
 							add
@@ -71,7 +71,7 @@
 			<v-flex xs12 id="option-bar">
 				<v-card class="text-xs-center" dark color="white" >
 					<v-card-actions>
-						<v-btn color="primary" block @click.stop="showConfirmSubmission = true" :disabled="availabilitySubmitted">
+						<v-btn color="primary" block @click.stop="showSubmitWindow = true" :disabled="availabilitySubmitted">
 							Submit
 						</v-btn>
 					</v-card-actions>
@@ -82,7 +82,7 @@
 
 		<!-- popup editor for clicking on availability, dragging event availability, clicking + button -->
 		<v-layout row justify-center>
-			<v-dialog v-model="showEditorAvailability" max-width="400px" persistent lazy full-width>
+			<v-dialog v-model="showEditorWindow" max-width="400px" persistent lazy full-width>
 				<v-card>
 					<v-card-title>
 						<span class="headline">Availability Info</span>
@@ -97,18 +97,18 @@
 										<v-text-field
 											slot="activator"
 											label="Date"
-											hint="Date of availability"
 											v-model="availability.date"
 											prepend-icon="event"
 											readonly
 											required
-											persistent-hint
 											:disabled="availabilitySubmitted">
 										</v-text-field>
 										<v-date-picker
 											v-model="availability.date"
 											first-day-of-week="1"
-											:allowed-dates="allowedDates">
+											:allowed-dates="allowedDates"
+											:scrollable=false
+											actions>
 											<template scope="{ save, cancel }">
 												<v-card-actions>
 													<v-btn flat color="primary" @click="save">
@@ -130,18 +130,17 @@
 										<v-text-field
 											slot="activator"
 											label="Time Start"
-											hint="Start time of availability"
 											v-model="availability.timeStart"
 											prepend-icon="access_time"
 											readonly
 											required
-											persistent-hint
 											:disabled="availabilitySubmitted">
 										</v-text-field>
 										<v-time-picker
 											v-model="availability.timeStart"
 											:allowed-hours="allowedTimes.hours"
 											:allowed-minutes="allowedTimes.minutes"
+											:scrollable=false
 											actions>
 											<template scope="{ save, cancel }">
 												<v-card-actions>
@@ -164,12 +163,10 @@
 										<v-text-field
 											slot="activator"
 											label="Time End"
-											hint="Time start of availability"
 											v-model="availability.timeEnd"
 											prepend-icon="access_time"
 											readonly
 											required
-											persistent-hint
 											:disabled="availabilitySubmitted">
 										</v-text-field>
 										<v-time-picker
@@ -198,11 +195,9 @@
 										v-bind:items="campusList"
 										v-model="availability.campus"
 										label="Campus"
-										hint="Campus of availability"
 										item-value="text"
 										single-line
 										required
-										persistent-hint
 										:disabled="availabilitySubmitted">
 									</v-select>
 								</v-flex>
@@ -211,16 +206,16 @@
 
 						<v-card-actions>
 							<v-spacer></v-spacer>
-							<v-btn  v-if="showCreateAvailability" color="primary" flat @click.stop="availabilityCreation" :disabled="availabilitySubmitted">
+							<v-btn  v-if="showCreateOptions" color="primary" flat @click.stop="availabilityCreation" :disabled="availabilitySubmitted">
 								Create
 							</v-btn>
-							<v-btn v-if="showEditAvailability" color="primary" flat @click.stop="availabilityEdit(availability, currentSelectedEvent)" :disabled="availabilitySubmitted">
+							<v-btn v-if="showEditOptions" color="primary" flat @click.stop="availabilityEdit(availability, currentSelectedEvent)" :disabled="availabilitySubmitted">
 								Edit
 							</v-btn>
-							<v-btn v-if="showEditAvailability" color="primary" flat @click.stop="availabilityDeletion(availability, currentSelectedEvent)" :disabled="availabilitySubmitted">
+							<v-btn v-if="showEditOptions" color="primary" flat @click.stop="availabilityDeletion(availability, currentSelectedEvent)" :disabled="availabilitySubmitted">
 								Delete
 							</v-btn>
-							<v-btn color="primary" flat @click.stop="showEditorAvailability = false">
+							<v-btn color="primary" flat @click.stop="showEditorWindow = false">
 								Close
 							</v-btn>
 						</v-card-actions>
@@ -230,7 +225,7 @@
 		</v-layout>
 
 		<!-- popup for when submit availbility is clicked -->
-		<v-dialog v-model="showConfirmSubmission" persistent lazy full-width>
+		<v-dialog v-model="showSubmitWindow" persistent lazy full-width>
 			<v-card>
 				<v-container grid-list-md>
 					<v-layout wrap>
@@ -248,7 +243,7 @@
 						Submit
 					</v-btn>
 					<v-spacer></v-spacer>
-					<v-btn color="primary" flat @click.stop="showConfirmSubmission = false">
+					<v-btn color="primary" flat @click.stop="showSubmitWindow = false">
 						Cancel
 					</v-btn>
 				</v-card-actions>
@@ -259,12 +254,9 @@
 </template>
 
 <script>
-//imports
 import Vue from 'vue'
 import moment from 'moment'
 import axios from 'axios'
-
-//calendar
 import FullCalendar from 'vue-full-calendar'
 Vue.use(FullCalendar) // add the vue-full-calendar plugin to Vue
 window.jQuery = window.$ = require('jquery') // we need jquery too
@@ -272,7 +264,8 @@ window.jQuery = window.$ = require('jquery') // we need jquery too
 export default {
 	data: function () {
 		return {
-			userId: 2,
+			//------------------- USER ---------------------------
+			userId: 2, //current user Id
 
 			// ----------------- TOAST MSG ---------------------------
 			//toast msg
@@ -284,39 +277,24 @@ export default {
 			deleteLocallyConfirmation: false,
 
 			// ----------------- MODALS --------------------------------
-			//editor window trigger
-			trigger: null,
+			showEditorWindow: false, //editor window popup
+			showCreateOptions: false, //show the create button for the editor window
+			showEditOptions: false, //show the edit and delete buttons for the editor window
+			showSubmitWindow: false, //submission availabiliy popup
 
-			//editor window
-			showEditorAvailability: false,
-
-			//creation of availability window
-			showCreateAvailability: false,
-
-			//edit of availability window
-			showEditAvailability: false,
-
-			//status of availability
-			availabilityStatus: null,
-
-			// ----------------- Submission ---------------------------
-			//boolean for if avail is submitted
-			availabilitySubmitted: false,
-
-			//submission availabiliy popup
-			showConfirmSubmission: false,
-
-			//---------------- Time, Date ----------------------------
 			//time picker/date picker modals
 			dateStartModal: false,
 			timeStartModal: false,
 			timeEndModal: false,
-			
-			//ranged of allowed dates for date picker
-			allowedDates: null,
 
-			//restrict it to allowed days from min to max
-			nextWeekRange: {
+			//----------------- Submission ---------------------------
+			availabilityStatus: null, //status of availability, must set it at initialization from database
+			availabilitySubmitted: false, //boolean for if avail is submitted
+
+			//---------------- Time, Date ----------------------------
+			allowedDates: null, //ranged of allowed dates for date picker
+
+			nextWeekRange: { //restrict it to allowed days and time from min to max
 				min: null,
 				max: null,
 			},
@@ -326,8 +304,7 @@ export default {
 				minutes: null,
 			},
 
-			//restrict it to 15 minutes increments, do not change hours
-			restrictTimeIncrements: {
+			restrictTimeIncrements: { //restrict it to 15 minutes increments, do not change hours
 				hours: function(value) {
 					return value
 				},
@@ -337,15 +314,10 @@ export default {
 			},
 
 			//-------------------- Campus selection -----------------------
-			//for selection of campus
-			campusList: [],
+			campusList: [], //for selection of campus
 
 			//---------------- availability type and list ------------------
-			//current event
-			currentSelectedEvent: null,
-
-			//Data contains list of avaliablities
-			availabilityList: [],
+			availabilityList: [], //Data contains list of avaliablities
 
 			availability: {
 				title: "",
@@ -376,7 +348,6 @@ export default {
 				weekNumberCalculation: "ISO", //sets week number calculation to ISO
 
 				//----------------- selection of events --------------------------
-
 				editable: false, //allows resizing of events
 				selectable: true, //allows dragging on calendar.
 				selectHelper: true, //allows to make an event on calendar
@@ -411,9 +382,6 @@ export default {
 		}
 	},
 
-	computed: {
-	},
-
 	methods: {
 
 		//------------------- calendar functions -----------------------
@@ -423,12 +391,12 @@ export default {
 			$('#calendar').fullCalendar('gotoDate', this.getNextWeekMonday());
 
 			//constrain calendar view
-			$('#calendar').fullCalendar({
-				validRange: {
-					start: this.getNextWeekMonday(),
-					end: this.getNextWeekSunday()
-				}
-			});
+			// $('#calendar').fullCalendar({
+			// 	validRange: {
+			// 		start: this.getNextWeekMondayMoment(),
+			// 		end: this.getNextWeekSundayMoment()
+			// 	}
+			// });
 
 			// $('#calendar').fullCalendar({
 			// 	validRange: function() {
@@ -453,12 +421,10 @@ export default {
 
 		},
 
-
 		//handles user clicking on event
 		availabilityClickEvent: function(event, jsEvent, view) {
 
 			//set currently selected availability to this event's data
-			this.currentSelectedEvent = event;
 			this.availability.title = event.title;
 			this.availability.date = moment(event.start, ["YYYY-MM-DD"]).format("YYYY-MM-DD");
 			this.availability.timeStart = moment(event.start, ["HH:mma"]).format("HH:mma");
@@ -466,18 +432,13 @@ export default {
 			this.availability.campus = event.title;
 
 			//show edit availability
-			this.$emit('edit');
-			this.showEditAvailability = true;
-			this.showEditorAvailability = true;
-			console.log("editor window is: " + this.showEditorAvailability);
-			console.log("edit value: " + this.showEditAvailability);
+			this.showEditOptions = true;
+			this.showEditorWindow = true;
 		},
-
-
 
 		//handles drag selection of availability on calendar
 		availabilityCreateSelect: function(start, end, jsEvent, view) {
-			console.log("click event")
+
 			//only allows deletion before submission
 			if (this.availabilitySubmitted == false) {
 
@@ -488,31 +449,20 @@ export default {
 
 				//show add avaialbility
 				this.$emit('create');
-				this.showCreateAvailability = true;
-				this.showEditorAvailability = true;
-				console.log("editor window is: " + this.showEditorAvailability);
-				console.log("create value: " + this.showEditAvailability);
+				this.showCreateOptions = true;
+				this.showEditorWindow = true;
 			}
 			else {
 				//do nothing as submission is denied after submission of availability
 			}
 		},
 
-
 		//check bounds on timepicker
 		checkTimePickerBounds: function() {
 			var testStartMoment = moment(this.availability.timeStart, ["HH:mma"]);
 			var testEndMoment = moment(this.availability.timeEnd, ["HH:mma"]);
-			console.log("start: " + testStartMoment);
-			console.log("end: " + testEndMoment);
-			console.log("check condition: " + (testStartMoment < testEndMoment) );
 
-			if(testStartMoment < testEndMoment) {
-				return true;
-			}
-			else {
-				return false;
-			}
+			return (testStartMoment < testEndMoment);
 		},
 
 		//TODO compares the current availability to any preexisting availability if their time conflicts
@@ -537,7 +487,7 @@ export default {
 				this.showToast = true;
 
 				//do not close window until user fixes their error
-				this.showCreateAvailability = true;
+				this.showCreateOptions = true;
 			}
 			//TODO check if the new availability conflicts with an existing availability
 			// else if() {
@@ -587,11 +537,11 @@ export default {
 				showToast: true;
 
 				//close window
-				this.showCreateAvailability = false;
-				this.showEditorAvailability = false;
+				this.showCreateOptions = false;
+				this.showEditorWindow = false;
 
-				console.log("editor window is: " + this.showEditorAvailability);
-				console.log("create value: " + this.showEditAvailability);
+				console.log("editor window is: " + this.showEditorWindow);
+				console.log("create value: " + this.showEditOptions);
 			}
 		},
 
@@ -608,7 +558,7 @@ export default {
 				showToast: true;
 
 				//do not close window until user fixes their error
-				this.showEditAvailability = true;
+				this.showEditOptions = true;
 			}
 			//TODO check if the new availability conflicts with an existing availability
 			// else if() {
@@ -653,11 +603,11 @@ export default {
 				showToast: true;
 
 				//close window
-				this.showEditAvailability = false;
-				this.showEditorAvailability = false;
+				this.showEditOptions = false;
+				this.showEditorWindow = false;
 
-				console.log("editor window is: " + this.showEditorAvailability);
-				console.log("edit value: " + this.showEditAvailability);
+				console.log("editor window is: " + this.showEditorWindow);
+				console.log("edit value: " + this.showEditOptions);
 			}
 		},
 
@@ -668,7 +618,7 @@ export default {
 			$('#calendar').fullCalendar('removeEvents', event.id);
 
 			//turn off popup after deletion
-			this.showEditAvailability = false;
+			this.showEditOptions = false;
 		},
 
 		//blocks out most user interaction when availability is submitted
@@ -687,20 +637,20 @@ export default {
 			this.availabilitySubmitted = true;
 
 			//close popup
-			this.showConfirmSubmission = false;
+			this.showSubmitWindow = false;
 		},
 
-		//---------------------------- moment helpers -----------------------------
+		//---------------------------- time picker Restrictions -----------------------------
 
 		//return next week monday moment object
-		getNextWeekMonday: function() {
+		getNextWeekMondayMoment: function() {
 			// //create a moment object that is the starting monday of the current day and next week
 			var nextMondayDate = moment().startOf('isoweek').add(7, 'days').format("YYYY-MM-DD");
 			return nextMondayDate;
 		},
 
 		//returns next week sunday moment object
-		getNextWeekSunday: function(){
+		getNextWeekSundayMoment: function(){
 			// //create a moment object that is the starting sunday of the current day and next week
 			var nextSundayDate = moment().endOf('isoweek').add(7, 'days').format("YYYY-MM-DD");
 			return nextSundayDate;
