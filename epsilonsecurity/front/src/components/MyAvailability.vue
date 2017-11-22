@@ -1,52 +1,39 @@
 <template>
 	<v-container fill-width fill-height class="pa-0">
-		<!-- toast for submitted, creating /editing availability -->
-		<v-snackbar :timeout="1000" :top="'top'" v-model="showToast">
-			<v-btn flat color="white" class="text-xs-center"> {{ toastMsg }} </v-btn>
-		</v-snackbar>
-
 		<v-layout row wrap>
 
 			<v-flex xs12 id = "approval-bar">
 					<!-- Primary background if approved -->
-					<span v-if="availabilityStatus == 'Open'">
-						<v-card dark color="blue" >
-							<v-card-text class="text-xs-center">
-								Status:
-								{{ availabilityStatus }}
-							</v-card-text>
-						</v-card>
-					</span>
+					<v-card v-if="availabilityStatus == 'Open'" dark color="blue" >
+						<v-card-text class="text-xs-center">
+							Status:
+							{{ availabilityStatus }}
+						</v-card-text>
+					</v-card>
 
 					<!-- Red background if Unapproved -->
-					<span label v-else-if="availabilityStatus == 'Pending'">
-						<v-card dark color="red" >
-							<v-card-text class="text-xs-center">
-								Status:
-								{{ availabilityStatus }}
-							</v-card-text>
-						</v-card>
-					</span>
+					<v-card v-else-if="availabilityStatus == 'Pending'" dark color="red" >
+						<v-card-text class="text-xs-center">
+							Status:
+							{{ availabilityStatus }}
+						</v-card-text>
+					</v-card>
 
 					<!-- Green background if approved -->
-					<span v-else-if="availabilityStatus == 'Approved'">
-						<v-card dark color="green" >
-							<v-card-text class="text-xs-center">
-								Status:
-								{{ availabilityStatus }}
-							</v-card-text>
-						</v-card>
-					</span>
+					<v-card v-else-if="availabilityStatus == 'Approved'" dark color="green" >
+						<v-card-text class="text-xs-center">
+							Status:
+							{{ availabilityStatus }}
+						</v-card-text>
+					</v-card>
 
 					<!-- Primary background if Error // probably no need for this -->
-					<span v-else>
-						<v-card dark color="primary" >
-							<v-card-text class="text-xs-center">
-								Status:
-								{{ availabilityStatus }}
-							</v-card-text>
-						</v-card>
-					</span>
+					<v-card  v-else dark color="primary" >
+						<v-card-text class="text-xs-center">
+							Status:
+							{{ availabilityStatus }}
+						</v-card-text>
+					</v-card>
 			</v-flex>
 
 			<v-flex xs12 id = "my-calendar">
@@ -59,8 +46,18 @@
 			</v-flex>
 
 			<v-flex xs12 id="add-button">
-				<v-card-text style="height: 1px; position: relative" @click.stop="showEditorWindow = true, showCreateOptions = true">
-					<v-btn absolute dark fab top right color="blue" :disabled="availabilitySubmitted">
+				<v-card-text
+					style="height: 1px;
+					position: relative"
+					 @click.stop="showEditorWindow = true, showCreateOptions = true">
+					<v-btn
+						absolute
+						dark
+						fab
+						top
+						right
+						color="blue"
+						:disabled="availabilitySubmitted">
 						<v-icon>
 							add
 						</v-icon>
@@ -77,12 +74,11 @@
 					</v-card-actions>
 				</v-card>
 			</v-flex>
-
 		</v-layout>
 
 		<!-- popup editor for clicking on availability, dragging event availability, clicking + button -->
 		<v-layout row justify-center>
-			<v-dialog v-model="showEditorWindow" max-width="400px" persistent lazy full-width>
+			<v-dialog v-model="showEditorWindow" max-width="500px" persistent lazy full-width>
 				<v-card>
 					<v-card-title>
 						<span class="headline">Availability Info</span>
@@ -90,6 +86,19 @@
 					<v-card-text>
 						<v-container grid-list-xs>
 							<v-layout wrap>
+
+								<!-- Campus -->
+								<v-flex xs6>
+									<v-select
+										v-bind:items="campusList"
+										v-model="availability.campus"
+										label="Campus"
+										item-value="text"
+
+										required
+										:disabled="availabilitySubmitted">
+									</v-select>
+								</v-flex>
 
 								<!-- date  picker -->
 								<v-flex xs6>
@@ -111,7 +120,7 @@
 											actions>
 											<template scope="{ save, cancel }">
 												<v-card-actions>
-													<v-btn flat color="primary" @click="save">
+													<v-btn flat color="primary" @click="save, timeStartModal">
 														Save
 													</v-btn>
 													<v-spacer></v-spacer>
@@ -144,7 +153,7 @@
 											actions>
 											<template scope="{ save, cancel }">
 												<v-card-actions>
-													<v-btn flat color="primary" @click="save" :disabled="availabilitySubmitted">
+													<v-btn flat color="primary" @click="save, timeEndModal" :disabled="availabilitySubmitted">
 														Save
 													</v-btn>
 													<v-spacer></v-spacer>
@@ -189,18 +198,6 @@
 									</v-dialog>
 								</v-flex>
 
-								<!-- Campus -->
-								<v-flex xs6>
-									<v-select
-										v-bind:items="campusList"
-										v-model="availability.campus"
-										label="Campus"
-										item-value="text"
-										single-line
-										required
-										:disabled="availabilitySubmitted">
-									</v-select>
-								</v-flex>
 							</v-layout>
 						</v-container>
 
@@ -267,11 +264,6 @@ export default {
 			//------------------- USER ---------------------------
 			userId: 2, //current user Id
 
-			// ----------------- TOAST MSG ---------------------------
-			//toast msg
-			toastMsg: "Nothing here",
-			showToast: false,
-
 			//------------------ options -------------------------------
 			saveLocallyConfirmation: false,
 			deleteLocallyConfirmation: false,
@@ -286,6 +278,12 @@ export default {
 			dateStartModal: false,
 			timeStartModal: false,
 			timeEndModal: false,
+
+
+			//--------------- Show TextField boolean values
+			showDateText: false,
+			showTimeStartText: false,
+			showTimeEndText: false,
 
 			//----------------- Submission ---------------------------
 			availabilityStatus: null, //status of availability, must set it at initialization from database
@@ -321,7 +319,7 @@ export default {
 
 			availability: {
 				title: "",
-				date: this.getNextWeekMonday(),
+				date: this.getNextWeekMondayMoment(),
 				timeStart: this.getTodayMomentTime(0),
 				timeEnd: this.getTodayMomentTime(60),
 				campus: null,
@@ -388,7 +386,7 @@ export default {
 
 		initializeCalendarView() {
 
-			$('#calendar').fullCalendar('gotoDate', this.getNextWeekMonday());
+			$('#calendar').fullCalendar('gotoDate', this.getNextWeekMondayMoment());
 
 			//constrain calendar view
 			// $('#calendar').fullCalendar({
@@ -461,7 +459,6 @@ export default {
 		checkTimePickerBounds: function() {
 			var testStartMoment = moment(this.availability.timeStart, ["HH:mma"]);
 			var testEndMoment = moment(this.availability.timeEnd, ["HH:mma"]);
-
 			return (testStartMoment < testEndMoment);
 		},
 
@@ -471,26 +468,24 @@ export default {
 			var eventList = $('#calendar').fullCalendar('clientEvents');
 			for(i = 0; i < eventList.length; i ++) {
 				//if(eventList[i].)
+				return false;
 			}
+
+			return true;
 		},
 
 		//TODO handle creation of an availability
 		availabilityCreation: function() {
 
-			var correctTimeBounds = this.checkTimePickerBounds();
 			//check if timeEnd is before timeStart
-			console.log(" returned check is: " + correctTimeBounds);
-			if(correctTimeBounds == false) {
-
-				//make a toast msg
-				this.toastMsg = "Error, availability timeEnd is before availability timeStart";
-				this.showToast = true;
+			if(this.checkTimePickerBounds() == false) {
 
 				//do not close window until user fixes their error
 				this.showCreateOptions = true;
 			}
+
 			//TODO check if the new availability conflicts with an existing availability
-			// else if() {
+			// else if(checkIfAvailabilityConflicts() == false) {
 			//
 			// }
 
@@ -532,16 +527,9 @@ export default {
 				//render event
 				$('#calendar').fullCalendar('renderEvent', eventItem, true);
 
-				//show toast message
-				toastMsg: "Created Availability!";
-				showToast: true;
-
 				//close window
 				this.showCreateOptions = false;
 				this.showEditorWindow = false;
-
-				console.log("editor window is: " + this.showEditorWindow);
-				console.log("create value: " + this.showEditOptions);
 			}
 		},
 
@@ -552,13 +540,7 @@ export default {
 
 			//check if timeEnd is before timeStart
 			if(!this.checkTimePickerBounds()) {
-
-				//make a toast msg
-				toastMsg: "Error, availability timeEnd is before availability timeStart";
-				showToast: true;
-
-				//do not close window until user fixes their error
-				this.showEditOptions = true;
+				this.showEditOptions = true; //do not close window until user fixes their error
 			}
 			//TODO check if the new availability conflicts with an existing availability
 			// else if() {
@@ -567,64 +549,47 @@ export default {
 
 			else {
 				//combine the moment objects with date and time
-				var momentStartObj = moment(availability.date + " " + availability.timeStart, ["YYYY-MM-DD HH:mma"]);
-				var momentEndObj = moment(availability.date + " " + availability.timeEnd, ["YYYY-MM-DD HH:mma"]);
+				var momentStartObj = moment(this.availability.date + " " + this.availability.timeStart, ["YYYY-MM-DD HH:mma"]);
+				var momentEndObj = moment(this.availability.date + " " + this.availability.timeEnd, ["YYYY-MM-DD HH:mma"]);
 
 				event.start = momentStartObj;
 				event.end = momentEndObj;
-				event.title = availability.campus;
+				event.title = this.availability.campus;
 
 				//change color for event based on campus
-				//red for burnaby
-				if(availability.campus == 1) {
+				event.textColor = "white" //change text color for white
+
+				if(availability.campus == 1) { 	//red for burnab
 					event.color = "red";
 				}
-				//blue for surrey
-				else if(availability.campus == 2) {
+				else if(availability.campus == 2) { //blue for surrey
 					event.color = "blue";
 				}
-				//Yellow for vancouver
-				else if(availability.campus == 3) {
+				else if(availability.campus == 3) { //Yellow for vancouver
 					event.color = "teal";
 				}
-				//purple if not specified for debug
-				else {
+				else { //purple if not specified for debug
 					event.color = "purple";
 				}
 
-				//change text color for white
-				event.textColor = "white"
+				$('#calendar').fullCalendar('updateEvent', this.event); //update event
 
-				//update event
-				$('#calendar').fullCalendar('updateEvent', this.event);
-
-				//show toast message
-				toastMsg: "Edited Availability!";
-				showToast: true;
-
-				//close window
-				this.showEditOptions = false;
+				this.showEditOptions = false; //close window
 				this.showEditorWindow = false;
-
-				console.log("editor window is: " + this.showEditorWindow);
-				console.log("edit value: " + this.showEditOptions);
 			}
 		},
 
 		//Deletes the event if button for deletion is pressed
 		availabilityDeletion: function(availability, event) {
 
-			//TODO deleting an event
-			$('#calendar').fullCalendar('removeEvents', event.id);
-
-			//turn off popup after deletion
-			this.showEditOptions = false;
+			$('#calendar').fullCalendar('removeEvents', event.id); //TODO deleting an event
+			this.showEditOptions = false; //turn off popup after deletion
 		},
 
 		//blocks out most user interaction when availability is submitted
 		availabilitySubmitComplete: function() {
 
-			//get availability list from the local calendar storage
+			//TODO submit get availability list from the local calendar storage
 			this.getAvailabilityList();
 
 			//disables resizing of events, editing of events, selection of new events
@@ -644,14 +609,14 @@ export default {
 
 		//return next week monday moment object
 		getNextWeekMondayMoment: function() {
-			// //create a moment object that is the starting monday of the current day and next week
+			//create a moment object that is the starting monday of the current day and next week
 			var nextMondayDate = moment().startOf('isoweek').add(7, 'days').format("YYYY-MM-DD");
 			return nextMondayDate;
 		},
 
 		//returns next week sunday moment object
 		getNextWeekSundayMoment: function(){
-			// //create a moment object that is the starting sunday of the current day and next week
+			//create a moment object that is the starting sunday of the current day and next week
 			var nextSundayDate = moment().endOf('isoweek').add(7, 'days').format("YYYY-MM-DD");
 			return nextSundayDate;
 		},
@@ -659,8 +624,6 @@ export default {
 		//returns next week monday date object
 		getNextWeekMondayDate: function() {
 			var currentDate = new Date();
-
-			//monday
 			var firstDay = currentDate.getDate() - currentDate.getDay(); // First day is the day of the month - the day of the week
 
 			//set it to next week and add 1 as first day of week is sunday currently
@@ -671,12 +634,9 @@ export default {
 		//returns next week sunday date object
 		getNextWeekSundayDate: function() {
 			var currentDate = new Date();
+			var firstDay = currentDate.getDate() - currentDate.getDay(); //Monday
 
-			//monday
-			var firstDay = currentDate.getDate() - currentDate.getDay();
-
-			//set it to sunday by adding 6 days to monday and + 1 for starting date of sunday to shift to monday
-			//add 7 for next week
+			//set it to sunday by adding 6 days to monday and + 1 for starting date of sunday to shift to monday, add 7 for next week
 			var sundayDate = new Date(currentDate.setDate(firstDay + 6 + 7 + 1));
 			return sundayDate;
 		},
@@ -693,17 +653,6 @@ export default {
 
 		//--------------------------- axios requests, gets -----------------------------
 
-		// //TODO save locally
-		// saveAvailabilityListLocally: function() {
-		//         console.log("Avail list: " + this.availabilityList);
-		//         this.saveLocallyConfirmation = false;
-		// },
-		//
-		// //TODO delete locally
-		// deleteAvailabilityListLocally: function() {
-		//         this.saveLocallyConfirmation = false;
-		// },
-
 		//retrives all events on local calendar
 		getAvailabilityList: function() {
 			this.availabilityList = $('#calendar').fullCalendar('clientEvents');
@@ -711,84 +660,33 @@ export default {
 			return this.availabilityList;
 		},
 
+
 		//populate this user's past week availability list
 		populateAvailabilityList(response) {
 			this.availabilityList = response.data;
 		},
+
 
 		//populate this user's team list
 		populateUserTeamList(response) {
 			this.campusList = response.data.map(x => x.name);
 			console.log("campus list: " + this.campusList);
 		},
-
-		//---------------------- package into json and send to database ---------------------
-
-		//request availlability
-		requestAvailability() {
-			var availabilityURL = '';
-			availabilityURL = '/api/onetimeavailabilites'
-		},
-
-		//create availabilites from locally ccreated availability list
-		initializeAvailabilitiesList: function() {
-			axios.post('/api/onetimeavailabilites', )
-			.then(response => this.requestAvailability)
-			.catch(function (error) {
-				console.log(error);
-			});
-
-		},
-
-		// populateTeam (response) {
-		// 	this.campusList = response.data;
-		// },
 	},
-
-	// watch: {
-	// 	setCampusList: function(val) {
-	// 		this.campusList = val.map(x => x.id);
-	// 	//console.log(JSON.stringify(this.userTeams, null, 2));
-	// },
-
 
 	//initialize the last weeks availabilites incremented by a week, initialize the current user's list of teams
-	computed: {
-
-	},
-
-	components: {
-	},
 
 	//TODO creates to avail database
 	created: function() {
 
 		//TODO : get all availabilities from a user id from database
-		// console.log("get availabilities from database~!");
-		// axios.get('api/onetimeavailabilites')
-		// 	.then(this.populateAvailabilityList)
-		// 	.catch(function (error) {
-		// 	console.log(error);
-		// });
-
-		console.log("availabilities: " + this.availabilityList);
 
 		//get all team ids from userid
-		console.log("get list of teams this user belongs to!");
 		axios.get('/api/users/' + this.userId + '/teams')
 		.then(this.populateUserTeamList)
 		.catch(function (error) {
 			console.log(error);
 		});
-
-
-		// axios.get('/api/users/' + 2 + '/teams')
-		// .then(this.populateTeam)
-		// .catch(function (error) {
-		// 	console.log(error);
-		// });
-
-		//console.log("campus list: " + this.campusList);
 	},
 
 	mounted () {
