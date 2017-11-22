@@ -44,17 +44,28 @@
                     Qualification
                 </h1>
                 <div id = "q-body">        
-                    <qualification class="list"
+                    <!-- <qualification class="list"
                     v-for= "qualification in qualificationNames" 
                     v-bind:qualificationName="qualification"
                     v-bind:key="qualification">
-                    </qualification>
+                    </qualification> -->
+                    <v-container grid-list-sm test-xs-center>
+                        <v-layout v-bind="binding">
+                            <v-flex v-for ="qualification in qualificationNames" :key="qualification">
+                                <v-card>
+                                    <qualification v-bind:qualificationName= "qualification"></qualification>
+                                </v-card>
+                            </v-flex>
+                        </v-layout>
+                    </v-container>
                 </div>
         </div>
 
         <v-dialog v-model="graphDspl" max-width="500px">
-            <v-card-title>Working Hours By Shift Type</v-card-title>
-            <pie-chart :data="chartData" id= "pie-chart"></pie-chart>
+            <v-card dark color = "primary">
+                <v-card-title>Working Hours By Shift Type</v-card-title>
+                <pie-chart :data="chartData" id= "pie-chart"></pie-chart>
+            </v-card>
         </v-dialog>
     </div>
 
@@ -122,6 +133,9 @@ export default {
             for(var i = 0; i < listLength; i++){
                 this.qualificationNames.splice(i, 0, qualificationData.data[i].qualificationName);
             }
+
+            //testing code, remove upon finish developing 
+            this.qualificationNames = this.qualificationNames.concat(["Basic training", "Traffic control training", "Scuba diving training", "Doomsday training"]);
         },
         populateRoleName(roleData){
             //alert(JSON.stringify(roleData.data, null, 2));
@@ -135,6 +149,10 @@ export default {
             for(var i = 0; i < listLength; i++){
                 this.chartData.splice(i, 0, [hourByShiftTypeData.data[i].shiftTypeName, hourByShiftTypeData.data[i].hour]);
             }
+            //testing code, remove upon finish developing
+            this.chartData.splice(1, 0, ["Lost and found", 2.5]);
+            this.chartData.splice(1, 0, ["Campus navigation", 1.5]);
+            this.chartData.splice(1, 0, ["Doomsday survival assistance", 3]);
         }
     },
     components: {
@@ -167,8 +185,16 @@ export default {
         .catch(function(error){
             console.log(error)
         });
-        //TODO: Figure out how to pass roleId to this get after the first get is done
+    },
+    computed: {
+        binding() {
+            const binding = {}
 
+            if(this.$vuetify.breakpoint.smAndDown)
+                binding.column = true
+
+            return binding
+        }
     }
 
 }
@@ -269,7 +295,6 @@ export default {
     }
     #q-body{
         display: flex;
-        
     }
     .list{
         flex-flow: row nowrap;         

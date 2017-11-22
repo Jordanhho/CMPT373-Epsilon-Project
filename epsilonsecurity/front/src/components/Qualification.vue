@@ -42,7 +42,7 @@ export default{
         margin-bottom: 2.5%;        
     }
     #qualification-name{
-        font-size: 2em;
+        font-size: 2rem;
         padding-left: 0;
         padding-right: 0;
     }
