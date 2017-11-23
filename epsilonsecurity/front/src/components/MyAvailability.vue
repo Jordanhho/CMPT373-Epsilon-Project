@@ -323,12 +323,16 @@ export default {
 
 			//TODO: must initialize timeStart and timeEnd to start of Next week monday such as 12:00 am
 			availability: {
+				eventId: -1,
 				title: "",
 				date: this.getNextWeekMondayMoment(),
-				timeStart: null,
-				timeEnd: null,
+				timeStart: this.getDefaultStartTime(),
+				timeEnd: this.getDefaultEndTime(),
 				campus: null,
 			},
+
+			//-------------------- event id assignment -------------------------------
+			assignEventId: 0,
 
 			//--------------- calendar config ------------------------------
 			config: {
@@ -362,8 +366,8 @@ export default {
 				},
 
 				//TODO: update and remove not working
-				updateEvent: this.availabilityEdit,
-				removeEvents: this.availabilityDelete,
+				//updateEvent: this.availabilityEdit,
+				//removeEvents: this.availabilityDelete,
 			},
 
 			eventSources: [
@@ -384,29 +388,29 @@ export default {
 		},
 
 		//TODO these functions do not give the correct dates
-		// getDefaultStartTime: function() {
-		// 	var momentNextMonday = this.getNextWeekMondayMoment();
-		// 	var momentStartObj = moment().set({'years': moment(momentNextMonday).get('year'),
-		// 										'month': moment(momentNextMonday).get('month'),
-		// 										'day': moment(momentNextMonday).get('day'),
-		// 										'hour': 0,
-		// 										'minute': 30});
-		// 	momentStartObj = moment(momentStartObj).format("YYYY-DD-MM HH:mm a");
-		// 	console.log(momentStartObj);
-		// 	return momentStartObj;
-		// },
-        //
-		// getDefaultEndTime: function() {
-		// 	var momentNextMonday = this.getNextWeekMondayMoment();
-		// 	var momentEndObj = moment().set({'years': moment(momentNextMonday).get('year'),
-		// 										'month': moment(momentNextMonday).get('month'),
-		// 										'day': moment(momentNextMonday).get('day'),
-		// 										'hour': 1,
-		// 										'minute': 30});
-		// 	momentEndObj = moment(momentEndObj).format("YYYY-MM-DD HH:mm a");
-		// 	console.log(momentEndObj);
-		// 	return momentEndObj;
-		// },
+		getDefaultStartTime: function() {
+			var momentNextMonday = this.getNextWeekMondayMoment();
+			var momentStartObj = moment().set({'years': moment(momentNextMonday).get('year'),
+												'month': moment(momentNextMonday).get('month'),
+												'day': moment(momentNextMonday).get('day'),
+												'hour': 0,
+												'minute': 30});
+			momentStartObj = moment(momentStartObj).format("h:ma");
+			console.log(momentStartObj);
+			return momentStartObj;
+		},
+
+		getDefaultEndTime: function() {
+			var momentNextMonday = this.getNextWeekMondayMoment();
+			var momentEndObj = moment().set({'years': moment(momentNextMonday).get('year'),
+												'month': moment(momentNextMonday).get('month'),
+												'day': moment(momentNextMonday).get('day'),
+												'hour': 1,
+												'minute': 30});
+			momentEndObj = moment(momentEndObj).format("h:ma");
+			console.log(momentEndObj);
+			return momentEndObj;
+		},
 
 
 		//------------------------------ calendar click events -------------------
@@ -415,11 +419,16 @@ export default {
 		availabilityClickEvent: function(event, jsEvent, view) {
 
 			//set currently selected availability to this event's data
+			this.availability.eventId = event.id;
 			this.availability.title = event.title;
 			this.availability.date = moment(event.start, ["YYYY-MM-DD"]).format("YYYY-MM-DD");
-			this.availability.timeStart = moment(event.start, ["HH:mma"]).format("HH:mma");
-			this.availability.timeEnd = moment(event.end, ["HH:mma"]).format("HH:mma");
+			this.availability.timeStart = moment(event.start, ["h:ma"]).format("h:ma");
+			this.availability.timeEnd = moment(event.end, ["h:ma"]).format("h:ma");
 			this.availability.campus = event.title;
+
+			console.log("selected event start: " + event.start);
+			console.log("selected event end: " + event.end);
+			console.log("selected event id: " + event.id);
 
 			//show edit availability
 			this.showEditOptions = true;
@@ -432,8 +441,8 @@ export default {
 
 		//check bounds on timepicker
 		checkTimePickerBounds: function() {
-			var momentStartObj = moment(this.availability.timeStart, ["HH:mma"]);
-			var momentEndObj = moment(this.availability.timeEnd, ["HH:mma"]);
+			var momentStartObj = moment(this.availability.timeStart, ["h:ma"]);
+			var momentEndObj = moment(this.availability.timeEnd, ["h:ma"]);
 
 			//compare if they are equal in minutes and hours
 			if((moment(momentStartObj).get('hour') == moment(momentEndObj).get('hour')) && (moment(momentStartObj).get('minute') == moment(momentEndObj).get('minute'))) {
@@ -453,8 +462,8 @@ export default {
 		//TODO compares the current availability to any preexisting availability if their time conflicts
 		checkIfAvailabilityConflicts() {
 
-		    var momentStartObj = moment(this.availability.date + " " + this.availability.timeStart, ["YYYY-MM-DD HH:mma"]);
-		    var momentEndObj = moment(this.availability.date + " " + this.availability.timeEnd, ["YYYY-MM-DD HH:mma"]);
+		    var momentStartObj = moment(this.availability.date + " " + this.availability.timeStart, ["YYYY-MM-DD h:ma"]);
+		    var momentEndObj = moment(this.availability.date + " " + this.availability.timeEnd, ["YYYY-MM-DD h:ma"]);
 
 		    //set the availability start and end moment object's date and time
 		    var parseStart = moment().set({'date': moment(momentStartObj).get('date'), 'hour': moment(momentStartObj).get('hour'), 'minute': moment(momentStartObj).get('minute')});
@@ -465,7 +474,7 @@ export default {
 		    //get local list of events
 		    var eventList = $('#calendar').fullCalendar('clientEvents');
 		    for(var i = 0; i < eventList.length; i++) {
-
+				console.log("LOop: event id: " + eventList[i].id);
 		        //check if the start and end of the currently selected availability conflicts with existing availabilities on calendar
 		        var currEvent = eventList[i];
 		        if((currEvent.start <= currMomentEnd) && (currEvent.end >= currMomentStart)) {
@@ -525,23 +534,34 @@ export default {
 		},
 
 
+		//--------------------- event Id assignment ------------------------------------------
+
+		//gets a new event id and increment the eventid counter
+		getNewEventId: function() {
+			var newEventId = this.assignEventId;
+			this.assignEventId = this.assignEventId + 1;
+			alert("new event id: " + newEventId);
+			return newEventId;
+		},
+
+
 		//---------------------create, delete, edit calendar operations ----------------------
 
 		//TODO handle creation of an availability
 		availabilityCreate: function() {
 
 		    //override the local availability data
-		    var momentStartObj = moment(this.availability.date + " " + this.availability.timeStart, ["YYYY-MM-DD HH:mm a"]);
-		    var momentEndObj = moment(this.availability.date + " " + this.availability.timeEnd, ["YYYY-MM-DD HH:mm a"]);
+		    var momentStartObj = moment(this.availability.date + " " + this.availability.timeStart, ["YYYY-MM-DD h:ma"]);
+		    var momentEndObj = moment(this.availability.date + " " + this.availability.timeEnd, ["YYYY-MM-DD h:ma"]);
 		    this.availability.date = moment(momentStartObj).format("YYYY-MM-DD");
-		    this.availability.timeStart = moment(momentStartObj).format("HH:mm a");
-		    this.availability.timeEnd = moment(momentEndObj).format("HH:mm a");
+		    this.availability.timeStart = moment(momentStartObj).format("h:ma");
+		    this.availability.timeEnd = moment(momentEndObj).format("h:ma");
 
 		    //all conditions are met for creating this availability
 		    if(this.checkTimeConditions() == true) {
 		        //create new object for event with the newly created moment objects
 		        var event = {
-		            id: -1,
+		            id: this.getNewEventId(),
 		            start: momentStartObj,
 		            end: momentEndObj,
 		            title: this.availability.campus,
@@ -567,30 +587,41 @@ export default {
 		},
 
 		//TODO handle edit of availability
-		availabilityEdit: function(event) {
+		availabilityEdit: function() {
 
 			//override the local availability data
-			var momentStartObj = moment(this.availability.date + " " + this.availability.timeStart, ["YYYY-MM-DD HH:MM a"]);
-			var momentEndObj = moment(this.availability.date + " " + this.availability.timeEnd, ["YYYY-MM-DD HH:MM a"]);
+			var momentStartObj = moment(this.availability.date + " " + this.availability.timeStart, ["YYYY-MM-DD h:ma"]);
+			var momentEndObj = moment(this.availability.date + " " + this.availability.timeEnd, ["YYYY-MM-DD h:ma"]);
 			this.availability.date = moment(momentStartObj).format("YYYY-MM-DD");
-			this.availability.timeStart = moment(momentStartObj).format("HH:mm a");
-			this.availability.timeEnd = moment(momentEndObj).format("HH:mm a");
+			this.availability.timeStart = moment(momentStartObj).format("h:ma");
+			this.availability.timeEnd = moment(momentEndObj).format("h:ma");
 
 			//all conditions are met for creating this availability
 			if(this.checkTimeConditions() == true) {
 
 				//update the event data with the newly input date, time, campus
-				event.start = momentStartObj;
-				event.end = momentEndObj;
-				event.title = this.availability.campus;
+				// var eventList = getAvailabilityList();
+				// var
+				// for(int i; i < eventList.length; i++) {
+				// 	if(eventList[i].id == this.availability.eventId) {
+				// 		break;
+				// 	}
+				// }
+
+				var event = {
+					id: this.availability.eventId,
+					start: momentStartObj,
+					end: momentEndObj,
+					title: this.availability.campus,
+				}
 
 				//change color for event based on campus
 				event.color = this.getCampusColor(this.availability.campus);
 
 				//update event
-				$('#calendar').fullCalendar('updateEvent', event._id);
+				$('#calendar').fullCalendar('updateEvent', event);
 
-				//close window			//close window
+				//close window
 				this.showEditOptions = false;
 				this.showCreateOptions = false;
 				this.showEditorWindow = false;
@@ -603,10 +634,13 @@ export default {
 
 		//TODO Deletes the event if button for deletion is pressed
 		availabilityDelete: function(availability, event) {
-			$('#calendar').fullCalendar('removeEvents', event._id);
+			console.log("event id for deletion: " + this.availability.eventId);
+
+			$('#calendar').fullCalendar('removeEvents', this.availability.eventId);
 
 			//close window
-			this.showEditOptions = false;
+			this.showEditOptions = false
+			this.showCreateOptions = false;
 			this.showEditorWindow = false;
 		},
 
@@ -674,10 +708,10 @@ export default {
 	},
 
 	created: function() {
-
+		//http://api/users/1/teams/1/onetimeavailabilites?start=10249812&end=2938109
 		//api/users/$userId<[^/]+>/teams/$teamId<[^/]+>/onetimeavailabilites?start=TIMESTART&end=TIMEENDco
 		//TODO: get state of user's availability: open, submitted, approved
-		// axios.get('/api/users/' + this.userId + '/teams' + this.teamId + '/onetimeavailabilites' + timeStart)
+		// axios.get('/api/users/' + this.userId + '/teams' + this.teamId + '/onetimeavailabilites?start=' + timeStart + "&end=" + timeEnd)
 		// .then(this.populateAvailabilityStatus)
 		// .catch(function (error) {
 		// 	console.log(error);
