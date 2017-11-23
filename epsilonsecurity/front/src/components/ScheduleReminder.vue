@@ -16,15 +16,15 @@
                     <v-flex d-flex xs12>
                         <v-layout row wrap>
                             <v-flex d-flex xs6>
-                                <p id="notification-title">{{notificationTitle}}</p>
+                                <p id="notification-title">Trash Picker</p>
                             </v-flex>
 
                             <v-flex d-flex xs6>
-                                <p class="text-xs-right" id="hours-ago">{{hoursAgo}}</p>
+                                <p class="text-xs-right" id="hours-ago">23h</p>
                             </v-flex>
 
                             <v-flex d-flex xs12>
-                                <p>{{notificationBody}}</p>
+                                <p>Just pick up the trash.</p>
                             </v-flex>
                         </v-layout>
                     </v-flex>
@@ -40,19 +40,10 @@
 
 <script>
 
-    import VAvatar from "vuetify/src/components/VAvatar/VAvatar";
-    import Icon from "../../node_modules/vue-awesome/components/Icon.vue";
-    import VIcon from "vuetify/src/components/VIcon/VIcon";
-
     export default {
         name: 'scheduleReminder',
         data() {
             return {}
-        },
-        components: {
-            Icon,
-            VIcon,
-            VAvatar
         },
         props: {
             notificationTitle: {
@@ -74,7 +65,7 @@
 <style scoped>
 
     .container {
-        max-width: 30%;
+        max-width: 40%;
         width: 100%;
     }
 
