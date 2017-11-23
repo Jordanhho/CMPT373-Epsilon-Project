@@ -196,7 +196,7 @@
 							<v-btn  v-if="showCreateOptions" color="primary" flat @click.stop="availabilityCreate" :disabled="availabilitySubmitted">
 								Create
 							</v-btn>
-							<v-btn v-if="showEditOptions" color="primary" flat @click.stop="availabilityEdit" :disabled="availabilitySubmitted">
+							<v-btn v-if="showEditOptions" color="primary" flat @click.stop="availabilityEdit()" :disabled="availabilitySubmitted">
 								Edit
 							</v-btn>
 							<v-btn v-if="showEditOptions" color="primary" flat @click.stop="availabilityDelete" :disabled="availabilitySubmitted">
@@ -323,6 +323,7 @@ export default {
 
 			//TODO: must initialize timeStart and timeEnd to start of Next week monday such as 12:00 am
 			availability: {
+				eventObj: null,
 				eventId: -1,
 				title: "",
 				date: this.getNextWeekMondayMoment(),
@@ -419,6 +420,7 @@ export default {
 		availabilityClickEvent: function(event, jsEvent, view) {
 
 			//set currently selected availability to this event's data
+			this.availability.eventObj = event;
 			this.availability.eventId = event.id;
 			this.availability.title = event.title;
 			this.availability.date = moment(event.start, ["YYYY-MM-DD"]).format("YYYY-MM-DD");
@@ -429,6 +431,9 @@ export default {
 			console.log("selected event start: " + event.start);
 			console.log("selected event end: " + event.end);
 			console.log("selected event id: " + event.id);
+
+			//pass event to editor showEditorWindow
+
 
 			//show edit availability
 			this.showEditOptions = true;
@@ -460,7 +465,7 @@ export default {
 
 
 		//TODO compares the current availability to any preexisting availability if their time conflicts
-		checkIfAvailabilityConflicts() {
+		checkIfAvailabilityConflicts(action) {
 
 		    var momentStartObj = moment(this.availability.date + " " + this.availability.timeStart, ["YYYY-MM-DD h:ma"]);
 		    var momentEndObj = moment(this.availability.date + " " + this.availability.timeEnd, ["YYYY-MM-DD h:ma"]);
@@ -473,22 +478,49 @@ export default {
 
 		    //get local list of events
 		    var eventList = $('#calendar').fullCalendar('clientEvents');
+           //
+			// console.log("array contents");
+			// for(var i = 0; i < eventList.length; i++) {
+			//    console.log("Event: " + eventList[i].id);
+		   // }
+		   // console.log("===================");
+
+
+		   	console.log("*************************************************");
 		    for(var i = 0; i < eventList.length; i++) {
-				console.log("LOop: event id: " + eventList[i].id);
-		        //check if the start and end of the currently selected availability conflicts with existing availabilities on calendar
+				console.log("----------------------------");
 		        var currEvent = eventList[i];
-		        if((currEvent.start <= currMomentEnd) && (currEvent.end >= currMomentStart)) {
-		            console.log("This event conflicts!");
-		            return false;
-		        }
+
+				console.log("event id: [" + currEvent.id + "] avail id: [" + this.availability.eventId + "]");
+
+				//check if same day
+				console.log("event day: [" + moment(currEvent.start).get('day') + "] avail day [" + moment(currMomentStart).get('day') + "]");
+
+				//if same object only on edit
+				if((action == "edit") && (currEvent.id == this.availability.eventId)) {
+					console.log("skip event, it is same event");
+					continue;
+				}
+				//if not same day, continue
+				if(moment(currEvent.start).get('day') != moment(currMomentStart).get('day')) {
+					console.log("skip event, not on same day");
+					continue;
+				}
+				//compare time in hours and minutes with current event object and currently selected availabilty
+				if((currEvent.start <= currMomentEnd) && (currEvent.end >= currMomentStart)) {
+					console.log("This event conflicts!");
+					return false;
+				}
+				console.log("----------------------------");
 		    }
+			console.log("event object is valid");
 		    return true;
 		},
 
 
 		//encapsulates the previous checker 2 functions into one
-		checkTimeConditions: function() {
-		    if(this.checkTimePickerBounds() == true && this.checkIfAvailabilityConflicts() == true) {
+		checkTimeConditions: function(action) {
+		    if(this.checkTimePickerBounds() == true && this.checkIfAvailabilityConflicts(action) == true) {
 		        return true;
 		    }
 		    else {
@@ -540,7 +572,7 @@ export default {
 		getNewEventId: function() {
 			var newEventId = this.assignEventId;
 			this.assignEventId = this.assignEventId + 1;
-			alert("new event id: " + newEventId);
+			//alert("new event id: " + newEventId);
 			return newEventId;
 		},
 
@@ -558,7 +590,7 @@ export default {
 		    this.availability.timeEnd = moment(momentEndObj).format("h:ma");
 
 		    //all conditions are met for creating this availability
-		    if(this.checkTimeConditions() == true) {
+		    if(this.checkTimeConditions("create") == true) {
 		        //create new object for event with the newly created moment objects
 		        var event = {
 		            id: this.getNewEventId(),
@@ -597,7 +629,7 @@ export default {
 			this.availability.timeEnd = moment(momentEndObj).format("h:ma");
 
 			//all conditions are met for creating this availability
-			if(this.checkTimeConditions() == true) {
+			if(this.checkTimeConditions("edit") == true) {
 
 				//update the event data with the newly input date, time, campus
 				// var eventList = getAvailabilityList();
@@ -608,18 +640,17 @@ export default {
 				// 	}
 				// }
 
-				var event = {
-					id: this.availability.eventId,
-					start: momentStartObj,
-					end: momentEndObj,
-					title: this.availability.campus,
-				}
+				//set edited datafields of event
+				this.availability.eventObj.id = this.availability.eventId;
+				this.availability.eventObj.start = momentStartObj;
+				this.availability.eventObj.end = momentEndObj;
+				this.availability.eventObj.title = this.availability.campus;
 
 				//change color for event based on campus
-				event.color = this.getCampusColor(this.availability.campus);
+				this.availability.eventObj.color = this.getCampusColor(this.availability.campus);
 
 				//update event
-				$('#calendar').fullCalendar('updateEvent', event);
+				$('#calendar').fullCalendar('updateEvent', this.availability.eventObj);
 
 				//close window
 				this.showEditOptions = false;
@@ -740,8 +771,6 @@ export default {
 		this.allowedTimes = this.restrictTimeIncrements
 	}
 }
-
-
 </script>
 <style scoped lang="stylus">
 @import '../../node_modules/fullcalendar/dist/fullcalendar.css';
@@ -771,5 +800,4 @@ export default {
 #option-bar {
 	height: 4em;
 }
-
 </style>
