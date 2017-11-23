@@ -39,21 +39,16 @@
                 </div>
             </div>
         </div>
-        <div id = "qualificationList">
+        <div id = "qualificationList"  class = "scroll-y">
                 <h1 class = "header">
                     Qualification
                 </h1>
                 <div id = "q-body">        
-                    <!-- <qualification class="list"
-                    v-for= "qualification in qualificationNames" 
-                    v-bind:qualificationName="qualification"
-                    v-bind:key="qualification">
-                    </qualification> -->
                     <v-container grid-list-sm test-xs-center>
                         <v-layout v-bind="binding">
                             <v-flex v-for ="qualification in qualificationNames" :key="qualification">
                                 <v-card>
-                                    <qualification v-bind:qualificationName= "qualification"></qualification>
+                                    <qualification v-bind:qualificationName= "qualification" class = "card-style"></qualification>
                                 </v-card>
                             </v-flex>
                         </v-layout>
@@ -135,7 +130,7 @@ export default {
             }
 
             //testing code, remove upon finish developing 
-            this.qualificationNames = this.qualificationNames.concat(["Basic training", "Traffic control training", "Scuba diving training", "Doomsday training"]);
+            this.qualificationNames = this.qualificationNames.concat(["Basic training", "CPR training", "Scuba diving training", "Doomsday training"]);
         },
         populateRoleName(roleData){
             //alert(JSON.stringify(roleData.data, null, 2));
@@ -206,6 +201,7 @@ export default {
         flex-flow: column nowrap;
         width: 100%;
         height: 100%;
+        overflow: auto;
         border-style: groove;
         padding-top: 5%;
     }
@@ -242,7 +238,7 @@ export default {
     #info-body{
         flex-flow: row nowrap;
         display: flex;
-        margin-left: 7%;        
+        margin-left: 5%;        
     }
     #tab{        
         list-style-type: none;
@@ -262,6 +258,8 @@ export default {
         flex-flow: column nowrap;
         margin-right: 10%;
         align-items: left;
+        border-top: 0;
+
     }
     #hours-no-graph{
         display: flex;
@@ -287,6 +285,7 @@ export default {
     }
     #qualificationList{
         margin-top: 3%;
+        height: 40em;
     }
     .header{
         font-size: 2em;  
@@ -296,9 +295,8 @@ export default {
     #q-body{
         display: flex;
     }
-    .list{
-        flex-flow: row nowrap;         
-        margin: 0;
+    .card-style{
+        height: 10em;
     }
 
 </style>

@@ -27,6 +27,7 @@ export default{
 <style scoped> 
     #qualification{
         border-style: solid;
+        text-align: center;
         margin-left: 1%;
         margin-right: 1%;
         padding-bottom: 1%;
@@ -38,13 +39,13 @@ export default{
         color: gold; 
         margin-top: 5%;
         margin-left: auto;
-        margin-right: auto;
-        margin-bottom: 2.5%;        
+        margin-right: auto;   
     }
     #qualification-name{
         font-size: 2rem;
         padding-left: 0;
         padding-right: 0;
+        padding-top: 15%;
     }
 </style>    
 
