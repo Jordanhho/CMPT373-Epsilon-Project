@@ -36,6 +36,7 @@ export default {
     data() {
         return {
             users: [],
+            teamIDs: [],
             selectedTeam: -1,
             all: {
                 id: -1,
@@ -44,20 +45,35 @@ export default {
         }
     },
     methods: {
-        onClickAdd(user, teamIDs) {
-            axios.post('/api/users/', user)
-            .then(response => this.requestUsers())
-            .catch(function (error) {
-                console.log(error);
-            });
-            axios.post('/api/users/' + this.userData.id + '/teams/', {teamIdList: teamIDs})
-                .then(response => this.$emit('edited'))
+        onClickAdd(data) {
+            this.teamIDs = data.teamIDs;
+
+            let user = data.user;
+            axios.post('/api/users', user)
+                .then(response => this.updateAfterAddingUser(user))
+                .catch(function (error) {
+                    console.log(error);
+                });
+
+        },
+        populateUsers(response) {
+            this.users = response.data;
+        },
+        updateAfterAddingUser(user) {
+            axios.get('/api/users/email/' + user.sfuEmail)
+                .then(this.assignUserToTeams)
                 .catch(function (error) {
                     console.log(error);
                 });
         },
-        populateUsers(response) {
-            this.users = response.data;
+        assignUserToTeams(response) {
+            let user = response.data;
+            axios.post('/api/users/' + user.id + '/teams',
+                        {teamIdList: this.teamIDs})
+                .then(response => this.requestUsers())
+                .catch(function (error) {
+                    console.log(error);
+                });
         },
         requestUsers() {
             var usersURL = '';

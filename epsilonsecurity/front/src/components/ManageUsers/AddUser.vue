@@ -99,7 +99,7 @@
                 this.dialog = false;
             },
             confirm() {
-                this.$emit('add', this.userData, this.listOfTeamIDsForUser);
+                this.$emit('add', { user: this.userData, teamIDs: this.listOfTeamIDsForUser});
                 this.closeDialog();
             },
         },

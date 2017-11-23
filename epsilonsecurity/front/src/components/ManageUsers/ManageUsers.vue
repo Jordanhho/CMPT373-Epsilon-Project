@@ -33,8 +33,6 @@
                 this.teams = response.data;
             },
             renderLeft() {
-                //alert(this.focused());
-                console.log(JSON.stringify(this.$vuetify.breakpoint, null, 2));
                 return this.$vuetify.breakpoint.lgAndUp ||
                     (this.$vuetify.breakpoint.mdAndDown && !this.focused());
             },
