@@ -89,7 +89,7 @@
               this.dialog = false;
             },
             confirm() {
-                this.$emit('edit');
+                this.$emit('edit', this.listOfTeamIDsForUser);
                 this.closeDialog();
             }
         },
@@ -97,7 +97,7 @@
             userTeams: function(val) {
                 this.listOfTeamIDsForUser = val.map(x => x.id);
             //console.log(JSON.stringify(this.userTeams, null, 2));
-        }
+            }
         }
     }
 </script>

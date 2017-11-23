@@ -99,8 +99,13 @@
             onClickListElement (value) {
                 this.$emit('clicked', value);
             },
-            onClickEdit () {
+            onClickEdit (teamIDs) {
                 axios.put('/api/users/' + this.userData.id, this.userData)
+                    .then(response => this.$emit('edited'))
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+                axios.post('/api/users/' + this.userData.id + '/teams/', {teamIdList: teamIDs})
                     .then(response => this.$emit('edited'))
                     .catch(function (error) {
                         console.log(error);

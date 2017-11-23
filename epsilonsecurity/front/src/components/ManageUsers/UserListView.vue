@@ -44,12 +44,17 @@ export default {
         }
     },
     methods: {
-        onClickAdd(user) {
-            axios.post('/api/users', user)
+        onClickAdd(user, teamIDs) {
+            axios.post('/api/users/', user)
             .then(response => this.requestUsers())
             .catch(function (error) {
                 console.log(error);
             });
+            axios.post('/api/users/' + this.userData.id + '/teams/', {teamIdList: teamIDs})
+                .then(response => this.$emit('edited'))
+                .catch(function (error) {
+                    console.log(error);
+                });
         },
         populateUsers(response) {
             this.users = response.data;
