@@ -16,15 +16,15 @@
                     <v-flex d-flex xs12>
                         <v-layout row wrap>
                             <v-flex d-flex xs6>
-                                <p id="notification-title">Trash Picker</p>
+                                <p id="notification-title">Shift Reminder</p>
                             </v-flex>
 
                             <v-flex d-flex xs6>
-                                <p class="text-xs-right" id="hours-ago">23h</p>
+                                <p class="text-xs-right" id="hours-ago">23 hours ago</p>
                             </v-flex>
 
                             <v-flex d-flex xs12>
-                                <p>Just pick up the trash.</p>
+                                <p>You have a {{shiftName}} shift from {{ shiftStartTime }} to {{ shiftEndTime }} on {{ shiftDate }}.</p>
                             </v-flex>
                         </v-layout>
                     </v-flex>
@@ -43,34 +43,46 @@
     export default {
         name: 'scheduleReminder',
         data() {
-            return {}
+            return {
+                hoursAgo: "23 Hours Ago",
+                shiftStartTime: "12:00 AM",
+                shiftEndTime: "1:00 PM",
+                shiftDate: "Today",
+                shiftName: "THEFT PREVENTION"
+            }
         },
         props: {
-            notificationTitle: {
-                type: String,
-                required: false
-            },
-            notificationBody: {
-                type: String,
-                required: false
-            },
-            hoursAgo: {
-                type: String,
-                required: false
-            }
+//            hoursAgo: {
+//                type: String,
+//                required: false
+//            },
+//            shiftStartTime: {
+//                type: String,
+//                required: false
+//            },
+//            shiftEndTime: {
+//                type: String,
+//                required: false
+//            },
+//            shiftDate: {
+//                type: String,
+//                required: false
+//            }
         }
     }
+
 </script>
 
 <style scoped>
 
     .container {
-        max-width: 40%;
+        max-width: 50%;
         width: 100%;
     }
 
     #notification-title {
         font-weight: bold;
+        font-size: 14pt;
     }
 
     #hours-ago {
