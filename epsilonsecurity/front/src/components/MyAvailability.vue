@@ -396,7 +396,7 @@ export default {
 												'day': moment(momentNextMonday).get('day'),
 												'hour': 0,
 												'minute': 30});
-			momentStartObj = moment(momentStartObj).format("h:ma");
+			momentStartObj = moment(momentStartObj).format("h:mma");
 			console.log(momentStartObj);
 			return momentStartObj;
 		},
@@ -408,7 +408,7 @@ export default {
 												'day': moment(momentNextMonday).get('day'),
 												'hour': 1,
 												'minute': 30});
-			momentEndObj = moment(momentEndObj).format("h:ma");
+			momentEndObj = moment(momentEndObj).format("h:mma");
 			console.log(momentEndObj);
 			return momentEndObj;
 		},
@@ -424,8 +424,8 @@ export default {
 			this.availability.eventId = event.id;
 			this.availability.title = event.title;
 			this.availability.date = moment(event.start, ["YYYY-MM-DD"]).format("YYYY-MM-DD");
-			this.availability.timeStart = moment(event.start, ["h:ma"]).format("h:ma");
-			this.availability.timeEnd = moment(event.end, ["h:ma"]).format("h:ma");
+			this.availability.timeStart = moment(event.start, ["h:mma"]).format("h:mma");
+			this.availability.timeEnd = moment(event.end, ["h:mma"]).format("h:mma");
 			this.availability.campus = event.title;
 
 			console.log("selected event start: " + event.start);
@@ -446,8 +446,8 @@ export default {
 
 		//check bounds on timepicker
 		checkTimePickerBounds: function() {
-			var momentStartObj = moment(this.availability.timeStart, ["h:ma"]);
-			var momentEndObj = moment(this.availability.timeEnd, ["h:ma"]);
+			var momentStartObj = moment(this.availability.timeStart, ["h:mma"]);
+			var momentEndObj = moment(this.availability.timeEnd, ["h:mma"]);
 
 			//compare if they are equal in minutes and hours
 			if((moment(momentStartObj).get('hour') == moment(momentEndObj).get('hour')) && (moment(momentStartObj).get('minute') == moment(momentEndObj).get('minute'))) {
@@ -467,8 +467,8 @@ export default {
 		//TODO compares the current availability to any preexisting availability if their time conflicts
 		checkIfAvailabilityConflicts(action) {
 
-		    var momentStartObj = moment(this.availability.date + " " + this.availability.timeStart, ["YYYY-MM-DD h:ma"]);
-		    var momentEndObj = moment(this.availability.date + " " + this.availability.timeEnd, ["YYYY-MM-DD h:ma"]);
+		    var momentStartObj = moment(this.availability.date + " " + this.availability.timeStart, ["YYYY-MM-DD h:mma"]);
+		    var momentEndObj = moment(this.availability.date + " " + this.availability.timeEnd, ["YYYY-MM-DD h:mma"]);
 
 		    //set the availability start and end moment object's date and time
 		    var parseStart = moment().set({'date': moment(momentStartObj).get('date'), 'hour': moment(momentStartObj).get('hour'), 'minute': moment(momentStartObj).get('minute')});
@@ -583,11 +583,11 @@ export default {
 		availabilityCreate: function() {
 
 		    //override the local availability data
-		    var momentStartObj = moment(this.availability.date + " " + this.availability.timeStart, ["YYYY-MM-DD h:ma"]);
-		    var momentEndObj = moment(this.availability.date + " " + this.availability.timeEnd, ["YYYY-MM-DD h:ma"]);
+		    var momentStartObj = moment(this.availability.date + " " + this.availability.timeStart, ["YYYY-MM-DD h:mma"]);
+		    var momentEndObj = moment(this.availability.date + " " + this.availability.timeEnd, ["YYYY-MM-DD h:mma"]);
 		    this.availability.date = moment(momentStartObj).format("YYYY-MM-DD");
-		    this.availability.timeStart = moment(momentStartObj).format("h:ma");
-		    this.availability.timeEnd = moment(momentEndObj).format("h:ma");
+		    this.availability.timeStart = moment(momentStartObj).format("h:mma");
+		    this.availability.timeEnd = moment(momentEndObj).format("h:mma");
 
 		    //all conditions are met for creating this availability
 		    if(this.checkTimeConditions("create") == true) {
@@ -622,23 +622,14 @@ export default {
 		availabilityEdit: function() {
 
 			//override the local availability data
-			var momentStartObj = moment(this.availability.date + " " + this.availability.timeStart, ["YYYY-MM-DD h:ma"]);
-			var momentEndObj = moment(this.availability.date + " " + this.availability.timeEnd, ["YYYY-MM-DD h:ma"]);
+			var momentStartObj = moment(this.availability.date + " " + this.availability.timeStart, ["YYYY-MM-DD h:mma"]);
+			var momentEndObj = moment(this.availability.date + " " + this.availability.timeEnd, ["YYYY-MM-DD h:mma"]);
 			this.availability.date = moment(momentStartObj).format("YYYY-MM-DD");
-			this.availability.timeStart = moment(momentStartObj).format("h:ma");
-			this.availability.timeEnd = moment(momentEndObj).format("h:ma");
+			this.availability.timeStart = moment(momentStartObj).format("h:mma");
+			this.availability.timeEnd = moment(momentEndObj).format("h:mma");
 
 			//all conditions are met for creating this availability
 			if(this.checkTimeConditions("edit") == true) {
-
-				//update the event data with the newly input date, time, campus
-				// var eventList = getAvailabilityList();
-				// var
-				// for(int i; i < eventList.length; i++) {
-				// 	if(eventList[i].id == this.availability.eventId) {
-				// 		break;
-				// 	}
-				// }
 
 				//set edited datafields of event
 				this.availability.eventObj.id = this.availability.eventId;
@@ -685,7 +676,7 @@ export default {
 			this.availabilityList = this.getAvailabilityList();
 
 			//set value of all availability list to submitted
-			//this.availabilityStatus = ;
+			this.availabilityStatus = "SUBMITTED";
 			this.availabilitySubmitted = true;
 
 			//close popup
