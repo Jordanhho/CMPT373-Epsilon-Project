@@ -12,7 +12,7 @@
 					</v-card>
 
 					<!-- Red background if Unapproved -->
-					<v-card v-else-if="availabilityStatus == 'PENDING'" dark color="red" >
+					<v-card v-else-if="availabilityStatus == 'SUBMITTED'" dark color="red" >
 						<v-card-text class="text-xs-center">
 							Status:
 							{{ availabilityStatus }}
@@ -49,7 +49,7 @@
 				<v-card-text
 					style="height: 1px;
 					position: relative"
-					 @click.stop="showEditorWindow = true, showCreateOptions = true">
+					 @click.stop="showEditorWithCreate">
 					<v-btn absolute dark fab top right color="blue" :disabled="availabilitySubmitted">
 						<v-icon>
 							add
@@ -86,6 +86,7 @@
 										label="Campus"
 										v-bind:items="campusList"
 										v-model="availability.campus"
+										single-line
 										item-value="text"
 										prepend-icon="map"
 										required
@@ -141,7 +142,6 @@
 											v-model="availability.timeStart"
 											:allowed-hours="allowedTimes.hours"
 											:allowed-minutes="allowedTimes.minutes"
-											:scrollable=false
 											actions>
 											<template scope="{ save, cancel }">
 												<v-card-actions>
@@ -154,7 +154,7 @@
 													</v-btn>
 												</v-card-actions>
 											</template>
-										</v-time-picker>
+										</v-time-picker>this.showEditorWithCreate();
 									</v-dialog>
 								</v-flex>
 
@@ -202,7 +202,7 @@
 							<v-btn v-if="showEditOptions" color="primary" flat @click.stop="availabilityDelete" :disabled="availabilitySubmitted">
 								Delete
 							</v-btn>
-							<v-btn color="primary" flat @click.stop="showEditorWindow = false">
+							<v-btn color="primary" flat @click.stop="hideEditor">
 								Close
 							</v-btn>
 						</v-card-actions>
@@ -211,10 +211,34 @@
 			</v-dialog>
 		</v-layout>
 
+		<!-- popup for error message -->
+		<v-dialog v-model="showTimeError" persistent lazy full-width>
+			<v-card>
+				<v-container grid-list-xs>
+					<v-layout wrap>
+						<v-card-text>
+							<v-flex xs12>
+								<v-card-text class="text-xs-center">
+									<b> {{ timeErrorMessage }} </b>
+								</v-card-text>
+							</v-flex>
+						</v-card-text>
+					</v-layout wrap>
+				</v-container grid-list-xs>
+				<v-card-actions>
+					<v-spacer></v-spacer>
+					<v-btn color="primary" flat @click.stop="showTimeError = false">
+						Ok
+					</v-btn>
+					<v-spacer></v-spacer>
+				</v-card-actions>
+			</v-card>
+		</v-dialog>
+
 		<!-- popup for when submit availbility is clicked -->
 		<v-dialog v-model="showSubmitWindow" persistent lazy full-width>
 			<v-card>
-				<v-container grid-list-md>
+				<v-container grid-list-xs>
 					<v-layout wrap>
 						<v-card-text>
 							<v-flex xs12>
@@ -224,7 +248,7 @@
 							</v-flex>
 						</v-card-text>
 					</v-layout wrap>
-				</v-container grid-list-md>
+				</v-container grid-list-xs>
 				<v-card-actions>
 					<v-btn color="primary" flat @click.stop="availabilitySubmitComplete">
 						Submit
@@ -276,11 +300,15 @@ export default {
 			timeStartModal: false,
 			timeEndModal: false,
 
-			//--------------- Show TextField boolean values ----------------
-			//TODO implement showing and hiding depending on the order of selected boxes in editor
-			// showDateText: false,
-			// showTimeStartText: false,
-			// showTimeEndText: false,
+			//--------------- error checking for time pickers ----------------
+
+			//error msg modal and popup
+			timeErrorMessage: "",
+			showTimeError: false,
+
+			//check if time conflicts/out of bounds
+			timeBoundsCheck: false,
+			timeConflictCheck: false,
 
 			//---------------- Time, Date ----------------------------
 			//ranged of allowed dates for date picker
@@ -291,7 +319,6 @@ export default {
 				min: null,
 				max: null,
 			},
-
 			allowedTimes: {
 				hours: null,
 				minutes: null,
@@ -308,7 +335,6 @@ export default {
 			},
 
 			//-------------------- Campus selection -----------------------
-			//for selection of campus
 			campusList: [],
 
 			//campus colors
@@ -317,11 +343,9 @@ export default {
 			vancouverCampus: "teal",
 			noCampus: "purple",
 
-			//---------------- availability type and list ------------------
-			//Data contains list of avaliablities
+			//---------------- availability type and list ------------------s
 			availabilityList: [],
 
-			//TODO: must initialize timeStart and timeEnd to start of Next week monday such as 12:00 am
 			availability: {
 				eventObj: null,
 				eventId: -1,
@@ -329,7 +353,7 @@ export default {
 				date: this.getNextWeekMondayMoment(),
 				timeStart: this.getDefaultStartTime(),
 				timeEnd: this.getDefaultEndTime(),
-				campus: null,
+				campus: "",
 			},
 
 			//-------------------- event id assignment -------------------------------
@@ -337,7 +361,6 @@ export default {
 
 			//--------------- calendar config ------------------------------
 			config: {
-
 				header: {
 					left: 'prev, today, next,',
 					center: 'title',
@@ -356,8 +379,8 @@ export default {
 
 				//----------------- selection of events --------------------------
 
+					eventClick: this.availabilityClickEvent, //triggered with an event is clicked
 				editable: false, //allows resizing of events
-				eventClick: this.availabilityClickEvent, //triggered with an event is clicked
 				selectable: false, //prevents dragging on calendar
 
 				//restrict event to maximum one day
@@ -365,10 +388,6 @@ export default {
 					start: "00:00",
 					end: "24:00",
 				},
-
-				//TODO: update and remove not working
-				//updateEvent: this.availabilityEdit,
-				//removeEvents: this.availabilityDelete,
 			},
 
 			eventSources: [
@@ -380,15 +399,13 @@ export default {
 	},
 
 	methods: {
-
 		//------------------- initialize calendar -----------------------
 
+		//set the default viewed week for calendar
 		initializeCalendarView() {
-			//set the default viewed week for calendar
 			$('#calendar').fullCalendar('gotoDate', this.getNextWeekMondayMoment());
 		},
 
-		//TODO these functions do not give the correct dates
 		getDefaultStartTime: function() {
 			var momentNextMonday = this.getNextWeekMondayMoment();
 			var momentStartObj = moment().set({'years': moment(momentNextMonday).get('year'),
@@ -397,7 +414,6 @@ export default {
 												'hour': 0,
 												'minute': 30});
 			momentStartObj = moment(momentStartObj).format("h:mma");
-			console.log(momentStartObj);
 			return momentStartObj;
 		},
 
@@ -409,38 +425,27 @@ export default {
 												'hour': 1,
 												'minute': 30});
 			momentEndObj = moment(momentEndObj).format("h:mma");
-			console.log(momentEndObj);
 			return momentEndObj;
 		},
 
 
-		//------------------------------ calendar click events -------------------
+		//------------------------------ modal show/close -------------------
 
-		//handles user clicking on event
-		availabilityClickEvent: function(event, jsEvent, view) {
-
-			//set currently selected availability to this event's data
-			this.availability.eventObj = event;
-			this.availability.eventId = event.id;
-			this.availability.title = event.title;
-			this.availability.date = moment(event.start, ["YYYY-MM-DD"]).format("YYYY-MM-DD");
-			this.availability.timeStart = moment(event.start, ["h:mma"]).format("h:mma");
-			this.availability.timeEnd = moment(event.end, ["h:mma"]).format("h:mma");
-			this.availability.campus = event.title;
-
-			console.log("selected event start: " + event.start);
-			console.log("selected event end: " + event.end);
-			console.log("selected event id: " + event.id);
-
-			//pass event to editor showEditorWindow
-
-
-			//show edit availability
+		showEditorWithEdit: function() {
 			this.showEditOptions = true;
-			this.showCreateOptions = false;
 			this.showEditorWindow = true;
 		},
 
+		showEditorWithCreate: function() {
+			this.showCreateOptions = true;
+			this.showEditorWindow = true;
+		},
+
+		hideEditor: function() {
+			this.showEditOptions = false;
+			this.showCreateOptions = false;
+			this.showEditorWindow = false;
+		},
 
 		//------------------------- time/date picker range calendar check -------------------------
 
@@ -451,26 +456,30 @@ export default {
 
 			//compare if they are equal in minutes and hours
 			if((moment(momentStartObj).get('hour') == moment(momentEndObj).get('hour')) && (moment(momentStartObj).get('minute') == moment(momentEndObj).get('minute'))) {
-				console.log("**Error**, timeStart and timeEnd are equal!");
-				return false;
+				this.showTimeError = true;
+				this.timeErrorMessage = "[Invalid Time] The Time End is the same as Time Start";
+				this.timeBoundsCheck = true;
+				return true;
 			}
 			else if(momentEndObj < momentStartObj) {
-				console.log("**Error**, timeEnd is before timeStart");
-				return false;
+				this.showTimeError = true;
+				this.timeErrorMessage = "[Invalid Time] The Time End is before Time Start";
+				this.timeBoundsCheck = true;
+				return true;
 			}
 			else {
-				return true;
+				this.timeBoundsCheck = false;
+				return false;
 			}
 		},
 
 
-		//TODO compares the current availability to any preexisting availability if their time conflicts
+		//compares the current availability to any preexisting availability if their time conflicts
 		checkIfAvailabilityConflicts(action) {
 
+			//parse/set the availability start and end moment object's date and time
 		    var momentStartObj = moment(this.availability.date + " " + this.availability.timeStart, ["YYYY-MM-DD h:mma"]);
 		    var momentEndObj = moment(this.availability.date + " " + this.availability.timeEnd, ["YYYY-MM-DD h:mma"]);
-
-		    //set the availability start and end moment object's date and time
 		    var parseStart = moment().set({'date': moment(momentStartObj).get('date'), 'hour': moment(momentStartObj).get('hour'), 'minute': moment(momentStartObj).get('minute')});
 		    var parseEnd = moment().set({'date': moment(momentEndObj).get('date'), 'hour': moment(momentEndObj).get('hour'), 'minute': moment(momentEndObj).get('minute')});
 		    var currMomentStart = moment(parseStart);
@@ -478,68 +487,38 @@ export default {
 
 		    //get local list of events
 		    var eventList = $('#calendar').fullCalendar('clientEvents');
-           //
-			// console.log("array contents");
-			// for(var i = 0; i < eventList.length; i++) {
-			//    console.log("Event: " + eventList[i].id);
-		   // }
-		   // console.log("===================");
-
-
-		   	console.log("*************************************************");
 		    for(var i = 0; i < eventList.length; i++) {
-				console.log("----------------------------");
 		        var currEvent = eventList[i];
-
-				console.log("event id: [" + currEvent.id + "] avail id: [" + this.availability.eventId + "]");
-
-				//check if same day
-				console.log("event day: [" + moment(currEvent.start).get('day') + "] avail day [" + moment(currMomentStart).get('day') + "]");
 
 				//if same object only on edit
 				if((action == "edit") && (currEvent.id == this.availability.eventId)) {
-					console.log("skip event, it is same event");
 					continue;
 				}
 				//if not same day, continue
 				if(moment(currEvent.start).get('day') != moment(currMomentStart).get('day')) {
-					console.log("skip event, not on same day");
 					continue;
 				}
 				//compare time in hours and minutes with current event object and currently selected availabilty
 				if((currEvent.start <= currMomentEnd) && (currEvent.end >= currMomentStart)) {
-					console.log("This event conflicts!");
-					return false;
+					this.showTimeError = true;
+					this.timeErrorMessage = "[Invalid Time] The Time range conflicts with another availability";
+					this.timeConflictCheck = true;
+					return true;
 				}
-				console.log("----------------------------");
 		    }
-			console.log("event object is valid");
-		    return true;
+			this.timeConflictCheck = false;
+		    return false;
 		},
 
-
-		//encapsulates the previous checker 2 functions into one
-		checkTimeConditions: function(action) {
-		    if(this.checkTimePickerBounds() == true && this.checkIfAvailabilityConflicts(action) == true) {
-		        return true;
-		    }
-		    else {
-		        return false;
-		    }
-		},
-
-
-		//return next week monday moment object
+		//create a moment object that is the starting monday of the current day and next week
 		getNextWeekMondayMoment: function() {
-			//create a moment object that is the starting monday of the current day and next week
 			var nextMondayDate = moment().startOf('isoweek').add(7, 'days').format("YYYY-MM-DD");
 			return nextMondayDate;
 		},
 
 
-		//returns next week sunday moment object
+		//create a moment object that is the starting sunday of the current day and next week
 		getNextWeekSundayMoment: function(){
-			//create a moment object that is the starting sunday of the current day and next week
 			var nextSundayDate = moment().endOf('isoweek').add(7, 'days').format("YYYY-MM-DD");
 			return nextSundayDate;
 		},
@@ -572,10 +551,8 @@ export default {
 		getNewEventId: function() {
 			var newEventId = this.assignEventId;
 			this.assignEventId = this.assignEventId + 1;
-			//alert("new event id: " + newEventId);
 			return newEventId;
 		},
-
 
 		//---------------------create, delete, edit calendar operations ----------------------
 
@@ -590,7 +567,7 @@ export default {
 		    this.availability.timeEnd = moment(momentEndObj).format("h:mma");
 
 		    //all conditions are met for creating this availability
-		    if(this.checkTimeConditions("create") == true) {
+		    if(this.checkTimePickerBounds() == false && this.checkIfAvailabilityConflicts("create") == false) {
 		        //create new object for event with the newly created moment objects
 		        var event = {
 		            id: this.getNewEventId(),
@@ -609,13 +586,27 @@ export default {
 		        $('#calendar').fullCalendar('renderEvent', event, true);
 
 		        //close window
-		        this.showCreateOptions = false;
-				this.showEditOptions = false;
-		        this.showEditorWindow = false;
+		        this.hideEditor();
 		    }
 		    else {
 		        //TODO: make some sort of error indication that it the availability you are trying to make is incorrect
 		    }
+		},
+
+		//handles user clicking on event
+		availabilityClickEvent: function(event, jsEvent, view) {
+
+			//set currently selected availability to this event's data
+			this.availability.eventObj = event;
+			this.availability.eventId = event.id;
+			this.availability.title = event.title;
+			this.availability.date = moment(event.start, ["YYYY-MM-DD"]).format("YYYY-MM-DD");
+			this.availability.timeStart = moment(event.start, ["h:mma"]).format("h:mma");
+			this.availability.timeEnd = moment(event.end, ["h:mma"]).format("h:mma");
+			this.availability.campus = event.title;
+
+			//show edit availability
+			this.showEditorWithEdit();
 		},
 
 		//TODO handle edit of availability
@@ -629,7 +620,7 @@ export default {
 			this.availability.timeEnd = moment(momentEndObj).format("h:mma");
 
 			//all conditions are met for creating this availability
-			if(this.checkTimeConditions("edit") == true) {
+			if(this.checkTimePickerBounds() == false && this.checkIfAvailabilityConflicts("edit") == false) {
 
 				//set edited datafields of event
 				this.availability.eventObj.id = this.availability.eventId;
@@ -644,9 +635,7 @@ export default {
 				$('#calendar').fullCalendar('updateEvent', this.availability.eventObj);
 
 				//close window
-				this.showEditOptions = false;
-				this.showCreateOptions = false;
-				this.showEditorWindow = false;
+				this.hideEditor();
 			}
 			else {
 				//TODO: make some sort of error indication that it the availability you are trying to edit is incorrect
@@ -654,18 +643,13 @@ export default {
 		},
 
 
-		//TODO Deletes the event if button for deletion is pressed
+		//Deletes the event
 		availabilityDelete: function(availability, event) {
-			console.log("event id for deletion: " + this.availability.eventId);
-
 			$('#calendar').fullCalendar('removeEvents', this.availability.eventId);
 
 			//close window
-			this.showEditOptions = false
-			this.showCreateOptions = false;
-			this.showEditorWindow = false;
+			this.hideEditor();
 		},
-
 
 		//---------------------- calendar submission --------------------------------
 
@@ -714,7 +698,6 @@ export default {
 			return sundayDate;
 		},
 
-
 		//--------------------------- axios get and post -----------------------------
 
 		//populate this user's team list
@@ -746,8 +729,6 @@ export default {
 			console.log(error);
 		});
 	},
-
-
 	mounted () {
 
 		//initialize calendar view
