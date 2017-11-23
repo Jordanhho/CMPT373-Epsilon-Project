@@ -379,7 +379,7 @@ export default {
 
 				//----------------- selection of events --------------------------
 
-					eventClick: this.availabilityClickEvent, //triggered with an event is clicked
+				eventClick: this.availabilityClickEvent, //triggered with an event is clicked
 				editable: false, //allows resizing of events
 				selectable: false, //prevents dragging on calendar
 
