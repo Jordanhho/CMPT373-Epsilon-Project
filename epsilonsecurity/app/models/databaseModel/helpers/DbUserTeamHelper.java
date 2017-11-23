@@ -92,4 +92,9 @@ public final class DbUserTeamHelper {
 
         return userList;
     }
+
+    public static Boolean isExistingUserTeam(Integer userId, Integer teamId) {
+        DbUserTeam dbUserTeam = readDbTeamByUserAndTeamId(userId, teamId);
+        return (dbUserTeam != null);
+    }
 }
