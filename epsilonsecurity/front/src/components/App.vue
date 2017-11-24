@@ -66,7 +66,7 @@
 					{ title: 'Schedules', url: '/manage-schedules', icon: 'today' },
 					{ title: 'Users', url: '/manage-users', icon: 'person' },
 					{ title: 'Teams', url: '/todo', icon: 'group' },
-					{ title: 'Availabilities', url: '/todo', icon: 'hourglass_full' },
+					{ title: 'Availabilities', url: '/manage-availabilities', icon: 'hourglass_full' },
 					{ title: 'Statistics', url: '/todo', icon: 'multiline_chart' }
 				]
 			}

@@ -1,11 +1,11 @@
 <template>
 	<ul id="side-nav">
-		<side-nav-item 
+		<side-nav-item
 			v-for="section in mainSections"
 			v-bind:key="section.id"
 			v-bind:section="section"
 			class="nav-item"
-		/>
+			/>
 	</ul>
 </template>
 
@@ -53,6 +53,12 @@ export default {
 					title: 'Manage Users',
 					url: '/manage-users',
 					icon: 'users'
+				},
+				{
+					id: sectionId++,
+					title: 'Manage Availabilities',
+					url: '/manage-availabilities',
+					icon: 'clock-o'
 				}
 			]
 		}
