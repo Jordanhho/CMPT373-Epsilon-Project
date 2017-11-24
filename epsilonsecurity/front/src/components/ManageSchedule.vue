@@ -1,484 +1,269 @@
 <template>
-		<v-container fluid fill-width fill-height class="pa-0">
-			<v-layout row wrap>
-				<v-flex xs12>
-					<div id = "content">
-						<v-layout row wrap>
-							<div id = "option-bar">
-								<h2>
-									TODO OPTIONS PANEL
-								</h2>
-							</div>
+	<v-container fill-width fill-height class="pa-0">
+		<v-layout column wrap>
 
-							<div id = "calendar-pkg">
-								<div id = "my-calendar">
-									<!-- calendar -->
-									<full-calendar
-										:event-sources="eventSources"
-										:config="config"
-										id="calendar">
-									</full-calendar>
-								</div>
-									
-								<!-- floating add shift button showCreateShift = true -->
-								<div id="add-button"> 
-									<v-card-text style="height: 1px; position: relative" @click.stop="showCreateShift = true">
-										<v-btn absolute dark fab top right color="blue" :disabled="shiftSubmitted">
-											<v-icon>
-												add
-											</v-icon>
-										</v-btn>
-									</v-card-text>
-								</div>
+			<v-flex xs12 id="option-sideMenu">
+				<h2> TODO OPTIONS PANEL </h2>
+			</v-flex>
 
-								<!-- bottom bar for submission (footer) -->
-								<div id="submit-bar">
-									<v-card class="text-xs-center" dark color="white" >
+			<v-flex xs12 id="calendar-pkg">
+				<v-layout row wrap>
+					<v-flex xs12 id = "my-calendar">
+						<full-calendar
+							:event-sources="eventSources"
+							:config="config"
+							id="calendar">
+						</full-calendar>
+						<v-card-text
+							style="height: 1px;
+							position: relative"
+							 @click.stop="showEditorWithCreate">
+							<v-btn absolute dark fab top right color="blue">
+								<v-icon>
+									add
+								</v-icon>
+							</v-btn>
+						</v-card-text>
+					</v-flex>
+				</v-layout>
+			</v-flex>
 
-										<v-card-actions>
-											<v-btn dark color="blue" block @click.stop="saveLocallyConfirmation = true" :disabled="shiftSubmitted">
-												Save Locally
-											</v-btn>
-
-											<v-btn dark color="red" block @click.stop="deleteLocallyConfirmation = true" :disabled="shiftSubmitted">
-												Delete Locally
-											</v-btn>
-
-											<v-btn color="primary" block @click.stop="showConfirmSubmission = true" :disabled="shiftSubmitted">
-												Submit
-											</v-btn>
-										</v-card-actions>
-									</v-card>
-								</div>
-
-							</div>
-						</v-layout>
-					</div>
-			
-
-					<!-- popup editor for clicking on shift, dragging event shift, clicking + button -->
-					<v-layout row justify-center>
-						<v-dialog v-model="showCreateShift" max-width="400px" persistent lazy full-width>
-							<v-card>
-								<v-card-title>
-									<span class="headline">Shift Info</span>
-								</v-card-title>
-								<v-card-text>
-									<v-container grid-list-xs>
-                                        <v-layout wrap>
-
-                                            <!-- date  picker -->
-                                            <v-flex xs6>
-                                                <v-dialog v-model="dateStartModal" persistent lazy full-width>
-                                                    <v-text-field
-                                                        slot="activator"
-                                                        label="Date"
-                                                        hint="Date of shift"
-                                                        v-model="shift.date"
-                                                        prepend-icon="event"
-                                                        readonly
-                                                        required
-                                                        persistent-hint
-                                                        :disabled="shiftSubmitted">
-                                                    </v-text-field>
-                                                    <v-date-picker
-                                                        v-model="shift.date"
-                                                        first-day-of-week="1">
-                                                        <template scope="{ save, cancel }">
-                                                            <v-card-actions>
-                                                                <v-btn flat color="primary" @click="save" :disabled="shiftSubmitted">
-                                                                    Save
-                                                                </v-btn>
-                                                                <v-spacer></v-spacer>
-                                                                <v-btn flat color="primary" @click="cancel">
-                                                                    Cancel
-                                                                </v-btn>
-                                                            </v-card-actions>
-                                                        </template>
-                                                    </v-date-picker>
-                                                </v-dialog>
-                                            </v-flex>
-
-
-                                            <!-- time start picker -->
-                                            <v-flex xs6s>
-                                                <v-dialog v-model="timeStartModal" persistent lazy full-width>
-                                                    <v-text-field
-                                                        slot="activator"
-                                                        label="Time Start"
-                                                        hint="Start time of shift"
-                                                        v-model="shift.timeStart"
-                                                        prepend-icon="access_time"
-                                                        readonly
-                                                        required
-                                                        persistent-hint
-                                                        :disabled="shiftSubmitted">
-                                                    </v-text-field>
-                                                    <v-time-picker
-                                                        v-model="shift.timeStart"
-                                                        :allowed-hours="allowedTimes.hours"
-                                                        :allowed-minutes="allowedTimes.minutes"
-                                                        actions>
-                                                        <template scope="{ save, cancel }">
-                                                            <v-card-actions>
-                                                                <v-btn flat color="primary" @click="save" :disabled="shiftSubmitted">
-                                                                    Save
-                                                                </v-btn>
-                                                                <v-spacer></v-spacer>
-                                                                <v-btn flat color="primary" @click="cancel">
-                                                                    Cancel
-                                                                </v-btn>
-                                                            </v-card-actions>
-                                                        </template>
-                                                    </v-time-picker>
-                                                </v-dialog>
-                                            </v-flex>
-
-
-                                            <!-- time end picker -->
-                                            <v-flex xs6>
-                                                <v-dialog v-model="timeEndModal" persistent lazy full-width>
-                                                    <v-text-field
-                                                        slot="activator"
-                                                        label="Time End"
-                                                        hint="Time start of shift"
-                                                        v-model="shift.timeEnd"
-                                                        prepend-icon="access_time"
-                                                        readonly
-                                                        required
-                                                        persistent-hint
-                                                        :disabled="shiftSubmitted">
-                                                    </v-text-field>
-                                                    <v-time-picker
-                                                        v-model="shift.timeEnd"
-                                                        :allowed-hours="allowedTimes.hours"
-                                                        :allowed-minutes="allowedTimes.minutes"
-                                                        actions>
-                                                        <template scope="{ save, cancel }">
-                                                            <v-card-actions>
-                                                                <v-btn flat color="primary" @click="save" :disabled="shiftSubmitted">
-                                                                    Save
-                                                                </v-btn>
-                                                                <v-spacer></v-spacer>
-                                                                <v-btn flat color="primary" @click="cancel">
-                                                                    Cancel
-                                                                </v-btn>
-                                                            </v-card-actions>
-                                                        </template>
-                                                    </v-time-picker>
-                                                </v-dialog>
-                                            </v-flex>
-
-                                            <!-- Campus -->
-                                            <v-flex xs6>
-                                                <v-select
-                                                    v-bind:items="campusList"
-                                                    v-model="shift.campus"
-                                                    label="Campus"
-                                                    hint="Campus of shift"
-                                                    item-value="text"
-                                                    single-line
-                                                    required
-                                                    persistent-hint
-                                                    :disabled="shiftSubmitted">
-                                                </v-select>
-                                            </v-flex>
-
-                                        </v-layout>
-									</v-container>
-								</v-card-text>
-								<v-card-actions>
-									<v-spacer></v-spacer>
-									<v-btn color="primary" flat @click.stop="shiftCreation(shift)" :disabled="shiftSubmitted, showEditShift">
-										Create
-									</v-btn>
-									<v-btn color="primary" flat @click.stop="showCreateShift = false">
-										Close
-									</v-btn>
-								</v-card-actions>
-							</v-card>
-						</v-dialog>
-					</v-layout>
-
-
-					<!-- popup editor for clicking on shift, dragging event shift, clicking + button -->
-					<v-layout row justify-center>
-						<v-dialog v-model="showEditShift" max-width="400px" persistent lazy full-width>
-							<v-card>
-								<v-card-title>
-									<span class="headline">Shift Info</span>
-								</v-card-title>
-								<v-card-text>
-									<v-container grid-list-xs>
-                                        <v-layout wrap>
-
-                                            <!-- date  picker -->
-                                            <v-flex xs6>
-                                                <v-dialog v-model="dateStartModal" persistent lazy full-width>
-                                                    <v-text-field
-                                                        slot="activator"
-                                                        label="Date"
-                                                        hint="Date of shift"
-                                                        v-model="shift.date"
-                                                        prepend-icon="event"
-                                                        readonly
-                                                        required
-                                                        persistent-hint
-                                                        :disabled="shiftSubmitted">
-                                                    </v-text-field>
-                                                    <v-date-picker
-                                                        v-model="shift.date"
-                                                        first-day-of-week="1">
-                                                        <template scope="{ save, cancel }">
-                                                            <v-card-actions>
-                                                                <v-btn flat color="primary" @click="save" :disabled="shiftSubmitted">
-                                                                    Save
-                                                                </v-btn>
-                                                                <v-spacer></v-spacer>
-                                                                <v-btn flat color="primary" @click="cancel">
-                                                                    Cancel
-                                                                </v-btn>
-                                                            </v-card-actions>
-                                                        </template>
-                                                    </v-date-picker>
-                                                </v-dialog>
-                                            </v-flex>
-
-                                            <!-- time start picker -->
-                                            <v-flex xs6s>
-                                                <v-dialog v-model="timeStartModal" persistent lazy full-width>
-                                                    <v-text-field
-                                                        slot="activator"
-                                                        label="Time Start"
-                                                        hint="Start time of shift"
-                                                        v-model="shift.timeStart"
-                                                        prepend-icon="access_time"
-                                                        readonly
-                                                        required
-                                                        persistent-hint
-                                                        :disabled="shiftSubmitted">
-                                                    </v-text-field>
-                                                    <v-time-picker
-                                                        v-model="shift.timeStart"
-                                                        :allowed-hours="allowedTimes.hours"
-                                                        :allowed-minutes="allowedTimes.minutes"
-                                                        actions>
-                                                        <template scope="{ save, cancel }">
-                                                            <v-card-actions>
-                                                                <v-btn flat color="primary" @click="save" :disabled="shiftSubmitted">
-                                                                    Save
-                                                                </v-btn>
-                                                                <v-spacer></v-spacer>
-                                                                <v-btn flat color="primary" @click="cancel">
-                                                                    Cancel
-                                                                </v-btn>
-                                                            </v-card-actions>
-                                                        </template>
-                                                    </v-time-picker>
-                                                </v-dialog>
-                                            </v-flex>
-
-                                            <!-- time end picker -->
-                                            <v-flex xs6>
-                                                <v-dialog v-model="timeEndModal" persistent lazy full-width>
-                                                    <v-text-field
-                                                        slot="activator"
-                                                        label="Time End"
-                                                        hint="Time start of shift"
-                                                        v-model="shift.timeEnd"
-                                                        prepend-icon="access_time"
-                                                        readonly
-                                                        required
-                                                        persistent-hint
-                                                        :disabled="shiftSubmitted">
-                                                    </v-text-field>
-                                                    <v-time-picker
-                                                        v-model="shift.timeEnd"
-                                                        :allowed-hours="allowedTimes.hours"
-                                                        :allowed-minutes="allowedTimes.minutes"
-                                                        actions>
-                                                        <template scope="{ save, cancel }">
-                                                            <v-card-actions>
-                                                                <v-btn flat color="primary" @click="save" :disabled="shiftSubmitted">
-                                                                    Save
-                                                                </v-btn>
-                                                                <v-spacer></v-spacer>
-                                                                <v-btn flat color="primary" @click="cancel">
-                                                                    Cancel
-                                                                </v-btn>
-                                                            </v-card-actions>
-                                                        </template>
-                                                    </v-time-picker>
-                                                </v-dialog>
-                                            </v-flex>
-
-                                            <!-- Campus -->
-                                            <v-flex xs6>
-                                                <v-select
-                                                    v-bind:items="campusList"
-                                                    v-model="shift.campus"
-                                                    label="Campus"
-                                                    hint="Campus of shift"
-                                                    item-value="text"
-                                                    single-line
-                                                    required
-                                                    persistent-hint
-                                                    :disabled="shiftSubmitted">
-                                                </v-select>
-                                            </v-flex>
-
-                                        </v-layout>
-									</v-container>
-								</v-card-text>
-								<v-card-actions>
-									<v-spacer></v-spacer>
-									<v-btn color="primary" flat @click.stop="shiftEdit(shift, currentSelectedEvent)" :disabled="shiftSubmitted">
-										Edit
-									</v-btn>
-									<v-btn color="primary" flat @click.stop="shiftDeletion(shift, currentSelectedEvent)" :disabled="shiftSubmitted">
-										Delete
-									</v-btn>
-									<v-btn color="primary" flat @click.stop="showEditShift = false">
-										Close
-									</v-btn>
-								</v-card-actions>
-							</v-card>
-						</v-dialog>
-					</v-layout>
-
-
-					<!-- popup for when save locally is clicked -->
-					<v-dialog v-model="saveLocallyConfirmation" persistent lazy full-width>
-						<v-card>
-							<v-container grid-list-md>
+			<!-- popup editor for clicking on shift, dragging event shift, clicking + button -->
+			<v-layout row justify-center>
+				<v-dialog v-model="showEditorWindow" max-width="400px" persistent lazy full-width>
+					<v-card>
+						<v-card-title>
+							<span class="headline">Shift Info</span>
+						</v-card-title>
+						<v-card-text>
+							<v-container grid-list-xs>
 								<v-layout wrap>
-									<v-card-text>
-										<v-flex xs12>
-											<v-card-text class="text-xs-center">
-												Confirm Save of shift Shift locally?
-											</v-card-text>
-										</v-flex>
-									</v-card-text>
-								</v-layout wrap>
-							</v-container grid-list-md>
+
+									<!-- User -->
+									<v-flex xs12>
+										<v-select
+											label="ShiftType"
+											v-bind:items="userList"
+											v-model="shift.user"
+											single-line
+											item-value="text"
+											prepend-icon="map"
+											required>
+										</v-select>
+									</v-flex>
+
+									<!-- ShiftType -->
+									<v-flex xs12>
+										<v-select
+											label="ShiftType"
+											v-bind:items="shiftTypeList"
+											v-model="shift.shiftType"
+											single-line
+											item-value="text"
+											prepend-icon="map"
+											required>
+										</v-select>
+									</v-flex>
+
+									<!-- Campus -->
+									<v-flex xs12>
+										<v-select
+											label="Campus"
+											v-bind:items="campusList"
+											v-model="shift.campus"
+											single-line
+											item-value="text"
+											prepend-icon="map"
+											required>
+										</v-select>
+									</v-flex>
+
+									<!-- date  picker -->
+									<v-flex xs12>
+										<v-dialog v-model="dateStartModal" persistent lazy full-width>
+											<v-text-field
+												slot="activator"
+												label="Date"
+												v-model="shift.date"
+												prepend-icon="event"
+												readonly
+												required>
+											</v-text-field>
+											<v-date-picker
+												v-model="shift.date"
+												first-day-of-week="1"
+												:allowed-dates="allowedDates"
+												actions>
+												<template scope="{ save, cancel }">
+													<v-card-actions>
+														<v-btn flat color="primary" @click="save">
+															Save
+														</v-btn>
+														<v-spacer></v-spacer>
+														<v-btn flat color="primary" @click="cancel">
+															Cancel
+														</v-btn>
+													</v-card-actions>
+												</template>
+											</v-date-picker>
+										</v-dialog>
+									</v-flex>
+
+									<!-- time start picker -->
+									<v-flex xs12>
+										<v-dialog v-model="timeStartModal" persistent lazy full-width>
+											<v-text-field
+												slot="activator"
+												label="Time Start"
+												v-model="shift.timeStart"
+												prepend-icon="access_time"
+												readonly
+												required>
+											</v-text-field>
+											<v-time-picker
+												v-model="shift.timeStart"
+												:allowed-hours="allowedTimes.hours"
+												:allowed-minutes="allowedTimes.minutes"
+												actions>
+												<template scope="{ save, cancel }">
+													<v-card-actions>
+														<v-btn flat color="primary" @click="save">
+															Save
+														</v-btn>
+														<v-spacer></v-spacer>
+														<v-btn flat color="primary" @click="cancel">
+															Cancel
+														</v-btn>
+													</v-card-actions>
+												</template>
+											</v-time-picker>this.showEditorWithCreate();
+										</v-dialog>
+									</v-flex>
+
+									<!-- time end picker -->
+									<v-flex  xs12>
+										<v-dialog v-model="timeEndModal" persistent lazy full-width>
+											<v-text-field
+												slot="activator"
+												label="Time End"
+												v-model="shift.timeEnd"
+												prepend-icon="access_time"
+												readonly
+												required>
+											</v-text-field>
+											<v-time-picker
+												v-model="shift.timeEnd"
+												:allowed-hours="allowedTimes.hours"
+												:allowed-minutes="allowedTimes.minutes"
+												actions>
+												<template scope="{ save, cancel }">
+													<v-card-actions>
+														<v-btn flat color="primary" @click="save">
+															Save
+														</v-btn>
+														<v-spacer></v-spacer>
+														<v-btn flat color="primary" @click="cancel">
+															Cancel
+														</v-btn>
+													</v-card-actions>
+												</template>
+											</v-time-picker>
+										</v-dialog>
+									</v-flex>
+								</v-layout>
+							</v-container>
 							<v-card-actions>
-								<v-btn color="primary" block @click.stop="saveShiftListLocally">
-									Save
-								</v-btn>
 								<v-spacer></v-spacer>
-								<v-btn color="primary" block @click.stop="saveLocallyConfirmation = false">
-									Cancel
+								<v-btn  v-if="showCreateOptions" color="primary" flat @click.stop="shiftCreate">
+									Create
 								</v-btn>
-							</v-card-actions>
-						</v-card>
-					</v-dialog>
-
-
-					<!-- popup for when delete locally is clicked -->
-					<v-dialog v-model="deleteLocallyConfirmation" persistent lazy full-width>
-						<v-card>
-							<v-container grid-list-md>
-								<v-layout wrap>
-									<v-card-text>
-										<v-flex xs12>
-											<v-card-text class="text-xs-center">
-												Confirm Deletion of shift Shift locally?
-											</v-card-text>
-										</v-flex>
-									</v-card-text>
-								</v-layout wrap>
-							</v-container grid-list-md>
-							<v-card-actions>
-								<v-btn color="primary" flat @click.stop="deleteShiftListLocally">
+								<v-btn v-if="showEditOptions" color="primary" flat @click.stop="shiftEdit()">
+									Edit
+								</v-btn>
+								<v-btn v-if="showEditOptions" color="primary" flat @click.stop="shiftDelete">
 									Delete
 								</v-btn>
-								<v-spacer></v-spacer>
-								<v-btn color="primary" flat @click.stop="deleteLocallyConfirmation = false">
-									Cancel
+								<v-btn color="primary" flat @click.stop="hideEditor">
+									Close
 								</v-btn>
 							</v-card-actions>
-						</v-card>
-					</v-dialog>
-
-
-					<!-- popup for when submitshift is clicked -->
-					<v-dialog v-model="showConfirmSubmission" persistent lazy full-width>
-						<v-card>
-							<v-container grid-list-md>
-								<v-layout wrap>
-									<v-card-text>
-										<v-flex xs12>
-											<v-card-text class="text-xs-center">
-												Confirm Submission of Shift?
-											</v-card-text>
-										</v-flex>
-									</v-card-text>
-								</v-layout wrap>
-							</v-container grid-list-md>
-							<v-card-actions>
-								<v-btn color="primary" flat @click.stop="shiftSubmitComplete">
-									Submit
-								</v-btn>
-								<v-spacer></v-spacer>
-								<v-btn color="primary" flat @click.stop="showConfirmSubmission = false">
-									Cancel
-								</v-btn>
-							</v-card-actions>
-						</v-card>
-					</v-dialog>
-
-
-				</v-flex>
+						</v-card-text>
+					</v-card>
+				</v-dialog>
 			</v-layout>
-		</v-container>
+
+			<!-- popup for error message -->
+			<v-dialog v-model="showTimeError" persistent lazy full-width>
+				<v-card>
+					<v-container grid-list-xs>
+						<v-layout wrap>
+							<v-card-text>
+								<v-flex xs12>
+									<v-card-text class="text-xs-center">
+										<b> {{ timeErrorMessage }} </b>
+									</v-card-text>
+								</v-flex>
+							</v-card-text>
+						</v-layout wrap>
+					</v-container grid-list-xs>
+					<v-card-actions>
+						<v-spacer></v-spacer>
+						<v-btn color="primary" flat @click.stop="showTimeError = false">
+							Ok
+						</v-btn>
+						<v-spacer></v-spacer>
+					</v-card-actions>
+				</v-card>
+			</v-dialog>
+		</v-layout>
+	</v-container>
 </template>
 
-
 <script>
-//imports
 import Vue from 'vue'
 import moment from 'moment'
 import axios from 'axios'
-
-//calendar
 import FullCalendar from 'vue-full-calendar'
-Vue.use(FullCalendar) // add the vue-full-calendar plugin to Vue
-window.jQuery = window.$ = require('jquery') // we need jquery too
+Vue.use(FullCalendar)
+window.jQuery = window.$ = require('jquery')
 
 export default {
-    data: function () {
+	data: function () {
 		return {
-
-			//------------------ options -------------------------------
-			saveLocallyConfirmation: false,
-			deleteLocallyConfirmation: false,
-
 			// ----------------- MODALS --------------------------------
-			//creation of shift window
-			showCreateShift: false,
+			showEditorWindow: false, //editor window popup
+			showCreateOptions: false, //show the create button for the editor window
+			showEditOptions: false, //show the edit and delete buttons for the editor window
 
-			//edit of shift window
-			showEditShift: false,
-
-			// ----------------- Submission ---------------------------
-			//boolean for if shift is submitted
-			shiftSubmitted: false,
-
-			//submission shift popup
-			showConfirmSubmission: false,
-
-			//---------------- Time, Date ----------------------------
 			//time picker/date picker modals
 			dateStartModal: false,
 			timeStartModal: false,
 			timeEndModal: false,
 
-            //restrict it to 15 minutes increments, do not change hours
-            allowedTimes: {
+			//--------------- error checking for time pickers ----------------
+
+			//error msg modal and popup
+			timeErrorMessage: "",
+			showTimeError: false,
+
+			//check if time conflicts/out of bounds
+			timeBoundsCheck: false,
+
+			//---------------- Time, Date ----------------------------
+			//ranged of allowed dates for date picker
+			allowedDates: null,
+
+			//restrict it to allowed days and time from min to max
+			nextWeekRange: {
+				min: null,
+				max: null,
+			},
+			allowedTimes: {
 				hours: null,
 				minutes: null,
-            },
-            
+			},
+
+			//restrict it to 15 minutes increments, do not change hours
 			restrictTimeIncrements: {
 				hours: function(value) {
 					return value
@@ -488,93 +273,57 @@ export default {
 				}
 			},
 
-            //-------------------- Campus selection -----------------------
-            
-			//for selection of campus
-			campusList: [
-				{ text: 'Burnaby'},
-				{ text: 'Surrey'},
-				{ text: 'Vancouver'},
-			],
+			//Lists
+			userList: [],
+			campusList: [],
+			shiftTypeList: [],
 
-			//---------------- shift type and list ------------------
-			//current event
-			currentSelectedEvent: null,
+			//campus colors
+			burnabyCampus: "red",
+			surreyCampus: "blue",
+			vancouverCampus: "teal",
+			noCampus: "purple",
 
-			//Data contains list of avaliablities
-			shiftList: [
-			],
+			//---------------- shift type and list ------------------s
+			shiftList: [],
 
 			shift: {
+				eventObj: null,
+				eventId: -1,
+				shiftType: null,
+				userId: -1,
 				title: "",
-				date: this.getTodayMoment(),
-				timeStart: this.getTodayMomentTime(0),
-				timeEnd: this.getTodayMomentTime(60),
-				campus: null,
+				date: this.getNextWeekMondayMoment(),
+				timeStart: this.getDefaultStartTime(),
+				timeEnd: this.getDefaultEndTime(),
+				campus: "",
 			},
+
+			assignEventId: 0, //assigns id to event
 
 			//--------------- calendar config ------------------------------
 			config: {
-
-				// ------------ calendar view ----------------------
-				defaultView: 'agendaWeek',
-				height: 'parent',
-				allDaySlot: false,
-				timezone: 'local',
-		
 				header: {
-					left: 'prev,today, next,',
+					left: 'prev, today, next,',
 					center: 'title',
 					right: 'month,agendaWeek,agendaDay'
 				},
 
-				//15 minute increment
-				slotDuration: '00:15:00',
-
-				// scroll calendar to the specified time (12 AM)
-				scrollTime: '00:00:00',
-
-				//shows today
-				nowIndicator: true,
-
-				//restrict calendar view to next week only
-
-				//sets first day of week to monday
-				firstDay: 1,
-
-				//sets week number calculation to ISO
-				weekNumberCalculation: "ISO",
+				defaultView: 'agendaWeek',
+				height: 'parent',
+				allDaySlot: false,
+				timezone: 'local',
+				slotDuration: '00:15:00', //15 minute increment
+				scrollTime: '00:00:00', // scroll calendar to the specified time (12 AM)
+				nowIndicator: true, //shows today
+				firstDay: 1, //sets first day of week to monday
+				weekNumberCalculation: "ISO", //sets week number calculation to ISO
 
 				//----------------- selection of events --------------------------
-				//allows resizing of events
-				editable: false,
 
-				//allows dragging on calendar.
-				selectable: true,
-
-				//allows to make an event on calendar
-				selectHelper: true,
-
-				//do allow event overlap selection
-				selectOverlap: true,
-
-				//triggered with an event is clicked
-				eventClick: this.shiftClick,
-
-				//triggered after a selection is made, i.e user stops dragging.
-				select: this.shiftSelection,
-
-				//minimum distance click has to move inorder to detect as event PREVENT MISCLICKS
-				selectMinDistance: 5,
-
-				//minimum miliseconds user holds down before it counts as a selectable
-				selectLongPressDelay: 1000,
-
-				//restrict selection of an event to maximxum one day
-				selectConstraint: {
-					start: "00:00",
-					end: "24:00"
-				},
+				eventClick: this.shiftClickEvent, //triggered with an event is clicked
+				editable: false, //allows resizing of events
+				selectable: false, //prevents dragging on calendar
 
 				//restrict event to maximum one day
 				eventConstraint: {
@@ -584,323 +333,303 @@ export default {
 			},
 
 			eventSources: [
-				{	
-					
+				{
+					//TODO add events
 				}
 			],
-
-			clickedShift: {
-			},
 		}
 	},
 
-	computed: {
-	},
-
-
 	methods: {
+		//------------------- initialize calendar -----------------------
 
-        //handles user clicking on event
-		shiftClick: function(event, jsEvent, view) {
-			//todo loads shift before displaying
+		//set the default viewed week for calendar
+		initializeCalendarView() {
+			$('#calendar').fullCalendar('gotoDate', this.getNextWeekMondayMoment());
+		},
 
-			console.log("This event title: " + event.title + "\n" +
-					 "time start: " + event.start + "\n" +
-					 "time end: " + event.end + "\n" 
-			);
+		getDefaultStartTime: function() {
+			var momentNextMonday = this.getNextWeekMondayMoment();
+			var momentStartObj = moment().set({'years': moment(momentNextMonday).get('year'),
+												'month': moment(momentNextMonday).get('month'),
+												'day': moment(momentNextMonday).get('day'),
+												'hour': 0,
+												'minute': 30});
+			momentStartObj = moment(momentStartObj).format("h:mma");
+			return momentStartObj;
+		},
 
-			//todo able to edit shift
-			this.clickedShift = event;
+		getDefaultEndTime: function() {
+			var momentNextMonday = this.getNextWeekMondayMoment();
+			var momentEndObj = moment().set({'years': moment(momentNextMonday).get('year'),
+												'month': moment(momentNextMonday).get('month'),
+												'day': moment(momentNextMonday).get('day'),
+												'hour': 1,
+												'minute': 30});
+			momentEndObj = moment(momentEndObj).format("h:mma");
+			return momentEndObj;
+		},
 
-			//set currently selected shift to this event's data
-			this.shift.title = event.title;
-			this.shift.date = moment(event.start, ["YYYY-MM-DD"]).format("YYYY-MM-DD");
-			this.shift.timeStart = moment(event.start, ["HH:mma"]).format("HH:mma");
-			this.shift.timeEnd = moment(event.end, ["HH:mma"]).format("HH:mma");
-			//this.shift.campus =;
 
-			this.currentSelectedEvent = event;
+		//------------------------------ modal show/close -------------------
 
-			this.showEditShift = true;
-		},	
+		showEditorWithEdit: function() {
+			this.showEditOptions = true;
+			this.showEditorWindow = true;
+		},
 
-		//handles drag selection of shift on calendar
-		shiftSelection: function(start, end, jsEvent, view) {
-			console.log("click event")
-			//only allows deletion before submission
-			if (this.shiftSubmitted == false) {
+		showEditorWithCreate: function() {
+			this.showCreateOptions = true;
+			this.showEditorWindow = true;
+		},
 
-				//set the start and end of this shift selection
-				this.shift.date = start.format("YYYY-MM-DD");
-				this.shift.timeStart = start.format("HH:mma");
-				this.shift.timeEnd = end.format("HH:mma");
+		hideEditor: function() {
+			this.showEditOptions = false;
+			this.showCreateOptions = false;
+			this.showEditorWindow = false;
+		},
 
-				//show edit avaialbility
-				this.showCreateShift = true;
+		//------------------------- time/date picker range calendar check -------------------------
+
+		//check bounds on timepicker
+		checkTimePickerBounds: function() {
+			var momentStartObj = moment(this.shift.timeStart, ["h:mma"]);
+			var momentEndObj = moment(this.shift.timeEnd, ["h:mma"]);
+
+			//compare if they are equal in minutes and hours
+			if((moment(momentStartObj).get('hour') == moment(momentEndObj).get('hour')) && (moment(momentStartObj).get('minute') == moment(momentEndObj).get('minute'))) {
+				this.showTimeError = true;
+				this.timeErrorMessage = "[Invalid Time] The Time End is the same as Time Start";
+				this.timeBoundsCheck = true;
+				return true;
+			}
+			else if(momentEndObj < momentStartObj) {
+				this.showTimeError = true;
+				this.timeErrorMessage = "[Invalid Time] The Time End is before Time Start";
+				this.timeBoundsCheck = true;
+				return true;
 			}
 			else {
-				//do nothing as submission is denied after submission of shift
+				this.timeBoundsCheck = false;
+				return false;
 			}
 		},
 
-		//todo handle creation of an shift
-        shiftCreation: function(shift) {
-
-			//combine the moment objects with date and time
-			var momentStartObj = moment(shift.date + " " + shift.timeStart, ["YYYY-MM-DD HH:mma"]);
-			var momentEndObj = moment(shift.date + " " + shift.timeEnd, ["YYYY-MM-DD HH:mma"]);
-
-			//create new object for event with the newly created moment objects
-			var eventItem = {
-				id: -1,
-				start: momentStartObj,
-				end: momentEndObj,
-				title: shift.campus,
-			}
-
-			//TODO set color depending on campus
-
-			//change color for event based on campus
-			//red for burnaby
-			// if(shift.campus == "Burnaby") {
-			// 	eventItem.color = "red";
-			// }
-			// //blue for surrey
-			// else if(shift.campus == "Surrey") {
-			// 	eventItem.color = "blue";
-			// }
-			// //Yellow for vancouver
-			// else if(shift.campus == "Vancouver") {
-			// 	eventItem.color = "teal";
-			// }
-			// //purple if not specified -> for debug
-			// else {
-			// 	eventItem.color = "purple";
-			// }
-
-			//change textcolor
-			eventItem.textColor = "white"
-
-			//render event
-			$('#calendar').fullCalendar('renderEvent', eventItem, true);
-
-            //close window
-			this.showCreateShift = false;
+		//create a moment object that is the starting monday of the current day and next week
+		getNextWeekMondayMoment: function() {
+			var nextMondayDate = moment().startOf('isoweek').add(7, 'days').format("YYYY-MM-DD");
+			return nextMondayDate;
 		},
 
-		//todo handle creation of an shift
-        shiftEdit: function(shift, event) {
 
-			//combine the moment objects with date and time
-			var momentStartObj = moment(shift.date + " " + shift.timeStart, ["YYYY-MM-DD HH:mma"]);
-			var momentEndObj = moment(shift.date + " " + shift.timeEnd, ["YYYY-MM-DD HH:mma"]);
+		//create a moment object that is the starting sunday of the current day and next week
+		getNextWeekSundayMoment: function(){
+			var nextSundayDate = moment().endOf('isoweek').add(7, 'days').format("YYYY-MM-DD");
+			return nextSundayDate;
+		},
 
-			event.start = momentStartObj;
-			event.end = momentEndObj;
-			event.title = shift.campus;
+		//----------------------- campus color ----------------------------
 
-			//TODO set color depending on campus
-
-			//change color for event based on campus
-			//red for burnaby
-			// if(shift.campus == "Burnaby") {
-			// 	eventItem.color = "red";
-			// }
-			// //blue for surrey
-			// else if(shift.campus == "Surrey") {
-			// 	eventItem.color = "blue";
-			// }
-			// //Yellow for vancouver
-			// else if(shift.campus == "Vancouver") {
-			// 	eventItem.color = "teal";
-			// }
-			// //purple if not specified -> for debug
-			// else {
-			// 	eventItem.color = "purple";
-			// }
+		//returns the color string for the campus colors
+		getCampusColor: function(campusName) {
+			if(campusName == "BURNABY") {
+				return this.burnabyCampus;
+			}
+			//blue for surrey
+			else if(campusName == "SURREY") {
+				return this.surreyCampus;
+			}
+			//Yellow for vancouver
+			else if(campusName == "VANCOUVER") {
+				return this.vancouverCampus;
+			}
+			//purple if not specified -> for debug
+			else {
+				return this.noCampus;
+			}
+		},
 
 
-			//change text color for white
-			event.textColor = "white"
+		//--------------------- event Id assignment ------------------------------------------
 
-			 $('#calendar').fullCalendar('updateEvent', event);
+		//gets a new event id and increment the eventid counter
+		getNewEventId: function() {
+			var newEventId = this.assignEventId;
+			this.assignEventId = this.assignEventId + 1;
+			return newEventId;
+		},
+
+		//---------------------create, delete, edit calendar operations ----------------------
+
+		//TODO handle creation of an shift
+		shiftCreate: function() {
+
+		    //override the local shift data
+		    var momentStartObj = moment(this.shift.date + " " + this.shift.timeStart, ["YYYY-MM-DD h:mma"]);
+		    var momentEndObj = moment(this.shift.date + " " + this.shift.timeEnd, ["YYYY-MM-DD h:mma"]);
+		    this.shift.date = moment(momentStartObj).format("YYYY-MM-DD");
+		    this.shift.timeStart = moment(momentStartObj).format("h:mma");
+		    this.shift.timeEnd = moment(momentEndObj).format("h:mma");
+
+		    //all conditions are met for creating this shift
+		    if(this.checkTimePickerBounds() == false) {
+		        //create new object for event with the newly created moment objects
+		        var event = {
+		            id: this.getNewEventId(),
+		            start: momentStartObj,
+		            end: momentEndObj,
+		            title: this.shift.campus,
+		        }
+
+		        //change color for event based on campus
+		        event.color = this.getCampusColor(this.shift.campus);
+
+		        //change textcolor
+		        event.textColor = "white"
+
+		        //render event
+		        $('#calendar').fullCalendar('renderEvent', event, true);
+
+		        //close window
+		        this.hideEditor();
+		    }
+		},
+
+		//handles user clicking on event
+		shiftClickEvent: function(event, jsEvent, view) {
+
+			//set currently selected shift to this event's data
+			this.shift.eventObj = event;
+			this.shift.eventId = event.id;
+			this.shift.title = event.title;
+			this.shift.date = moment(event.start, ["YYYY-MM-DD"]).format("YYYY-MM-DD");
+			this.shift.timeStart = moment(event.start, ["h:mma"]).format("h:mma");
+			this.shift.timeEnd = moment(event.end, ["h:mma"]).format("h:mma");
+			this.shift.campus = event.title;
+
+			//show edit shift
+			this.showEditorWithEdit();
+		},
+
+		//TODO handle edit of shift
+		shiftEdit: function() {
+
+			//override the local shift data
+			var momentStartObj = moment(this.shift.date + " " + this.shift.timeStart, ["YYYY-MM-DD h:mma"]);
+			var momentEndObj = moment(this.shift.date + " " + this.shift.timeEnd, ["YYYY-MM-DD h:mma"]);
+			this.shift.date = moment(momentStartObj).format("YYYY-MM-DD");
+			this.shift.timeStart = moment(momentStartObj).format("h:mma");
+			this.shift.timeEnd = moment(momentEndObj).format("h:mma");
+
+			//all conditions are met for creating this shift
+			if(this.checkTimePickerBounds() == false && this.checkIfScheduleConflicts("edit") == false) {
+
+				//set edited datafields of event
+				this.shift.eventObj.id = this.shift.eventId;
+				this.shift.eventObj.start = momentStartObj;
+				this.shift.eventObj.end = momentEndObj;
+				this.shift.eventObj.title = this.shift.campus;
+
+				//change color for event based on campus
+				this.shift.eventObj.color = this.getCampusColor(this.shift.campus);
+
+				//update event
+				$('#calendar').fullCalendar('updateEvent', this.shift.eventObj);
+
+				//close window
+				this.hideEditor();
+			}
+			else {
+				//TODO: make some sort of error indication that it the shift you are trying to edit is incorrect
+			}
+		},
+
+
+		//Deletes the event
+		shiftDelete: function(shift, event) {
+			$('#calendar').fullCalendar('removeEvents', this.shift.eventId);
 
 			//close window
-			this.showEditShift = false;
+			this.hideEditor();
 		},
 
-		//Deletes the event if button for deletion is pressed
-		shiftDeletion: function(shift, event) {
-			//TODO deleting an event
-
-			//delete event
-			// this.$refs.calendar.$emit('remove-event', event);
-			// this.clickedShift = {};
-
-			//delete event
-			// console.log("destroying event: " + event);
-			// $('#calendar').fullCalendar('eventDestroy', event);
-
-			//turn off popup after deletion
-			this.showEditShift = false;
-		},
-
-		//blocks out most user interaction when shift is submitted
-		shiftSubmitComplete: function() {
-
-			this.getShiftList();
-
-			//disables resizing of events, editing of events, selection of new events
-			$('#calendar').fullCalendar('editable', false);
-			$('#calendar').fullCalendar('selectable', false);
-			$('#calendar').fullCalendar('selectHelper', false);
-
-            //set values
-			this.shiftSubmitted = true;
-
-			//close popup
-            this.showConfirmSubmission = false;
-		},
+		//---------------------- calendar submission --------------------------------
 
 
-        getTodayDateObj: function() {
-            var currentDate = new Date(); 
-            return currentDate;
-        },
-
-        getTodayMoment: function() {
-            var currentMoment = moment().startOf('isoweek').format("YYYY-MM-DD"); 
-            return currentMoment;
-        },
-
-		getTodayMomentTime: function(addedTime) {
-			//round each moment object to nearest 15 minute increments
-			var roundMinutes = moment().minutes();
-			var remainder = 15 - (roundMinutes % 15);
-			var roundedTime = moment().add("minutes", (remainder + addedTime)).format("LT");
-			return  roundedTime;
-		},
-
-
-		initializeCalendarView() {
-			
-			//TODO Load existing shifts in database
-
-		},
-
-		populateShiftList: function() {
-			//grab all generated client events
-			this.shiftList = $('#calendar').fullCalendar('clientEvents');
-			console.log("list of events: " + this.shiftList);
-			
-			//this.shiftList = response.data;
-		},
-
-
+		//retrives all events on local calendar
 		getShiftList: function() {
 			this.shiftList = $('#calendar').fullCalendar('clientEvents');
-			console.log("list of events: " + this.shiftList);
 			return this.shiftList;
 		},
 
 
-		saveShiftListLocally: function() {
+		//-------------- Helper functions for mounted -----------------------------
 
+		//returns next week monday date object
+		getNextWeekMondayDate: function() {
+			var currentDate = new Date();
+			var firstDay = currentDate.getDate() - currentDate.getDay(); // First day is the day of the month - the day of the week
+
+			//set it to next week and add 1 as first day of week is sunday currently
+			var mondayDate = new Date(currentDate.setDate(firstDay + 7 + 1));
+			return mondayDate;
 		},
 
-		deleteShiftListLocally: function() {
 
+		//returns next week sunday date object
+		getNextWeekSundayDate: function() {
+			var currentDate = new Date();
+			var firstDay = currentDate.getDate() - currentDate.getDay(); //Monday
+
+			//set it to sunday by adding 6 days to monday and + 1 for starting date of sunday to shift to monday, add 7 for next week
+			var sundayDate = new Date(currentDate.setDate(firstDay + 6 + 7 + 1));
+			return sundayDate;
 		},
-
-
-		populateShiftListFromDatabase: function() {
-
-		},
-
-
-        //init existing shift list
-		initializeShiftList: function() {
-				axios.post('/api/shift', )
-				.then(response => this.requestShift)
-				.catch(function (error) {
-					console.log(error);
-				});
-		},
-
-		requestShift() {
-			var shiftURL = '';
-			shiftURL = '/api/shift'
-		}
 
 	},
 
-    components: {
-	},
-
-	//todo creates to shift  database
 	created: function() {
-		axios.get('api/shift')
-			.then(this.populateShiftList)
-			.catch(function (error) {
-			console.log(error);
-		});
+		//TODO requests
+
 	},
-
-
-
 	mounted () {
 
 		//initialize calendar view
 		this.initializeCalendarView();
 
+		//set the day restrictions
+		this.nextWeekRange.min = this.getNextWeekMondayDate();
+		this.nextWeekRange.max = this.getNextWeekSundayDate();
+		this.allowedDates = this.nextWeekRange;
+
 		//set the time restrictions
 		this.allowedTimes = this.restrictTimeIncrements
 	}
 }
-
 </script>
-
 <style scoped lang="stylus">
 @import '../../node_modules/fullcalendar/dist/fullcalendar.css';
 @import '../stylus/main';
 
-#Manage-Schedule {
+#my-shift {
 	background: white;
 	width: 100%;
 	height: 100%;
-	//display: flex;
-	//flex-flow: row nowrap;
 }
 
-#option-bar {
+#option-sideMenu {
 	width: 35%;
 	height: 100%;
 	background: white;
 }
 
-#content {
-	width: 100%;
-	height: 100%;
-}
-
 #calendar-pkg {
 	width: 65%;
-	height: 90%;
-}
-
-#submit-bar {
-	width: 100%;
-	height: 4em;
+	height: 100%;
 }
 
 #my-calendar {
-    width: 100%
-	height: 100%;
+	height: 97%;
+	width: 100%;
 }
-
-#add-button {
-	height: 0.5em;
-}
-
-
 </style>
