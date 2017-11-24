@@ -13,6 +13,7 @@ import javax.persistence.Id;
 @Entity
 public class DbShift extends Model {
 
+    public static final String COLUMN_ID = "id";
     public static final String COLUMN_SHIFT_TYPE_ID = "shift_type_id";
     public static final String COLUMN_TIME_START = "time_start";
     public static final String COLUMN_TIME_END = "time_end";
