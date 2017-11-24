@@ -89,6 +89,7 @@
 										single-line
 										item-value="text"
 										prepend-icon="map"
+										:rules="[() => !!availability.campus || 'You must pick a campus']"
 										required
 										:disabled="availabilitySubmitted">
 									</v-select>
@@ -278,8 +279,6 @@ export default {
 			//----------------- Submission ---------------------------
 			//TODO: status of availability, must set it at initialization from database
 			availabilityStatus: "OPEN",
-
-			//boolean for if avail is submitted
 			availabilitySubmitted: false,
 
 			//------------------- USER ---------------------------
@@ -713,6 +712,18 @@ export default {
 	},
 
 	created: function() {
+		//TODO initialize the status of availability submission
+
+
+		//initialize local list of teams the user belongs to
+		axios.get('/api/users/' + this.userId + '/teams')
+		.then(this.populateUserTeamList)
+		.catch(function (error) {
+			console.log(error);
+		});
+
+		//TODO initialize list of availabilities assigned currently for next week
+
 		//http://api/users/1/teams/1/onetimeavailabilites?start=10249812&end=2938109
 		//api/users/$userId<[^/]+>/teams/$teamId<[^/]+>/onetimeavailabilites?start=TIMESTART&end=TIMEENDco
 		//TODO: get state of user's availability: open, submitted, approved
@@ -722,12 +733,7 @@ export default {
 		// 	console.log(error);
 		// });
 
-		//get all team ids from userid
-		axios.get('/api/users/' + this.userId + '/teams')
-		.then(this.populateUserTeamList)
-		.catch(function (error) {
-			console.log(error);
-		});
+
 	},
 	mounted () {
 
