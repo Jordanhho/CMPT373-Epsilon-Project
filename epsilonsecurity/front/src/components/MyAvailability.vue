@@ -37,15 +37,11 @@
 			</v-flex>
 
 			<v-flex xs12 id = "my-calendar">
-				<!-- calendar -->
 				<full-calendar
 					:event-sources="eventSources"
 					:config="config"
 					id="calendar">
 				</full-calendar>
-			</v-flex>
-
-			<v-flex xs12 id="add-button">
 				<v-card-text
 					style="height: 1px;
 					position: relative"
@@ -95,7 +91,7 @@
 									</v-select>
 								</v-flex>
 
-								<!-- date  picker -->
+								<!-- date picker -->
 								<v-flex xs12>
 									<v-dialog v-model="dateStartModal" persistent lazy full-width>
 										<v-text-field
@@ -236,7 +232,7 @@
 			</v-card>
 		</v-dialog>
 
-		<!-- popup for when submit availbility is clicked -->
+		<!-- popup for when submit availability is clicked -->
 		<v-dialog v-model="showSubmitWindow" persistent lazy full-width>
 			<v-card>
 				<v-container grid-list-xs>
@@ -636,9 +632,6 @@ export default {
 				//close window
 				this.hideEditor();
 			}
-			else {
-				//TODO: make some sort of error indication that it the availability you are trying to edit is incorrect
-			}
 		},
 
 
@@ -770,12 +763,8 @@ export default {
 	width: 100%;
 }
 
-#add-button {
-	height: 1px;
-	width: 100%;
-}
-
 #option-bar {
 	height: 4em;
+	width: 100%;
 }
 </style>
