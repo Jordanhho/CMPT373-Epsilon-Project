@@ -1,71 +1,71 @@
 <template>
-    <v-container clipped enable-resize-watcher class='hack-height'>
-        <router-link v-if='$vuetify.breakpoint.mdAndDown' xs12 exact to="/manage-users/" class="listed-user" tag="li">
-            <v-btn color="primary" dark><icon name='arrow-left' class='back'></icon></v-btn>
-        </router-link>
-        <v-layout id='main-profile'>
-            <v-flex xs12 md3 class='profile-item'>
-                <img :src="userPhoto" alt="" id= "user-photo">
-            </v-flex>
-            <v-flex xs9 md6 class='profile-item'>
-                <ul id="user-info">
-                    <li class='username'>
-                        {{ userData.firstName }} {{ userData.lastName }}
-                    </li>
-                    <li>
-                        {{ userData.contactEmail }}
-                    </li>
-                    <li>
-                        {{ userData.phoneNumber }}
-                    </li>
-                </ul>
-            </v-flex>
-            <v-flex xs3 md3 id="buttons" class='profile-item'>
-                <v-layout wrap column align-right>
-                    <v-flex class="edit-button" xs6 offest-xs6 offset-md0>
-                        <edit-user
+<v-container clipped enable-resize-watcher class='hack-height'>
+    <router-link v-if='$vuetify.breakpoint.mdAndDown' xs12 exact to="/manage-users/" class="listed-user" tag="li">
+        <v-btn color="primary" dark><icon name='arrow-left' class='back'></icon></v-btn>
+    </router-link>
+    <v-layout id='main-profile'>
+        <v-flex xs12 md3 class='profile-item'>
+            <img :src="userPhoto" alt="" id= "user-photo">
+        </v-flex>
+        <v-flex xs9 md6 class='profile-item'>
+            <ul id="user-info">
+                <li class='username'>
+                    {{ userData.firstName }} {{ userData.lastName }}
+                </li>
+                <li>
+                    {{ userData.contactEmail }}
+                </li>
+                <li>
+                    {{ userData.phoneNumber }}
+                </li>
+            </ul>
+        </v-flex>
+        <v-flex xs3 md3 id="buttons" class='profile-item'>
+            <v-layout wrap column align-right>
+                <v-flex class="edit-button" xs6 offest-xs6 offset-md0>
+                    <edit-user
                                 @edit="onClickEdit"
                                 v-bind:teams="teams"
                                 v-bind:userTeams="userTeams"
                                 v-bind:userData="userData">
-                        </edit-user>
-                    </v-flex>
-                    <v-flex class="edit-button" xs6 offset-xs6 offset-md0>
-                        <disable-user
+                    </edit-user>
+                </v-flex>
+                <v-flex class="edit-button" xs6 offset-xs6 offset-md0>
+                    <disable-user
                                 v-bind:enabled="userData.enabled"
                                 @disable="onClickDisable">
-                        </disable-user>
-                    </v-flex>
-                </v-layout>
-            </v-flex>
-        </v-layout>
-        <v-layout class='secondary-user-info'>
-            <v-flex xs2>
-                <ul>
-                    <li class='info-tag'>teams:</li>
-                    <li class='info-tag'>role</li>
-                    <li class='info-tag'>sfu email</li>
-                </ul>
-            </v-flex>
-            <v-flex id="other-data">
-                <ul>
-                    <!-- TODO handle multiple teams in layout -->
-                    <li>
-                        <ul id="team-names">
-                            <li v-for="team in userTeams"
-                                class='team-list'>
-                                {{ team.name }}
-                            </li>
-                        </ul>
+                    </disable-user>
+                </v-flex>
+            </v-layout>
+        </v-flex>
+    </v-layout>
+    <v-layout class='secondary-user-info'>
+        <v-flex xs2>
+            <ul>
+                <li class='info-tag'>teams:</li>
+                <li class='info-tag'>role</li>
+                <li class='info-tag'>sfu email</li>
+            </ul>
+        </v-flex>
+        <v-flex id="other-data">
+        <ul>
+            <!-- TODO handle multiple teams in layout -->
+            <li>
+                <ul id="team-names">
+                    <li v-for="team in userTeams"
+                        class='team-list'>
+                        {{ team.name }}
                     </li>
-                    <!-- <li>volunteer</li> -->
-                    <li>{{ userData.roleId }}</li>
-                    <li>{{ userData.sfuEmail }}</li>
                 </ul>
-            </v-flex>
-        </v-layout>
-        <qualifications></qualifications>
-    </v-container>
+            </li>
+            <!-- <li>volunteer</li> -->
+            <li>{{ userData.roleId }}</li>
+            <li>{{ userData.sfuEmail }}</li>
+        </ul>
+        </v-flex>
+    </v-layout>
+    <qualifications></qualifications>
+</v-container>
 
 
 </template>
@@ -99,13 +99,13 @@
             onClickListElement (value) {
                 this.$emit('clicked', value);
             },
-            onClickEdit () {
+            onClickEdit (teamIDs) {
                 axios.put('/api/users/' + this.userData.id, this.userData)
                     .then(response => this.$emit('edited'))
                     .catch(function (error) {
                         console.log(error);
                     });
-                axios.post('/api/users/' + this.userdata.id + '/teams', {teams: userTeams})
+                axios.post('/api/users/' + this.userData.id + '/teams/', {teamIdList: teamIDs})
                     .then(response => this.$emit('edited'))
                     .catch(function (error) {
                         console.log(error);
@@ -115,8 +115,8 @@
                 axios.put('/api/users/' + this.userData.id + '/' + !this.userData.enabled)
                     .then(response => this.userData.enabled = !this.userData.enabled)
                     .catch(function (error) {
-                        console.log(error);
-                    });
+                    console.log(error);
+                });
             },
             populateUserData (response) {
                 this.userData = response.data;

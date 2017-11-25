@@ -1,12 +1,12 @@
 <template>
     <v-layout class="manage-users">
-        <v-flex v-if='renderLeft()' xs12 sm12 md4 class='scroll-y'>
+        <v-flex v-if='renderLeft()' xs12 lg4 class='scroll-y'>
             <userlist   class="userlist"
                         ref="userlist"
                         v-bind:teams="teams">
             </userlist>
         </v-flex>
-        <v-flex v-if='renderRight()' xs12 sm12 md8 class='scroll-y'>
+        <v-flex v-if='renderRight()' xs12 lg8 class='scroll-y'>
             <router-view    class="profile"
                             v-bind:teams="teams"
                             @edited="$refs.userlist.requestUsers()">
@@ -33,12 +33,12 @@
                 this.teams = response.data;
             },
             renderLeft() {
-                return this.$vuetify.breakpoint.mdAndUp ||
-                    (this.$vuetify.breakpoint.smAndDown && !this.focused());
+                return this.$vuetify.breakpoint.lgAndUp ||
+                    (this.$vuetify.breakpoint.mdAndDown && !this.focused());
             },
             renderRight() {
-                return this.$vuetify.breakpoint.mdAndUp ||
-                    (this.$vuetify.breakpoint.smAndDown && this.focused());
+                return this.$vuetify.breakpoint.lgAndUp ||
+                    (this.$vuetify.breakpoint.mdAndDown && this.focused());
             },
             focused() {
                 return this.$route.name == 'userManagementProfile';
