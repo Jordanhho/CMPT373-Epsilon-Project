@@ -57,7 +57,8 @@ public class OneTimeAvailabilityController extends Controller {
         return ok();
     }
 
-    public Result readOneTimeAvailabilityById(Integer id) {
+    // previous name was "readOneTimeAvailabilityById"
+    public Result retrieveOneTimeAvailability(Integer id) {
         DbOneTimeAvailability dbOneTimeAvailability = DbOneTimeAvailabilityHelper.readDbOneTimeAvailabilityById(id);
         return ok(Json.toJson(dbOneTimeAvailability));
     }
