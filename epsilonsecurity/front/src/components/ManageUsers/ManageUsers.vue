@@ -3,12 +3,14 @@
         <v-flex v-if='renderLeft()' xs12 lg4 class='scroll-y'>
             <userlist   class="userlist"
                         ref="userlist"
-                        v-bind:teams="teams">
+                        v-bind:teams="teams"
+                        v-bind:roles='roles'>
             </userlist>
         </v-flex>
         <v-flex v-if='renderRight()' xs12 lg8 class='scroll-y'>
             <router-view    class="profile"
                             v-bind:teams="teams"
+                            v-bind:roles='roles'
                             @edited="$refs.userlist.requestUsers()">
             </router-view>
         </v-flex>
@@ -26,11 +28,15 @@
         data() {
             return {
                 teams: [],
+                roles: [],
             }
         },
         methods: {
             populateTeamList(response) {
                 this.teams = response.data;
+            },
+            populateRoleList(response) {
+                this.roles = response.data;
             },
             renderLeft() {
                 return this.$vuetify.breakpoint.lgAndUp ||
@@ -52,6 +58,12 @@
         created: function () {
             axios.get('/api/teams')
             .then(this.populateTeamList)
+            .catch(function (error) {
+                console.log(error);
+            });
+
+            axios.get('/api/roles')
+            .then(this.populateRoleList)
             .catch(function (error) {
                 console.log(error);
             });

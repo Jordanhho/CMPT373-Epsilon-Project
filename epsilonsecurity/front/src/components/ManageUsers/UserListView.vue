@@ -11,7 +11,8 @@
             <v-flex xs5>
                 <add-user   id="add-user"
                             @add="onClickAdd"
-                            v-bind:teams="teams"></add-user>
+                            v-bind:teams="teams"
+                            v-bind:roles='roles'></add-user>
             </v-flex>
             <v-flex xs12>
                 <ul id="listedItems">
@@ -99,6 +100,10 @@ export default {
     },
     props: {
         teams: {
+            type: Array,
+            required: true
+        },
+        roles: {
             type: Array,
             required: true
         },

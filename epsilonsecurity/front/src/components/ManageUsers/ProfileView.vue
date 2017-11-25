@@ -27,6 +27,7 @@
                         <edit-user
                                     @edit="onClickEdit"
                                     v-bind:teams="teams"
+                                    v-bind:roles='roles'
                                     v-bind:userTeams="userTeams"
                                     v-bind:userData="userData">
                         </edit-user>
@@ -113,6 +114,11 @@
                     .catch(function (error) {
                         console.log(error);
                     });
+                axios.get('/api/roles/' + this.userData.roleId)
+                    .then(this.setSemanticRoleName)
+                    .catch(function (error) {
+                        console.log(error);
+                });
             },
             emitIfLargeScreen(response) {
                 if (!this.$vuetify.breakpoint.mdAndDown) {
@@ -181,11 +187,14 @@
                 type: Array,
                 required: true
             },
+            roles: {
+                type: Array,
+                required: true
+            },
             id: {
                 type: String,
                 required: true
             }
-
         }
     }
 </script>

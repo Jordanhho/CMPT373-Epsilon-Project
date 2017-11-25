@@ -18,8 +18,9 @@
                                               v-model="userData.lastName"></v-text-field>
                             </v-flex>
                             <v-flex xs12>
-                                <v-text-field label="Role" required
-                                              v-model="userData.roleId"></v-text-field>
+                              <v-select   id="Role" required
+                                          v-bind:items="roleList"
+                                          v-model="userData.roleId"></v-select>
                             </v-flex>
                             <v-flex xs12>
                                 <v-text-field label="SFU Email" required
@@ -64,11 +65,22 @@
                 dialog: false,
             }
         },
-        components: {
-
+        computed: {
+          roleList: function () {
+              return this.roles.map(function (role) {
+                  let item = {};
+                  item.value = role.id;
+                  item.text = role.name;
+                  return item;
+              });
+          }
         },
         props: {
             teams: {
+                type: Array,
+                required: true
+            },
+            roles: {
                 type: Array,
                 required: true
             },
