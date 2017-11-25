@@ -1,5 +1,6 @@
 package controllers;
 
+import models.DummyDatabase.DummyDataBase;
 import models.databaseModel.helpers.DbTeamHelper;
 import models.databaseModel.scheduling.DbTeam;
 
@@ -60,6 +61,7 @@ public class TeamController extends Controller {
     }
 
     public Result listAllTeams() {
+        //new DummyDataBase();
         List<DbTeam> dbTeamList = DbTeamHelper.readAllDbTeam();
 
         return ok(Json.toJson(dbTeamList));
