@@ -39,6 +39,11 @@ public class UserTeamController extends Controller {
     }
 
     public Result createUserTeamByUserIdAndTeamIdArray(Integer userId) {
+        List<DbUserTeam> dbUserTeamList = DbUserTeamHelper.readAllDbUserTeamsByUserId(userId);
+        for (DbUserTeam dbUserTeam : dbUserTeamList) {
+            DbUserTeamHelper.deleteDbUserTeam(dbUserTeam);
+        }
+
         Integer[] teamIdArray = getDbTeamArrayFromForm();
         List<DbTeam> dbTeamList = new ArrayList<>();
         for (Integer teamId : teamIdArray) {
@@ -46,10 +51,8 @@ public class UserTeamController extends Controller {
         }
 
         for (DbTeam dbTeam : dbTeamList) {
-            if (!DbUserTeamHelper.isExistingUserTeam(userId, dbTeam.getId())) {
-                DbUserTeam dbUserTeam = new DbUserTeam(dbTeam.getId(), userId);
-                DbUserTeamHelper.createDbUserTeam(dbUserTeam);
-            }
+            DbUserTeam dbUserTeam = new DbUserTeam(dbTeam.getId(), userId);
+            DbUserTeamHelper.createDbUserTeam(dbUserTeam);
         }
 
         return ok();
