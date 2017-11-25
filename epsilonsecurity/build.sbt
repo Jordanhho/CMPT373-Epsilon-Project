@@ -16,6 +16,11 @@ libraryDependencies += javaJdbc
 libraryDependencies += "org.xerial" % "sqlite-jdbc" % "3.8.6"
 libraryDependencies += evolutions
 
+// Play-Mailer Plugin
+// https://github.com/playframework/play-mailer
+libraryDependencies += "com.typesafe.play" %% "play-mailer" % "6.0.1"
+libraryDependencies += "com.typesafe.play" %% "play-mailer-guice" % "6.0.1"
+
 // see https://www.playframework.com/documentation/2.6.x/ScalaHttpFilters
 libraryDependencies += filters
 
@@ -44,13 +49,16 @@ libraryDependencies += "com.novocode" % "junit-interface" % "0.11" % "test"
 testOptions += Tests.Argument(TestFrameworks.JUnit, "-v", "-a")
 javaOptions in Test += "-Dconfig.file=conf/application.test.conf"
 
-// when in dev-mode, spinup the webpack dev-server after starting Play
+// [in dev-mode], Akka Http Server listens on this port.
+// https://www.playframework.com/documentation/2.5.x/ConfigFile#Using-with-the-run-command
+PlayKeys.devSettings := Seq("play.server.http.port" -> "9000") // default = 9000
 
+
+// [in dev-mode], spin up the webpack dev-server after starting Play
 PlayKeys.playRunHooks += WebpackServer(file("./front"))
 
 
-// build the frontend before packaging
-
+// [in prod-mode], build the frontend before packaging
 lazy val frontEndBuild = taskKey[Unit]("Execute the npm build command to build the front-end")
 
 frontEndBuild := {
@@ -59,3 +67,4 @@ frontEndBuild := {
 }
 
 dist := (dist dependsOn frontEndBuild).value
+stage := (stage dependsOn frontEndBuild).value

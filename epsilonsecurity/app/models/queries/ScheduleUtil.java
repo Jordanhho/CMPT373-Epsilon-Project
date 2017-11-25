@@ -1,6 +1,5 @@
 package models.queries;
 
-
 import models.databaseModel.helpers.*;
 import models.databaseModel.scheduling.*;
 
@@ -150,6 +149,67 @@ public final class ScheduleUtil {
         }
 
         return shiftsWithCampusList;
+    }
+
+    public static float getTotalHourWorkingByUserID(int userId){
+        float hoursWorking = 0;
+        List<DbShift> shiftList = DbShiftHelper.readDbShiftByUserId(userId);
+        for(DbShift shift: shiftList){
+            hoursWorking += TimeUtil.calculateHourBetweenEpochSecondInstants(shift.getTimeStart(), shift.getTimeEnd());
+        }
+        return hoursWorking;
+    }
+
+
+    public static List<HourByShiftType> getListOfHourWithShiftTypeByUserId(int userId){
+        List<HourByShiftType> hourByShiftTypeList = new ArrayList<>();
+
+        List<DbShift> shiftList = DbShiftHelper.readDbShiftByUserId(userId);
+        //Use a hash map here?
+        List<Integer> shiftTypeIdList = DbShiftHelper.readUniqueShiftTypeIdFromShiftList(shiftList);
+        for(int shiftTypeId : shiftTypeIdList){
+            hourByShiftTypeList.add(
+                    new HourByShiftType(
+                        shiftTypeId,
+                        DbShiftTypeHelper.readDbShiftTypeById(shiftTypeId).getName(),
+                        0
+                    ));
+        }
+        for(DbShift shift : shiftList){
+            float shiftHour = TimeUtil.calculateHourBetweenEpochSecondInstants(shift.getTimeStart(), shift.getTimeEnd());
+            for(HourByShiftType hourByShiftType : hourByShiftTypeList){
+                if(shift.getShiftTypeId().equals(hourByShiftType.getShiftTypeId())){
+                    hourByShiftType.addHour(shiftHour);
+                    break;
+                }
+            }
+        }
+
+        return hourByShiftTypeList;
+    }
+
+    /**
+     * Get the status of a user's DbOneTimeAvailability within a time range from a specific team
+     * Note: Since availabilities are submitting weekly, all availabilities within a week will have
+     *       the same status
+     * @param userId The database ID of the target user
+     * @param teamId The database ID of the target team
+     * @param timeStart The starting time of the time range
+     * @param timeEnd The ending time of the time range
+     */
+    public static Status getOneTimeAvailStatus(Integer userId, Integer teamId, Long timeStart, Long timeEnd) {
+        DbUserTeam targetUserTeam = DbUserTeamHelper.readDbTeamByUserAndTeamId(userId, teamId);
+        List<DbOneTimeAvailability> targetOneTimeAvailList = DbOneTimeAvailabilityHelper
+                .readDbOneTimeAvailabilityByUserTeamId(targetUserTeam.getId());
+        List<DbOneTimeAvailability> dbOneTimeAvailabilityList = DbOneTimeAvailabilityHelper
+                .readDbOneTimeAvailabilityByTimeRange(timeStart, timeEnd);
+
+        Set<DbOneTimeAvailability> filteredSet = new LinkedHashSet<>(targetOneTimeAvailList);
+        filteredSet.retainAll(dbOneTimeAvailabilityList);
+        targetOneTimeAvailList = new ArrayList<>();
+        targetOneTimeAvailList.addAll(filteredSet);
+
+        return targetOneTimeAvailList.get(0).getStatus();
     }
 }
 
