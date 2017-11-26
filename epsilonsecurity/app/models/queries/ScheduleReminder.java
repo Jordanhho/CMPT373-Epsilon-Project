@@ -2,6 +2,8 @@ package models.queries;
 
 import models.databaseModel.helpers.*;
 import models.databaseModel.scheduling.*;
+import org.joda.time.DateTime;
+import org.joda.time.Days;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -16,17 +18,20 @@ public class ScheduleReminder {
     private String shiftEndTime;
     private String shiftDate;
     private String shiftTeamName;
+    private String daysTilShift;
 
     public ScheduleReminder(String shiftName,
                             String shiftStartTime,
                             String shiftEndTime,
                             String shiftDate,
-                            String shiftTeamName) {
+                            String shiftTeamName,
+                            String daysTilShift) {
         this.shiftName = shiftName;
         this.shiftStartTime = shiftStartTime;
         this.shiftEndTime = shiftEndTime;
         this.shiftDate = shiftDate;
         this.shiftTeamName = shiftTeamName;
+        this.daysTilShift = daysTilShift;
     }
 
 
@@ -55,9 +60,26 @@ public class ScheduleReminder {
     }
 
 
+    public String getDaysTilShift() {
+        return daysTilShift;
+    }
+
+
     private static boolean isShiftOver(DbShift dbShift) {
         // DbShift timeEnd is measured in seconds and system time is in milliseconds
         return (dbShift.getTimeEnd() * 1000L) < System.currentTimeMillis();
+    }
+
+
+    private static String getDaysBetweenTodayAndShift(Date shiftStartTime) {
+        Date today = new Date(System.currentTimeMillis());
+
+        Integer daysTil = Days.daysBetween(new DateTime(today), new DateTime(shiftStartTime)).getDays();
+//        System.out.println("EEEEEEEEEEE");
+//        System.out.println(Integer.toString(days));
+//        System.out.println("EEEEEEEEEEE");
+
+        return Integer.toString(daysTil);
     }
 
 
@@ -70,6 +92,7 @@ public class ScheduleReminder {
         String formattedShiftEndTime;
         String formattedShiftStartDate;
         String shiftTeamName;
+        String daysTilShift;
 
         DbTeam dbTeam;
 
@@ -122,12 +145,14 @@ public class ScheduleReminder {
                                 .readAllDbShiftTypeById(dbShift.getShiftTypeId())) {
 
                             shiftName = dbShiftType.getName();
+                            daysTilShift = getDaysBetweenTodayAndShift(shiftStartTime);
 
                             scheduleReminderList.add(new ScheduleReminder(shiftName,
                                     formattedShiftStartTime,
                                     formattedShiftEndTime,
                                     formattedShiftStartDate,
-                                    shiftTeamName));
+                                    shiftTeamName,
+                                    daysTilShift));
                         }
                     }
                 }

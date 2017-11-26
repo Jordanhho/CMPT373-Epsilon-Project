@@ -20,7 +20,7 @@
                             </v-flex>
 
                             <v-flex d-flex xs6>
-                                <p class="text-xs-right" id="hours-ago">{{hoursAgo}}</p>
+                                <p class="text-xs-right" id="hours-ago">in {{daysTilShift}} day(s)</p>
                             </v-flex>
 
                             <v-flex d-flex xs12>
@@ -45,15 +45,11 @@
         name: 'scheduleReminder',
         data() {
             return {
-//                hoursAgo: "23 Hours Ago",
-//                shiftStartTime: "12:00 AM",
-//                shiftEndTime: "1:00 PM",
-//                shiftDate: "Today",
-//                shiftName: "THEFT PREVENTION"
+
             }
         },
         props: {
-            hoursAgo: {
+            daysTilShift: {
                 type: String,
                 required: false
             },

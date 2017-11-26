@@ -8,9 +8,9 @@
                         v-bind:shiftName="scheduleReminder.shiftName"
                         v-bind:shiftStartTime="scheduleReminder.shiftStartTime"
                         v-bind:shiftEndTime="scheduleReminder.shiftEndTime"
-                        v-bind:hoursAgo="scheduleReminder.phoneNumber"
                         v-bind:shiftTeamName="scheduleReminder.shiftTeamName"
-                        v-bind:shiftDate="scheduleReminder.shiftDate">
+                        v-bind:shiftDate="scheduleReminder.shiftDate"
+                        v-bind:daysTilShift="scheduleReminder.daysTilShift">
                 </ScheduleReminder>
             </li>
         </ul>
@@ -28,7 +28,7 @@
         name: 'my-feed',
         data() {
             return {
-//                hoursAgo: '',
+//                daysTilShift: '',
 //                shiftStartTime: '',
 //                shiftEndTime: '',
 //                shiftDate: '',
