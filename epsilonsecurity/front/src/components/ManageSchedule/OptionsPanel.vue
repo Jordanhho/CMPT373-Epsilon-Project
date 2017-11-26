@@ -11,7 +11,7 @@
             <v-flex xs12>
                 <v-checkbox v-for='shift in shifts'
                             :label='shift.name'
-                            :value='shift.id'
+                            :value='shift'
                             v-model='selectedShifts' >
                 </v-checkbox>
             </v-flex>

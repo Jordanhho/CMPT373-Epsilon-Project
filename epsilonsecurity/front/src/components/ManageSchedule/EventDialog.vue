@@ -32,7 +32,7 @@
 
                                         <!-- shiftType -->
                                         <v-flex xs12>
-                                            <v-select   v-bind:items='shiftTypes'
+                                            <v-select   v-bind:items='shiftDropDown'
                                                         v-model='shiftType'
                                                         prepend-icon="map">
                                             </v-select>
@@ -141,7 +141,10 @@
                                     <v-layout row wrap>
                                         <v-flex xs12>
                                             <v-checkbox
-                                                v-for='user in users'>
+                                                v-for='user in users'
+                                                :label='user.firstName + " " + user.lastName'
+                                                :value='user.id'
+                                                v-model='selectedUsers'>
                                             </v-checkbox>
                                         </v-flex>
                                     </v-layout>
@@ -178,6 +181,7 @@
                 teamName: "",
                 shiftType: -1,
                 users: [],
+                selectedUsers: [],
 
                 shiftObj: {
                     teamID: -1,
@@ -213,7 +217,7 @@
                 this.dialog = !this.dialog;
             },
             addShift() {
-                
+
             },
             populateTeamName(response) {
                 this.teamName = response.data.name;
@@ -238,7 +242,7 @@
                 if(val.length >= 1) {
                     this.shiftType = val[0];
                 }
-            }
+            },
         },
         updated: function() {
             axios.get('/api/teams/' + this.teamId)
@@ -247,6 +251,18 @@
                 console.log(error);
             });
 
+        },
+        computed: {
+            shiftDropDown: function() {
+                return this.shiftTypes.map(
+                    function(shift) {
+                        return {
+                            text: shift.name,
+                            value: shift.id
+                        }
+                    }
+                )
+            },
         },
         mounted: function() {
 
@@ -257,7 +273,7 @@
             .catch(function (error) {
                 console.log(error);
             });
-        }
+        },
     }
 </script>
 
