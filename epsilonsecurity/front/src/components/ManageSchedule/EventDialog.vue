@@ -224,7 +224,6 @@
             },
             populateUsers(response) {
                 this.users = response.data;
-                console.log(JSON.stringify(this.users, null, 2));
             }
         },
         props: {

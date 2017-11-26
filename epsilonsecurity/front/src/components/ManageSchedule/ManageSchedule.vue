@@ -33,16 +33,15 @@
         },
         methods: {
             newTeamSelected(selected) {
-                this.$router.push({path: '/manage-schedules/' + selected})
+                this.selectedTeam = selected;
+                this.$router.push({path: '/manage-schedules/' + selected});
             },
             newShiftSelected(selected) {
                 this.selectedShifts = selected;
             }
         },
         mounted: function() {
-            if(this.$route.name == 'manage-schedules') {
-                this.$router.push({path: '/manage-schedules/' + 1})
-            }
+            this.$router.push({path: '/manage-schedules/' + this.selectedTeam});
         },
         components: {
             "options": OptionsPanel,

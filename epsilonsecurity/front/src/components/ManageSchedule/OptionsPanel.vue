@@ -48,9 +48,12 @@ export default {
         },
         populateShifts(response) {
             this.shifts = response.data;
+        },
+        setTeam(team) {
+            this.selectedTeam = team;
         }
     },
-    created: function() {
+    mounted: function() {
         axios.get('/api/teams')
         .then(this.populateTeams)
         .catch(function (error) {
@@ -67,6 +70,6 @@ export default {
 </script>
 <style scoped lang='scss'>
 .cap-height {
-    max-height: calc(100vh - 32px - 32px - 32px - 74px - 32px);
+    height: calc(100vh - 32px - 32px - 32px - 74px - 32px);
 }
 </style>
