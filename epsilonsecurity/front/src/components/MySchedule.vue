@@ -43,7 +43,7 @@ import Vue from 'vue'
 import FullCalendar from 'vue-full-calendar'
 import moment from 'moment'
 import axios from 'axios'
-import store from '../store/store'
+import store from '../store/test_store'
 
 Vue.use(FullCalendar) // add the vue-full-calendar plugin to Vue
 window.jQuery = window.$ = require('jquery') // we need jquery too

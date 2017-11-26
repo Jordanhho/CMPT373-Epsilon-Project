@@ -7,7 +7,7 @@ import ProfileView from './components/ManageUsers/ProfileView.vue';
 import MyProfile from './components/MyProfile.vue';
 // todo: import other components here
 import NotFound from './components/NotFound.vue';
-import store from './store/store'
+import store from './store/test_store'
 
 Vue.use(VueRouter)
 
