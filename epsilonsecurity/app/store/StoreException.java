@@ -15,11 +15,11 @@ public class StoreException extends Exception {
         USER // TODO: add as we implement stores
     }
 
-    public StoreException(Table table, Reason reason) {
+    public StoreException(StoreException.Table table, StoreException.Reason reason) {
         new StoreException(table, reason, null);
     }
 
-    public StoreException(Table table, Reason reason, @Nullable String message) {
+    public StoreException(StoreException.Table table, StoreException.Reason reason, @Nullable String message) {
         super(message);
         this.table = table;
         this.reason = reason;

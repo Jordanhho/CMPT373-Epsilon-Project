@@ -6,7 +6,8 @@ import java.util.List;
 
 public class DbShiftTypeHelper {
 
-    private DbShiftTypeHelper() {}
+    private DbShiftTypeHelper() {
+    }
 
     public static void createDbShiftType(DbShiftType dbShiftType) {
         dbShiftType.save();
@@ -18,6 +19,16 @@ public class DbShiftTypeHelper {
 
     public static DbShiftType readDbShiftTypeById(Integer id) {
         return DbShiftType.find.byId(id);
+    }
+
+    public static List<DbShiftType> readAllDbShiftTypeById(Integer id) {
+        List<DbShiftType> dbShiftTypeList = DbShiftType.find
+                .query()
+                .where()
+                .eq(DbShiftType.COLUMN_ID, id)
+                .findList();
+
+        return dbShiftTypeList;
     }
 
     public static DbShiftType readDbShiftTypeByName(String name) {
