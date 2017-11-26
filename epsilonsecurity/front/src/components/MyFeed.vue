@@ -5,11 +5,12 @@
         <ul class="my-feed">
             <li class="my-feed-element" v-for="scheduleReminder in scheduleReminders">
                 <ScheduleReminder
-                        v-bind:shiftName="scheduleReminder.phoneNumber"
-                        v-bind:shiftStartTime="scheduleReminder.phoneNumber"
-                        v-bind:shiftEndTime="scheduleReminder.phoneNumber"
+                        v-bind:shiftName="scheduleReminder.shiftName"
+                        v-bind:shiftStartTime="scheduleReminder.shiftStartTime"
+                        v-bind:shiftEndTime="scheduleReminder.shiftEndTime"
                         v-bind:hoursAgo="scheduleReminder.phoneNumber"
-                        v-bind:shiftDate="scheduleReminder.phoneNumber">
+                        v-bind:shiftTeamName="scheduleReminder.shiftTeamName"
+                        v-bind:shiftDate="scheduleReminder.shiftDate">
                 </ScheduleReminder>
             </li>
         </ul>
@@ -49,7 +50,7 @@
             }
         },
         created: function () {
-            axios.get('/api/users')
+            axios.get('/api/users/' + 2 + '/reminders')
                 .then(this.populateScheduleReminder)
                 .catch(function (error) {
                     console.log(error)

@@ -25,7 +25,7 @@
 
                             <v-flex d-flex xs12>
                                 <p>You have a {{shiftName}} shift from {{shiftStartTime}} to {{shiftEndTime}}
-                                    on {{ shiftDate }}.</p>
+                                    on {{shiftDate}} in {{shiftTeamName}}.</p>
                             </v-flex>
                         </v-layout>
                     </v-flex>
@@ -70,6 +70,10 @@
                 required: false
             },
             shiftDate: {
+                type: String,
+                required: false
+            },
+            shiftTeamName: {
                 type: String,
                 required: false
             }
