@@ -80,12 +80,12 @@
 								<v-flex xs12>
 									<v-select
 										label="Campus"
-										v-bind:items="campusList"
-										v-model="availability.campus"
+										v-bind:items="teamList"
+										v-model="availability.teamName"
 										single-line
-										item-value="text"
+										item-text="teamName"
+										item-value="teamId"
 										prepend-icon="map"
-										:rules="[() => !!availability.campus || 'You must pick a campus']"
 										required
 										:disabled="availabilitySubmitted">
 									</v-select>
@@ -281,9 +281,6 @@ export default {
 			//current user Id
 			userId: 2,
 
-			 //TODO have to set this later
-			//teamId: null,
-
 			// ----------------- MODALS --------------------------------
 			showEditorWindow: false, //editor window popup
 			showCreateOptions: false, //show the create button for the editor window
@@ -330,7 +327,11 @@ export default {
 			},
 
 			//-------------------- Campus selection -----------------------
-			campusList: [],
+			teamList: [],
+			team: {
+				teamName: "",
+				teamId: -1,
+			},
 
 			//campus colors
 			burnabyCampus: "red",
@@ -344,11 +345,11 @@ export default {
 			availability: {
 				eventObj: null,
 				eventId: -1,
-				title: "",
 				date: this.getNextWeekMondayMoment(),
 				timeStart: this.getDefaultStartTime(),
 				timeEnd: this.getDefaultEndTime(),
-				campus: "",
+				teamName: "",
+				teamId: -1,
 			},
 
 			//-------------------- event id assignment -------------------------------
@@ -357,9 +358,9 @@ export default {
 			//--------------- calendar config ------------------------------
 			config: {
 				header: {
-					left: 'prev, today, next,',
+					left: '',
 					center: 'title',
-					right: 'month,agendaWeek,agendaDay'
+					right: 'agendaWeek,agendaDay'
 				},
 
 				defaultView: 'agendaWeek',
@@ -371,12 +372,25 @@ export default {
 				nowIndicator: true, //shows today
 				firstDay: 1, //sets first day of week to monday
 				weekNumberCalculation: "ISO", //sets week number calculation to ISO
+				navLinks: true, //allows clicking on a day
 
 				//----------------- selection of events --------------------------
+				editable: false, //allows resizing of events
+				selectable: true, //allows dragging on calendar.
+				selectHelper: true, //allows to make an event on calendar
+				selectOverlap: false, //do not allow event overlap selection
+
+				selectMinDistance: 5, //minimum distance click has to move inorder to detect as event PREVENT MISCLICKS
+				selectLongPressDelay: 1000, //minimum miliseconds user holds down before it counts as a selectable
 
 				eventClick: this.availabilityClickEvent, //triggered with an event is clicked
-				editable: false, //allows resizing of events
-				selectable: false, //prevents dragging on calendar
+				select: this.availabilityCreateDrag, //triggered after a selection when user stops dragging.
+
+				//restrict selection of an event to maximxum one day
+				selectConstraint: {
+					start: "00:00",
+					end: "24:00"
+				},
 
 				//restrict event to maximum one day
 				eventConstraint: {
@@ -452,13 +466,13 @@ export default {
 			//compare if they are equal in minutes and hours
 			if((moment(momentStartObj).get('hour') == moment(momentEndObj).get('hour')) && (moment(momentStartObj).get('minute') == moment(momentEndObj).get('minute'))) {
 				this.showTimeError = true;
-				this.timeErrorMessage = "[Invalid Time] The Time End is the same as Time Start";
+				this.timeErrorMessage = "The Time End is the same as Time Start";
 				this.timeBoundsCheck = true;
 				return true;
 			}
 			else if(momentEndObj < momentStartObj) {
 				this.showTimeError = true;
-				this.timeErrorMessage = "[Invalid Time] The Time End is before Time Start";
+				this.timeErrorMessage = "The Time End is before Time Start";
 				this.timeBoundsCheck = true;
 				return true;
 			}
@@ -473,17 +487,15 @@ export default {
 		checkIfAvailabilityConflicts(action) {
 
 			//parse/set the availability start and end moment object's date and time
-		    var momentStartObj = moment(this.availability.date + " " + this.availability.timeStart, ["YYYY-MM-DD h:mma"]);
-		    var momentEndObj = moment(this.availability.date + " " + this.availability.timeEnd, ["YYYY-MM-DD h:mma"]);
-		    var parseStart = moment().set({'date': moment(momentStartObj).get('date'), 'hour': moment(momentStartObj).get('hour'), 'minute': moment(momentStartObj).get('minute')});
-		    var parseEnd = moment().set({'date': moment(momentEndObj).get('date'), 'hour': moment(momentEndObj).get('hour'), 'minute': moment(momentEndObj).get('minute')});
-		    var currMomentStart = moment(parseStart);
-		    var currMomentEnd = moment(parseEnd);
+			var momentStartObj = moment(this.availability.date + " " + this.availability.timeStart, ["YYYY-MM-DD h:mma"]);
+			var momentEndObj = moment(this.availability.date + " " + this.availability.timeEnd, ["YYYY-MM-DD h:mma"]);
+			var currMomentStart = moment().set({'date': moment(momentStartObj).get('date'), 'hour': moment(momentStartObj).get('hour'), 'minute': moment(momentStartObj).get('minute')});
+			var currMomentEnd = moment().set({'date': moment(momentEndObj).get('date'), 'hour': moment(momentEndObj).get('hour'), 'minute': moment(momentEndObj).get('minute')});
 
-		    //get local list of events
-		    var eventList = $('#calendar').fullCalendar('clientEvents');
-		    for(var i = 0; i < eventList.length; i++) {
-		        var currEvent = eventList[i];
+			//get local list of events
+			var eventList = $('#calendar').fullCalendar('clientEvents');
+			for(var i = 0; i < eventList.length; i++) {
+				var currEvent = eventList[i];
 
 				//if same object only on edit
 				if((action == "edit") && (currEvent.id == this.availability.eventId)) {
@@ -496,13 +508,13 @@ export default {
 				//compare time in hours and minutes with current event object and currently selected availabilty
 				if((currEvent.start <= currMomentEnd) && (currEvent.end >= currMomentStart)) {
 					this.showTimeError = true;
-					this.timeErrorMessage = "[Invalid Time] The Time range conflicts with another availability";
+					this.timeErrorMessage = "Time range conflicts with another availability";
 					this.timeConflictCheck = true;
 					return true;
 				}
-		    }
+			}
 			this.timeConflictCheck = false;
-		    return false;
+			return false;
 		},
 
 		//create a moment object that is the starting monday of the current day and next week
@@ -518,19 +530,19 @@ export default {
 			return nextSundayDate;
 		},
 
-		//----------------------- campus color ----------------------------
+		//----------------------- team color ----------------------------
 
-		//returns the color string for the campus colors
-		getCampusColor: function(campusName) {
-			if(campusName == "BURNABY") {
+		//returns the color string for the team colors
+		getCampusColor: function(teamName) {
+			if(teamName == "BURNABY") {
 				return this.burnabyCampus;
 			}
 			//blue for surrey
-			else if(campusName == "SURREY") {
+			else if(teamName == "SURREY") {
 				return this.surreyCampus;
 			}
 			//Yellow for vancouver
-			else if(campusName == "VANCOUVER") {
+			else if(teamName == "VANCOUVER") {
 				return this.vancouverCampus;
 			}
 			//purple if not specified -> for debug
@@ -551,6 +563,21 @@ export default {
 
 		//---------------------create, delete, edit calendar operations ----------------------
 
+		availabilityCreateDrag: function(start, end, jsEvent, view) {
+			if(this.availabilitySubmitted == true) {
+				$('#calendar').fullCalendar('editable', false);
+				$('#calendar').fullCalendar('selectable', false);
+				$('#calendar').fullCalendar('selectHelper', false);
+			}
+			else {
+				this.availability.date = moment(start).format("YYYY-MM-DD");
+				this.availability.timeStart = moment(start).format("h:mma");
+				this.availability.timeEnd = moment(end).format("h:mma");
+				this.showEditorWithCreate();
+			}
+		},
+
+
 		//TODO handle creation of an availability
 		availabilityCreate: function() {
 
@@ -564,15 +591,17 @@ export default {
 		    //all conditions are met for creating this availability
 		    if(this.checkTimePickerBounds() == false && this.checkIfAvailabilityConflicts("create") == false) {
 		        //create new object for event with the newly created moment objects
-		        var event = {
-		            id: this.getNewEventId(),
+				var newEventId = this.getNewEventId();newEventId
+				this.availability.eventId = newEventId;
+			    var event = {
+		            id: newEventId,
 		            start: momentStartObj,
 		            end: momentEndObj,
-		            title: this.availability.campus,
+		            title: this.availability.teamName,
 		        }
 
-		        //change color for event based on campus
-		        event.color = this.getCampusColor(this.availability.campus);
+		        //change color for event based on team
+		        event.color = this.getCampusColor(this.availability.teamName);
 
 		        //change textcolor
 		        event.textColor = "white"
@@ -580,11 +609,22 @@ export default {
 		        //render event
 		        $('#calendar').fullCalendar('renderEvent', event, true);
 
+				//add the new availability to the local availability list
+				var newAvailability = {
+					eventObj: event,
+					eventId: newEventId,
+					date: this.availability.date,
+					timeStart: momentStartObj,
+					timeEnd: momentEndObj,
+					teamName: this.availability.teamName,
+					teamId: this.getTeamIdFromTeamName(this.availability.teamName),
+				}
+
+				console.log("newAvailability=[eventId=" + newAvailability.eventId + "], date=[" + moment(newAvailability.date, ["YYYY-MM-DD"]).format("YYYY-MM-DD h:mma") + "], timeStart=[" + moment(newAvailability.timeStart, ["h:mma"]).format("YYYY-MM-DD h:mma") + "], timeEnd=[" + moment(newAvailability.timeEnd, ["h:mma"]).format("YYYY-MM-DD h:mma") + "], teamName=" + newAvailability.teamName + "], teamId=[" + newAvailability.teamId + "]");
+				this.availabilityList.push(newAvailability);
+
 		        //close window
 		        this.hideEditor();
-		    }
-		    else {
-		        //TODO: make some sort of error indication that it the availability you are trying to make is incorrect
 		    }
 		},
 
@@ -595,10 +635,10 @@ export default {
 			this.availability.eventObj = event;
 			this.availability.eventId = event.id;
 			this.availability.title = event.title;
-			this.availability.date = moment(event.start, ["YYYY-MM-DD"]).format("YYYY-MM-DD");
+			this.availability.date = moment(event.start, ["YYYY-MM-DD"]).format("YYYY-MM-DD");4
 			this.availability.timeStart = moment(event.start, ["h:mma"]).format("h:mma");
 			this.availability.timeEnd = moment(event.end, ["h:mma"]).format("h:mma");
-			this.availability.campus = event.title;
+			this.availability.teamName = event.title;
 
 			//show edit availability
 			this.showEditorWithEdit();
@@ -621,12 +661,25 @@ export default {
 				this.availability.eventObj.id = this.availability.eventId;
 				this.availability.eventObj.start = momentStartObj;
 				this.availability.eventObj.end = momentEndObj;
-				this.availability.eventObj.title = this.availability.campus;
+				this.availability.eventObj.title = this.availability.teamName;
 
 				//change color for event based on campus
-				this.availability.eventObj.color = this.getCampusColor(this.availability.campus);
+				this.availability.eventObj.color = this.getCampusColor(this.availability.teamName);
 
-				//update event
+				//update availability on the local availability eventList
+				for(var i = 0; i < this.availabilityList.length; i++) {
+					if(this.availabilityList[i].eventId == this.availability.eventId) {
+						this.availabilityList[i].date = this.availability.date;
+						this.availabilityList[i].timeStart = this.availability.timeStart;
+						this.availabilityList[i].timeEnd = this.availability.timeEnd;
+						this.availabilityList[i].teamName = this.availability.teamName;
+						this.availabilityList[i].eventObj = this.availability.eventObj;
+						this.availabilityList[i].teamId = this.getTeamIdFromTeamName(this.availability.teamName);
+						break;
+					}
+				}
+
+				//update event on calendar
 				$('#calendar').fullCalendar('updateEvent', this.availability.eventObj);
 
 				//close window
@@ -639,6 +692,14 @@ export default {
 		availabilityDelete: function(availability, event) {
 			$('#calendar').fullCalendar('removeEvents', this.availability.eventId);
 
+			//deletes availability inside availability eventList//update availability on the local availability eventList
+			for(var i = 0; i < this.availabilityList.length; i++) {
+				if(this.availabilityList[i].eventId == this.availability.eventId) {
+					this.availabilityList.splice(i, 1);
+					break;
+				}
+			}
+
 			//close window
 			this.hideEditor();
 		},
@@ -648,8 +709,10 @@ export default {
 		//blocks out most user interaction when availability is submitted
 		availabilitySubmitComplete: function() {
 
-			//TODO submit get availability list from the local calendar storage
-			this.availabilityList = this.getAvailabilityList();
+			//disables resizing of events, editing of events, selection of new events
+			$('#calendar').fullCalendar('editable', false);
+			$('#calendar').fullCalendar('selectable', false);
+			$('#calendar').fullCalendar('selectHelper', false);
 
 			//set value of all availability list to submitted
 			this.availabilityStatus = "SUBMITTED";
@@ -659,15 +722,7 @@ export default {
 			this.showSubmitWindow = false;
 		},
 
-
-		//retrives all events on local calendar
-		getAvailabilityList: function() {
-			this.availabilityList = $('#calendar').fullCalendar('clientEvents');
-			return this.availabilityList;
-		},
-
-
-		//-------------- Helper functions for mounted -----------------------------
+		//-------------- Helper functions -----------------------------
 
 		//returns next week monday date object
 		getNextWeekMondayDate: function() {
@@ -690,24 +745,76 @@ export default {
 			return sundayDate;
 		},
 
+		//return the string teamName for that teamID
+		getTeamNameFromTeamId: function(checkTeamId) {
+			for(var i = 0; i < this.teamList.length; i++) {
+				if(checkTeamId == this.teamList[i].teamId) {
+					return this.teamList[i].teamName;
+				}
+			}
+			return "invalid teamName";
+		},
+
+		//return the teamID from the string TeamName
+		getTeamIdFromTeamName: function(checkTeamName) {
+			for(var i = 0; i < this.teamList.length; i++) {
+				if(checkTeamName == this.teamList[i].teamName) {
+					return this.teamList[i].teamId;
+				}
+			}
+			return "invalid teamId";
+		},
+
 		//--------------------------- axios get and post -----------------------------
 
+
 		//populate this user's team list
-		populateUserTeamList(response) {
-			this.campusList = response.data.map(x => x.name);
+		populateUserTeamList(dbTeamList) {
+			for(var i = 0; i < dbTeamList.length; i++) {
+				this.team.teamId = dbTeamList[i].id;
+				this.team.teamName = dbTeamList[i].name;
+				this.teamList.push(this.team);
+			}
+			//response.data.map(x => x.id);
 		},
 
 
 		//initialize this user's availabilty's status
-		populateAvailabilityStatus(response) {
-			this.availabilityStatus = response.data;
-		}
+		populateAvailabilityStatus(availStatus) {
+			this.availabilityStatus = availStatus.data;
+		},
+
+		//initalize this user's availability list that exists for this availability week
+		populateExistingAvailabilities(dbAvailabilityList) {
+			for(var i = 0; i < dbAvailabilityList.length; i++) {
+				var currDbAvail =  dbAvailabilityList[i];
+				var teamStr = this.getTeamNameFromTeamId(currDbAvail.userTeamId);
+				var currEventId = this.getNewEventId();
+
+				var newEventObj = {
+					id: currEventId,
+					start: moment(currDbAvail.timeStart).format("h:mma"),
+					end: moment(currDbAvail.timeEnd).format("h:mma"),
+					title: teamStr,
+				}
+
+				var currAvail = {
+					eventObj: newEventObjl,
+					eventId: currEventId,
+					date: moment(currDbAvail.timeStart).format("YYYY-MM-DD"),
+					timeStart: moment(currDbAvail.timeStart).format("h:mma"),
+					timeEnd: moment(currDbAvail.timeEnd).format("h:mma"),
+					teamName:  teamStr,
+					teamId: currDbAvail.teamId,
+				};
+				this.availabilityList.push(currAvail);
+			}
+		},
 	},
 
+
+
 	created: function() {
-		//TODO initialize the status of availability submission
-
-
 		//initialize local list of teams the user belongs to
 		axios.get('/api/users/' + this.userId + '/teams')
 		.then(this.populateUserTeamList)
@@ -715,18 +822,22 @@ export default {
 			console.log(error);
 		});
 
-		//TODO initialize list of availabilities assigned currently for next week
+		//initialize the status of availability submission
+		for(var i = 0; i < this.teamList.length; i++) {
+			axios.get('/api/users/' + this.userId + '/teams' + this.teamList[0].teamId + '/onetimeavailabilites?start=' + timeStart + "&end=" + timeEnd)
+			.then(this.populateAvailabilityStatus)
+			.catch(function (error) {
+				console.log(error);
+			});
+		}
 
-		//http://api/users/1/teams/1/onetimeavailabilites?start=10249812&end=2938109
-		//api/users/$userId<[^/]+>/teams/$teamId<[^/]+>/onetimeavailabilites?start=TIMESTART&end=TIMEENDco
-		//TODO: get state of user's availability: open, submitted, approved
-		// axios.get('/api/users/' + this.userId + '/teams' + this.teamId + '/onetimeavailabilites?start=' + timeStart + "&end=" + timeEnd)
-		// .then(this.populateAvailabilityStatus)
-		// .catch(function (error) {
-		// 	console.log(error);
-		// });
-
-
+		//TODO initialize the existing availabilities for this availabiity weekdayfor(int i = 0; i < teamList.length; i++) {
+		// axios.get('/api/users/' + this.userId + '/teams' + this.teamList[0].teamId + '/onetimeavailabilites?start=' + timeStart + "&end=" + timeEnd)
+		// 	.then(this.populateAvailabilityStatus)
+		// 	.catch(function (error) {
+		// 		console.log(error);
+		// 	});
+		// }
 	},
 	mounted () {
 
@@ -742,6 +853,7 @@ export default {
 		this.allowedTimes = this.restrictTimeIncrements
 	}
 }
+
 </script>
 <style scoped lang="stylus">
 @import '../../node_modules/fullcalendar/dist/fullcalendar.css';
