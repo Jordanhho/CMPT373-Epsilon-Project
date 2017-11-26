@@ -1,10 +1,14 @@
 <template>
 
-    <ul class="my-feed">
-        <li class="my-feed-list" v-for="scheduleReminder in scheduleReminders">
-            <ScheduleReminder></ScheduleReminder>
-        </li>
-    </ul>
+    <v-container>
+
+            <ul class="my-feed">
+                <li class="my-feed-element" v-for="scheduleReminder in scheduleReminders">
+                    <ScheduleReminder></ScheduleReminder>
+                </li>
+            </ul>
+
+    </v-container>
 
 </template>
 
@@ -16,7 +20,7 @@
         name: 'my-feed',
         data() {
             return {
-                scheduleReminders: [1, 2, 3]
+                scheduleReminders: [1, 2, 3, 1, 1, 1, 1]
             }
         },
         components: {
@@ -28,14 +32,23 @@
 
 <style scoped>
 
-    .my-feed {
+    html, body {
         height: 100%;
-        width: 100%;
     }
 
-    .my-feed-list {
+    .container {
+        padding: 0;
+    }
+
+    .my-feed {
+        height: 90vh;
+        overflow-y: scroll;
+        padding: 0;
+    }
+
+    .my-feed-element {
         list-style: none;
-        padding-bottom: 1em;
+        padding: 1em;
     }
 
 </style>

@@ -75,9 +75,8 @@
 
 <style scoped>
 
-    .container {
-        max-width: 50%;
-        width: 100%;
+    #avatar {
+        flex-flow: column;
     }
 
     #notification-title {
