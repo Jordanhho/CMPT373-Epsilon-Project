@@ -3,10 +3,7 @@ package models.queries;
 import models.databaseModel.helpers.*;
 import models.databaseModel.scheduling.*;
 
-import java.util.ArrayList;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Schedule Util class for table queries
@@ -210,6 +207,27 @@ public final class ScheduleUtil {
         targetOneTimeAvailList.addAll(filteredSet);
 
         return targetOneTimeAvailList.get(0).getStatus();
+    }
+
+    public static List<DbShiftType> getShiftTypeListByTeamId(Integer teamId) {
+        List<DbUserTeam> dbUserTeamList = DbUserTeamHelper.readAllDbUserTeamsByTeamId(teamId);
+
+        List<DbUserShift> dbUserShiftList = new ArrayList<>();
+        for (DbUserTeam dbUserTeam : dbUserTeamList) {
+            dbUserShiftList.addAll(DbUserShiftHelper.readDbUserShiftByUserTeamId(dbUserTeam.getId()));
+        }
+
+        List<DbShift> dbShiftList = new ArrayList<>();
+        for (DbUserShift dbUserShift : dbUserShiftList) {
+            dbShiftList.add(DbShiftHelper.readDbShiftById(dbUserShift.getShiftId()));
+        }
+
+        Set<DbShiftType> dbShiftTypeSet = new HashSet<>();
+        for (DbShift dbShift : dbShiftList) {
+            dbShiftTypeSet.add(DbShiftTypeHelper.readDbShiftTypeById(dbShift.getShiftTypeId()));
+        }
+
+        return new ArrayList<>(dbShiftTypeSet);
     }
 }
 

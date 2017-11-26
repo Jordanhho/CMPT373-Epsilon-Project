@@ -2,12 +2,15 @@ package controllers;
 
 import models.databaseModel.helpers.DbShiftTypeHelper;
 import models.databaseModel.scheduling.DbShiftType;
+import models.queries.ScheduleUtil;
 import play.data.Form;
 import play.data.FormFactory;
+import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 
 import javax.inject.Inject;
+import java.util.List;
 
 public class ShiftTypeController extends Controller {
 
@@ -45,4 +48,8 @@ public class ShiftTypeController extends Controller {
         return ok();
     }
 
+    public Result readShiftTypesByTeamId(Integer teamId) {
+        List<DbShiftType> dbShiftTypeList = ScheduleUtil.getShiftTypeListByTeamId(teamId);
+        return ok(Json.toJson(dbShiftTypeList));
+    }
 }
