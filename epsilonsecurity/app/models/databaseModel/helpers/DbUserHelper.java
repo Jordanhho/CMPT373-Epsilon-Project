@@ -2,6 +2,7 @@ package models.databaseModel.helpers;
 
 
 import models.databaseModel.scheduling.DbUser;
+import models.queries.ScheduleReminder;
 
 import java.util.List;
 
@@ -64,5 +65,9 @@ public final class DbUserHelper {
         dbUserList.removeIf(dbUser -> dbUser.getRoleId() == 1);
         return dbUserList;
     }
+
+
+//    public static List<ScheduleReminder> readScheduleRemindersByUserId() {
+//    }
 
 }
