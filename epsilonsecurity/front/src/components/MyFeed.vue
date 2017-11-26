@@ -2,7 +2,7 @@
 
     <v-container>
 
-        <ul class="my-feed">
+        <ul v-if="scheduleReminders.length > 0" class="my-feed">
             <li class="my-feed-element" v-for="scheduleReminder in scheduleReminders">
                 <ScheduleReminder
                         v-bind:shiftName="scheduleReminder.shiftName"
@@ -14,6 +14,9 @@
                 </ScheduleReminder>
             </li>
         </ul>
+
+        <h2 v-if="scheduleReminders.length <= 0" class="empty-message" display-3>No Reminders</h2>
+        <h6 v-if="scheduleReminders.length <= 0" class="empty-message" title>Sign up for some shifts!</h6>
 
     </v-container>
 
@@ -64,6 +67,10 @@
 
     html, body {
         height: 100%;
+    }
+
+    .empty-message {
+        text-align: center;
     }
 
     .container {
