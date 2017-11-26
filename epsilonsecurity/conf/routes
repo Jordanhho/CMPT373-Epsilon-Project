@@ -20,6 +20,9 @@ POST          /api/users                                                        
 # Read a user by userId
 GET           /api/users/:userId                                                                       controllers.UserController.readUserByUserId(userId: Integer)
 
+# Read user by sfuEmail
+GET           /api/users/email/:sfuEmail                                                               controllers.UserController.retrieveUser(sfuEmail: String)
+
 # Read all users
 GET           /api/users                                                                               controllers.UserController.readAllUsers()
 
@@ -57,7 +60,7 @@ GET           /api/users/teams/:teamId                                          
 GET           /api/users/:userId/teams                                                                 controllers.UserTeamController.readDbUserTeamByUserId(userId: Integer)
 
 # Assign a user to a list of teams
-POST          /api/users/:userId/teams/                                                                controllers.UserTeamController.createUserTeamByUserIdAndTeamIdArray(userId: Integer)
+POST          /api/users/:userId/teams                                                                controllers.UserTeamController.createUserTeamByUserIdAndTeamIdArray(userId: Integer)
 
 # Assign a user to a team
 POST          /api/users/:userId/teams/:teamId                                                         controllers.UserTeamController.createUserTeam(userId: Integer, teamId: Integer)

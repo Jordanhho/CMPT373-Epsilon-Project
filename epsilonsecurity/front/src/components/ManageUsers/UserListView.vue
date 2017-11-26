@@ -75,6 +75,7 @@ export default {
                 .catch(function (error) {
                     console.log(error);
                 });
+                alert(JSON.stringify(this.teamIDs, null, 2));
         },
         requestUsers() {
             var usersURL = '';
