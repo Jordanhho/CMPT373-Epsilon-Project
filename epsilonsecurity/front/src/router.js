@@ -36,27 +36,39 @@ const router = new VueRouter({
 		// this is a red flag -- everything about /manage-users should be in 1 subtree.
          {
               path: '/manage-users',
+							name: 'userManagementList',
               component: ManageUsers,
               meta: {
                   requiresAuth: true,
-                  adminOnly: false
-              }
-         },
-        {
-            path: '/manage-users/:id',
-            component: ManageUsers,
-            children: [
-                {
-                    path: '',
-                    component: ProfileView,
-                    props: true
-                }
-                ],
-            meta: {
-              requiresAuth: true,
-              adminOnly: true
-            }
-        },
+                  adminOnly: true
+              },
+							children: [
+								{
+									path: ':id',
+									name: 'userManagementProfile',
+									component: ProfileView,
+									props: true,
+									meta: {
+										requiresAuth: true,
+										adminOnly: true
+									}
+								}
+							]
+        		},
+        // {
+        //     path: '/manage-users/:id',
+        //     component: ManageUsers,
+        //     children: [
+        //         {
+        //             path: '',
+        //
+        //         }
+        //         ],
+        //     meta: {
+        //       requiresAuth: true,
+        //       adminOnly: true
+        //     }
+        // },
 		{
 			path: '/manage-teams',
 			component: MySchedule, // todo: create component

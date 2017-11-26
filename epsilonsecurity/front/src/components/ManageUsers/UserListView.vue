@@ -11,12 +11,12 @@
             <v-flex xs5>
                 <add-user   id="add-user"
                             @add="onClickAdd"
-                            v-bind:teams="teams"></add-user>
+                            v-bind:teams="teams"
+                            v-bind:roles='roles'></add-user>
             </v-flex>
             <v-flex xs12>
-                <ul id="scroll">
+                <ul id="listedItems">
                     <listed-user    v-for="user in users"
-                                    @clicked="onClickListElement"
                                     v-bind:user="user"></listed-user>
                 </ul>
             </v-flex>
@@ -37,6 +37,7 @@ export default {
     data() {
         return {
             users: [],
+            teamIDs: [],
             selectedTeam: -1,
             all: {
                 id: -1,
@@ -45,18 +46,35 @@ export default {
         }
     },
     methods: {
-        onClickListElement(value) {
-            this.$emit('clicked', value);
-        },
-        onClickAdd(user) {
+        onClickAdd(data) {
+            this.teamIDs = data.teamIDs;
+
+            let user = data.user;
             axios.post('/api/users', user)
-            .then(response => this.requestUsers())
-            .catch(function (error) {
-                console.log(error);
-            });
+                .then(response => this.updateAfterAddingUser(user))
+                .catch(function (error) {
+                    console.log(error);
+                });
+
         },
         populateUsers(response) {
             this.users = response.data;
+        },
+        updateAfterAddingUser(user) {
+            axios.get('/api/users/email/' + user.sfuEmail)
+                .then(this.assignUserToTeams)
+                .catch(function (error) {
+                    console.log(error);
+                });
+        },
+        assignUserToTeams(response) {
+            let user = response.data;
+            axios.post('/api/users/' + user.id + '/teams',
+                        {teamIdList: this.teamIDs})
+                .then(response => this.requestUsers())
+                .catch(function (error) {
+                    console.log(error);
+                });
         },
         requestUsers() {
             var usersURL = '';
@@ -85,6 +103,10 @@ export default {
             type: Array,
             required: true
         },
+        roles: {
+            type: Array,
+            required: true
+        },
     },
     computed: {
         teamList: function () {
@@ -103,8 +125,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-#scroll {
-    overflow-y: scroll;
+#listedItems {
     overflow-x: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -125,11 +146,7 @@ export default {
 }
 
 #userlist{
-    padding: 2em;
     background: #FBFBFB;
-}
-
-#add-user, #dropdown {
 }
 
 </style>
