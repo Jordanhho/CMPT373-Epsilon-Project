@@ -3,12 +3,13 @@
         <v-layout row wrap>
             <v-flex xs12 md3>
                 <!-- OptionsPanel !-->
-                <options @selected='newTeamSelected'>
+                <options @selected='newTeamSelected'
+                         @changed='newShiftSelected'>
                 </options>
             </v-flex>
             <v-flex xs12 md9 fill-height>
                 <!-- CalendarPanel !-->
-                <router-view>
+                <router-view v-bind:shiftTypes='selectedShifts'>
                 </router-view>
             </v-flex>
         </v-layout>
@@ -26,11 +27,16 @@
         name: 'manage-schedule',
         data() {
             return {
+                selectedTeam: 1,
+                selectedShifts: []
             }
         },
         methods: {
             newTeamSelected(selected) {
                 this.$router.push({path: '/manage-schedules/' + selected})
+            },
+            newShiftSelected(selected) {
+                this.selectedShifts = selected;
             }
         },
         mounted: function() {

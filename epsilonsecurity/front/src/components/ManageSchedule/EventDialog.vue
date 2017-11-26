@@ -1,10 +1,10 @@
 <template>
     <v-layout row justify-center>
-        <v-dialog v-model="dialog" persistent max-width="500px">
-    <v-card-text
+        <v-dialog v-model="dialog" persistent max-width="90vw">
+            <v-card-text
                 style="height: 1px;
                 position: relative;"
-                 slot='activator' >
+                slot='activator'>
                 <v-btn absolute dark fab top right color="blue" >
                     <v-icon> add </v-icon>
                 </v-btn>
@@ -16,9 +16,145 @@
                 </v-card-title>
                 <v-card-text>
 
+                    <v-container grid-list-xs>
+                        <v-layout fill-height row wrap>
+                            <v-flex xs6>
+                                <v-container fluid>
+                                    <v-layout row wrap>
+                                        <!-- TeamId -->
+                                        <v-flex xs12>
+                                            <v-text-field
+                                                label="Team"
+                                                :value="teamName"
+                                                disabled>
+                                            </v-text-field>
+                                        </v-flex>
+
+                                        <!-- shiftType -->
+                                        <v-flex xs12>
+                                            <v-select   v-bind:items='shiftTypes'
+                                                        v-model='shiftType'
+                                                        prepend-icon="map">
+                                            </v-select>
+                                        </v-flex>
+
+                                        <!-- day -->
+                                        <v-flex>
+                                            <v-flex xs12>
+                                                <!-- might need to be its own component -->
+												<v-dialog v-model="dateModal" persistent lazy full-width>
+													<v-text-field
+														slot="activator"
+														label="Date"
+														v-model="shiftObj.date"
+														prepend-icon="event"
+														readonly
+														required>
+													</v-text-field>
+													<v-date-picker
+														v-model="shiftObj.date"
+														first-day-of-week="1"
+														actions>
+														<template scope="{ save, cancel }">
+															<v-card-actions>
+																<v-btn flat color="primary" @click="save">
+																	Save
+																</v-btn>
+																<v-spacer></v-spacer>
+																<v-btn flat color="primary" @click="cancel">
+																	Cancel
+																</v-btn>
+															</v-card-actions>
+														</template>
+													</v-date-picker>
+												</v-dialog>
+											</v-flex>
+                                        </v-flex>
+                                        <!-- start -->
+                                        <v-flex>
+                                            <v-dialog v-model="timeStartModal" persistent lazy full-width>
+                                                <v-text-field
+                                                    slot="activator"
+                                                    label="Time Start"
+                                                    v-model="shiftObj.timeStart"
+                                                    prepend-icon="access_time"
+                                                    readonly
+                                                    required>
+                                                </v-text-field>
+                                                <v-time-picker
+                                                    v-model="shiftObj.timeStart"
+                                                    :allowed-hours="allowedTimes.hours"
+                                                    :allowed-minutes="allowedTimes.minutes"
+                                                    actions>
+                                                    <template scope="{ save, cancel }">
+                                                        <v-card-actions>
+                                                            <v-btn flat color="primary" @click="save">
+                                                                Save
+                                                            </v-btn>
+                                                            <v-spacer></v-spacer>
+                                                            <v-btn flat color="primary" @click="cancel">
+                                                                Cancel
+                                                            </v-btn>
+                                                        </v-card-actions>
+                                                    </template>
+                                                </v-time-picker>
+                                            </v-dialog>
+                                        </v-flex>
+
+                                        <!-- end -->
+                                        <v-flex>
+                                            <v-dialog v-model="timeEndModal" persistent lazy full-width>
+                                                <v-text-field
+                                                    slot="activator"
+                                                    label="Time End"
+                                                    v-model="shiftObj.timeEnd"
+                                                    prepend-icon="access_time"
+                                                    readonly
+                                                    required>
+                                                </v-text-field>
+                                                <v-time-picker
+                                                    v-model="shiftObj.timeEnd"
+                                                    :allowed-hours="allowedTimes.hours"
+                                                    :allowed-minutes="allowedTimes.minutes"
+                                                    actions>
+                                                    <template scope="{ save, cancel }">
+                                                        <v-card-actions>
+                                                            <v-btn flat color="primary" @click="save">
+                                                                Save
+                                                            </v-btn>
+                                                            <v-spacer></v-spacer>
+                                                            <v-btn flat color="primary" @click="cancel">
+                                                                Cancel
+                                                            </v-btn>
+                                                        </v-card-actions>
+                                                    </template>
+                                                </v-time-picker>
+                                            </v-dialog>
+                                        </v-flex>
+
+                                    </v-layout>
+                                </v-container>
+                            </v-flex >
+
+                            <v-flex xs6>
+                                <v-container class='cap-height scroll-y'>
+                                    <v-layout row wrap>
+                                        <v-flex xs12>
+                                            <v-checkbox
+                                                v-for='user in users'>
+                                            </v-checkbox>
+                                        </v-flex>
+                                    </v-layout>
+                                </v-container>
+                            </v-flex>
+                        </v-layout>
+                    </v-container>
+
+
                 </v-card-text>
                 <v-card-actions>
                     <v-spacer></v-spacer>
+                    <v-btn color="blue darken-1" flat @click.native="addShift">Add</v-btn>
                     <v-btn color="blue darken-1" flat @click.native="toggleDialog">Close</v-btn>
                 </v-card-actions>
             </v-card>
@@ -33,7 +169,40 @@
     export default {
         data () {
             return {
+                //modals
+                dateModal: false,
+                timeStartModal: false,
+                timeEndModal: false,
+
                 dialog: false,
+                teamName: "",
+                shiftType: -1,
+                users: [],
+
+                shiftObj: {
+                    teamID: -1,
+                    shiftTypeId: -1,
+                    userId: -1,
+                    date: null,
+                    timeStart: null,
+                    timeEnd: null,
+                },
+
+
+                allowedTimes: {
+                    hours: null,
+                    minutes: null,
+                },
+
+                //restrict it to 15 minutes increments, do not change hours
+                restrictTimeIncrements: {
+                    hours: function(value) {
+                        return value
+                    },
+                    minutes: function(value) {
+                        return value % 15 === 0
+                    }
+                },
             }
         },
         components: {
@@ -42,8 +211,53 @@
         methods: {
             toggleDialog() {
                 this.dialog = !this.dialog;
+            },
+            addShift() {
+                
+            },
+            populateTeamName(response) {
+                this.teamName = response.data.name;
+            },
+            populateUsers(response) {
+                this.users = response.data;
+                console.log(JSON.stringify(this.users, null, 2));
             }
         },
+        props: {
+            teamId: {
+                type: String,
+                required: true,
+            },
+            shiftTypes: {
+                type: Array,
+                required: true,
+            },
+        },
+        watch: {
+            shiftTypes: function(val) {
+                if(val.length >= 1) {
+                    this.shiftType = val[0];
+                }
+            }
+        },
+        updated: function() {
+            axios.get('/api/teams/' + this.teamId)
+            .then(this.populateTeamName)
+            .catch(function (error) {
+                console.log(error);
+            });
+
+        },
+        mounted: function() {
+
+            this.allowedTimes = this.restrictTimeIncrements;
+
+            axios.get('/api/users')
+            .then(this.populateUsers)
+            .catch(function (error) {
+                console.log(error);
+            });
+        }
     }
 </script>
 
@@ -110,6 +324,10 @@
     .modal-leave-active .modal-container {
         -webkit-transform: scale(1.1);
         transform: scale(1.1);
+    }
+
+    .cap-height{
+        height: 60vh;
     }
 
 </style>

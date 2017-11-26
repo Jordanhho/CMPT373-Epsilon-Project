@@ -30,6 +30,11 @@ export default {
             selectedTeam: 1,
         }
     },
+    watch: {
+        selectedShifts: function(val) {
+            this.$emit('changed', this.selectedShifts);
+        }
+    },
     methods: {
         populateTeams(response){
             this.teams = response.data.map(

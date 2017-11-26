@@ -10,14 +10,15 @@
       </v-layout>
       <v-layout>
           <v-flex xs1 offset-xs11>
-              <eventDialog></eventDialog>
+              <eventDialog  v-bind:teamId='teamId'
+                            v-bind:shiftTypes='shiftTypes'>
+              </eventDialog>
           </v-flex>
       </v-layout>
   </v-container>
 </template>
 
 <script>
-    import EventEditor from "./EventEditor.vue";
     import EventDialog from "./EventDialog.vue";
 
     import Vue from 'vue';
@@ -31,6 +32,19 @@
     export default {
         data: function() {
             return {
+
+                shiftList: [],
+
+                shift: {
+                    eventObj: null,
+                    eventId: -1,
+                    date: null,
+                    timeStart: null,
+                    timeEnd: null,
+                    teamId: -1,
+                    shiftTypeId: -1,
+                },
+
                 config: {
                     header: {
     					left: 'prev, today, next,',
@@ -85,19 +99,31 @@
             teamId: {
                 type: String,
                 required: true,
+            },
+            shiftTypes: {
+                type: Array,
+                required: true
             }
         },
         components: {
             "eventDialog": EventDialog,
         },
         methods: {
-            pressPlus() {
-                alert(JSON.stringify(this.$refs.eventDialog, null, 2));
-            }
-        },
-        mounted: function() {
 
-        }
+
+            createShift: function(shiftObj) {
+                
+            },
+
+
+
+            // shiftCreateDrag: function(start, end, jsEvent, view) {
+    		// 	this.shift.date = moment(start).format("YYYY-MM-DD");
+    		// 	this.shift.timeStart = moment(start).format("h:mma");
+    		// 	this.shift.timeEnd = moment(end).format("h:mma");
+    		// 	this.showEditorWithCreate();
+    		// },
+      },
     }
 </script>
 

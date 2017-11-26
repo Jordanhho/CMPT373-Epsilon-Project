@@ -96,6 +96,9 @@ DELETE        /api/shifttypes/:qualificationName                                
 # List all teams in the database
 GET           /api/teams                                                                               controllers.TeamController.listAllTeams()
 
+# Get a team by id
+GET           /api/teams/:teamId                                                                       controllers.TeamController.getTeamById(teamId: Integer)
+
 # Create a team
 POST          /api/teams                                                                               controllers.TeamController.createTeam()
 
