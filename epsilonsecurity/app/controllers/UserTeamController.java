@@ -41,16 +41,17 @@ public class UserTeamController extends Controller {
     public Result createUserTeamByUserIdAndTeamIdArray(Integer userId) {
         Integer[] teamIdArray = getDbTeamArrayFromForm();
         List<DbTeam> dbTeamList = new ArrayList<>();
-
-        // Ensure all teamIds provided are valid by making invalid teamIds generate null DbTeams
         for (Integer teamId : teamIdArray) {
             dbTeamList.add(DbTeamHelper.readDbTeamById(teamId));
         }
 
         for (DbTeam dbTeam : dbTeamList) {
-            DbUserTeam dbUserTeam = new DbUserTeam(dbTeam.getId(), userId);
-            DbUserTeamHelper.createDbUserTeam(dbUserTeam);
+            if (!DbUserTeamHelper.isExistingUserTeam(userId, dbTeam.getId())) {
+                DbUserTeam dbUserTeam = new DbUserTeam(dbTeam.getId(), userId);
+                DbUserTeamHelper.createDbUserTeam(dbUserTeam);
+            }
         }
+
         return ok();
     }
 

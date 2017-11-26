@@ -211,6 +211,29 @@ public final class ScheduleUtil {
 
         return targetOneTimeAvailList.get(0).getStatus();
     }
+
+    public static List<DbOneTimeAvailability> getAllOneTimeAvailByUserIdAndTimeRange(Integer userId, Long timeStart,
+                                                                                     Long timeEnd) {
+        List<DbUserTeam> dbUserTeamList = DbUserTeamHelper.readAllDbUserTeamsByUserId(userId);
+
+        List<DbOneTimeAvailability> dbOneTimeAvailByUser = new ArrayList<>();
+        for (DbUserTeam dbUserTeam : dbUserTeamList) {
+            List<DbOneTimeAvailability> targetOneTimeAvailList = DbOneTimeAvailabilityHelper
+                    .readDbOneTimeAvailabilityByUserTeamId(dbUserTeam.getId());
+            dbOneTimeAvailByUser.addAll(targetOneTimeAvailList);
+        }
+
+        List<DbOneTimeAvailability> dbOneTimeAvailByTimeRange = DbOneTimeAvailabilityHelper
+                .readDbOneTimeAvailabilityByTimeRange(timeStart, timeEnd);
+
+        Set<DbOneTimeAvailability> filteredSet = new LinkedHashSet<>(dbOneTimeAvailByUser);
+        filteredSet.retainAll(dbOneTimeAvailByTimeRange);
+
+        List<DbOneTimeAvailability> dbOneTimeAvailabilityList = new ArrayList<>();
+        dbOneTimeAvailabilityList.addAll(filteredSet);
+
+        return dbOneTimeAvailabilityList;
+    }
 }
 
 
