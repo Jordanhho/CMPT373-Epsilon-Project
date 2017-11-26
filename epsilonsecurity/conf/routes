@@ -210,6 +210,9 @@ POST          /api/onetimeavailabilites                                         
 # Read a one time availability by oneTimeAvailabilityId
 GET           /api/onetimeavailabilites/:oneTimeAvailabilityId                                         controllers.OneTimeAvailabilityController.readOneTimeAvailabilityById(oneTimeAvailabilityId: Integer)
 
+# Get all one time availabilities tied to a user
+GET           /api/users/:userId/onetimeavailabilites?start=TIMESTART&end=TIMEEND                      controllers.OneTimeAvailabilityController.readOneTimeAvailabilitiesByUserIdAndTimeRange(userId : Integer)
+
 # Delete a one time availability by oneTimeAvailabilityId
 DELETE        /api/onetimeavailabilites/:oneTimeAvailabilityId                                         controllers.OneTimeAvailabilityController.deleteOneTimeAvailability(oneTimeAvailabilityId: Integer)
 
