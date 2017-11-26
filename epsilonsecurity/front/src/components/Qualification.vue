@@ -28,8 +28,8 @@ export default{
     #qualification{
         border-style: solid;
         text-align: center;
-        margin-left: 1%;
-        margin-right: 1%;
+        margin-left: 5%;
+        margin-right: 5%;
         padding-bottom: 1%;
     }
     #qualification-symbol{

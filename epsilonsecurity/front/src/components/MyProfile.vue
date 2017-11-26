@@ -1,6 +1,6 @@
 
 <template>
-     <div id = "profile-main">
+     <div id = "profile-main" class = "scroll-y">
         <div id = "profile-header">
             <img :src="userPhoto" alt="" id= "user-photo">
             <div id = "basic-info">
@@ -16,28 +16,39 @@
             <h1 class = "header">
                 Information
             </h1>
-            <div id= "info-body">
-                <div id = "tab">
-                    <li v-for= "tab in tabs">
-                        {{tab.text}}
-                    </li>
-                </div>
-                <div id = "content">
-                    <li v-for= "content in tabContent">
-                        {{content}}                                
-                    </li>
-                </div>
-                <span id= "spacer"></span>
-                <div id= "hours">
-                    <div id = "hours-no-graph">
-                        <span id= "number-hours">{{hoursNumber}}</span>
-                        <span id= "hours-text">HOURS</span>    
-                    </div>    
-                    <v-btn color = "primary" dark @click.stop= "graphDspl = true">
-                        Detailed Hours
-                    </v-btn>
-                </div>
-            </div>
+            <v-container id= "info-body" grid-list-sm test-xs-center>
+                <v-layout v-bind="binding">
+                    <v-flex>
+                        <v-layout>
+                            <div id = "tab">
+                                <li v-for= "tab in tabs">
+                                    {{tab.text}}
+                                </li>
+                            </div>
+                            <div id = "content">
+                                <li v-for= "content in tabContent">
+                                    {{content}}                                
+                                </li>
+                            </div>
+                        </v-layout>
+                    </v-flex>
+                    <v-flex>
+                        <v-layout>
+                            <span id= "spacer"></span>
+                            <div id= "hours">
+                                <div id = "hours-no-graph">
+                                    <span id= "number-hours">{{hoursNumber}}</span>
+                                    <span id= "hours-text">HOURS</span>    
+                                </div>    
+                                <v-btn id = "hour-btn"  color = "primary" dark @click.stop= "graphDspl = true">
+                                    Detailed Hours
+                                </v-btn>
+                            </div>
+                        </v-layout>
+                    </v-flex>
+                </v-layout>
+            </v-container>
+
         </div>
         <div id = "qualificationList"  class = "scroll-y">
                 <h1 class = "header">
@@ -47,9 +58,9 @@
                     <v-container grid-list-sm test-xs-center>
                         <v-layout v-bind="binding">
                             <v-flex v-for ="qualification in qualificationNames" :key="qualification">
-                                <v-card>
+                                <div>
                                     <qualification v-bind:qualificationName= "qualification" class = "card-style"></qualification>
-                                </v-card>
+                                </div>
                             </v-flex>
                         </v-layout>
                     </v-container>
@@ -201,9 +212,10 @@ export default {
         flex-flow: column nowrap;
         width: 100%;
         height: 100%;
-        overflow: auto;
+        overflow: auto; 
         border-style: groove;
         padding-top: 5%;
+        height: 80em;
     }
 
     #profile-header{
@@ -213,14 +225,14 @@ export default {
         background: lightgrey; 
     }
     #user-photo{
-        width: 12em;
-        height: 12em;
+        width: 15em;
+        height: 15em;
         border-radius: 50%;
         border-style: none;
     }
     #basic-info{
         margin-left: 5%;
-        margin-top: 1.5%;
+        margin-top: 1%;
         flex-flow: column nowrap;
     }
     #user-name{
@@ -235,49 +247,49 @@ export default {
     #personal-info{
         margin-top: 1.5%;
     }
-    #info-body{
-        flex-flow: row nowrap;
-        display: flex;
-        margin-left: 5%;        
-    }
     #tab{        
         list-style-type: none;
         text-align: right;
-        font-size: 2em;
+        font-size: 2.3em;
+        margin-left: 15%;
+        margin-top: 3%;
     }
     #content{
         background: white;
         list-style-type: none;
         display: block;
         text-align: left;
-        font-size: 2em;
+        font-size: 2.3em;
         margin-left: .5%;
+        margin-top: 3%;
     }
     #hours{
         display: flex;
         flex-flow: column nowrap;
         margin-right: 10%;
         align-items: left;
-        border-top: 0;
-
     }
     #hours-no-graph{
         display: flex;
         flex-flow: row nowrap;
-        font-size: 1.5em;
+        font-size: 2em;
         text-align: right;
         margin-left: 10%;
     }
     #spacer{
-        flex-grow: 1;
+        flex-grow: .55;
     }
     #number-hours{
         font-size: 3.5em;
+        border-top: 0%;
     }
     #hours-text{
         align-self: flex-end;
         padding-bottom: 1.7em;
         padding-left: .5em;
+    }
+    #hour-btn{
+        font-size: 1.5em;
     }
     #pie-chart{
         background: white;
@@ -288,9 +300,9 @@ export default {
         height: 40em;
     }
     .header{
-        font-size: 2em;  
+        font-size: 2.5em;  
         text-align: left;
-        margin: 1% 0% 1.5% 1%;      
+        margin: 1% 0% 1.5% 3%;      
     }
     #q-body{
         display: flex;
@@ -298,6 +310,11 @@ export default {
     .card-style{
         height: 10em;
     }
-
+    #chart{
+        font-size: 10em;
+    }
+    #pie-chart{
+        padding-bottom: 1.5em;
+    }
 </style>
 
