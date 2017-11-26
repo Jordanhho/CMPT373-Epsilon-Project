@@ -4,7 +4,13 @@
 
         <ul class="my-feed">
             <li class="my-feed-element" v-for="scheduleReminder in scheduleReminders">
-                <ScheduleReminder></ScheduleReminder>
+                <ScheduleReminder
+                        v-bind:shiftName="scheduleReminder.phoneNumber"
+                        v-bind:shiftStartTime="scheduleReminder.phoneNumber"
+                        v-bind:shiftEndTime="scheduleReminder.phoneNumber"
+                        v-bind:hoursAgo="scheduleReminder.phoneNumber"
+                        v-bind:shiftDate="scheduleReminder.phoneNumber">
+                </ScheduleReminder>
             </li>
         </ul>
 
@@ -21,11 +27,11 @@
         name: 'my-feed',
         data() {
             return {
-                hoursAgo: '',
-                shiftStartTime: '',
-                shiftEndTime: '',
-                shiftDate: '',
-                shiftName: '',
+//                hoursAgo: '',
+//                shiftStartTime: '',
+//                shiftEndTime: '',
+//                shiftDate: '',
+//                shiftName: '',
                 scheduleReminders: []
             }
         },
@@ -34,15 +40,12 @@
         },
         methods: {
             populateScheduleReminder(scheduleReminder) {
+//                alert(JSON.stringify(scheduleReminder.data, null, 2))
                 var arrLength = scheduleReminder.data.length;
 
                 for (var i = 0; i < arrLength; i++) {
                     this.scheduleReminders.splice(i, 0, scheduleReminder.data[i])
                 }
-//                this.shiftStartTime = scheduleReminder.data.firstName;
-//                this.shiftEndTime = scheduleReminder.data.firstName;
-//                this.shiftDate = scheduleReminder.data.firstName;
-//                this.shiftName = scheduleReminder.data.firstName;
             }
         },
         created: function () {

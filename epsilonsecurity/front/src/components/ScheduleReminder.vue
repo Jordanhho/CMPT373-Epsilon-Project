@@ -20,11 +20,12 @@
                             </v-flex>
 
                             <v-flex d-flex xs6>
-                                <p class="text-xs-right" id="hours-ago">23 hours ago</p>
+                                <p class="text-xs-right" id="hours-ago">{{hoursAgo}}</p>
                             </v-flex>
 
                             <v-flex d-flex xs12>
-                                <p>You have a {{shiftName}} shift from {{ shiftStartTime }} to {{ shiftEndTime }} on {{ shiftDate }}.</p>
+                                <p>You have a {{shiftName}} shift from {{shiftStartTime}} to {{shiftEndTime}}
+                                    on {{ shiftDate }}.</p>
                             </v-flex>
                         </v-layout>
                     </v-flex>
@@ -44,30 +45,34 @@
         name: 'scheduleReminder',
         data() {
             return {
-                hoursAgo: "23 Hours Ago",
-                shiftStartTime: "12:00 AM",
-                shiftEndTime: "1:00 PM",
-                shiftDate: "Today",
-                shiftName: "THEFT PREVENTION"
+//                hoursAgo: "23 Hours Ago",
+//                shiftStartTime: "12:00 AM",
+//                shiftEndTime: "1:00 PM",
+//                shiftDate: "Today",
+//                shiftName: "THEFT PREVENTION"
             }
         },
         props: {
-//            hoursAgo: {
-//                type: String,
-//                required: false
-//            },
-//            shiftStartTime: {
-//                type: String,
-//                required: false
-//            },
-//            shiftEndTime: {
-//                type: String,
-//                required: false
-//            },
-//            shiftDate: {
-//                type: String,
-//                required: false
-//            }
+            hoursAgo: {
+                type: String,
+                required: false
+            },
+            shiftStartTime: {
+                type: String,
+                required: false
+            },
+            shiftEndTime: {
+                type: String,
+                required: false
+            },
+            shiftName: {
+                type: String,
+                required: false
+            },
+            shiftDate: {
+                type: String,
+                required: false
+            }
         }
     }
 
