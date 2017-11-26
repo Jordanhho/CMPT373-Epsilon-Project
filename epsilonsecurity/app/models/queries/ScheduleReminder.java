@@ -119,7 +119,7 @@ public class ScheduleReminder {
                 for (DbShift dbShift : DbShiftHelper.readAllDbShiftByShiftId(dbUserShift.getShiftId())) {
 
                     // Add shifts which are not over yet to the reminders
-                    if (isShiftOver(dbShift)) {
+                    if (!isShiftOver(dbShift)) {
 
                         // Create dates from the shift start and end dates.
                         shiftStartTime = new Date(dbShift.getTimeStart() * 1000L);
