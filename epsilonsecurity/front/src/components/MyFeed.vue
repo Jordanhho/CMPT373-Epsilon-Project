@@ -2,11 +2,11 @@
 
     <v-container>
 
-            <ul class="my-feed">
-                <li class="my-feed-element" v-for="scheduleReminder in scheduleReminders">
-                    <ScheduleReminder></ScheduleReminder>
-                </li>
-            </ul>
+        <ul class="my-feed">
+            <li class="my-feed-element" v-for="scheduleReminder in scheduleReminders">
+                <ScheduleReminder></ScheduleReminder>
+            </li>
+        </ul>
 
     </v-container>
 
@@ -15,16 +15,42 @@
 <script>
 
     import ScheduleReminder from './ScheduleReminder.vue'
+    import axios from 'axios';
 
     export default {
         name: 'my-feed',
         data() {
             return {
-                scheduleReminders: [1, 2, 3, 1, 1, 1, 1]
+                hoursAgo: '',
+                shiftStartTime: '',
+                shiftEndTime: '',
+                shiftDate: '',
+                shiftName: '',
+                scheduleReminders: []
             }
         },
         components: {
             ScheduleReminder
+        },
+        methods: {
+            populateScheduleReminder(scheduleReminder) {
+                var arrLength = scheduleReminder.data.length;
+
+                for (var i = 0; i < arrLength; i++) {
+                    this.scheduleReminders.splice(i, 0, scheduleReminder.data[i])
+                }
+//                this.shiftStartTime = scheduleReminder.data.firstName;
+//                this.shiftEndTime = scheduleReminder.data.firstName;
+//                this.shiftDate = scheduleReminder.data.firstName;
+//                this.shiftName = scheduleReminder.data.firstName;
+            }
+        },
+        created: function () {
+            axios.get('/api/users')
+                .then(this.populateScheduleReminder)
+                .catch(function (error) {
+                    console.log(error)
+                });
         }
     }
 

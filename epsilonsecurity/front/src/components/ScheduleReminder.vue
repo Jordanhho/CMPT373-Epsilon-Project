@@ -75,10 +75,6 @@
 
 <style scoped>
 
-    #avatar {
-        flex-flow: column;
-    }
-
     #notification-title {
         font-weight: bold;
         font-size: 14pt;
