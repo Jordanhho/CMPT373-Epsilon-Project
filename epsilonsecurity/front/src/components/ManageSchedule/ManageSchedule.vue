@@ -6,9 +6,8 @@
                 <options @selected='newTeamSelected'>
                 </options>
             </v-flex>
-            <v-flex xs12 md9>
+            <v-flex xs12 md9 fill-height>
                 <!-- CalendarPanel !-->
-                <h2>test</h2>
                 <router-view>
                 </router-view>
             </v-flex>
