@@ -3,7 +3,6 @@ package controllers;
 import models.databaseModel.helpers.DbOneTimeAvailabilityHelper;
 import models.databaseModel.scheduling.DbOneTimeAvailability;
 import models.databaseModel.scheduling.Status;
-import models.queries.OneTimeAvailabilityArrayForm;
 import models.queries.ScheduleUtil;
 import play.data.Form;
 import play.data.FormFactory;
@@ -30,12 +29,6 @@ public class OneTimeAvailabilityController extends Controller {
         return form.get();
     }
 
-    private DbOneTimeAvailability[] getDbOneTimeAvailabilityArrayFromForm() {
-        Form<OneTimeAvailabilityArrayForm> form = formFactory
-                .form(OneTimeAvailabilityArrayForm.class).bindFromRequest();
-        return form.get().getDbOneTimeAvailabilities();
-    }
-
     public Result listOneTimeAvailabilities() {
         List<DbOneTimeAvailability> dbOneTimeAvailabilityList = DbOneTimeAvailabilityHelper
                 .readAllDbOneTimeAvailability();
@@ -48,17 +41,7 @@ public class OneTimeAvailabilityController extends Controller {
         return ok();
     }
 
-    public Result createOneTimeAvailabilityFromArray() {
-        DbOneTimeAvailability[] dbOneTimeAvailabilities = getDbOneTimeAvailabilityArrayFromForm();
-        for (DbOneTimeAvailability dbOneTimeAvailability : dbOneTimeAvailabilities) {
-            DbOneTimeAvailabilityHelper.createDbOneTimeAvailability(dbOneTimeAvailability);
-        }
-
-        return ok();
-    }
-
-    // previous name was "readOneTimeAvailabilityById"
-    public Result retrieveOneTimeAvailability(Integer id) {
+    public Result readOneTimeAvailabilityById(Integer id) {
         DbOneTimeAvailability dbOneTimeAvailability = DbOneTimeAvailabilityHelper.readDbOneTimeAvailabilityById(id);
         return ok(Json.toJson(dbOneTimeAvailability));
     }
