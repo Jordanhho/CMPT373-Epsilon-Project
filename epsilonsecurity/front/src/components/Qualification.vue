@@ -30,22 +30,19 @@ export default{
         text-align: center;
         margin-left: 5%;
         margin-right: 5%;
-        padding-bottom: 1%;
     }
     #qualification-symbol{
         display: block;
         width: 2.5em;
         height: 2.5em;
         color: gold; 
-        margin-top: 5%;
+        margin-top: 2%;
         margin-left: auto;
         margin-right: auto;   
     }
     #qualification-name{
         font-size: 2rem;
-        padding-left: 0;
-        padding-right: 0;
-        padding-top: 15%;
+        padding: 15% 0 5% 0;
     }
 </style>    
 

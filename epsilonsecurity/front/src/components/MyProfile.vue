@@ -36,11 +36,11 @@
                         <v-layout>
                             <span id= "spacer"></span>
                             <div id= "hours">
-                                <div id = "hours-no-graph">
-                                    <span id= "number-hours">{{hoursNumber}}</span>
+                                <div id = "hours-info">
+                                    <span id= "hours-number">{{hoursNumber}}</span>
                                     <span id= "hours-text">HOURS</span>    
                                 </div>    
-                                <v-btn id = "hour-btn"  color = "primary" dark @click.stop= "graphDspl = true">
+                                <v-btn id = "hours-btn"  color = "primary" dark @click.stop= "graphDspl = true">
                                     Detailed Hours
                                 </v-btn>
                             </div>
@@ -110,7 +110,6 @@ export default {
     },
     methods: {
         populateUserData(userData){
-            //alert(JSON.stringify(userData.data, null, 2));
             this.userName = userData.data.firstName + " " + userData.data.lastName;
             this.contactInfo = [userData.data.contactEmail, userData.data.phoneNumber];
             this.tabContent.splice(0, 0, userData.data.sfuEmail);
@@ -122,7 +121,6 @@ export default {
             })
         },
         populateTeamData(teamData){
-            //alert(JSON.stringify(teamData.data, null, 2));
             var teamList = "";
             var listLength = teamData.data.length;
             for(var i = 0; i < listLength; i++){
@@ -134,14 +132,10 @@ export default {
             this.tabContent.splice(1, 0, teamList);        
         },
         populateQualificationData(qualificationData){
-            //alert(JSON.stringify(qualificationData.data, null, 2));
             var listLength = qualificationData.data.length;
             for(var i = 0; i < listLength; i++){
                 this.qualificationNames.splice(i, 0, qualificationData.data[i].qualificationName);
             }
-
-            //testing code, remove upon finish developing 
-            this.qualificationNames = this.qualificationNames.concat(["Basic training", "CPR training", "Scuba diving training", "Doomsday training"]);
         },
         populateRoleName(roleData){
             //alert(JSON.stringify(roleData.data, null, 2));
@@ -155,10 +149,6 @@ export default {
             for(var i = 0; i < listLength; i++){
                 this.chartData.splice(i, 0, [hourByShiftTypeData.data[i].shiftTypeName, hourByShiftTypeData.data[i].hour]);
             }
-            //testing code, remove upon finish developing
-            this.chartData.splice(1, 0, ["Lost and found", 2.5]);
-            this.chartData.splice(1, 0, ["Campus navigation", 1.5]);
-            this.chartData.splice(1, 0, ["Doomsday survival assistance", 3]);
         }
     },
     components: {
@@ -196,7 +186,7 @@ export default {
         binding() {
             const binding = {}
 
-            if(this.$vuetify.breakpoint.smAndDown)
+            if(this.$vuetify.breakpoint.mdAndDown)
                 binding.column = true
 
             return binding
@@ -232,17 +222,16 @@ export default {
     }
     #basic-info{
         margin-left: 5%;
-        margin-top: 1%;
         flex-flow: column nowrap;
     }
     #user-name{
-        font-size: 4em;
+        font-size: 4.5em;
         text-align: left;        
     }
     #contact-info{
         list-style-type: none;
         text-align: left;
-        font-size: 2em;
+        font-size: 2.5em;
     }
     #personal-info{
         margin-top: 1.5%;
@@ -263,23 +252,23 @@ export default {
         margin-left: .5%;
         margin-top: 3%;
     }
+    #spacer{
+        flex-grow: .55;
+    }
     #hours{
         display: flex;
         flex-flow: column nowrap;
         margin-right: 10%;
         align-items: left;
     }
-    #hours-no-graph{
+    #hours-info{
         display: flex;
         flex-flow: row nowrap;
         font-size: 2em;
         text-align: right;
         margin-left: 10%;
     }
-    #spacer{
-        flex-grow: .55;
-    }
-    #number-hours{
+    #hours-number{
         font-size: 3.5em;
         border-top: 0%;
     }
@@ -288,32 +277,26 @@ export default {
         padding-bottom: 1.7em;
         padding-left: .5em;
     }
-    #hour-btn{
+    #hours-btn{
         font-size: 1.5em;
     }
-    #pie-chart{
-        background: white;
-        height: 20%;
-    }
+
     #qualificationList{
         margin-top: 3%;
-        height: 40em;
+        height: 40rem;
+    }
+    #q-body{
+        display: flex;
     }
     .header{
         font-size: 2.5em;  
         text-align: left;
         margin: 1% 0% 1.5% 3%;      
-    }
-    #q-body{
-        display: flex;
-    }
-    .card-style{
-        height: 10em;
-    }
-    #chart{
-        font-size: 10em;
+        border-bottom-style: ridge;
     }
     #pie-chart{
+        background: white;
+        height: 20%;
         padding-bottom: 1.5em;
     }
 </style>
