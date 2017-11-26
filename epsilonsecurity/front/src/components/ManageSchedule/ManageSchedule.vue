@@ -1,6 +1,6 @@
 <template>
-    <v-container fluid fill-height>
-        <v-layout row>
+    <v-container fluid>
+        <v-layout row wrap>
             <v-flex xs12 md3>
                 <!-- OptionsPanel !-->
                 <options @selected='newTeamSelected'>
@@ -8,6 +8,7 @@
             </v-flex>
             <v-flex xs12 md9>
                 <!-- CalendarPanel !-->
+                <h2>test</h2>
                 <router-view>
                 </router-view>
             </v-flex>
@@ -26,12 +27,16 @@
         name: 'manage-schedule',
         data() {
             return {
-
             }
         },
         methods: {
             newTeamSelected(selected) {
                 this.$router.push({path: '/manage-schedules/' + selected})
+            }
+        },
+        mounted: function() {
+            if(this.$route.name == 'manage-schedules') {
+                this.$router.push({path: '/manage-schedules/' + 1})
             }
         },
         components: {
@@ -41,6 +46,7 @@
     }
 </script>
 
-<style>
+
+<style scoped lang='scss'>
 
 </style>

@@ -1,11 +1,20 @@
 <template>
     <v-container>
-        <v-layout>
+        <v-layout row wrap>
             <v-select x12
                         v-bind:items='teams'
                         v-model='selectedTeam'
                         @input='$emit("selected", selectedTeam)'>
             </v-select>
+        </v-layout>
+        <v-layout row wrap class='cap-height scroll-y'>
+            <v-flex xs12>
+                <v-checkbox v-for='shift in shifts'
+                            :label='shift.name'
+                            :value='shift.id'
+                            v-model='selectedShifts' >
+                </v-checkbox>
+            </v-flex>
         </v-layout>
     </v-container>
 </template>
@@ -16,6 +25,8 @@ export default {
     data: function () {
         return {
             teams: [],
+            shifts: [],
+            selectedShifts: [],
             selectedTeam: 1,
         }
     },
@@ -27,7 +38,11 @@ export default {
                         value: team.id,
                         text: team.name
                     }
-            });
+                }
+            );
+        },
+        populateShifts(response) {
+            this.shifts = response.data;
         }
     },
     created: function() {
@@ -36,8 +51,17 @@ export default {
         .catch(function (error) {
             console.log(error);
         });
+
+        axios.get('/api/shifttypes')
+        .then(this.populateShifts)
+        .catch(function (error) {
+            console.log(error);
+        });
     }
 }
 </script>
-<style>
+<style scoped lang='scss'>
+.cap-height {
+    max-height: calc(100vh - 32px - 32px - 32px - 74px - 32px);
+}
 </style>

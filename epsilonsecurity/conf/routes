@@ -82,6 +82,9 @@ DELETE        /api/users/:userId/teams                                          
 # Create a shift type
 POST          /api/shifttypes                                                                          controllers.ShiftTypeController.createShiftType()
 
+GET           /api/shifttypes                                                                          controllers.ShiftTypeController.getAllShiftTypes()
+
+
 # Delete a shift type by qualificationName
 DELETE        /api/shifttypes/:qualificationName                                                       controllers.ShiftTypeController.deleteShiftTypeByName(qualificationName: String)
 

@@ -72,10 +72,12 @@ const router = new VueRouter({
 		},
 		{
 			path: '/manage-schedules',
+			name: 'manage-schedules',
 			component: ManageSchedule,
 			children: [
 				{
 					path:':teamId',
+					name: 'manage-schedules-calendar',
 					component: CalendarPanel,
 					props: true,
 					meta: {
