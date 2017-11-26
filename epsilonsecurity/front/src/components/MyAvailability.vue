@@ -486,6 +486,15 @@ export default {
 		//compares the current availability to any preexisting availability if their time conflicts
 		checkIfAvailabilityConflicts(action) {
 
+			// console.log("debug print list of availability locally");
+			// console.log("___________________________________________");
+			// for(var i = 0; i < this.availabilityList.length; i++) {
+			// 	var avail = this.availabilityList[i];
+			// 	console.log("availability=[eventId=" + avail.eventId + "], date=[" + avail.date + "], timeStart=[" + avail.timeStart + "], timeEnd=[" + avail.timeEnd + "], teamName=" + avail.teamName + "], teamId=[" + avail.teamId + "]");
+			// 	console.log("next");
+			// }
+			// console.log("___________________________________________");
+
 			//parse/set the availability start and end moment object's date and time
 			var momentStartObj = moment(this.availability.date + " " + this.availability.timeStart, ["YYYY-MM-DD h:mma"]);
 			var momentEndObj = moment(this.availability.date + " " + this.availability.timeEnd, ["YYYY-MM-DD h:mma"]);
@@ -832,12 +841,12 @@ export default {
 		}
 
 		//TODO initialize the existing availabilities for this availabiity weekdayfor(int i = 0; i < teamList.length; i++) {
-		// axios.get('/api/users/' + this.userId + '/teams' + this.teamList[0].teamId + '/onetimeavailabilites?start=' + timeStart + "&end=" + timeEnd)
-		// 	.then(this.populateAvailabilityStatus)
-		// 	.catch(function (error) {
-		// 		console.log(error);
-		// 	});
-		// }
+		axios.get('/api/users/' + this.userId + '/teams' + this.teamList[0].teamId + '/onetimeavailabilites?start=' + timeStart + "&end=" + timeEnd)
+			.then(this.populateExistingAvailabilities)
+			.catch(function (error) {
+				console.log(error);
+			});
+		}
 	},
 	mounted () {
 
