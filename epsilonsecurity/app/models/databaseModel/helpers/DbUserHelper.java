@@ -6,6 +6,8 @@ import models.queries.ScheduleReminder;
 
 import java.util.List;
 
+import static models.queries.ScheduleReminder.getScheduleRemindersByUserId;
+
 public final class DbUserHelper {
 
     private DbUserHelper() {
@@ -67,7 +69,7 @@ public final class DbUserHelper {
     }
 
 
-//    public static List<ScheduleReminder> readScheduleRemindersByUserId() {
-//    }
-
+    public static List<ScheduleReminder> readAllScheduleReminderByUserId(Integer userId) {
+        return getScheduleRemindersByUserId(userId);
+    }
 }
