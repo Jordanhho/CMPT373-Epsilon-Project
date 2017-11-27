@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import MyFeed from './components/MyFeed.vue';
 import MySchedule from './components/MySchedule.vue';
+import MyAvailability from './components/MyAvailability.vue';
 import ManageUsers from './components/ManageUsers/ManageUsers.vue';
 import ProfileView from './components/ManageUsers/ProfileView.vue';
 import MyProfile from './components/MyProfile.vue';
@@ -62,6 +63,16 @@ const router = new VueRouter({
 				adminOnly: true
 			}
 		},
+		  {
+			  path: '/my-availability',
+			  component: MyAvailability,
+			  meta: {
+				  requiresAuth: true,
+				  adminOnly: false
+		  }
+		},
+
+
 		{
 			path: '/my-profile',
 			component: MyProfile,

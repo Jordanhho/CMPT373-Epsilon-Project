@@ -57,7 +57,7 @@ DELETE        /api/users/shifts/:shiftId                                        
 # List all the users in a specific team
 GET           /api/users/teams/:teamId                                                         controllers.UserTeamController.readAllUsersByTeamId(teamId: Integer)
 
-GET           /api/users/:userId/teams                                                         controllers.UserTeamController.readDbUserTeamByUserId(userId: Integer)
+GET           /api/users/:userId/teams                                                         controllers.UserTeamController.readDbTeamByUserId(userId: Integer)
 
 # Assign a user to a list of teams
 POST          /api/users/:userId/teams                                                                controllers.UserTeamController.createUserTeamByUserIdAndTeamIdArray(userId: Integer)
@@ -66,7 +66,7 @@ POST          /api/users/:userId/teams                                          
 POST          /api/users/:userId/teams/:teamId                                                 controllers.UserTeamController.createUserTeam(userId: Integer, teamId: Integer)
 
 # Read a user-team pair by userId and teamId
-GET           /api/users/:userId/teams/:teamId                                                 controllers.UserTeamController.retrieveUserTeam(userId: Integer, teamId: Integer)
+GET           /api/users/:userId/teams/:teamId                                                 controllers.UserTeamController.retrieveUserTeamId(userId: Integer, teamId: Integer)
 
 # Delete a user-team pair by userId and teamId
 DELETE        /api/users/:userId/teams/:teamId                                                 controllers.UserTeamController.deleteUserTeam(userId: Integer, teamId: Integer)
@@ -209,6 +209,9 @@ GET           /api/onetimeavailabilites                                         
 
 # List all one time availabilities in a time range
 GET           /api/onetimeavailabilites/:timeStart/:timeEnd                                    controllers.OneTimeAvailabilityController.readOneTimeAvailabilitiesByTimeRange(timeStart: Long, timeEnd: Long)
+
+# Get all one time availabilities in a time range from a specific user
+GET           /api/users/:userId/onetimeavailabilites/:timeStart/:timeEnd                     controllers.OneTimeAvailabilityController.readOneTimeAvailabilityByUserId(userId: Integer, timeStart: Long, timeEnd: Long)
 
 # Get the status of a week's set of one time availabilities
 GET           /api/users/:userId/teams/:teamId/onetimeavailabilites/:timeStart/:timeEnd        controllers.OneTimeAvailabilityController.readOneTimeAvailabilityStatus(userId: Integer, teamId: Integer, timeStart: Long, timeEnd: Long)
