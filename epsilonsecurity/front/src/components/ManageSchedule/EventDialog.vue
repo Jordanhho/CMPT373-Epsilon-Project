@@ -33,13 +33,14 @@
                                         <!-- shiftType -->
                                         <v-flex xs12>
                                             <v-select   v-bind:items='shiftDropDown'
-                                                        v-model='shiftType'
-                                                        prepend-icon="map">
+                                                        v-model='shiftObj.shiftTypeId'
+                                                        prepend-icon="map"
+                                                        @input='queryUsers'>
                                             </v-select>
                                         </v-flex>
 
                                         <!-- day -->
-                                        <v-flex>
+                                        <v-flex xs12>
                                             <v-flex xs12>
                                                 <!-- might need to be its own component -->
 												<v-dialog v-model="dateModal" persistent lazy full-width>
@@ -71,7 +72,7 @@
 											</v-flex>
                                         </v-flex>
                                         <!-- start -->
-                                        <v-flex>
+                                        <v-flex xs6>
                                             <v-dialog v-model="timeStartModal" persistent lazy full-width>
                                                 <v-text-field
                                                     slot="activator"
@@ -102,7 +103,7 @@
                                         </v-flex>
 
                                         <!-- end -->
-                                        <v-flex>
+                                        <v-flex xs6>
                                             <v-dialog v-model="timeEndModal" persistent lazy full-width>
                                                 <v-text-field
                                                     slot="activator"
@@ -166,8 +167,8 @@
 </template>
 
 <script>
-
     import axios from 'axios';
+    import moment from 'moment';
 
     export default {
         data () {
@@ -184,9 +185,9 @@
                 selectedUsers: [],
 
                 shiftObj: {
-                    teamID: -1,
-                    shiftTypeId: -1,
-                    userId: -1,
+                    teamId: false,
+                    shiftTypeId: 0,
+                    userId: false,
                     date: null,
                     timeStart: null,
                     timeEnd: null,
@@ -219,11 +220,38 @@
             addShift() {
 
             },
-            populateTeamName(response) {
+            setTeamName(response) {
                 this.teamName = response.data.name;
             },
             populateUsers(response) {
                 this.users = response.data;
+            },
+            queryUsers() {
+                if (this.shiftObj.teamId &&
+                    this.shiftObj.shiftTypeId &&
+                    this.shiftObj.date &&
+                    this.shiftObj.timeStart &&
+                    this.shiftObj.timeEnd) {
+
+                    var team = this.shiftObj.teamId;
+                    var shift = this.shiftObj.shiftTypeId;
+                    var start = moment('2016-12-31', ["YYYY-MM-DD"]).format('X');
+                    var end = moment('2017-12-31', ["YYYY-MM-DD"]).format('X');
+                    //axios.get('/api/users')
+                    axios.get('/api/users/teams/' + team + '/shifts',
+                                {
+                                    params: {
+                                        start: start,
+                                        end: end
+                                }
+                            })
+                    .then(this.populateUsers)
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+                    // /api/users/teams/:teamId/shifts?start=TIMESTART&end=TIMEEND
+
+                }
             }
         },
         props: {
@@ -245,7 +273,7 @@
         },
         updated: function() {
             axios.get('/api/teams/' + this.teamId)
-            .then(this.populateTeamName)
+            .then(this.setTeamName)
             .catch(function (error) {
                 console.log(error);
             });
@@ -264,16 +292,14 @@
             },
         },
         mounted: function() {
-
             this.allowedTimes = this.restrictTimeIncrements;
 
-            axios.get('/api/users')
-            .then(this.populateUsers)
-            .catch(function (error) {
-                console.log(error);
-            });
+            this.shiftObj.teamId = parseInt(this.teamId);
+
+            this.queryUsers();
         },
     }
+
 </script>
 
 <style scoped>

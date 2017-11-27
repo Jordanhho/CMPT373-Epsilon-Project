@@ -9,7 +9,8 @@
             </v-flex>
             <v-flex xs1 hidden-lg-and-up fill-height>
                 <button @click='toggleView' class='fill-all'>
-                        <icon :name='arrowDirection()' class='back colored center'></icon>
+                        <icon   :name='arrowDirection()'
+                                class='back colored center'></icon>
                 </button>
             </v-flex>
             <v-flex xs11 lg9 fill-height v-if='!left || $vuetify.breakpoint.lgAndUp'>
