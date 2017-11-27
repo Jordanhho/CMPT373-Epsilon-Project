@@ -353,7 +353,7 @@ export default {
 			//--------------- calendar config ------------------------------
 			config: {
 				header: {
-					left: 'prev, today, next',
+					left: 'prev,today,next',
 					center: 'title',
 					right: 'month,agendaWeek,agendaDay'
 				},
@@ -371,10 +371,8 @@ export default {
 
 				//----------------- selection of events --------------------------
 				editable: false, //allows resizing of events
-				selectable: true, //allows dragging on calendar.
-				selectHelper: true, //allows to make an event on calendar
 				selectOverlap: false, //do not allow event overlap selection
-
+				selectHelper: true, //allows to make an event on calendar
 				selectMinDistance: 5, //minimum distance click has to move inorder to detect as event PREVENT MISCLICKS
 				selectLongPressDelay: 1000, //minimum miliseconds user holds down before it counts as a selectable
 
@@ -392,6 +390,9 @@ export default {
 					start: "00:00",
 					end: "24:00",
 				},
+
+				// --------------------- allows clicks on calendar ---------------------------
+				selectable: false, //allows dragging on calendar.
 			},
 
 			eventSources: [
