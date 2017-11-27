@@ -198,11 +198,7 @@ public final class ScheduleUtil {
      */
 
     public static Status getOneTimeAvailStatus(Integer userId, Integer teamId, Long timeStart, Long timeEnd) {
-        System.out.println("param: userId:" + userId + " teamid: " + teamId + " timeStart " + timeStart + " timeEnd " + timeEnd);
         List<DbOneTimeAvailability> dbOneTimeAvailByTimeRangeList = getAllOneTimeAvailByUserIdAndTimeRange(userId, timeStart, timeEnd);
-
-        System.out.println("Number of items in this list: " + dbOneTimeAvailByTimeRangeList.size());
-
         if(dbOneTimeAvailByTimeRangeList.size() > 0) {
             return dbOneTimeAvailByTimeRangeList.get(0).getStatus();
         }
@@ -213,9 +209,6 @@ public final class ScheduleUtil {
 
     public static List<DbOneTimeAvailability> getAllOneTimeAvailByUserIdAndTimeRange(Integer userId, Long timeStart,
                                                                                      Long timeEnd) {
-
-        System.out.println("param: userId:" + userId + " timeStart " + timeStart + " timeEnd " + timeEnd);
-
         List<DbUserTeam> dbUserTeamList = DbUserTeamHelper.readAllDbUserTeamsByUserId(userId);
 
         List<DbOneTimeAvailability> dbOneTimeAvailByUser = new ArrayList<>();
@@ -229,18 +222,8 @@ public final class ScheduleUtil {
         List<DbOneTimeAvailability> dbOneTimeAvailByTimeRange = DbOneTimeAvailabilityHelper
                 .readDbOneTimeAvailabilityByTimeRange(timeStart, timeEnd);
 
-        System.out.println("List of all avail in that time range");
-        for(DbOneTimeAvailability OTA: dbOneTimeAvailByTimeRange) {
-            System.out.println(OTA.toString());
-        }
-
         Set<DbOneTimeAvailability> filteredSet = new LinkedHashSet<>(dbOneTimeAvailByUser);
         filteredSet.retainAll(dbOneTimeAvailByTimeRange);
-
-        System.out.println("List of all avail in that time range by this user id");
-        for(DbOneTimeAvailability OTA: filteredSet) {
-            System.out.println(OTA.toString());
-        }
 
         List<DbOneTimeAvailability> dbOneTimeAvailabilityList = new ArrayList<>();
         dbOneTimeAvailabilityList.addAll(filteredSet);
