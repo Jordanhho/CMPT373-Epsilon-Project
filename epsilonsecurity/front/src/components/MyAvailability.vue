@@ -4,7 +4,7 @@
 
 			<v-flex xs12 id = "approval-bar">
 					<!-- Primary background if approved -->
-					<v-card v-if="availabilityStatus == 'OPEN'" dark color="blue" >
+					<v-card v-if="availabilityStatus == 'Open'" dark color="blue" >
 						<v-card-text class="text-xs-center">
 							Status:
 							{{ availabilityStatus }}
@@ -12,7 +12,7 @@
 					</v-card>
 
 					<!-- Red background if Unapproved -->
-					<v-card v-else-if="availabilityStatus == 'SUBMITTED'" dark color="red" >
+					<v-card v-else-if="availabilityStatus == 'Submitted'" dark color="red" >
 						<v-card-text class="text-xs-center">
 							Status:
 							{{ availabilityStatus }}
@@ -20,7 +20,7 @@
 					</v-card>
 
 					<!-- Green background if approved -->
-					<v-card v-else-if="availabilityStatus == 'APPROVED'" dark color="green" >
+					<v-card v-else-if="availabilityStatus == 'Approved'" dark color="green" >
 						<v-card-text class="text-xs-center">
 							Status:
 							{{ availabilityStatus }}
@@ -324,7 +324,7 @@ export default {
 			},
 
 			//-------------------- Campus selection -----------------------
-
+			userTeamIdList: [],
 			teamNameList: [],
 			teamIdList: [],
 
@@ -353,9 +353,9 @@ export default {
 			//--------------- calendar config ------------------------------
 			config: {
 				header: {
-					left: '',
+					left: 'prev, today, next',
 					center: 'title',
-					right: 'agendaWeek,agendaDay'
+					right: 'month,agendaWeek,agendaDay'
 				},
 
 				defaultView: 'agendaWeek',
@@ -577,8 +577,7 @@ export default {
 			// console.log("___________________________________________");
 			// for(var i = 0; i < this.availabilityList.length; i++) {
 			// 	var avail = this.availabilityList[i];
-			// 	console.log("availability=[eventId=" + avail.eventId + "], date=[" + avail.date + "], timeStart=[" + avail.timeStart + "], timeEnd=[" + avail.timeEnd + "], teamName=" + avail.teamName + "], teamId=[" + avail.teamId + "]");
-			// 	console.log("next");
+			// 	console.log("Availability=[eventId=" + avail.eventId + "], date=[" + moment(avail.date, ["YYYY-MM-DD"]).format("YYYY-MM-DD h:mma") + "], timeStart=[" + moment(avail.timeStart, ["h:mma"]).format("YYYY-MM-DD h:mma") + "], timeEnd=[" + moment(avail.timeEnd, ["h:mma"]).format("YYYY-MM-DD h:mma") + "], teamName=" + avail.teamName + "], teamId=[" + avail.teamId + "]");
 			// }
 			// console.log("___________________________________________");
 
@@ -725,7 +724,7 @@ export default {
 						this.availabilityList[i].timeStart = this.availability.timeStart;
 						this.availabilityList[i].timeEnd = this.availability.timeEnd;
 						this.availabilityList[i].teamName = this.availability.teamName;
-						this.availabilityList[i].eventObj = this.availability.eventObj;teamList.teamId
+						this.availabilityList[i].eventObj = this.availability.eventObj;
 						this.availabilityList[i].teamId = this.getTeamIdFromTeamName(this.availability.teamName);
 						break;
 					}
@@ -767,8 +766,9 @@ export default {
 			$('#calendar').fullCalendar('selectHelper', false);
 
 			//set value of all availability list to submitted
-			this.availabilityStatus = "SUBMITTED";
+			this.availabilityStatus = "Submitted";
 			this.availabilitySubmitted = true;
+			this.createAvailabilityToDb();
 
 			//close popup
 			this.showSubmitWindow = false;
@@ -777,17 +777,69 @@ export default {
 		//-------------------------- axios post/create -----------------------
 
 
+		getUserTeamIdFromTeamId: function(teamId) {
+			for(var i = 0; i < this.teamIdList.length; i++) {
+				if(this.teamIdList[i] === teamId) {
+					return this.userTeamIdList[i];
+				}
+			}
+			return -1;
+		},
+
+		getTeamIdFromUserTeamId: function(userTeamId) {
+			for(var i = 0; i < this.userTeamIdList.length; i++) {
+				if(this.userTeamIdList[i] === userTeamId) {
+					return this.teamIdList[i];
+				}
+			}
+			return -1;
+		},
+
+		createAvailabilityToDb: function() {
+			for(var i = 0; i < this.availabilityList.length; i++) {
+
+				var postData = {};
+				var currAvail = this.availabilityList[i];
+				var epochStart = moment(currAvail.timeStart).format("X");
+				var epochEnd = moment(currAvail.timeEnd).format("X");
+				console.log("newAvailability=[eventId=" + currAvail.eventId + "], date=[" + moment(currAvail.date, ["YYYY-MM-DD"]).format("YYYY-MM-DD h:mma") + "], timeStart=[" + moment(currAvail.timeStart, ["h:mma"]).format("YYYY-MM-DD h:mma") + "], timeEnd=[" + moment(currAvail.timeEnd, ["h:mma"]).format("YYYY-MM-DD h:mma") + "], teamName=" + currAvail.teamName + "], teamId=[" + currAvail.teamId + "]");
+				//data fields
+
+				postData.userTeamId = this.getUserTeamIdFromTeamId(currAvail.teamId);
+				postData.timeStart = epochStart;
+				postData.timeEnd = epochEnd;
+				postData.userId = this.loggedInUserId;
+				postData.status = "Submitted";
+
+				//alert(JSON.stringify(postData, null, 5));
+
+				axios.post('/api/onetimeavailabilites', postData)
+	                .catch(function (error) {
+	                    console.log(error);
+	                });
+			}
+		},
 
 
 		//--------------------------- axios get -----------------------------
 
-		populateTeamIdFromUserId(response) {
+		populateUserTeamId(response) {
+			//alert(JSON.stringify(response.data, null, 1));
+			this.userTeamIdList.push(response.data);
+		},
 
+		addUserTeamId: function(targetTeamId) {
+			//alert("userid: " + this.loggedInUserId + " teamid" + targetTeamId);
+			 axios.get('/api/users/' + this.loggedInUserId + '/teams/' + targetTeamId)
+			 .then(this.populateUserTeamId)
+			 .catch(function (error) {
+				 console.log(error);
+			 });
 		},
 
 
 		//populate this user's team list
-		populateUserTeamList(response) {
+		populateTeamList(response) {
 			//alert(JSON.stringify(response.data, null, 2));
 			var localTeamIdList = response.data.map(teamId => teamId.id);
 			var localTeamNameList = response.data.map(teamName => teamName.name);
@@ -802,58 +854,82 @@ export default {
 				this.teamNameList.push(localTeamName);
 				this.teamIdList.push(localTeamId);
 			}
-			//alert("teams have been initialized: " + this.teamIdList[0]);
-		},
+			//sets default team
+			this.availability.teamName = this.teamNameList[0];
 
+			//returns list of userTeamIds
+			for(var i = 0; i < this.teamIdList.length; i++) {
+				this.addUserTeamId(this.teamIdList[i]);
+			}
+
+			//initialize the status of availability submission
+			axios.get('/api/users/' + this.loggedInUserId + '/teams/' + this.teamIdList[0] +'/onetimeavailabilites/' + this.getEpochNextWeekMonday() + "/" + this.getEpochNextWeekSunday())
+			.then(this.populateAvailabilityStatus)
+			.catch(function (error) {
+				console.log(error);
+			});
+
+			//TODO initialize the existing availabilities for this availabiity weekday {
+			axios.get('/api/users/' + this.loggedInUserId + '/onetimeavailabilites/' + this.getEpochNextWeekMonday() + "/" + this.getEpochNextWeekSunday())
+				.then(this.populateExistingAvailabilities)
+				.catch(function (error) {
+					console.log(error);
+			});
+		},
 
 		//initialize this user's availabilty's status
 		populateAvailabilityStatus(response) {
-			alert(JSON.stringify(response.data, null, 1));
+			//alert(JSON.stringify(response.data, null, 1));
 			this.availabilityStatus = response.data;
 		},
 
 		//initalize this user's availability list that exists for this availability week
-		populateExistingAvailabilities(dbAvailabilityList) {
-			//alert(JSON.stringify(response.data, null, 2));
-			// var localTeamIdList = response.data.map(teamId => teamId.id);
-			// var localTeamNameList = response.data.map(teamName => teamName.name);
+		populateExistingAvailabilities(response) {
+			//alert(JSON.stringify(response.data, null, 5));
+			var localUserTeamIdList = response.data.map(userTeamId => userTeamId.userTeamId);
+			var localTimeStartList = response.data.map(timeStartItem => timeStartItem.timeStart);
+			var localTimeEndList = response.data.map(timeEndItem => timeEndItem.timeEnd);
+			var localTeamIdList = [];
+			//sets local list of teamIds
+			for(var i = 0; i < localUserTeamIdList.length; i++) {
+				localTeamIdList.push(this.getTeamIdFromUserId(localUserTeamIdList[i]));
+			}
 
-            //
-			// for(var i = 0; i < response.data.length; i++) {
-			// 	if(i = 0) {
-			// 		//set default team name
-			// 		this.availability.teamName = this.teamList[i].teamName;
-			// 	}
-			// 	var localTeamId = localTeamIdList[i];
-			// 	var localTeamName = localTeamNameList[i];
-			// 	this.teamNameList.push(localTeamName);
-			// 	this.teamIdList.push(localTeamId);
-			// }
+			//adds retrieved data to local availability list
+			for(var i = 0; i < response.data.length; i++) {
 
-			
-			// for(var i = 0; i < dbAvailabilityList.length; i++) {
-			// 	var currDbAvail =  dbAvailabilityList[i];
-			// 	var teamStr = this.getTeamNameFromTeamId(currDbAvail.userTeamId);
-			// 	var currEventId = this.getNewEventId();
+				var newTeamName = this.getTeamNameFromTeamId(localUserTeamIdList[i]);
+				var newEventId = this.getNewEventId();
+				var event = {
+				   id: newEventId,
+				   start: moment(localTimeStartList[i]),
+				   end: moment(localTimeEndList[i]),
+				   title: newTeamName,
+			   	}
+				var localAvailability = {
+					eventObj: event,
+					eventId: newEventId,
+					date: moment(localTimeStartList[i]).format("YYYY-MM-DD"),
+					timeStart: moment(localTimeStartList[i]).format("h:mma"),
+					timeEnd: moment(localTimeEndList[i]).format("h:mma"),
+					teamName: newTeamName,
+					teamId: localUserTeamIdList[i],
+				}
+				//push local list
+				this.availabilityList.push(localAvailability);
+
+				//render the event
+				 $('#calendar').fullCalendar('renderEvent', event, true);
+			}
             //
-			// 	var newEventObj = {
-			// 		id: currEventId,
-			// 		start: moment(currDbAvail.timeStart).format("h:mma"),
-			// 		end: moment(currDbAvail.timeEnd).format("h:mma"),
-			// 		title: teamStr,
-			// 	}
-            //
-			// 	var currAvail = {
-			// 		eventObj: newEventObjl,
-			// 		eventId: currEventId,
-			// 		date: moment(currDbAvail.timeStart).format("YYYY-MM-DD"),
-			// 		timeStart: moment(currDbAvail.timeStart).format("h:mma"),
-			// 		timeEnd: moment(currDbAvail.timeEnd).format("h:mma"),
-			// 		teamName:  teamStr,
-			// 		teamId: currDbAvail.teamId,
-			// 	};
-			// 	this.availabilityList.push(currAvail);
+			// console.log("debug print list of availability locally");
+			// console.log("___________________________________________");
+			// for(var i = 0; i < this.availabilityList.length; i++) {
+			// 	var avail = this.availabilityList[i];
+			// 	console.log("availability=[eventId=" + avail.eventId + "], date=[" + avail.date + "], timeStart=[" + avail.timeStart + "], timeEnd=[" + avail.timeEnd + "], teamName=" + avail.teamName + "], teamId=[" + avail.teamId + "]");
+			// 	console.log("next");
 			// }
+			// console.log("___________________________________________");
 		},
 	},
 
@@ -862,26 +938,10 @@ export default {
 
 		//initialize local list of teams the user belongs to
 		axios.get('/api/users/' + this.loggedInUserId + '/teams')
-		.then(this.populateUserTeamList)
+		.then(this.populateTeamList)
 		.catch(function (error) {
 			console.log(error);
 		});
-
-		//alert("nextMonday: " + this.getEpochNextWeekMonday() + ", nextSunday: "  +this.getEpochNextWeekSunday() + " team id: " + this.teamIdList[0]);
-
-		// //initialize the status of availability submission
-		// axios.get('/api/users/' + this.loggedInUserId + '/teams/' + 0 +'/onetimeavailabilites?start=' + this.getEpochNextWeekMonday() + "&end=" + this.getEpochNextWeekSunday())
-		// .then(this.populateAvailabilityStatus)
-		// .catch(function (error) {
-		// 	console.log(error);
-		// });
-
-		//TODO initialize the existing availabilities for this availabiity weekday {
-		// axios.get('/api/users/' + this.loggedInUserId + '/onetimeavailabilites?start=' + timeStart + "&end=" + timeEnd)
-		// 	.then(this.populateExistingAvailabilities)
-		// 	.catch(function (error) {
-		// 		console.log(error);
-		// });
 	},
 
 	mounted () {
