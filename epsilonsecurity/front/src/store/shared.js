@@ -1,4 +1,3 @@
-/* eslint-disable */
 export default {
   state: {
     loading: false,

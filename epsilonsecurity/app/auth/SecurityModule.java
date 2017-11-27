@@ -65,12 +65,16 @@ public class SecurityModule extends AbstractModule {
         configx.setHttpActionAdapter(new DefaultHttpActionAdapter());
         bind(org.pac4j.core.config.Config.class).toInstance(configx);
 
+        // callback
         CallbackController callbackController = new CallbackController();
         callbackController.setDefaultUrl("/");
         bind(CallbackController.class).toInstance(callbackController);
 
+        // logout
         LogoutController logoutController = new LogoutController();
+//        logoutController.setDefaultUrl("https://cas.sfu.ca/cas/logout");
         logoutController.setDefaultUrl("/?defaulturlafterlogout");
+//        logoutController.setDestroySession(true);
         bind(LogoutController.class).toInstance(logoutController);
     }
 

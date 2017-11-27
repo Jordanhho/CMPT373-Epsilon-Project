@@ -8,10 +8,6 @@ import views.html.index;
 
 import javax.inject.Inject;
 
-/*
-Reorganizing the router file has made this controller obsolete
-It is simply kept here for probable future use.
-*/
 public class HomeController extends Controller {
 
     private final Environment env;
@@ -20,6 +16,8 @@ public class HomeController extends Controller {
     public HomeController(Environment env) {
         this.env = env;
     }
+
+    //@Secure(clients = "AnonymousClient", authorizers = "csrfToken")
     public Result index(String id) {
         if(DbUser.find.query().findCount() == 0){
             new DummyDataBase();

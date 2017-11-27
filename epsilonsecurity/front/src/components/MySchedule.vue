@@ -43,7 +43,7 @@ import Vue from 'vue'
 import FullCalendar from 'vue-full-calendar'
 import moment from 'moment'
 import axios from 'axios'
-import store from '../store/test_store'
+import { store } from '../store'
 
 Vue.use(FullCalendar) // add the vue-full-calendar plugin to Vue
 window.jQuery = window.$ = require('jquery') // we need jquery too
@@ -92,7 +92,7 @@ export default {
 				{
 					events: function(start, end, timezone, callback) {
 						// todo: use userId when api is ready.
-						const userId = store.getters.currentUserId
+						const userId = store.getters.uid
 						axios.get(`/api/users/${userId}/shifts`)
 						.then(response => {
 							// console.log(JSON.stringify(response.data,null,2))
