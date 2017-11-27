@@ -204,8 +204,8 @@ GET           /api/onetimeavailabilites?start=TIMESTART&end=TIMEEND             
 # Get the status of a week's set of one time availabilities
 GET           /api/users/:userId/teams/:teamId/onetimeavailabilites?start=TIMESTART&end=TIMEEND        controllers.OneTimeAvailabilityController.readOneTimeAvailabilityStatus(userId: Integer, teamId: Integer)
 
-# Create one time availabilities from an array
-POST          /api/onetimeavailabilites                                                                controllers.OneTimeAvailabilityController.createOneTimeAvailabilityFromArray()
+# Create a one time availability
+POST          /api/onetimeavailabilites                                                                controllers.OneTimeAvailabilityController.createOneTimeAvailability()
 
 # Read a one time availability by oneTimeAvailabilityId
 GET           /api/onetimeavailabilites/:oneTimeAvailabilityId                                         controllers.OneTimeAvailabilityController.readOneTimeAvailabilityById(oneTimeAvailabilityId: Integer)

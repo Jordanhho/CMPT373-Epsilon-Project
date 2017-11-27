@@ -1,26 +1,24 @@
 <template>
-    <v-container fill-height>
-        <v-layout id="manage-users">
-            <v-flex xs4>
-                <userlist   id="userlist"
-                            ref="userlist"
+    <v-layout class="manage-users">
+        <v-flex v-if='renderLeft()' xs12 lg4 class='scroll-y'>
+            <userlist   class="userlist"
+                        ref="userlist"
+                        v-bind:teams="teams"
+                        v-bind:roles='roles'>
+            </userlist>
+        </v-flex>
+        <v-flex v-if='renderRight()' xs12 lg8 class='scroll-y'>
+            <router-view    class="profile"
                             v-bind:teams="teams"
-                            @clicked="onClickUserListViewItem">
-                </userlist>
-            </v-flex>
-            <v-flex xs8>
-                <router-view    id="profile"
-                                v-bind:teams="teams"
-                                @edited="$refs.userlist.requestUsers()">
-                </router-view>
-            </v-flex>
-        </v-layout>
-    </v-container>
+                            v-bind:roles='roles'
+                            @edited="$refs.userlist.requestUsers()">
+            </router-view>
+        </v-flex>
+    </v-layout>
 </template>
 
 <script>
     import UserListView from './UserListView.vue';
-    import QualificationsView from './QualificationsView.vue';
     import ProfileView from './ProfileView.vue';
     import Icon from 'vue-awesome/components/Icon.vue';
     import axios from 'axios';
@@ -30,26 +28,42 @@
         data() {
             return {
                 teams: [],
-                userID: -1,
+                roles: [],
             }
         },
         methods: {
-            onClickUserListViewItem(value) {
-                this.userID = value;
-            },
             populateTeamList(response) {
                 this.teams = response.data;
             },
+            populateRoleList(response) {
+                this.roles = response.data;
+            },
+            renderLeft() {
+                return this.$vuetify.breakpoint.lgAndUp ||
+                    (this.$vuetify.breakpoint.mdAndDown && !this.focused());
+            },
+            renderRight() {
+                return this.$vuetify.breakpoint.lgAndUp ||
+                    (this.$vuetify.breakpoint.mdAndDown && this.focused());
+            },
+            focused() {
+                return this.$route.name == 'userManagementProfile';
+            }
         },
         components: {
             "userlist": UserListView,
-            'qualifications': QualificationsView,
             'profile': ProfileView,
             Icon
         },
         created: function () {
             axios.get('/api/teams')
             .then(this.populateTeamList)
+            .catch(function (error) {
+                console.log(error);
+            });
+
+            axios.get('/api/roles')
+            .then(this.populateRoleList)
             .catch(function (error) {
                 console.log(error);
             });
@@ -61,35 +75,25 @@
     #manage-users {
         background: white;
         width: 100%;
-        height: 100%;
-        top: 0;
         position: relative;
         display: flex;
-    }
-
-    #profile-main {
         height: 100%;
     }
 
-    #userlist {
+    .userlist {
+        background: white;
+        height: inherit;
+        padding: 2em;
+    }
+
+    .profile {
+        background: white;
         height: 100%;
-        background: white;
-        flex-flow: row nowrap;
+        padding: 2em;
+        overflow-y: visible;
     }
-
-    #profile, #qualifications {
-        height: 50%;
-        width: 100%;
-        flex-flow: row nowrap;
+    .hide {
+        display: none;
     }
-    #profile {
-        display: flex;
-        background: white;
-    }
-
-    #qualifications {
-        background: white;
-    }
-
 
 </style>
