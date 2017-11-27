@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import MyFeed from './components/MyFeed.vue';
 import MySchedule from './components/MySchedule.vue';
+import MyAvailability from './components/MyAvailability.vue';
 import ManageUsers from './components/ManageUsers/ManageUsers.vue';
 import ProfileView from './components/ManageUsers/ProfileView.vue';
 import MyProfile from './components/MyProfile.vue';
@@ -14,55 +15,77 @@ Vue.use(VueRouter)
 const router = new VueRouter({
 	mode: 'history', // caveats. see https://router.vuejs.org/en/essentials/history-mode.html
   routes: [
-		{ 
-			path: '/', 
+		{
+			path: '/',
 			component: MyFeed,
-			meta: { 
+			meta: {
 				requiresAuth: true,
-				adminOnly: false 
+				adminOnly: false
 			}
 		},
 
 		{
-			path: '/my-schedule', 
-			component: MySchedule, 
-			meta: { 
+			path: '/my-schedule',
+			component: MySchedule,
+			meta: {
 				requiresAuth: true,
-				adminOnly: false 
+				adminOnly: false
 			}
 		},
 		// this is a red flag -- everything about /manage-users should be in 1 subtree.
          {
               path: '/manage-users',
+							name: 'userManagementList',
               component: ManageUsers,
               meta: {
                   requiresAuth: true,
-                  adminOnly: false
-              }
-         },
-        {
-            path: '/manage-users/:id',
-            component: ManageUsers,
-            children: [
-                {
-                    path: '',
-                    component: ProfileView,
-                    props: true
-                }
-                ],
-            meta: {
-              requiresAuth: true,
-              adminOnly: true
-            }
-        },
+                  adminOnly: true
+              },
+							children: [
+								{
+									path: ':id',
+									name: 'userManagementProfile',
+									component: ProfileView,
+									props: true,
+									meta: {
+										requiresAuth: true,
+										adminOnly: true
+									}
+								}
+							]
+        		},
+        // {
+        //     path: '/manage-users/:id',
+        //     component: ManageUsers,
+        //     children: [
+        //         {
+        //             path: '',
+        //
+        //         }
+        //         ],
+        //     meta: {
+        //       requiresAuth: true,
+        //       adminOnly: true
+        //     }
+        // },
 		{
-			path: '/manage-teams', 
+			path: '/manage-teams',
 			component: MySchedule, // todo: create component
-			meta: { 
+			meta: {
 				requiresAuth: true,
-				adminOnly: true 
+				adminOnly: true
 			}
 		},
+		  {
+			  path: '/my-availability',
+			  component: MyAvailability,
+			  meta: {
+				  requiresAuth: true,
+				  adminOnly: false
+		  }
+		},
+
+
 		{
 			path: '/my-profile',
 			component: MyProfile,
@@ -72,9 +95,9 @@ const router = new VueRouter({
 			}
 		},
 		// todo: other routes here
-		{ 
-			path: '*', 
-			component: NotFound 
+		{
+			path: '*',
+			component: NotFound
 		},
 	]
 })
@@ -83,7 +106,7 @@ router.beforeEach((to, from, next) => {
 	// if this particular route requires an authenticated user
 	const pageRequiresAuth = to.matched.some(record => record.meta.requiresAuth)
 	const isLoggedIn = store.getters.isLoggedIn
-	
+
 	if (pageRequiresAuth && !isLoggedIn) {
 			next("/login")
 	} else {
