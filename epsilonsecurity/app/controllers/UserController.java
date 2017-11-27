@@ -1,8 +1,8 @@
 package controllers;
 
-import models.DummyDatabase.DummyDataBase;
 import models.databaseModel.helpers.DbUserHelper;
 import models.databaseModel.scheduling.DbUser;
+import models.queries.ScheduleReminder;
 import play.data.Form;
 import play.data.FormFactory;
 import play.libs.Json;
@@ -56,10 +56,15 @@ public class UserController extends Controller {
     }
 
     public Result readAllUsers() {
-        new DummyDataBase();
         List<DbUser> dbUserList = DbUserHelper.readAllDbUsers();
 
         return ok(Json.toJson(dbUserList));
+    }
+
+    public Result readAllScheduleRemindersByUserId(Integer userId) {
+        List<ScheduleReminder> scheduleReminderList = DbUserHelper.readAllScheduleReminderByUserId(userId);
+
+        return ok(Json.toJson(scheduleReminderList));
     }
 
     public Result updateUser(Integer userId) {
