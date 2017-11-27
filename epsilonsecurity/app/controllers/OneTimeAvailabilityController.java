@@ -52,18 +52,14 @@ public class OneTimeAvailabilityController extends Controller {
         return ok();
     }
 
-    public Result readOneTimeAvailabilitiesByTimeRange() {
-        Long timeStart = Long.parseLong(request().getQueryString(TIME_START));
-        Long timeEnd = Long.parseLong(request().getQueryString(TIME_END));
+    public Result readOneTimeAvailabilitiesByTimeRange(Long timeStart, Long timeEnd) {
         List<DbOneTimeAvailability> dbOneTimeAvailabilityList = DbOneTimeAvailabilityHelper
                 .readDbOneTimeAvailabilityByTimeRange(timeStart, timeEnd);
 
         return ok(Json.toJson(dbOneTimeAvailabilityList));
     }
 
-    public Result readOneTimeAvailabilityStatus(Integer userId, Integer teamId) {
-        Long timeStart = Long.parseLong(request().getQueryString(TIME_START));
-        Long timeEnd = Long.parseLong(request().getQueryString(TIME_END));
+    public Result readOneTimeAvailabilityStatus(Integer userId, Integer teamId, Long timeStart, Long timeEnd) {
         Status status = ScheduleUtil.getOneTimeAvailStatus(userId, teamId, timeStart, timeEnd);
         return ok(Json.toJson(status));
     }

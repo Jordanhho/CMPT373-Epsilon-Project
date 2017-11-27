@@ -1,8 +1,7 @@
 package controllers;
 
-import play.mvc.*;
-import models.databaseModel.scheduling.DbOneTimeUnavailability;
-import models.databaseModel.helpers.DbOneTimeUnavailabilityHelper;
+import play.mvc.Controller;
+import play.mvc.Result;
 
 public class OneTimeUnavailabilityController extends Controller {
 
@@ -23,7 +22,7 @@ public class OneTimeUnavailabilityController extends Controller {
         return ok();
     }
 
-    public Result readOneTimeUnavailabilitiesByTimeRange() {
+    public Result readOneTimeUnavailabilitiesByTimeRange(Long timeStart, Long timeEnd) {
         return ok();
     }
 }

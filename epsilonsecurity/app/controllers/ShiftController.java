@@ -61,9 +61,7 @@ public class ShiftController extends Controller {
         return ok();
     }
 
-    public Result readUsersAvailableForShift(Integer teamId) {
-        Long timeStart = Long.parseLong(request().getQueryString(TIME_START));
-        Long timeEnd = Long.parseLong(request().getQueryString(TIME_END));
+    public Result readUsersAvailableForShift(Integer teamId, Long timeStart, Long timeEnd) {
         List<DbUser> dbUserList = ScheduleUtil.queryUsersBasedOnAvailability(teamId, timeStart, timeEnd);
 
         return ok(Json.toJson(dbUserList));
