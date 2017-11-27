@@ -56,7 +56,7 @@ public class UserController extends Controller {
     }
 
     public Result readAllUsers() {
-        new DummyDataBase();
+//        new DummyDataBase();
         List<DbUser> dbUserList = DbUserHelper.readAllDbUsers();
 
         return ok(Json.toJson(dbUserList));
