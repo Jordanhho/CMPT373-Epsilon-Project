@@ -15,8 +15,8 @@
             </li>
         </ul>
 
-        <h2 v-if="scheduleReminders.length <= 0" class="empty-message" display-3>No Reminders</h2>
-        <h6 v-if="scheduleReminders.length <= 0" class="empty-message" title>Sign up for some shifts!</h6>
+        <h2 v-if="scheduleReminders.length <= 0" class="empty-message" display-3>No Notifications</h2>
+        <h6 v-if="scheduleReminders.length <= 0" class="empty-message" title>You have no upcoming events this week.</h6>
 
     </v-container>
 
