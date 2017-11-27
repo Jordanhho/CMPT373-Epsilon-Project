@@ -25,15 +25,15 @@
     import moment from 'moment';
     import axios from 'axios';
     import FullCalendar from 'vue-full-calendar';
-
-    Vue.use(FullCalendar); // add the vue-full-calendar plugin to Vue
-    window.jQuery = window.$ = require('jquery'); // we need jquery too
+    Vue.use(FullCalendar);
+    window.jQuery = window.$ = require('jquery');
 
     export default {
         data: function() {
             return {
+                loggedInUserId: 2,
 
-                shiftList: [],
+                shiftObjList: [],
 
                 shift: {
                     eventObj: null,
@@ -45,9 +45,20 @@
                     shiftTypeId: -1,
                 },
 
+                //-------------------- Campus selection -----------------------
+                //campus colors
+                burnabyCampus: "red",
+                surreyCampus: "blue",
+                vancouverCampus: "teal",
+                noCampus: "purple",
+
+                //-------------------- event id assignment -------------------------------
+    			assignEventId: 0,
+
+                //-------------------- calendar config -------------------------------
                 config: {
                     header: {
-    					left: 'prev, today, next,',
+    					left: 'prev,today,next,',
     					center: 'title',
     					right: 'month,agendaWeek,agendaDay'
     				},
@@ -63,32 +74,12 @@
     				weekNumberCalculation: "ISO", //sets week number calculation to ISO
     				navLinks: true, //allows clicking on a day
 
+
     				//----------------- selection of events --------------------------
     				editable: false, //allows resizing of events
-    				selectable: true, //allows dragging on calendar.
-    				selectHelper: true, //allows to make an event on calendar
-    				selectOverlap: false, //do not allow event overlap selection
-
-    				selectMinDistance: 5, //minimum distance click has to move inorder to detect as event PREVENT MISCLICKS
-    				selectLongPressDelay: 1000, //minimum miliseconds user holds down before it counts as a selectable
-
-    				//triggered with an event is clicked
-    				//eventClick: this.shiftClickEvent,
-
-    				//triggered after a selection is made, i.e user stops dragging.
-    				//select: this.shiftCreateDrag,
-
-    				//restrict selection of an event to maximxum one day
-    				selectConstraint: {
-    					start: "00:00",
-    					end: "24:00"
-    				},
-
-    				//restrict event to maximum one day
-    				eventConstraint: {
-    					start: "00:00",
-    					end: "24:00",
-    				},
+    				selectable: false, //allows dragging on calendar.
+    				//selectHelper: true, //allows to make an event on calendar
+                    eventClick: this.shiftClickEvent, //triggered with an event is clicked
                 },
                 eventSources: [
                     { }
@@ -109,21 +100,89 @@
             "eventDialog": EventDialog,
         },
         methods: {
+            //-------------- Helper functions -----------------------------
+
+            //gets a new event id and increment the eventid counter
+    		getNewEventId: function() {
+    			var newEventId = this.assignEventId;
+    			this.assignEventId = this.assignEventId + 1;
+    			return newEventId;
+    		},
+
+            //returns the color string for the team colors
+            getCampusColor: function(teamName) {
+                if(teamName == "BURNABY") {
+                    return this.burnabyCampus;
+                }
+                //blue for surrey
+                else if(teamName == "SURREY") {
+                    return this.surreyCampus;
+                }
+                //Yellow for vancouver
+                else if(teamName == "VANCOUVER") {
+                    return this.vancouverCampus;
+                }
+                //purple if not specified -> for debug
+                else {
+                    return this.noCampus;
+                }
+            },
+
+            //---------------------create, delete, edit, rerender calendar operations ----------------------
+
+            //handles user clicking on event
+    		shiftObjClickEvent: function(event, jsEvent, view) {
+
+    			//set currently selected shiftObj to this event's data
+    			this.shiftObj.eventObj = event;
+    			this.shiftObj.eventId = event.id;
+    			this.shiftObj.title = event.title;
+    			this.shiftObj.date = moment(event.start, ["YYYY-MM-DD"]).format("YYYY-MM-DD");
+    			this.shiftObj.timeStart = moment(event.start, ["h:mma"]).format("h:mma");
+    			this.shiftObj.timeEnd = moment(event.end, ["h:mma"]).format("h:mma");
+    			this.shiftObj.teamName = event.title;
+
+                //TODO pass this information back to the event dialog
+
+    			//TODO close event Dialog
+    		},
 
 
-            createShift: function(shiftObj) {
-                
+            //re-renders the calendar everytime the filter function changes
+            reRenderCalendar: function() {
+
+            },
+
+            createShift: function() {
+                var newEventId = this.getNewEventId();
+                this.shiftObj.eventId = newEventId;
+
+                //TODO set the start, end, title to the passed in shiftObj from EventDialog
+                var event = {
+    	            id: newEventId,
+    	            start: null,
+    	            end: null,
+    	            title: null,
+                    color: this.getCampusColor(this.shiftObj.teamName),
+                    textColor: "white",
+    	        }
+
+                //$('#calendar').fullCalendar('renderEvent', event, true);
             },
 
 
+    		shiftEdit: function(eventId) {
+    			$('#calendar').fullCalendar('updateEvent', eventId);
 
-            // shiftCreateDrag: function(start, end, jsEvent, view) {
-    		// 	this.shift.date = moment(start).format("YYYY-MM-DD");
-    		// 	this.shift.timeStart = moment(start).format("h:mma");
-    		// 	this.shift.timeEnd = moment(end).format("h:mma");
-    		// 	this.showEditorWithCreate();
-    		// },
-      },
+    			//TODO close event Dialog
+    		},
+
+
+    		shiftDelete: function(eventId) {
+    			$('#calendar').fullCalendar('removeEvents', eventId);
+    			//TODO close event Dialog
+    		},
+        },
     }
 </script>
 

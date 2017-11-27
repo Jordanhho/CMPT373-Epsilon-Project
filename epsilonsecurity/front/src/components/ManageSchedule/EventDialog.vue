@@ -158,11 +158,37 @@
                 </v-card-text>
                 <v-card-actions>
                     <v-spacer></v-spacer>
-                    <v-btn color="blue darken-1" flat @click.native="addShift">Add</v-btn>
+                    <v-btn color="blue darken-1" flat @click.native="createShift">Add</v-btn>
                     <v-btn color="blue darken-1" flat @click.native="toggleDialog">Close</v-btn>
                 </v-card-actions>
             </v-card>
         </v-dialog>
+
+
+        <!-- popup for error message -->
+        <v-dialog v-model="showTimeError" persistent lazy full-width>
+            <v-card>
+                <v-container grid-list-xs>
+                    <v-layout wrap>
+                        <v-card-text>
+                            <v-flex xs12>
+                                <v-card-text class="text-xs-center">
+                                    <b> {{ timeErrorMessage }} </b>
+                                </v-card-text>
+                            </v-flex>
+                        </v-card-text>
+                    </v-layout wrap>
+                </v-container grid-list-xs>
+                <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn color="primary" flat @click.stop="showTimeError = false">
+                        Ok
+                    </v-btn>
+                    <v-spacer></v-spacer>
+                </v-card-actions>
+            </v-card>
+        </v-dialog>
+
     </v-layout>
 </template>
 
@@ -173,26 +199,10 @@
     export default {
         data () {
             return {
-                //modals
+                //date, timepicker
                 dateModal: false,
                 timeStartModal: false,
                 timeEndModal: false,
-
-                dialog: false,
-                teamName: "",
-                shiftType: -1,
-                users: [],
-                selectedUsers: [],
-
-                shiftObj: {
-                    teamId: false,
-                    shiftTypeId: 0,
-                    userId: false,
-                    date: null,
-                    timeStart: null,
-                    timeEnd: null,
-                },
-
 
                 allowedTimes: {
                     hours: null,
@@ -208,18 +218,134 @@
                         return value % 15 === 0
                     }
                 },
+
+                //modals
+                dialog: false,
+
+                //time Error popup
+                showTimeError: false,
+                timeErrorMessage: "",
+
+                //local data
+                teamName: "",
+                shiftType: -1,
+                users: [],
+                selectedUsers: [],
+
+                //object type to send to calendar
+                shiftObj: {
+                    userId: -1,
+                    teamId: -1,
+                    shiftTypeId: -1,
+                    date: this.getTodayMoment(),
+                    timeStart: this.getDefaultStartTime(),
+                    timeEnd: this.getDefaultEndTime(),
+                },
+
+                //list of shift object type to send to Calendar
+                shiftObjList: [],
+
             }
         },
-        components: {
 
-        },
+        components: {},
+
         methods: {
+            //------------------- get Time methods -----------------------
+            getDefaultStartTime: function() {
+                var momentStartObj = moment().set({'hour': 0,'minute': 0});
+                momentStartObj = moment(momentStartObj).format("h:mma");
+                return momentStartObj;
+            },
+
+            getDefaultEndTime: function() {;
+                var momentEndObj = moment().set({'hour': 1, 'minute': 0});
+                momentEndObj = moment(momentEndObj).format("h:mma");
+                return momentEndObj;
+            },
+
+    		getTodayMoment: function() {
+    			var today = moment().format("YYYY-MM-DD");
+    			return today;
+    		},
+
+            //------------------- modals ----------------------
+
             toggleDialog() {
                 this.dialog = !this.dialog;
             },
-            addShift() {
+            //------------------- check time ----------------------
 
+            checkTimePickerValidTime: function() {
+                //convert dateTime objects to moment objects
+                var momentStartObj = moment(this.shiftObj.timeStart, ["h:mma"]);
+                var momentEndObj = moment(this.shiftObj.timeEnd, ["h:mma"]);
+
+                //compare if they are equal in minutes and hours
+    			if((moment(momentStartObj).get('hour') == moment(momentEndObj).get('hour')) && (moment(momentStartObj).get('minute') == moment(momentEndObj).get('minute'))) {
+    				this.showTimeError = true;
+    				this.timeErrorMessage = "INVALID TIME: The Time End is the same as Time Start";
+    				return false;
+    			}
+                //compare if timeEnd is before timeStart
+    			else if(momentEndObj < momentStartObj) {
+    				this.showTimeError = true;
+    				this.timeErrorMessage = "INVALID TIME: The Time End is before Time Start";
+    				return false;
+    			}
+    			else {
+    				return true;
+    			}
             },
+
+            //------------------- create shift ----------------------
+            createShift: function() {
+                if(this.checkTimePickerValidTime() == true) {
+                    //combine date and time pickers into moment objects
+                    var momentStartObj = moment(this.shiftObj.date + " " + this.shiftObj.timeStart, ["YYYY-MM-DD h:mma"]);
+                    var momentEndObj = moment(this.shiftObj.date + " " + this.shiftObj.timeEnd, ["YYYY-MM-DD h:mma"]);
+
+                    //save data to shiftObj as epoch time
+                    this.shiftObj.date = moment(momentStartObj).format("X");
+                    this.shiftObj.timeStart = moment(momentStartObj).format("X");
+                    this.shiftObj.timeEnd = moment(momentEndObj).format("X");
+
+                    //send axio request for every user and add it to a list of objects to send the calendar
+                    for(var i = 0; i < this.selectedUsers.length; i++) {
+
+                        this.shiftObj.userId = this.selectedUsers[i];
+
+                        //create new shiftObj to add to list
+                        var newShiftObj = {
+                            date: this.shiftObj.date,
+                            timeStart: this.shiftObj.timeStart,
+                            timeEnd: this.shiftObj.timeEnd,
+                            shiftTypeId: this.shiftObj.ShiftTypeId,
+                            teamId: this.shiftObj.teamId,
+                            userId: this.shiftObj.userId,
+                        }
+                        //Integer shiftTypeId, Long timeStart, Long timeEnd, String description
+                        ///api/users/:userId/shifts/:shiftId
+                        ///api/shifttypes
+                        //TODO send post request to database
+                        // axios.post('/api/', postData)
+                        //     .catch(function (error) {
+                        //         console.log(error);
+                        //     });
+
+                        //add to list
+                        this.shiftObjList.push(newShiftObj);
+                        alert(JSON.stringify(newShiftObj));
+                    }
+                    //TODO send shiftObjlist to database
+
+                    //close window
+                    this.toggleDialog();
+                }
+            },
+
+            //------------------- axios ----------------------
+
             setTeamName(response) {
                 this.teamName = response.data.name;
             },
