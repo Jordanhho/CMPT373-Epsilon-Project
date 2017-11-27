@@ -62,8 +62,9 @@ public class UserTeamController extends Controller {
         return ok();
     }
 
-    public Result retrieveUserTeam(Integer userId, Integer teamId) {
-        return ok();
+    public Result retrieveUserTeamId(Integer userId, Integer teamId) {
+        DbUserTeam userTeamId = DbUserTeamHelper.readDbTeamByUserAndTeamId(userId, teamId);
+        return ok(Json.toJson(userTeamId.getId()));
     }
 
     public Result readAllUsersByTeamId(Integer teamId) {
@@ -85,7 +86,7 @@ public class UserTeamController extends Controller {
         return ok();
     }
 
-    public Result readDbUserTeamByUserId(Integer userId) {
+    public Result readDbTeamByUserId(Integer userId) {
         List<DbTeam> dbTeamList = DbUserTeamHelper.readAllDbTeamsByUserId(userId);
 
         return ok(Json.toJson(dbTeamList));

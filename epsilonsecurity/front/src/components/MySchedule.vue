@@ -1,14 +1,14 @@
 <template>
 	<v-container fluid fill-height class="pa-0">
 	<!-- <div id="my-schedule"> -->
-		<full-calendar 
+		<full-calendar
 			:event-sources="eventSources"
 			:config="config"
 			id="calendar">
 		</full-calendar>
 
 		<v-dialog v-model="dialog">
-      <v-card> 
+      <v-card>
         <v-card-title>
 					<span class="headline">Shift Info</span>
 				</v-card-title>
@@ -19,8 +19,8 @@
 								<p>{{shiftTitle}}</p>
 								<p>{{shiftDate}}</p>
 								<p>{{shiftTime}}</p>
-								<p>{{shiftCampus}}</p> 
-								<p>{{shiftDescription}}</p> 
+								<p>{{shiftCampus}}</p>
+								<p>{{shiftDescription}}</p>
 							</v-flex>
 						</v-layout>
 					</v-container>
@@ -53,7 +53,7 @@ export default {
     return {
 			config: {
 				// https://fullcalendar.io/docs/views/Available_Views/
-				defaultView: 'agendaWeek', 
+				defaultView: 'agendaWeek',
 				// local timezone is very important
 				timezone: 'local',
 				header: {
