@@ -58,7 +58,7 @@
 														actions>
 														<template scope="{ save, cancel }">
 															<v-card-actions>
-																<v-btn flat color="primary" @click="save">
+																<v-btn flat color="primary" @click="save" @click.stop='queryUsers'>
 																	Save
 																</v-btn>
 																<v-spacer></v-spacer>
@@ -89,7 +89,7 @@
                                                     actions>
                                                     <template scope="{ save, cancel }">
                                                         <v-card-actions>
-                                                            <v-btn flat color="primary" @click="save">
+                                                            <v-btn flat color="primary" @click="save" @click.stop='queryUsers'>
                                                                 Save
                                                             </v-btn>
                                                             <v-spacer></v-spacer>
@@ -120,7 +120,7 @@
                                                     actions>
                                                     <template scope="{ save, cancel }">
                                                         <v-card-actions>
-                                                            <v-btn flat color="primary" @click="save">
+                                                            <v-btn flat color="primary" @click="save" @click.stop='queryUsers'>
                                                                 Save
                                                             </v-btn>
                                                             <v-spacer></v-spacer>
@@ -224,7 +224,7 @@
                 this.teamName = response.data.name;
             },
             populateUsers(response) {
-                alert(JSON.stringify(response.data, null, 2));
+                console.log(JSON.stringify(response.data, null, 2));
                 this.users = response.data;
             },
             queryUsers() {
@@ -273,7 +273,6 @@
             .catch(function (error) {
                 console.log(error);
             });
-
         },
         computed: {
             shiftDropDown: function() {
