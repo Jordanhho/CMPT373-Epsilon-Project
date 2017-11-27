@@ -224,9 +224,11 @@
                 this.teamName = response.data.name;
             },
             populateUsers(response) {
+                alert(JSON.stringify(response.data, null, 2));
                 this.users = response.data;
             },
             queryUsers() {
+                this.shiftObj.teamId = this.teamId;
                 if (this.shiftObj.teamId &&
                     this.shiftObj.shiftTypeId &&
                     this.shiftObj.date &&
@@ -235,16 +237,10 @@
 
                     var team = this.shiftObj.teamId;
                     var shift = this.shiftObj.shiftTypeId;
-                    var start = moment('2016-12-31', ["YYYY-MM-DD"]).format('X');
-                    var end = moment('2017-12-31', ["YYYY-MM-DD"]).format('X');
-                    //axios.get('/api/users')
-                    axios.get('/api/users/teams/' + team + '/shifts',
-                                {
-                                    params: {
-                                        start: start,
-                                        end: end
-                                }
-                            })
+                    var start = 1506933000;
+                    var end = 1507314600;
+                    axios.get('/api/users/teams/' + team)
+                    //axios.get('/api/users/teams/' + 1 + '/shifts/'+ start + '/' + end)
                     .then(this.populateUsers)
                     .catch(function (error) {
                         console.log(error);
