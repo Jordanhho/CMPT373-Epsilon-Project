@@ -70,6 +70,6 @@ export default {
 </script>
 <style scoped lang='scss'>
 .cap-height {
-    height: calc(100vh - 32px - 32px - 32px - 74px - 32px);
+    max-height: calc(100vh - 32px - 32px - 32px - 74px - 32px);
 }
 </style>
