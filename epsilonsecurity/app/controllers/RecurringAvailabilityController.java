@@ -1,8 +1,7 @@
 package controllers;
 
-import play.mvc.*;
-import models.databaseModel.scheduling.DbRecurringAvailability;
-import models.databaseModel.helpers.DbRecurringAvailabilityHelper;
+import play.mvc.Controller;
+import play.mvc.Result;
 
 public class RecurringAvailabilityController extends Controller {
 
@@ -23,7 +22,7 @@ public class RecurringAvailabilityController extends Controller {
         return ok();
     }
 
-    public Result readRecurringAvailabilitiesByTimeRange() {
+    public Result readRecurringAvailabilitiesByTimeRange(Long timeStart, Long timeEnd) {
         return ok();
     }
 }
