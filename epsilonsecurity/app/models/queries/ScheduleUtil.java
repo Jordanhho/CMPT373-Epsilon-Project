@@ -189,27 +189,22 @@ public final class ScheduleUtil {
     }
 
     /**
-     * Get the status of a user's DbOneTimeAvailability within a time range from a specific team
+     * Get the status of a user's DbOneTimeAvailability within a time range
      * Note: Since availabilities are submitting weekly, all availabilities within a week will have
      *       the same status
      * @param userId The database ID of the target user
-     * @param teamId The database ID of the target team
      * @param timeStart The starting time of the time range
      * @param timeEnd The ending time of the time range
      */
+
     public static Status getOneTimeAvailStatus(Integer userId, Integer teamId, Long timeStart, Long timeEnd) {
-        DbUserTeam targetUserTeam = DbUserTeamHelper.readDbTeamByUserAndTeamId(userId, teamId);
-        List<DbOneTimeAvailability> targetOneTimeAvailList = DbOneTimeAvailabilityHelper
-                .readDbOneTimeAvailabilityByUserTeamId(targetUserTeam.getId());
-        List<DbOneTimeAvailability> dbOneTimeAvailabilityList = DbOneTimeAvailabilityHelper
-                .readDbOneTimeAvailabilityByTimeRange(timeStart, timeEnd);
-
-        Set<DbOneTimeAvailability> filteredSet = new LinkedHashSet<>(targetOneTimeAvailList);
-        filteredSet.retainAll(dbOneTimeAvailabilityList);
-        targetOneTimeAvailList = new ArrayList<>();
-        targetOneTimeAvailList.addAll(filteredSet);
-
-        return targetOneTimeAvailList.get(0).getStatus();
+        List<DbOneTimeAvailability> dbOneTimeAvailByTimeRangeList = getAllOneTimeAvailByUserIdAndTimeRange(userId, timeStart, timeEnd);
+        if(dbOneTimeAvailByTimeRangeList.size() > 0) {
+            return dbOneTimeAvailByTimeRangeList.get(0).getStatus();
+        }
+        else {
+            return Status.Open;
+        }
     }
 
     public static List<DbOneTimeAvailability> getAllOneTimeAvailByUserIdAndTimeRange(Integer userId, Long timeStart,
