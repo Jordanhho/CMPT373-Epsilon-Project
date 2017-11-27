@@ -199,7 +199,6 @@ public final class ScheduleUtil {
 
     public static Status getOneTimeAvailStatus(Integer userId, Integer teamId, Long timeStart, Long timeEnd) {
         List<DbOneTimeAvailability> dbOneTimeAvailByTimeRangeList = getAllOneTimeAvailByUserIdAndTimeRange(userId, timeStart, timeEnd);
-
         if(dbOneTimeAvailByTimeRangeList.size() > 0) {
             return dbOneTimeAvailByTimeRangeList.get(0).getStatus();
         }
@@ -210,7 +209,6 @@ public final class ScheduleUtil {
 
     public static List<DbOneTimeAvailability> getAllOneTimeAvailByUserIdAndTimeRange(Integer userId, Long timeStart,
                                                                                      Long timeEnd) {
-
         List<DbUserTeam> dbUserTeamList = DbUserTeamHelper.readAllDbUserTeamsByUserId(userId);
 
         List<DbOneTimeAvailability> dbOneTimeAvailByUser = new ArrayList<>();
