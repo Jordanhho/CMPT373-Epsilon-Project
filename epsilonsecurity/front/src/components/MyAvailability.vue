@@ -777,16 +777,9 @@ export default {
 				var localTeamName = localTeamNameList[i];
 				this.teamNameList.push(localTeamName);
 				this.teamIdList.push(localTeamId);
-				// var newTeamObj = {
-				// 	teamId: localTeamId,
-				// 	teamName: localTeamName,
-				// }
-				//this.teamList.push(newTeamObj);
 			}
-
-
 			//set default team name
-			//this.availability.teamName = this.teamList[0].teamName;
+			this.availability.teamName = this.teamList[0].teamName;
 		},
 
 
