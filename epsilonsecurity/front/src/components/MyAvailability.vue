@@ -79,12 +79,9 @@
 								<!-- Campus -->
 								<v-flex xs12>
 									<v-select
-										label="Campus"
-										v-bind:items="teamList"
+										v-bind:items="teamNameList"
 										v-model="availability.teamName"
-										single-line
-										item-text="teamName"
-										item-value="teamId"
+										label="Team"
 										prepend-icon="map"
 										required
 										:disabled="availabilitySubmitted">
@@ -327,11 +324,9 @@ export default {
 			},
 
 			//-------------------- Campus selection -----------------------
-			teamList: [],
-			team: {
-				teamName: "",
-				teamId: -1,
-			},
+
+			teamNameList: [],
+			teamIdList: [],
 
 			//campus colors
 			burnabyCampus: "red",
@@ -415,13 +410,15 @@ export default {
 			$('#calendar').fullCalendar('gotoDate', this.getNextWeekMondayMoment());
 		},
 
+		//------------------- get Time methods -----------------------
+
 		getDefaultStartTime: function() {
 			var momentNextMonday = this.getNextWeekMondayMoment();
 			var momentStartObj = moment().set({'years': moment(momentNextMonday).get('year'),
 												'month': moment(momentNextMonday).get('month'),
 												'day': moment(momentNextMonday).get('day'),
 												'hour': 0,
-												'minute': 30});
+												'minute': 0});
 			momentStartObj = moment(momentStartObj).format("h:mma");
 			return momentStartObj;
 		},
@@ -432,9 +429,87 @@ export default {
 												'month': moment(momentNextMonday).get('month'),
 												'day': moment(momentNextMonday).get('day'),
 												'hour': 1,
-												'minute': 30});
+												'minute': 0});
 			momentEndObj = moment(momentEndObj).format("h:mma");
 			return momentEndObj;
+		},
+
+		//create a moment object that is the starting monday of the current day and next week
+		getNextWeekMondayMoment: function() {
+			var nextMondayDate = moment().startOf('isoweek').add(7, 'days').format("YYYY-MM-DD");
+			return nextMondayDate;
+		},
+
+		//create a moment object that is the starting sunday of the current day and next week
+		getNextWeekSundayMoment: function(){
+			var nextSundayDate = moment().endOf('isoweek').add(7, 'days').format("YYYY-MM-DD");
+			return nextSundayDate;
+		},
+
+
+		//returns next week monday date object
+		getNextWeekMondayDate: function() {
+			var nextMonday = moment(this.getNextWeekMondayMoment(), ["YYYY-MM-DD"]).startOf('isoweek').toDate();
+			return nextMonday;
+		},
+
+		//returns next week sunday date object
+		getNextWeekSundayDate: function() {
+			var nextSunday = moment(this.getNextWeekSundayMoment(), ["YYYY-MM-DD"]).endOf('isoweek').toDate();
+			return nextSunday;
+		},
+
+		//-------------- Helper functions -----------------------------
+
+		//return the string teamName for that teamID
+		getTeamNameFromTeamId: function(checkTeamId) {
+			for(var i = 0; i < this.teamIdList.length; i++) {
+				if(checkTeamId == this.teamIdList[i]) {
+					return this.teamNameList[i];
+				}
+			}
+			return "invalid teamName";
+		},
+
+		//return the teamID from the string TeamName
+		getTeamIdFromTeamName: function(checkTeamName) {
+			for(var i = 0; i < this.teamNameList.length; i++) {
+				if(checkTeamName == this.teamNameList[i]) {
+					return this.teamIdList[i];
+				}
+			}
+			return "invalid teamId";
+		},
+
+		//----------------------- team color ----------------------------
+
+		//returns the color string for the team colors
+		getCampusColor: function(teamName) {
+			if(teamName == "BURNABY") {
+				return this.burnabyCampus;
+			}
+			//blue for surrey
+			else if(teamName == "SURREY") {
+				return this.surreyCampus;
+			}
+			//Yellow for vancouver
+			else if(teamName == "VANCOUVER") {
+				return this.vancouverCampus;
+			}
+			//purple if not specified -> for debug
+			else {
+				return this.noCampus;
+			}
+		},
+
+
+		//--------------------- event Id assignment ------------------------------------------
+
+		//gets a new event id and increment the eventid counter
+		getNewEventId: function() {
+			var newEventId = this.assignEventId;
+			this.assignEventId = this.assignEventId + 1;
+			return newEventId;
 		},
 
 
@@ -466,13 +541,13 @@ export default {
 			//compare if they are equal in minutes and hours
 			if((moment(momentStartObj).get('hour') == moment(momentEndObj).get('hour')) && (moment(momentStartObj).get('minute') == moment(momentEndObj).get('minute'))) {
 				this.showTimeError = true;
-				this.timeErrorMessage = "The Time End is the same as Time Start";
+				this.timeErrorMessage = "INVALID TIME: The Time End is the same as Time Start";
 				this.timeBoundsCheck = true;
 				return true;
 			}
 			else if(momentEndObj < momentStartObj) {
 				this.showTimeError = true;
-				this.timeErrorMessage = "The Time End is before Time Start";
+				this.timeErrorMessage = "INVALID TIME: The Time End is before Time Start";
 				this.timeBoundsCheck = true;
 				return true;
 			}
@@ -517,7 +592,7 @@ export default {
 				//compare time in hours and minutes with current event object and currently selected availabilty
 				if((currEvent.start <= currMomentEnd) && (currEvent.end >= currMomentStart)) {
 					this.showTimeError = true;
-					this.timeErrorMessage = "Time range conflicts with another availability";
+					this.timeErrorMessage = "INVALID TIME: Time range conflicts with another availability";
 					this.timeConflictCheck = true;
 					return true;
 				}
@@ -526,49 +601,6 @@ export default {
 			return false;
 		},
 
-		//create a moment object that is the starting monday of the current day and next week
-		getNextWeekMondayMoment: function() {
-			var nextMondayDate = moment().startOf('isoweek').add(7, 'days').format("YYYY-MM-DD");
-			return nextMondayDate;
-		},
-
-
-		//create a moment object that is the starting sunday of the current day and next week
-		getNextWeekSundayMoment: function(){
-			var nextSundayDate = moment().endOf('isoweek').add(7, 'days').format("YYYY-MM-DD");
-			return nextSundayDate;
-		},
-
-		//----------------------- team color ----------------------------
-
-		//returns the color string for the team colors
-		getCampusColor: function(teamName) {
-			if(teamName == "BURNABY") {
-				return this.burnabyCampus;
-			}
-			//blue for surrey
-			else if(teamName == "SURREY") {
-				return this.surreyCampus;
-			}
-			//Yellow for vancouver
-			else if(teamName == "VANCOUVER") {
-				return this.vancouverCampus;
-			}
-			//purple if not specified -> for debug
-			else {
-				return this.noCampus;
-			}
-		},
-
-
-		//--------------------- event Id assignment ------------------------------------------
-
-		//gets a new event id and increment the eventid counter
-		getNewEventId: function() {
-			var newEventId = this.assignEventId;
-			this.assignEventId = this.assignEventId + 1;
-			return newEventId;
-		},
 
 		//---------------------create, delete, edit calendar operations ----------------------
 
@@ -587,9 +619,8 @@ export default {
 		},
 
 
-		//TODO handle creation of an availability
+		//handle creation of an availability
 		availabilityCreate: function() {
-
 		    //override the local availability data
 		    var momentStartObj = moment(this.availability.date + " " + this.availability.timeStart, ["YYYY-MM-DD h:mma"]);
 		    var momentEndObj = moment(this.availability.date + " " + this.availability.timeEnd, ["YYYY-MM-DD h:mma"]);
@@ -653,7 +684,7 @@ export default {
 			this.showEditorWithEdit();
 		},
 
-		//TODO handle edit of availability
+		//handle edit of availability
 		availabilityEdit: function() {
 
 			//override the local availability data
@@ -682,7 +713,7 @@ export default {
 						this.availabilityList[i].timeStart = this.availability.timeStart;
 						this.availabilityList[i].timeEnd = this.availability.timeEnd;
 						this.availabilityList[i].teamName = this.availability.teamName;
-						this.availabilityList[i].eventObj = this.availability.eventObj;
+						this.availabilityList[i].eventObj = this.availability.eventObj;teamList.teamId
 						this.availabilityList[i].teamId = this.getTeamIdFromTeamName(this.availability.teamName);
 						break;
 					}
@@ -731,60 +762,31 @@ export default {
 			this.showSubmitWindow = false;
 		},
 
-		//-------------- Helper functions -----------------------------
-
-		//returns next week monday date object
-		getNextWeekMondayDate: function() {
-			var currentDate = new Date();
-			var firstDay = currentDate.getDate() - currentDate.getDay(); // First day is the day of the month - the day of the week
-
-			//set it to next week and add 1 as first day of week is sunday currently
-			var mondayDate = new Date(currentDate.setDate(firstDay + 7 + 1));
-			return mondayDate;
-		},
-
-
-		//returns next week sunday date object
-		getNextWeekSundayDate: function() {
-			var currentDate = new Date();
-			var firstDay = currentDate.getDate() - currentDate.getDay(); //Monday
-
-			//set it to sunday by adding 6 days to monday and + 1 for starting date of sunday to shift to monday, add 7 for next week
-			var sundayDate = new Date(currentDate.setDate(firstDay + 6 + 7 + 1));
-			return sundayDate;
-		},
-
-		//return the string teamName for that teamID
-		getTeamNameFromTeamId: function(checkTeamId) {
-			for(var i = 0; i < this.teamList.length; i++) {
-				if(checkTeamId == this.teamList[i].teamId) {
-					return this.teamList[i].teamName;
-				}
-			}
-			return "invalid teamName";
-		},
-
-		//return the teamID from the string TeamName
-		getTeamIdFromTeamName: function(checkTeamName) {
-			for(var i = 0; i < this.teamList.length; i++) {
-				if(checkTeamName == this.teamList[i].teamName) {
-					return this.teamList[i].teamId;
-				}
-			}
-			return "invalid teamId";
-		},
 
 		//--------------------------- axios get and post -----------------------------
 
 
 		//populate this user's team list
-		populateUserTeamList(dbTeamList) {
-			for(var i = 0; i < dbTeamList.length; i++) {
-				this.team.teamId = dbTeamList[i].id;
-				this.team.teamName = dbTeamList[i].name;
-				this.teamList.push(this.team);
+		populateUserTeamList(response) {
+			//alert(JSON.stringify(response.data, null, 2));
+			var localTeamIdList = response.data.map(teamId => teamId.id);
+			var localTeamNameList = response.data.map(teamName => teamName.name);
+
+			for(var i = 0; i < response.data.length; i++) {
+				var localTeamId = localTeamIdList[i];
+				var localTeamName = localTeamNameList[i];
+				this.teamNameList.push(localTeamName);
+				this.teamIdList.push(localTeamId);
+				// var newTeamObj = {
+				// 	teamId: localTeamId,
+				// 	teamName: localTeamName,
+				// }
+				//this.teamList.push(newTeamObj);
 			}
-			//response.data.map(x => x.id);
+
+
+			//set default team name
+			//this.availability.teamName = this.teamList[0].teamName;
 		},
 
 
@@ -822,8 +824,31 @@ export default {
 	},
 
 
-
 	created: function() {
+
+
+		//alert(this.teamList.teamId);
+
+		//initialize the status of availability submission
+		// for(var i = 0; i < this.teamList.length; i++) {
+		// 	axios.get('/api/users/' + this.userId + '/teams' + this.teamList[0].teamId + '/onetimeavailabilites?start=' + timeStart + "&end=" + timeEnd)
+		// 	.then(this.populateAvailabilityStatus)
+		// 	.catch(function (error) {
+		// 		console.log(error);
+		// 	});
+		// }
+
+		//TODO initialize the existing availabilities for this availabiity weekdayfor(int i = 0; i < teamList.length; i++) {
+		// axios.get('/api/users/' + this.userId + '/teams' + this.teamList[0].teamId + '/onetimeavailabilites?start=' + timeStart + "&end=" + timeEnd)
+		// 	.then(this.populateExistingAvailabilities)
+		// 	.catch(function (error) {
+		// 		console.log(error);
+		// });
+	},
+
+	mounted () {
+
+
 		//initialize local list of teams the user belongs to
 		axios.get('/api/users/' + this.userId + '/teams')
 		.then(this.populateUserTeamList)
@@ -831,27 +856,11 @@ export default {
 			console.log(error);
 		});
 
-		//initialize the status of availability submission
-		for(var i = 0; i < this.teamList.length; i++) {
-			axios.get('/api/users/' + this.userId + '/teams' + this.teamList[0].teamId + '/onetimeavailabilites?start=' + timeStart + "&end=" + timeEnd)
-			.then(this.populateAvailabilityStatus)
-			.catch(function (error) {
-				console.log(error);
-			});
-		}
-
-		//TODO initialize the existing availabilities for this availabiity weekdayfor(int i = 0; i < teamList.length; i++) {
-		axios.get('/api/users/' + this.userId + '/teams' + this.teamList[0].teamId + '/onetimeavailabilites?start=' + timeStart + "&end=" + timeEnd)
-			.then(this.populateExistingAvailabilities)
-			.catch(function (error) {
-				console.log(error);
-			});
-		}
-	},
-	mounted () {
 
 		//initialize calendar view
 		this.initializeCalendarView();
+
+
 
 		//set the day restrictions
 		this.nextWeekRange.min = this.getNextWeekMondayDate();
