@@ -16,10 +16,10 @@ libraryDependencies += javaJdbc
 libraryDependencies += "org.xerial" % "sqlite-jdbc" % "3.8.6"
 libraryDependencies += evolutions
 
-// Type Safe Queries (Query Beans)
-// http://ebean-orm.github.io/docs/query/typesafe
-libraryDependencies += "io.ebean" % "querybean-generator" % "10.1.2"
-libraryDependencies += "io.ebean" % "ebean-querybean" % "10.1.1"
+// Play-Mailer Plugin
+// https://github.com/playframework/play-mailer
+libraryDependencies += "com.typesafe.play" %% "play-mailer" % "6.0.1"
+libraryDependencies += "com.typesafe.play" %% "play-mailer-guice" % "6.0.1"
 
 // see https://www.playframework.com/documentation/2.6.x/ScalaHttpFilters
 libraryDependencies += filters
@@ -49,30 +49,22 @@ libraryDependencies += "com.novocode" % "junit-interface" % "0.11" % "test"
 testOptions += Tests.Argument(TestFrameworks.JUnit, "-v", "-a")
 javaOptions in Test += "-Dconfig.file=conf/application.test.conf"
 
-//-----------------Development Hooks-----------------------------
+// [in dev-mode], Akka Http Server listens on this port.
+// https://www.playframework.com/documentation/2.5.x/ConfigFile#Using-with-the-run-command
+PlayKeys.devSettings := Seq("play.server.http.port" -> "9000") // default = 9000
 
+
+// [in dev-mode], spin up the webpack dev-server after starting Play
 PlayKeys.playRunHooks += WebpackServer(file("./front"))
 
-//-----------------Production front-end build -------------------
 
-lazy val cleanFrontEndBuild = taskKey[Unit]("Remove the old front-end build")
-
-cleanFrontEndBuild := {
-  val d = file("public/bundle")
-  if (d.exists()) {
-    d.listFiles.foreach(f => {
-      if(f.isFile) f.delete
-    })
-  }
-}
-
+// [in prod-mode], build the frontend before packaging
 lazy val frontEndBuild = taskKey[Unit]("Execute the npm build command to build the front-end")
 
 frontEndBuild := {
   println(Process("npm install", file("front")).!!)
-  println(Process("npm run build", file("front")).!!)
+  println(Process("npm run prod", file("front")).!!)
 }
 
-frontEndBuild := (frontEndBuild dependsOn cleanFrontEndBuild).value
-
 dist := (dist dependsOn frontEndBuild).value
+stage := (stage dependsOn frontEndBuild).value

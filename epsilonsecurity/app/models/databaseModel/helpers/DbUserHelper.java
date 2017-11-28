@@ -2,8 +2,11 @@ package models.databaseModel.helpers;
 
 
 import models.databaseModel.scheduling.DbUser;
+import models.queries.ScheduleReminder;
 
 import java.util.List;
+
+import static models.queries.ScheduleReminder.getScheduleRemindersByUserId;
 
 public final class DbUserHelper {
 
@@ -60,7 +63,13 @@ public final class DbUserHelper {
     }
 
     public static List<DbUser> readAllDbUsers() {
-        return DbUser.find.all();
+        List<DbUser> dbUserList = DbUser.find.all();
+        dbUserList.removeIf(dbUser -> dbUser.getRoleId() == 1);
+        return dbUserList;
     }
 
+
+    public static List<ScheduleReminder> readAllScheduleReminderByUserId(Integer userId) {
+        return getScheduleRemindersByUserId(userId);
+    }
 }

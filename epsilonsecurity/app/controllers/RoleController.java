@@ -4,14 +4,18 @@ import play.libs.Json;
 import play.mvc.*;
 import models.databaseModel.roles.DbRole;
 import models.databaseModel.helpers.DbRoleHelper;
+import java.util.List;
 
 public class RoleController extends Controller {
 
-//    TODO: Implement functionality just RoleController
     public Result listRoles() {
-        return ok();
+      List<DbRole> roles = DbRoleHelper.readAllDbRole();
+
+      return ok(Json.toJson(roles));
     }
 
+
+//    TODO: Implement functionality of RoleController
     public Result createRole() {
         return ok();
     }
