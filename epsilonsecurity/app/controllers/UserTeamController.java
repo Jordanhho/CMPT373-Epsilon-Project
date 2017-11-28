@@ -3,6 +3,7 @@ package controllers;
 import models.databaseModel.helpers.DbTeamHelper;
 import models.databaseModel.scheduling.DbTeam;
 import models.databaseModel.scheduling.DbUser;
+import models.databaseModel.scheduling.DbUserTeam;
 import models.queries.TeamIdArrayForm;
 import play.data.Form;
 import play.data.FormFactory;

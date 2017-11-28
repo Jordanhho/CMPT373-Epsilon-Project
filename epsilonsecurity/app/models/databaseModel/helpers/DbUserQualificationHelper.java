@@ -47,7 +47,7 @@ public final class DbUserQualificationHelper {
 
         List<DbQualification> dbQualificationList = new ArrayList<>();
         for(DbUserQualification userQualification : dbUserQualificationList){
-            dbQualificationList.add(DbQualification.find.byId(userQualification.getQualificationId());
+            dbQualificationList.add(DbQualification.find.byId(userQualification.getQualificationId()));
         }
         return dbQualificationList;
     }
@@ -61,7 +61,7 @@ public final class DbUserQualificationHelper {
                 .findList();
         List<DbUser> dbUserList = new ArrayList<>();
         for(DbUserQualification userQualification : dbUserQualificationList){
-            dbUserList.add(DbUser.find.byId(userQualification.getUserId());
+            dbUserList.add(DbUser.find.byId(userQualification.getUserId()));
         }
         return dbUserList;
     }
@@ -70,7 +70,8 @@ public final class DbUserQualificationHelper {
         dbUserQualification.delete();
     }
 
-    public static List<DbUserQualification> readAllDbUserQualification() {
+    public static List<DbUserQualification> readAllDbUserQualification()
+    {
         return DbUserQualification.find.all();
     }
 }

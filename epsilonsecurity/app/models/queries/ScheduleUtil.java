@@ -164,7 +164,7 @@ public final class ScheduleUtil {
         int i = 0;
         for (List<DbUserShift> targetUserShiftList : dbUserShiftList) {
             for (DbUserShift dbUserShift : targetUserShiftList) {
-                DbShift dbShift = DbShiftHelper.readDbShiftByShiftId(dbUserShift.getShiftId());
+                DbShift dbShift = DbShiftHelper.readDbShiftById(dbUserShift.getShiftId());
                 DbTeam dbTeam = DbTeamHelper.readDbTeamById(dbUserTeamList.get(i).getTeamId());
                 DbShiftType dbShiftType = DbShiftTypeHelper.readDbShiftTypeById(dbShift.getShiftTypeId());
                 ShiftWithCampus targetShift = new ShiftWithCampus(dbShift, dbTeam, dbShiftType);
