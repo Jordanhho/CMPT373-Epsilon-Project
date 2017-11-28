@@ -117,7 +117,7 @@ GET           /api/users/teams/:teamId/shifts/:timeStart/:timeEnd               
 GET           /api/shifts                                                                      controllers.ShiftController.readShifts()
 
 # List an user's total hours of working
-GET           /api/shifts/hours/:userId                                                        controllers.ShiftController.readHoursWithShiftTypeByUserId(userId: Integer)
+GET           /api/shifts/hours/:userId                                                        controllers.ShiftController.readHoursWorkingByUserId(userId: Integer)
 
 # List an user's all shift hours broken down by shift type
 GET           /api/shifts/hours/byType/:userId                                                 controllers.ShiftController.readHoursWithShiftTypeByUserId(userId: Integer)
