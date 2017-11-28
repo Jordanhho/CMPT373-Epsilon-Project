@@ -54,8 +54,8 @@
 				</v-card-text>
 			</v-flex>
 
-			<v-flex xs12 class="text-xs-center" id="option-bar">
-				<v-card class="text-xs-center" dark color="white">
+			<v-flex xs12 id="option-bar">
+				<v-card class="text-xs-center" dark color="white" >
 					<v-card-actions>
 						<v-btn color="primary" block @click.stop="showSubmitWindow = true" :disabled="availabilitySubmitted">
 							Submit
@@ -295,6 +295,10 @@ export default {
 			timeErrorMessage: "",
 			showTimeError: false,
 
+			//check if time conflicts/out of bounds
+			timeBoundsCheck: false,
+			timeConflictCheck: false,
+
 			//---------------- Time, Date ----------------------------
 			//ranged of allowed dates for date picker
 			allowedDates: null,
@@ -349,7 +353,7 @@ export default {
 			//--------------- calendar config ------------------------------
 			config: {
 				header: {
-					left: 'prev,today,next',
+					left: 'prev, today, next',
 					center: 'title',
 					right: 'month,agendaWeek,agendaDay'
 				},
@@ -365,16 +369,16 @@ export default {
 				weekNumberCalculation: "ISO", //sets week number calculation to ISO
 				navLinks: true, //allows clicking on a day
 
-				//----------------- event click  --------------------------
+				//----------------- selection of events --------------------------
 				editable: false, //allows resizing of events
-				eventClick: this.availabilityClickEvent, //triggered with an event is clicked
-
-				//------------------ event drag selection
-				selectable: false, //allows dragging on calendar.
-				selectOverlap: false, //do not allow event overlap selection
+				selectable: true, //allows dragging on calendar.
 				selectHelper: true, //allows to make an event on calendar
+				selectOverlap: false, //do not allow event overlap selection
+
 				selectMinDistance: 5, //minimum distance click has to move inorder to detect as event PREVENT MISCLICKS
 				selectLongPressDelay: 1000, //minimum miliseconds user holds down before it counts as a selectable
+
+				eventClick: this.availabilityClickEvent, //triggered with an event is clicked
 				select: this.availabilityCreateDrag, //triggered after a selection when user stops dragging.
 
 				//restrict selection of an event to maximxum one day
@@ -402,12 +406,8 @@ export default {
 		//------------------- initialize calendar -----------------------
 
 		//set the default viewed week for calendar
-		defaultCalendarView: function() {
-			//move calendar to default date
+		initializeCalendarView() {
 			$('#calendar').fullCalendar('gotoDate', this.getNextWeekMondayMoment());
-
-			//change calendar to default view
-			$('#calendar').fullCalendar('changeView', 'agendaWeek');
 		},
 
 		//------------------- get Time methods -----------------------
@@ -554,14 +554,17 @@ export default {
 			if((moment(momentStartObj).get('hour') == moment(momentEndObj).get('hour')) && (moment(momentStartObj).get('minute') == moment(momentEndObj).get('minute'))) {
 				this.showTimeError = true;
 				this.timeErrorMessage = "INVALID TIME: The Time End is the same as Time Start";
+				this.timeBoundsCheck = true;
 				return true;
 			}
 			else if(momentEndObj < momentStartObj) {
 				this.showTimeError = true;
 				this.timeErrorMessage = "INVALID TIME: The Time End is before Time Start";
+				this.timeBoundsCheck = true;
 				return true;
 			}
 			else {
+				this.timeBoundsCheck = false;
 				return false;
 			}
 		},
@@ -581,27 +584,31 @@ export default {
 			//parse/set the availability start and end moment object's date and time
 			var momentStartObj = moment(this.availability.date + " " + this.availability.timeStart, ["YYYY-MM-DD h:mma"]);
 			var momentEndObj = moment(this.availability.date + " " + this.availability.timeEnd, ["YYYY-MM-DD h:mma"]);
+			var currMomentStart = moment().set({'date': moment(momentStartObj).get('date'), 'hour': moment(momentStartObj).get('hour'), 'minute': moment(momentStartObj).get('minute')});
+			var currMomentEnd = moment().set({'date': moment(momentEndObj).get('date'), 'hour': moment(momentEndObj).get('hour'), 'minute': moment(momentEndObj).get('minute')});
 
-			for(var i = 0; i <  this.availabilityList.length; i++) {
-				var currEvent = this.availabilityList[i];
+			//get local list of events
+			var eventList = $('#calendar').fullCalendar('clientEvents');
+			for(var i = 0; i < eventList.length; i++) {
+				var currEvent = eventList[i];
 
 				//if same object only on edit
-				if((action == "edit") && (currEvent.eventId == this.availability.eventId)) {
-					//console.log("same object, skip");
+				if((action == "edit") && (currEvent.id == this.availability.eventId)) {
 					continue;
 				}
-				//if not the same day, skip this object
-				if(moment(currEvent.timeStart).isSame(momentStartObj, 'day') == false) {
-					//console.log("not same day, skip");
+				//if not same day, continue
+				if(moment(currEvent.start).get('day') != moment(currMomentStart).get('day')) {
 					continue;
 				}
 				//compare time in hours and minutes with current event object and currently selected availabilty
-				if(moment(currEvent.timeStart).isBefore(momentEndObj, 'minute') && moment(currEvent.timeEnd).isAfter(momentStartObj, 'minute')) {
+				if((currEvent.start <= currMomentEnd) && (currEvent.end >= currMomentStart)) {
 					this.showTimeError = true;
 					this.timeErrorMessage = "INVALID TIME: Time range conflicts with another availability";
+					this.timeConflictCheck = true;
 					return true;
 				}
 			}
+			this.timeConflictCheck = false;
 			return false;
 		},
 
@@ -625,15 +632,9 @@ export default {
 
 		//handle creation of an availability
 		availabilityCreate: function() {
-
-			//change calendar back to default week and view
-			this.defaultCalendarView();
-
 		    //override the local availability data
 		    var momentStartObj = moment(this.availability.date + " " + this.availability.timeStart, ["YYYY-MM-DD h:mma"]);
 		    var momentEndObj = moment(this.availability.date + " " + this.availability.timeEnd, ["YYYY-MM-DD h:mma"]);
-
-			//sets local fields
 		    this.availability.date = moment(momentStartObj).format("YYYY-MM-DD");
 		    this.availability.timeStart = moment(momentStartObj).format("h:mma");
 		    this.availability.timeEnd = moment(momentEndObj).format("h:mma");
@@ -648,11 +649,13 @@ export default {
 		            start: momentStartObj,
 		            end: momentEndObj,
 		            title: this.availability.teamName,
-					backgroundColor:  this.getCampusColor(this.availability.teamName),
-					textColor:  "white",
-					overlap: false,
-					borderColor: "black",
 		        }
+
+		        //change color for event based on team
+		        event.color = this.getCampusColor(this.availability.teamName);
+
+		        //change textcolor
+		        event.textColor = "white"
 
 		        //render event
 		        $('#calendar').fullCalendar('renderEvent', event, true);
@@ -668,7 +671,7 @@ export default {
 					teamId: this.getTeamIdFromTeamName(this.availability.teamName),
 				}
 
-				//console.log("newAvailability=[eventId=" + newAvailability.eventId + "], date=[" + moment(newAvailability.date, ["YYYY-MM-DD"]).format("YYYY-MM-DD h:mma") + "], timeStart=[" + moment(newAvailability.timeStart, ["h:mma"]).format("YYYY-MM-DD h:mma") + "], timeEnd=[" + moment(newAvailability.timeEnd, ["h:mma"]).format("YYYY-MM-DD h:mma") + "], teamName=" + newAvailability.teamName + "], teamId=[" + newAvailability.teamId + "]");
+				console.log("newAvailability=[eventId=" + newAvailability.eventId + "], date=[" + moment(newAvailability.date, ["YYYY-MM-DD"]).format("YYYY-MM-DD h:mma") + "], timeStart=[" + moment(newAvailability.timeStart, ["h:mma"]).format("YYYY-MM-DD h:mma") + "], timeEnd=[" + moment(newAvailability.timeEnd, ["h:mma"]).format("YYYY-MM-DD h:mma") + "], teamName=" + newAvailability.teamName + "], teamId=[" + newAvailability.teamId + "]");
 				this.availabilityList.push(newAvailability);
 
 		        //close window
@@ -799,9 +802,9 @@ export default {
 				var currAvail = this.availabilityList[i];
 				var epochStart = moment(currAvail.timeStart).format("X");
 				var epochEnd = moment(currAvail.timeEnd).format("X");
-				//console.log("newAvailability=[eventId=" + currAvail.eventId + "], date=[" + moment(currAvail.date, ["YYYY-MM-DD"]).format("YYYY-MM-DD h:mma") + "], timeStart=[" + moment(currAvail.timeStart, ["h:mma"]).format("YYYY-MM-DD h:mma") + "], timeEnd=[" + moment(currAvail.timeEnd, ["h:mma"]).format("YYYY-MM-DD h:mma") + "], teamName=" + currAvail.teamName + "], teamId=[" + currAvail.teamId + "]");
-
+				console.log("newAvailability=[eventId=" + currAvail.eventId + "], date=[" + moment(currAvail.date, ["YYYY-MM-DD"]).format("YYYY-MM-DD h:mma") + "], timeStart=[" + moment(currAvail.timeStart, ["h:mma"]).format("YYYY-MM-DD h:mma") + "], timeEnd=[" + moment(currAvail.timeEnd, ["h:mma"]).format("YYYY-MM-DD h:mma") + "], teamName=" + currAvail.teamName + "], teamId=[" + currAvail.teamId + "]");
 				//data fields
+
 				postData.userTeamId = this.getUserTeamIdFromTeamId(currAvail.teamId);
 				postData.timeStart = epochStart;
 				postData.timeEnd = epochEnd;
@@ -943,7 +946,7 @@ export default {
 
 	mounted () {
 		//initialize calendar view
-		this.defaultCalendarView();
+		this.initializeCalendarView();
 
 		//set the day restrictions
 		this.nextWeekRange.min = this.getNextWeekMondayDate();
