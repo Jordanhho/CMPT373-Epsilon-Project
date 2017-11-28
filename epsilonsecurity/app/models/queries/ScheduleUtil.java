@@ -212,11 +212,10 @@ public final class ScheduleUtil {
         List<DbUserTeam> dbUserTeamList = DbUserTeamHelper.readAllDbUserTeamsByUserId(userId);
 
         List<DbOneTimeAvailability> dbOneTimeAvailByUser = new ArrayList<>();
-
         for (DbUserTeam dbUserTeam : dbUserTeamList) {
-
             List<DbOneTimeAvailability> targetOneTimeAvailList = DbOneTimeAvailabilityHelper
                     .readDbOneTimeAvailabilityByUserTeamId(dbUserTeam.getId());
+            dbOneTimeAvailByUser.addAll(targetOneTimeAvailList);
         }
 
         List<DbOneTimeAvailability> dbOneTimeAvailByTimeRange = DbOneTimeAvailabilityHelper
