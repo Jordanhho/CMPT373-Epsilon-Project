@@ -5,8 +5,12 @@ import store from './store/store'
 // import './stylus/main.styl'
 import App from './components/App.vue';
 import Icon from 'vue-awesome/icons' //all the icons of font-awesome
+import Chartkick from 'chartkick'
+import VueChartkick from 'vue-chartkick'
 
 Vue.use(Vuetify)
+Vue.use(VueChartkick, { Chartkick })
+
 
 new Vue({
 	el: "#app-container",
