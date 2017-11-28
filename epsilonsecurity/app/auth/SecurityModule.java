@@ -72,7 +72,7 @@ public class SecurityModule extends AbstractModule {
 
         // logout
         LogoutController logoutController = new LogoutController();
-        logoutController.setDefaultUrl("https://cas.sfu.ca/cas/logout");
+//        logoutController.setDefaultUrl("https://cas.sfu.ca/cas/logout");
 //        logoutController.setDefaultUrl("/?defaulturlafterlogout");
         logoutController.setDestroySession(true);
         bind(LogoutController.class).toInstance(logoutController);
