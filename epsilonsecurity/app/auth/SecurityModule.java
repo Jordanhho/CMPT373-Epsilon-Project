@@ -70,12 +70,12 @@ public class SecurityModule extends AbstractModule {
         callbackController.setDefaultUrl("/");
         bind(CallbackController.class).toInstance(callbackController);
 
-        // logout
-        LogoutController logoutController = new LogoutController();
-//        logoutController.setDefaultUrl("https://cas.sfu.ca/cas/logout");
-        logoutController.setDefaultUrl("/?defaulturlafterlogout");
-//        logoutController.setDestroySession(true);
-        bind(LogoutController.class).toInstance(logoutController);
+//        // logout
+//        LogoutController logoutController = new LogoutController();
+////        logoutController.setDefaultUrl("https://cas.sfu.ca/cas/logout");
+//        logoutController.setDefaultUrl("/?defaulturlafterlogout");
+////        logoutController.setDestroySession(true);
+//        bind(LogoutController.class).toInstance(logoutController);
     }
 
     public String getApiServerUrl() {
