@@ -23,6 +23,9 @@ GET           /api/users/:userId                                                
 # Read all users
 GET           /api/users                                                                       controllers.UserController.readAllUsers()
 
+# Read all shift reminders by userId
+GET           /api/users/:userId/reminders                                                             controllers.UserController.readAllScheduleRemindersByUserId(userId: Integer)
+
 # Update a user by sfuEmail
 PUT           /api/users/:userId                                                               controllers.UserController.updateUser(userId: Integer)
 
