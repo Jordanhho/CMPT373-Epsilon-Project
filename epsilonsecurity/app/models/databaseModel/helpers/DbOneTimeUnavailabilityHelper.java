@@ -28,28 +28,10 @@ public final class DbOneTimeUnavailabilityHelper {
         return DbOneTimeUnavailability.find.byId(id);
     }
 
-<<<<<<< HEAD
-    /**
-     * returns a list just all DbOneTimeUnavailability
-     *
-     * @return
-     */
-=======
->>>>>>> master
     public static List<DbOneTimeUnavailability> readAllDbOneTimeUnavailability() {
         return DbOneTimeUnavailability.find.all();
     }
 
-<<<<<<< HEAD
-    /**
-     * returns a list just all DbOneTimeUnavailability by timeStart, timeEnd
-     *
-     * @param timeStart
-     * @param timeEnd
-     * @return
-     */
-=======
->>>>>>> master
     public static List<DbOneTimeUnavailability> readDbOneTimeUnavailabilityByTimeRange(Long timeStart, Long timeEnd) {
         List<DbOneTimeUnavailability> dbOneTimeUnavailabilityList = DbOneTimeUnavailability.find
                 .query()

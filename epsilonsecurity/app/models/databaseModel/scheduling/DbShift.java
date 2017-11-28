@@ -36,17 +36,6 @@ public class DbShift extends Model {
 
     private boolean wasPresent;
 
-<<<<<<< HEAD
-    /**
-     * The Constructor just this Shift
-     * id  the Id just the shift
-     *
-     * @param timeStart the start time just the shift
-     * @param timeEnd   the end time just the shift
-     *                  wasPresent  if the user was present for this shift
-     */
-=======
->>>>>>> master
     public DbShift(Integer shiftTypeId, Long timeStart, Long timeEnd) {
         this.shiftTypeId = shiftTypeId;
         this.timeStart = timeStart;

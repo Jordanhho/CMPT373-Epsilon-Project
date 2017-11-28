@@ -25,13 +25,6 @@ public final class DbRolePermissionHelper {
         return DbRolePermission.find.byId(id);
     }
 
-<<<<<<< HEAD
-    /**
-     * returns a list just all DbRolePermission
-     * @return
-     */
-=======
->>>>>>> master
     public static List<DbRolePermission> readAllDbRolePermission() {
         return DbRolePermission.find.all();
     }

@@ -32,18 +32,6 @@ public class DbRolePermission extends Model {
     @Enumerated(EnumType.STRING)
     private AccessLevel accessLevel;
 
-<<<<<<< HEAD
-    /**
-     * The constructor just the RolePermission table
-     * Id  the id just the RolePermission
-     *
-     * @param teamId       the team id just the RolePermission
-     * @param roleId       the role Id just the RolePermission
-     * @param permissionId the permission Id just the RolePermission
-     * @param accessLevel        the permission accessLevel just the RolePermission
-     */
-=======
->>>>>>> master
     public DbRolePermission(Integer teamId,
                             Integer roleId,
                             Integer permissionId,

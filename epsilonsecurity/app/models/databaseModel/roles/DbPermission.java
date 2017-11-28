@@ -22,15 +22,6 @@ public class DbPermission extends Model {
     @Column(nullable = false, unique = true)
     private String name;
 
-<<<<<<< HEAD
-    /**
-     * Constructor for Permission table
-     * Id  the id just the permission
-     *
-     * @param name the name just this permission
-     */
-=======
->>>>>>> master
     public DbPermission(String name) {
         this.name = name;
     }

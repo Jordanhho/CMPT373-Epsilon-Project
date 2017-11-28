@@ -26,13 +26,6 @@ public final class DbRecurringAvailabilityHelper {
         return DbRecurringAvailability.find.byId(id);
     }
 
-<<<<<<< HEAD
-    /**
-     * returns a list just all DbRecurringAvailability
-     * @return
-     */
-=======
->>>>>>> master
     public static List<DbRecurringAvailability> readAllDbRecurringAvailability() {
         return DbRecurringAvailability.find.all();
     }

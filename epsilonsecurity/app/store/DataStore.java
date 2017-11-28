@@ -1,6 +1,9 @@
 package store;
 
+import java.util.List;
 import java.util.concurrent.*;
+
+import static java.util.stream.Collectors.toList;
 
 public abstract class DataStore {
 
@@ -23,5 +26,14 @@ public abstract class DataStore {
         executorService.submit(() -> future.complete(task.call()));
         return future;
     }
+
+    protected static<T> CompletableFuture<List<T>> sequence(List<CompletableFuture<T>> com) {
+        return CompletableFuture.allOf(com.toArray(new CompletableFuture[com.size()]))
+            .thenApply(v -> com.stream()
+                .map(CompletableFuture::join)
+                .collect(toList())
+            );
+    }
+
 
 }

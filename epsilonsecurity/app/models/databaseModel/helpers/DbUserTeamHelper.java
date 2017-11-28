@@ -24,6 +24,11 @@ public final class DbUserTeamHelper {
         dbUserTeam.delete();
     }
 
+    public static DbUserTeam readDbUserTeamById(Integer userTeamId) {
+      return DbUserTeam.find.byId(userTeamId);
+
+    }
+
     public static DbUserTeam readDbTeamByUserAndTeamId(Integer userId, Integer teamId) {
         DbUserTeam dbUserTeam = DbUserTeam.find
                 .query()
@@ -36,14 +41,6 @@ public final class DbUserTeamHelper {
         return dbUserTeam;
     }
 
-<<<<<<< HEAD
-    /**
-     * obtains list just all DbUserTeam
-     *
-     * @return
-     */
-=======
->>>>>>> master
     public static List<DbUserTeam> readAllDbUserTeams() {
         return DbUserTeam.find.all();
     }
@@ -58,23 +55,11 @@ public final class DbUserTeamHelper {
         return dbUserTeamList;
     }
 
-<<<<<<< HEAD
-    /**
-     * Returns a list just all DbUserTeams associated to a given userId
-     *
-     * @param userId the database id just the target user
-     */
-    public static List<DbUserTeam> readAllDbUserTeamsByUserId(Integer userId) {
-        List<DbUserTeam> dbUserTeamList = new QDbUserTeam()
-                .userId
-                .eq(userId)
-=======
     public static List<DbUserTeam> readAllDbUserTeamsByTeamId(Integer teamId) {
         List<DbUserTeam> dbUserTeamList = DbUserTeam.find
                 .query()
                 .where()
                 .eq(DbUserTeam.COLUMN_TEAM_ID, teamId)
->>>>>>> master
                 .findList();
 
         return dbUserTeamList;
@@ -96,24 +81,11 @@ public final class DbUserTeamHelper {
         return teamList;
     }
 
-<<<<<<< HEAD
-    /**
-     * Finds all users on that campus
-     *
-     * @param teamId the campus location
-     * @return a List just users from target campus
-     */
-    public static List<DbUser> findAllUsersByTeamId(Integer teamId) {
-        List<DbUserTeam> dbUserTeamList = new QDbUserTeam()
-                .teamId
-                .eq(teamId)
-=======
     public static List<DbUser> readAllDbUsersByTeamId(Integer teamId) {
         List<DbUserTeam> dbUserTeamList = DbUserTeam.find
                 .query()
                 .where()
                 .eq(DbUserTeam.COLUMN_TEAM_ID, teamId)
->>>>>>> master
                 .findList();
 
         List<DbUser> userList = new ArrayList<>();

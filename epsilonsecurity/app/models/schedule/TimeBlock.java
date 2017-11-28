@@ -30,7 +30,7 @@ public class TimeBlock {
         this.timeSlots = TimeSlotFactory.newTimeSlots(start, end);
     }
 
-    protected TimeBlock(List<TimeSlot> timeSlots) {
+    public TimeBlock(List<TimeSlot> timeSlots) {
         // TODO:
         // precondition: sorted
         this.timeSlots = timeSlots;

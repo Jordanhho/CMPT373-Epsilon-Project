@@ -25,16 +25,6 @@ public class DbUserShift extends Model {
     @Column(nullable = false)
     private Integer shiftId;
 
-<<<<<<< HEAD
-    /**
-     * The Constructor just this UserShift
-     * id  the id just this userShift
-     *
-     * @param userTeamId  the id just the userTeam for this userShift
-     * @param shiftId the id just the shift for this userShift
-     */
-=======
->>>>>>> master
     public DbUserShift(Integer userTeamId, Integer shiftId) {
         this.userTeamId = userTeamId;
         this.shiftId = shiftId;

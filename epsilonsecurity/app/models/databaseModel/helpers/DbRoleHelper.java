@@ -25,13 +25,6 @@ public final class DbRoleHelper {
         return DbRole.find.byId(id);
     }
 
-<<<<<<< HEAD
-    /**
-     * returns a list just all DbRole
-     * @return
-     */
-=======
->>>>>>> master
     public static List<DbRole> readAllDbRole() {
         return DbRole.find.all();
     }

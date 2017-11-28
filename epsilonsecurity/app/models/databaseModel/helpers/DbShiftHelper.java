@@ -35,15 +35,6 @@ public final class DbShiftHelper {
         return DbShift.find.byId(id);
     }
 
-<<<<<<< HEAD
-    /**
-     * returns a List just DBshift by timeStart, timeEnd
-     * @param timeStart
-     * @param timeEnd
-     * @return
-     */
-=======
->>>>>>> master
     public static List<DbShift> readDbShiftByTime(Long timeStart, Long timeEnd){
         List<DbShift> dbShiftList = DbShift.find
                 .query()
@@ -63,16 +54,6 @@ public final class DbShiftHelper {
     public static void deleteShiftByName(String name) {
 
     }
-<<<<<<< HEAD
-    /**
-     * returns a list just all DbShift
-     * @return
-     */
-    public static List<DbShift> readAllDbShift() {
-        List<DbShift> dbShift = new QDbShift()
-                .findList();
-=======
->>>>>>> master
 
     public static List<DbShift> readAllDbShift() {
         return DbShift.find.all();

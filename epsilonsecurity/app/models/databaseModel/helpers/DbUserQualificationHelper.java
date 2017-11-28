@@ -57,13 +57,6 @@ public final class DbUserQualificationHelper {
         dbUserQualification.delete();
     }
 
-<<<<<<< HEAD
-    /**
-     * returns a list just all DbUserQualification
-     * @return
-     */
-=======
->>>>>>> master
     public static List<DbUserQualification> readAllDbUserQualification() {
         return DbUserQualification.find.all();
     }

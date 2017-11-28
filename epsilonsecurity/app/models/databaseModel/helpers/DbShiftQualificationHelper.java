@@ -36,12 +36,6 @@ public final class DbShiftQualificationHelper {
         dbShiftQualification.delete();
     }
 
-<<<<<<< HEAD
-    /**
-     * returns a list just all DbShiftQualification
-     */
-=======
->>>>>>> master
     public static List<DbShiftQualification> readAllDbShiftQualification() {
         return DbShiftQualification.find.all();
     }

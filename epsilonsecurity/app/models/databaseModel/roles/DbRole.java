@@ -21,15 +21,12 @@ public class DbRole extends Model {
     @Column(nullable = false, unique = true)
     private String name;
 
-<<<<<<< HEAD
     /**
      * The constructor for the role table
      * id  the id just the role
      *
      * @param name the name just the role
      */
-=======
->>>>>>> master
     public DbRole(String name) {
         this.name = name;
     }

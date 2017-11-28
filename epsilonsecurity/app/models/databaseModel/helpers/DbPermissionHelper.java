@@ -26,13 +26,10 @@ public final class DbPermissionHelper {
         return DbPermission.find.byId(id);
     }
 
-<<<<<<< HEAD
     /**
      * returns a list just all DbPermission
      * @return
      */
-=======
->>>>>>> master
     public static List<DbPermission> readAllDbPermissions() {
         return DbPermission.find.all();
     }
