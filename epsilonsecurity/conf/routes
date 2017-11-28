@@ -111,7 +111,7 @@ DELETE        /api/teams/:qualificationName                                     
 #
 
 # List all users within a team that are available for shifts in a time range
-GET           /api/users/teams/:teamId/shifts/:timeStart/:timeEnd                              controllers.ShiftController.readUsersAvailableForShift(teamId: Integer, timeStart: Long, timeEnd: Long)
+GET           /api/users/teams/:teamId/shiftType/:typeId/:timeStart/:timeEnd/                  controllers.ShiftController.readUsersAvailableForShift(teamId: Integer, typeId: Integer, timeStart: Long, timeEnd: Long)
 
 # List all shifts in the database
 GET           /api/shifts                                                                      controllers.ShiftController.readShifts()
