@@ -19,9 +19,9 @@ public class HomeController extends Controller {
 
     //@Secure(clients = "AnonymousClient", authorizers = "csrfToken")
     public Result index(String id) {
-//        if(DbUser.find.query().findCount() == 0){
-//            new DummyDataBase();
-//        }
+        if(DbUser.find.query().findCount() == 0){
+            new DummyDataBase();
+        }
         return status(200, index.render(env, 3000, "bundle.js", "bundle.css"));
     }
 }

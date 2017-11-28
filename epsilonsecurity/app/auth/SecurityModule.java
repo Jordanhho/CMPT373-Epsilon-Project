@@ -72,9 +72,16 @@ public class SecurityModule extends AbstractModule {
 
         // logout
         LogoutController logoutController = new LogoutController();
-//        logoutController.setDefaultUrl("https://cas.sfu.ca/cas/logout");
-//        logoutController.setDefaultUrl("/?defaulturlafterlogout");
-        logoutController.setDestroySession(true);
+
+        // Suppose defaultUrl = CAS Logout Page (CLP)
+        // Setting a defaultUrl => redirect to CLP.
+        // Browsers will throw CORS Policy violation errors if URL is at different domain (the case for the CLP)
+        // Hence do not set a default url until we figure out how to prevent CORS erros.
+        //logoutController.setDefaultUrl("https://cas.sfu.ca/cas/logout");
+        logoutController.setDefaultUrl("https://cas.sfu.ca/cas/appLogout?app=my+app+desc");
+
+
+        //logoutController.setDestroySession(true);
         bind(LogoutController.class).toInstance(logoutController);
     }
 

@@ -20,23 +20,27 @@ export default {
     }
   },
   actions: {
-    // signupUser ({commit}, payload) {},
-    // signUserIn ({commit}, payload) {},
+
     signUserOut ({commit}) {
-    	// todo: clear user in store
-    	// todo: goto CAS page
-			// make get request to /logout
-			axios.get("/logout", { crossdomain: true })
-				.then(() => {
-					console.log("store> logout successfull")
-					commit('setUser', null)
-				})
-				.catch(error => {
-					console.error(`store> ${error.message}`)
-				})
-		},
-    // autoSignIn ({commit}, payload) {},
-    // fetchUserData ({commit, getters}) {}
+
+    	// 1. Clear this user's session on the backend
+			axios.get("/logout")
+			.then(response => {
+				console.log('store> backend logout complete')
+
+				// 2. Clear this user's info on the frontend
+				commit('setUser', null)
+
+				// Ideally, the backend should redirect to the CAS logout page after clearing-out the user's session.
+				// However the browser blocks the redirect due to CORS Policy violation (still don't know how to prevent this).
+				// The work-around is to intentionally configure the backend NOT to redirect to CLP, AND manually
+				// visit the CLP as we are doing below.
+				// document.location.href = "https://cas.sfu.ca/cas/logout"
+			})
+			.catch(error => {
+				console.error(`store> ${error.message}`)
+			})
+		}
   },
   getters: {
     user (state) {

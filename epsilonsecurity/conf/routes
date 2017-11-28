@@ -5,7 +5,6 @@ GET           /test                                                             
 
 GET           /callback                                                                                @org.pac4j.play.CallbackController.callback()
 GET           /logout                                                                                  @org.pac4j.play.LogoutController.logout()
-#GET           /logout                                                                                  @org.pac4j.play.CallbackController.logoutAndRedirect()
 GET           /centralLogout                                                                           controllers.CentralLogoutController.logout()
 
 GET           /ok                                                                                      controllers.TestController.test()
