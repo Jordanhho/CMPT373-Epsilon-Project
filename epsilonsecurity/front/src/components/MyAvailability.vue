@@ -642,7 +642,7 @@ export default {
 		    //all conditions are met for creating this availability
 		    if(this.checkTimePickerBounds() == false && this.checkIfAvailabilityConflicts("create") == false) {
 		        //create new object for event with the newly created moment objects
-				var newEventId = this.getNewEventId();newEventId
+				var newEventId = this.getNewEventId();
 				this.availability.eventId = newEventId;
 			    var event = {
 		            id: newEventId,
@@ -825,6 +825,7 @@ export default {
 
 		populateUserTeamId(response) {
 			//alert(JSON.stringify(response.data, null, 1));
+
 			this.userTeamIdList.push(response.data);
 		},
 
@@ -837,6 +838,15 @@ export default {
 			 });
 		},
 
+
+		getTeamIdFromUserTeamId: function(targetUserTeamId) {
+			for(var i = 0; i < this.userTeamIdList.length; i++) {
+				if(targetUserTeamId == this.userTeamIdList[i]) {
+					return this.teamIdList[i];
+				}
+			}
+			return -1;
+		},
 
 		//populate this user's team list
 		populateTeamList(response) {
@@ -869,12 +879,20 @@ export default {
 				console.log(error);
 			});
 
+			alert('/api/users/' + this.loggedInUserId + '/onetimeavailabilites/' + this.getEpochNextWeekMonday() + "/" + this.getEpochNextWeekSunday());
 			//TODO initialize the existing availabilities for this availabiity weekday {
 			axios.get('/api/users/' + this.loggedInUserId + '/onetimeavailabilites/' + this.getEpochNextWeekMonday() + "/" + this.getEpochNextWeekSunday())
 				.then(this.populateExistingAvailabilities)
 				.catch(function (error) {
 					console.log(error);
 			});
+
+			//DEBUG initailize all existing availabilties
+			// axios.get('/api/onetimeavailabilites')
+			// 	.then(this.populateExistingAvailabilities)
+			// 	.catch(function (error) {
+			// 		console.log(error);
+			// });
 		},
 
 		//initialize this user's availabilty's status
@@ -885,33 +903,38 @@ export default {
 
 		//initalize this user's availability list that exists for this availability week
 		populateExistingAvailabilities(response) {
-			//alert(JSON.stringify(response.data, null, 5));
+			alert(JSON.stringify(response.data, null, 5));
 			var localUserTeamIdList = response.data.map(userTeamId => userTeamId.userTeamId);
 			var localTimeStartList = response.data.map(timeStartItem => timeStartItem.timeStart);
 			var localTimeEndList = response.data.map(timeEndItem => timeEndItem.timeEnd);
 			var localTeamIdList = [];
-			//sets local list of teamIds
+			var localTeamNameList = [];
+			//sets local list of team id
 			for(var i = 0; i < localUserTeamIdList.length; i++) {
-				localTeamIdList.push(this.getTeamIdFromUserId(localUserTeamIdList[i]));
+				localTeamIdList.push(this.getTeamIdFromUserTeamId(localUserTeamIdList[i]));
 			}
 
 			//adds retrieved data to local availability list
 			for(var i = 0; i < response.data.length; i++) {
-
-				var newTeamName = this.getTeamNameFromTeamId(localUserTeamIdList[i]);
+				var newTeamName = this.getTeamNameFromTeamId(localTeamIdList[i]);
 				var newEventId = this.getNewEventId();
+
+				//format moment objects from epoch
+				var startMomentObj = moment(localTimeStartList[i], ["X"]);
+				var endMomentObj = moment(localTimeEndList[i], ["X"]);
+
 				var event = {
 				   id: newEventId,
-				   start: moment(localTimeStartList[i]),
-				   end: moment(localTimeEndList[i]),
+				   start: startMomentObj,
+				   end: endMomentObj,
 				   title: newTeamName,
 			   	}
 				var localAvailability = {
 					eventObj: event,
 					eventId: newEventId,
-					date: moment(localTimeStartList[i]).format("YYYY-MM-DD"),
-					timeStart: moment(localTimeStartList[i]).format("h:mma"),
-					timeEnd: moment(localTimeEndList[i]).format("h:mma"),
+					date: moment(startMomentObj).format("YYYY-MM-DD"),
+					timeStart: moment(startMomentObj).format("h:mma"),
+					timeEnd: moment(endMomentObj).format("h:mma"),
 					teamName: newTeamName,
 					teamId: localUserTeamIdList[i],
 				}
@@ -921,7 +944,7 @@ export default {
 				//render the event
 				 $('#calendar').fullCalendar('renderEvent', event, true);
 			}
-            //
+
 			// console.log("debug print list of availability locally");
 			// console.log("___________________________________________");
 			// for(var i = 0; i < this.availabilityList.length; i++) {

@@ -27,24 +27,22 @@ export default{
 <style scoped> 
     #qualification{
         border-style: solid;
-        margin-left: 1%;
-        margin-right: 1%;
-        padding-bottom: 1%;
+        text-align: center;
+        margin-left: 5%;
+        margin-right: 5%;
     }
     #qualification-symbol{
         display: block;
         width: 2.5em;
         height: 2.5em;
         color: gold; 
-        margin-top: 5%;
+        margin-top: 2%;
         margin-left: auto;
-        margin-right: auto;
-        margin-bottom: 2.5%;        
+        margin-right: auto;   
     }
     #qualification-name{
-        font-size: 2em;
-        padding-left: 0;
-        padding-right: 0;
+        font-size: 2rem;
+        padding: 15% 0 5% 0;
     }
 </style>    
 

@@ -1,8 +1,10 @@
 package models.databaseModel.helpers;
 
 
+import models.databaseModel.qualification.DbQualification;
 import models.databaseModel.qualification.DbShiftQualification;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -30,6 +32,20 @@ public final class DbShiftQualificationHelper {
                 .findUnique();
 
         return dbShiftQualification;
+    }
+
+    public static List<DbQualification> readDbQualificationByShiftTypeId(Integer shiftTypeId){
+        List<DbShiftQualification> dbShiftQualificationList = DbShiftQualification.find
+                .query()
+                .where()
+                .eq(DbShiftQualification.COLUMN_SHIFT_TYPE_ID, shiftTypeId)
+                .findList();
+        List<DbQualification> dbQualificationList = new ArrayList<>();
+        for(DbShiftQualification shiftQualification : dbShiftQualificationList){
+            dbQualificationList.add(DbQualification.find
+                    .byId(shiftQualification.getQualificationId()));
+        }
+        return dbQualificationList;
     }
 
     public static void deleteDbShiftQualification(DbShiftQualification dbShiftQualification) {
