@@ -233,6 +233,7 @@ export default {
         text-align: left;
         font-size: 2.5em;
     }
+    
     #personal-info{
         margin-top: 1.5%;
     }
