@@ -69,3 +69,16 @@ Why having a separate production `.conf` file is best practice - [here](https://
 ### Known Issues
 
 None for now.
+
+---
+
+### Useful Unix Commands
+
+How to send a foreground process to the background
+  
+  [ctr+z]         // pause the running process and return to terminal prompt
+  bg              // make the paused process run in the background
+  jobs            // list info for the existing processes - JOB_NUMBER, STATUS, etc
+  fg %JOB_NUMBER  // run job with JOB_NUMBER on the foreground
+  bg %JOB_NUMBER  // run job with JOB_NUMBER on the background
+  nohub <PID>     // unataches the background job from the terminal, so logout does not shut it down.
