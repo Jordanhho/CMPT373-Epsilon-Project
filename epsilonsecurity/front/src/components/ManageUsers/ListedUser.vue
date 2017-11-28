@@ -1,5 +1,5 @@
 <template>
-    <router-link exact :to="'/manage-users/' + user.id" class="listed-user" @click="onClickButton" tag="li">
+    <router-link exact :to="'/manage-users/' + user.id" class="listed-user" tag="li">
         <span>{{user.firstName}} {{user.lastName}}</span>
     </router-link>
 </template>
@@ -8,19 +8,6 @@
 
     export default {
         name: 'listed-user',
-        data() {
-            return {
-
-            }
-        },
-        methods: {
-            onClickButton (event) {
-                this.$emit('clicked', this.user.id);
-            },
-        },
-        components: {
-
-        },
         props: {
             user: {
                 type: Object,

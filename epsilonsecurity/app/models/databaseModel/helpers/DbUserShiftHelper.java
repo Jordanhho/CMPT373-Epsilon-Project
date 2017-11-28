@@ -1,8 +1,9 @@
 package models.databaseModel.helpers;
 
-import models.databaseModel.scheduling.DbUser;
+import models.databaseModel.scheduling.DbShift;
 import models.databaseModel.scheduling.DbUserShift;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -38,13 +39,24 @@ public final class DbUserShiftHelper {
         return dbUserShiftList;
     }
 
-    public static List<DbUserShift> readDbUserShiftByUserTeamId(Integer userTeamId) {
+    public static List<DbUserShift> readDbUserShiftByUserTeamId(Integer userTeamId){
+        return DbUserShift.find
+                .query()
+                .where()
+                .eq(DbUserShift.COLUMN_USER_TEAM_ID, userTeamId)
+                .findList();
+    }
+
+    public static List<DbShift> readDbShiftByUserTeamId(Integer userTeamId) {
         List<DbUserShift> dbUserShiftList = DbUserShift.find
                 .query()
                 .where()
                 .eq(DbUserShift.COLUMN_USER_TEAM_ID, userTeamId)
                 .findList();
-
-        return dbUserShiftList;
+        List<DbShift> dbShiftList = new ArrayList<>();
+        for(DbUserShift userShift : dbUserShiftList){
+            dbShiftList.add(DbShift.find.byId(userShift.getShiftId()));
+        }
+        return dbShiftList;
     }
 }

@@ -3,7 +3,7 @@
         <h4>
             Qualifications
         </h4>
-        <v-container grid-list-md class='scroll-y qualifications-list'>
+        <v-container grid-list-md class='qualifications-list'>
             <v-layout row wrap >
                 <v-flex xs4 sm4 md4 v-for='i in 13' class='placeholder'>
                     <div class='box'> </div>
