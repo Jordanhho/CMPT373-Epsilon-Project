@@ -3,12 +3,12 @@ package controllers;
 import models.databaseModel.helpers.DbTeamHelper;
 import models.databaseModel.scheduling.DbTeam;
 import models.databaseModel.scheduling.DbUser;
+import models.databaseModel.scheduling.DbUserTeam;
 import models.queries.TeamIdArrayForm;
 import play.data.Form;
 import play.data.FormFactory;
 import play.libs.Json;
 import play.mvc.*;
-import models.databaseModel.scheduling.DbUserTeam;
 import models.databaseModel.helpers.DbUserTeamHelper;
 
 import javax.inject.Inject;
@@ -62,8 +62,9 @@ public class UserTeamController extends Controller {
         return ok();
     }
 
-    public Result retrieveUserTeam(Integer userId, Integer teamId) {
-        return ok();
+    public Result retrieveUserTeamId(Integer userId, Integer teamId) {
+        DbUserTeam userTeamId = DbUserTeamHelper.readDbTeamByUserAndTeamId(userId, teamId);
+        return ok(Json.toJson(userTeamId.getId()));
     }
 
     public Result readAllUsersByTeamId(Integer teamId) {
@@ -85,7 +86,7 @@ public class UserTeamController extends Controller {
         return ok();
     }
 
-    public Result readDbUserTeamByUserId(Integer userId) {
+    public Result readDbTeamByUserId(Integer userId) {
         List<DbTeam> dbTeamList = DbUserTeamHelper.readAllDbTeamsByUserId(userId);
 
         return ok(Json.toJson(dbTeamList));

@@ -1,6 +1,6 @@
 
 <template>
-     <div id = "profile-main">
+     <div id = "profile-main" class = "scroll-y">
         <div id = "profile-header">
             <img :src="userPhoto" alt="" id= "user-photo">
             <div id = "basic-info">
@@ -16,42 +16,75 @@
             <h1 class = "header">
                 Information
             </h1>
-            <div id= "info-body">
-                <div id = "tab">
-                    <li v-for= "tab in tabs">
-                        {{tab.text}}
-                    </li>
-                </div>
-                <div id = "content">
-                    <li v-for= "content in tabContent">
-                        {{content}}                                
-                    </li>
-                </div>
-                <span id= "spacer"></span>
-                <div id = "hours">
-                    <span id= "number-hours">{{hoursNumber}}</span>
-                    <span id= "hours-text">HOURS</span>    
-                </div>
-            </div>
+            <v-container id= "info-body" grid-list-sm test-xs-center>
+                <v-layout v-bind="binding">
+                    <v-flex>
+                        <v-layout>
+                            <div id = "tab">
+                                <li v-for= "tab in tabs">
+                                    {{tab.text}}
+                                </li>
+                            </div>
+                            <div id = "content">
+                                <li v-for= "content in tabContent">
+                                    {{content}}                                
+                                </li>
+                            </div>
+                        </v-layout>
+                    </v-flex>
+                    <v-flex>
+                        <v-layout>
+                            <span id= "spacer"></span>
+                            <div id= "hours">
+                                <div id = "hours-info">
+                                    <span id= "hours-number">{{hoursNumber}}</span>
+                                    <span id= "hours-text">HOURS</span>    
+                                </div>    
+                                <v-btn id = "hours-btn"  color = "primary" dark @click.stop= "graphDspl = true">
+                                    Detailed Hours
+                                </v-btn>
+                            </div>
+                        </v-layout>
+                    </v-flex>
+                </v-layout>
+            </v-container>
+
         </div>
-        <div id = "qualificationList">
+        <div id = "qualificationList"  class = "scroll-y">
                 <h1 class = "header">
                     Qualification
                 </h1>
                 <div id = "q-body">        
-                    <qualification class="list"
-                    v-for= "qualification in qualificationNames" 
-                    v-bind:qualificationName="qualification"
-                    v-bind:key="qualification">
-                    </qualification>
+                    <v-container grid-list-sm test-xs-center>
+                        <v-layout v-bind="binding">
+                            <v-flex v-for ="qualification in qualificationNames" :key="qualification">
+                                <div>
+                                    <qualification v-bind:qualificationName= "qualification" class = "card-style"></qualification>
+                                </div>
+                            </v-flex>
+                        </v-layout>
+                    </v-container>
                 </div>
         </div>
+
+        <v-dialog v-model="graphDspl" max-width="500px">
+            <v-card dark color = "primary">
+                <v-card-title>Working Hours By Shift Type</v-card-title>
+                <pie-chart :data="chartData" id= "pie-chart"></pie-chart>
+            </v-card>
+        </v-dialog>
     </div>
+
 </template>
 
 <script>
 import Icon from 'vue-awesome/components/Icon.vue'
 import Qualification from './Qualification.vue'
+import Chartkick from 'chartkick'
+import VueChartkick from 'vue-chartkick'
+import Chart from 'chart.js'
+
+
 import axios from 'axios'
 
 export default {
@@ -66,20 +99,17 @@ export default {
                 {text: 'Team: '},
                 {text: 'Role: '}
             ],
-            tabContent: [
-                // {text: 'adall@sfu.ca'},
-                // {text: 'Burnaby, Surrey'},
-                // {text: 'Volunteer'}
-            ],
-            hoursNumber: "14",
+            tabContent: [],
+            hoursNumber: '',
+            graphDspl: false,
+            chartData: [],
             qualificationNames: [],
             loggedInUserId: 15,
-            roleId: ''
+            roleId: '',
         }
     },
     methods: {
         populateUserData(userData){
-            //alert(JSON.stringify(userData.data, null, 2));
             this.userName = userData.data.firstName + " " + userData.data.lastName;
             this.contactInfo = [userData.data.contactEmail, userData.data.phoneNumber];
             this.tabContent.splice(0, 0, userData.data.sfuEmail);
@@ -91,7 +121,6 @@ export default {
             })
         },
         populateTeamData(teamData){
-            //alert(JSON.stringify(teamData.data, null, 2));
             var teamList = "";
             var listLength = teamData.data.length;
             for(var i = 0; i < listLength; i++){
@@ -103,19 +132,28 @@ export default {
             this.tabContent.splice(1, 0, teamList);        
         },
         populateQualificationData(qualificationData){
-            //alert(JSON.stringify(qualificationData.data, null, 2));
             var listLength = qualificationData.data.length;
             for(var i = 0; i < listLength; i++){
                 this.qualificationNames.splice(i, 0, qualificationData.data[i].qualificationName);
             }
         },
         populateRoleName(roleData){
-            //alert(JSON.stringify(roleData.data, null, 2));\
+            //alert(JSON.stringify(roleData.data, null, 2));
             this.tabContent.splice(3, 0 , roleData.data.name);
         },
+        populateHourData(hourData){
+            this.hoursNumber = hourData.data;
+        },
+        populateChartData(hourByShiftTypeData){
+            var listLength = hourByShiftTypeData.data.length;
+            for(var i = 0; i < listLength; i++){
+                this.chartData.splice(i, 0, [hourByShiftTypeData.data[i].shiftTypeName, hourByShiftTypeData.data[i].hour]);
+            }
+        }
     },
     components: {
-        Qualification
+        Qualification,
+        Chart
     },
     created: function () {
         axios.get('/api/users/' + this.loggedInUserId)
@@ -133,8 +171,26 @@ export default {
         .catch(function(error){
             console.log(error)
         });
-        //TODO: Figure out how to pass roleId to this get after the first get is done
+        axios.get('/api/shifts/hours/' + this.loggedInUserId)
+        .then(this.populateHourData)
+        .catch(function(error){
+            console.log(error)
+        });
+        axios.get('/api/shifts/hours/byType/' + this.loggedInUserId)
+        .then(this.populateChartData)
+        .catch(function(error){
+            console.log(error)
+        });
+    },
+    computed: {
+        binding() {
+            const binding = {}
 
+            if(this.$vuetify.breakpoint.mdAndDown)
+                binding.column = true
+
+            return binding
+        }
     }
 
 }
@@ -146,8 +202,10 @@ export default {
         flex-flow: column nowrap;
         width: 100%;
         height: 100%;
+        overflow: auto; 
         border-style: groove;
         padding-top: 5%;
+        height: 80em;
     }
 
     #profile-header{
@@ -157,80 +215,90 @@ export default {
         background: lightgrey; 
     }
     #user-photo{
-        width: 12em;
-        height: 12em;
+        width: 15em;
+        height: 15em;
         border-radius: 50%;
         border-style: none;
     }
     #basic-info{
         margin-left: 5%;
-        margin-top: 1.5%;
         flex-flow: column nowrap;
     }
     #user-name{
-        font-size: 4em;
+        font-size: 4.5em;
         text-align: left;        
     }
     #contact-info{
         list-style-type: none;
         text-align: left;
-        font-size: 2em;
+        font-size: 2.5em;
     }
+    
     #personal-info{
         margin-top: 1.5%;
-    }
-    #info-body{
-        flex-flow: row nowrap;
-        display: flex;
-        margin-left: 7%;        
     }
     #tab{        
         list-style-type: none;
         text-align: right;
-        font-size: 2em;
+        font-size: 2.3em;
+        margin-left: 15%;
+        margin-top: 3%;
     }
     #content{
         background: white;
         list-style-type: none;
         display: block;
         text-align: left;
-        font-size: 2em;
+        font-size: 2.3em;
         margin-left: .5%;
+        margin-top: 3%;
+    }
+    #spacer{
+        flex-grow: .55;
     }
     #hours{
         display: flex;
-        flex-flow: row nowrap;
+        flex-flow: column nowrap;
         margin-right: 10%;
-        font-size: 1.5em;
+        align-items: left;
+    }
+    #hours-info{
+        display: flex;
+        flex-flow: row nowrap;
+        font-size: 2em;
         text-align: right;
+        margin-left: 10%;
     }
-    #spacer{
-        flex-grow: 1;
-    }
-    #number-hours{
+    #hours-number{
         font-size: 3.5em;
+        border-top: 0%;
     }
     #hours-text{
         align-self: flex-end;
         padding-bottom: 1.7em;
         padding-left: .5em;
     }
+    #hours-btn{
+        font-size: 1.5em;
+    }
+
     #qualificationList{
         margin-top: 3%;
-    }
-    .header{
-        font-size: 2em;  
-        text-align: left;
-        margin: 1% 0% 1.5% 1%;      
+        height: 40rem;
     }
     #q-body{
         display: flex;
-        
     }
-    .list{
-        flex-flow: row nowrap;         
-        margin: 0;
+    .header{
+        font-size: 2.5em;  
+        text-align: left;
+        margin: 1% 0% 1.5% 3%;      
+        border-bottom-style: ridge;
     }
-
+    #pie-chart{
+        background: white;
+        height: 20%;
+        padding-bottom: 1.5em;
+    }
 </style>
 
