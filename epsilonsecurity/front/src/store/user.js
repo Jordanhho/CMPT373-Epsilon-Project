@@ -35,7 +35,8 @@ export default {
 				// However the browser blocks the redirect due to CORS Policy violation (still don't know how to prevent this).
 				// The work-around is to intentionally configure the backend NOT to redirect to CLP, AND manually
 				// visit the CLP as we are doing below.
-				// document.location.href = "https://cas.sfu.ca/cas/logout"
+				document.location.href = "https://cas.sfu.ca/cas/appLogout" // to logout from only this app
+				//document.location.href = "https://cas.sfu.ca/cas/logout" // to logout from all CAS apps
 			})
 			.catch(error => {
 				console.error(`store> ${error.message}`)

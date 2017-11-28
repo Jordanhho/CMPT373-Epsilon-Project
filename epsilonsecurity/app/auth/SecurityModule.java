@@ -78,7 +78,7 @@ public class SecurityModule extends AbstractModule {
         // Browsers will throw CORS Policy violation errors if URL is at different domain (the case for the CLP)
         // Hence do not set a default url until we figure out how to prevent CORS erros.
         //logoutController.setDefaultUrl("https://cas.sfu.ca/cas/logout");
-        logoutController.setDefaultUrl("https://cas.sfu.ca/cas/appLogout?app=my+app+desc");
+        //logoutController.setDefaultUrl("https://cas.sfu.ca/cas/appLogout?app=my+app+desc");
 
 
         //logoutController.setDestroySession(true);
