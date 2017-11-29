@@ -5,6 +5,7 @@ import models.databaseModel.scheduling.DbUser;
 import org.junit.Assert;
 
 import java.util.List;
+import play.libs.Json;
 
 public final class DbUserHelper {
 
@@ -68,10 +69,20 @@ public final class DbUserHelper {
 
     //cherry picked from @nick
     public static DbUser readDbUserByUsername(String username) {
-        Assert.assertNotNull(username);
 
         String sfuEmail = username + "@sfu.ca";
+        System.out.println("dbhelper> will search for: " + sfuEmail);
+
         DbUser dbUser = readDbUserBySfuEmail(sfuEmail);
+        System.out.println("dbhelper> found: " + Json.toJson(dbUser));
+
+
+//        DbUser dummyUser = new DbUser(
+//                "Uzziah",
+//                "Eyee", "ueyee@sfu.ca",
+//                "example@email.ca",
+//                "(123)-654-7878",
+//                "https://www.PhotoUrl.ca");
 
         return dbUser;
     }

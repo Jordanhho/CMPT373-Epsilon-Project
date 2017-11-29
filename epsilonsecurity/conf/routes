@@ -12,7 +12,7 @@ GET           /ok                                                               
 GET           /$p<(?!api).*>                                                                           controllers.HomeController.index(p: String)
 # ----------------------- USER APIs ----------------------
 
-GET           /api/auth-user        controllers.HomeController.casUser()
+GET           /api/authuser        controllers.HomeController.casUser()
 #
 # DbUser
 #

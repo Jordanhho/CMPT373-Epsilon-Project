@@ -49,22 +49,25 @@ public class HomeController extends Controller {
 
     public Result casUser() {
 
-        /*
+        //*
         // Get SFU username authenticated user
         // Note: SFU CAS only returns username, no other valuable info like first and last name.
         final CommonProfile profile = getProfiles().get(0);
         String sfuUsername = profile.getId();
+        System.out.println("> username: " + sfuUsername);
 
         // get user from database with the sfuUsername
         DbUser user = DbUserHelper.readDbUserByUsername(sfuUsername);
 
         if (!(user instanceof DbUser)) {
+            System.out.println("> user not found");
             return status(404);
         }
 
         return status(200, Json.toJson(user));
-        */
+        //*/
 
+        /*
         // TODO: use the logic above to return a real user profile from the database
 
         ObjectNode dummyUser = Json.newObject();
@@ -77,5 +80,6 @@ public class HomeController extends Controller {
         dummyUser.put("role", "admin");
 
         return status(200, dummyUser);
+        */
     }
 }

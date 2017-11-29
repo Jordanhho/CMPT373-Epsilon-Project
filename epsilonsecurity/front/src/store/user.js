@@ -5,12 +5,11 @@ export default {
     user: null
 		// user: {
 			// id: 16,
-			// username: "alove",
 			// firstName: "ada",
 			// lastName: "lovelace",
-			// email: "alove@sfu.ca",
-			// photo: "https://randomuser.me/api/portraits/women/2.jpg",
-			// role: "supervisor", // volunteer/admin/lead/supervisor
+			// sfuEmail: "alove@sfu.ca",
+			// photoURL: "https://randomuser.me/api/portraits/women/2.jpg",
+		  // roleId: 1 // 1 => admin, 2 => ?
 		// }
   },
   mutations: {
@@ -44,7 +43,7 @@ export default {
 		fetchUserData ({commit, dispatch}) {
 			commit('setLoading', true)
 
-			axios.get('/api/auth-user')
+			axios.get('/api/authuser')
 			.then(response => {
 				commit('setLoading', false)
 
@@ -76,6 +75,22 @@ export default {
     },
     userRole (state) { // todo: clean this up
       if (state.user !== null) {
+      	switch (state.user.roleId) {
+					case 1:
+						return "admin"
+						break
+					case 2:
+						return "supervisor"
+						break
+					case 3:
+						return "lead"
+						break
+					case 4:
+						return "employee"
+						break
+					default:
+						return "volunteer"
+				}
         return state.user.role || null
       } else {
         return null
@@ -85,12 +100,13 @@ export default {
       return (state.user !== null) ? `${state.user.firstName} ${state.user.lastName}` : null
     },
 		userPhoto (state) {
-			return (state.user !== null) ? state.user.photo : null
+			return (state.user !== null) ? state.user.photoURL : null
 		},
 		uid (state) {
     	return (state.user !== null) ? state.user.id : null
 		},
 		username (state) {
+    	// todo: split user.sfuEmail and return first part
 			return (state.user !== null) ? state.user.username : null
 		}
   }

@@ -77,6 +77,8 @@
 
 				if (this.userIsAuthenticated) {
 					switch (this.userRole) {
+						case 'lead':
+						case 'supervisor':
 						case 'admin':
 							items = [
 								{ title: 'Schedules', url: '/manage-schedules', icon: 'today' },
@@ -85,22 +87,22 @@
 								{ title: 'Availabilities', url: '/todo', icon: 'hourglass_full' },
 							]
 							break
-						case 'supervisor':
-							items = [
-								{ title: 'Schedules', url: '/manage-schedules', icon: 'today' },
-								{ title: 'Users', url: '/manage-users', icon: 'person' },
-								{ title: 'Teams', url: '/todo', icon: 'group' },
-								{ title: 'Availabilities', url: '/todo', icon: 'hourglass_full' },
-							]
-							break
-						case 'teamlead':
-							items = [
-								{ title: 'My Feed', url: '/', icon: 'notifications_none' },
-								{ title: 'My Schedule', url: '/my-schedule', icon: 'schedule' },
-								{ title: 'My Availability', url: '/my-availability',icon: 'hourglass_empty' },
-								{ title: 'My Profile', url: '/my-profile', icon: 'person_outline' },
-							]
-							break
+//						case 'supervisor':
+//							items = [
+//								{ title: 'Schedules', url: '/manage-schedules', icon: 'today' },
+//								{ title: 'Users', url: '/manage-users', icon: 'person' },
+//								{ title: 'Teams', url: '/todo', icon: 'group' },
+//								{ title: 'Availabilities', url: '/todo', icon: 'hourglass_full' },
+//							]
+//							break
+//						case 'lead':
+//							items = [
+//								{ title: 'My Feed', url: '/', icon: 'notifications_none' },
+//								{ title: 'My Schedule', url: '/my-schedule', icon: 'schedule' },
+//								{ title: 'My Availability', url: '/my-availability',icon: 'hourglass_empty' },
+//								{ title: 'My Profile', url: '/my-profile', icon: 'person_outline' },
+//							]
+//							break
 						default: // volunteer
 							items = [
 								{ title: 'My Feed', url: '/', icon: 'notifications_none' },
