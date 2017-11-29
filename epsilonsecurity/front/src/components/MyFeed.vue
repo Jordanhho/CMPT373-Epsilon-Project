@@ -31,11 +31,6 @@
         name: 'my-feed',
         data() {
             return {
-//                daysTilShift: '',
-//                shiftStartTime: '',
-//                shiftEndTime: '',
-//                shiftDate: '',
-//                shiftName: '',
                 scheduleReminders: []
             }
         },
@@ -44,7 +39,6 @@
         },
         methods: {
             populateScheduleReminder(scheduleReminder) {
-//                alert(JSON.stringify(scheduleReminder.data, null, 2))
                 var arrLength = scheduleReminder.data.length;
 
                 for (var i = 0; i < arrLength; i++) {
