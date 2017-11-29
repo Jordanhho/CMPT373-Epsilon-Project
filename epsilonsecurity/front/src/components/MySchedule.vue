@@ -51,6 +51,8 @@ window.jQuery = window.$ = require('jquery') // we need jquery too
 export default {
 	data: function () {
     return {
+			loggedInUserId: 2;
+
 			config: {
 				// https://fullcalendar.io/docs/views/Available_Views/
 				defaultView: 'agendaWeek',
@@ -59,7 +61,7 @@ export default {
 				header: {
 					left: 'prev,next today',
 					// hide title for now, until I can figure out how to controll its size.
-					center: '',
+					center: 'title',
 					right: 'month,agendaWeek,agendaDay'
 				},
 				height: 'parent',
@@ -78,15 +80,8 @@ export default {
 				eventClick: this.handleEventClick,
 				// triggered after a selection is made, i.e user stops dragging.
 				select: this.handleEventSelection,
-				// triggered before an event is rendered - our chance to enhance the event.
-				eventRender: this.handleEventRender,
-				// viewRender: function(view) {
-				// 	var title = view.title;
-				// 	console.log(view)
-				// 	console.log(`>>> ${title}`)
-				// 	$("#externalTitle").html(title);
-				// }
 			},
+
 			eventSources: [
 				// 1st event source
 				{
@@ -176,6 +171,7 @@ export default {
 		handleEventSelection: function(start, end, jsEvent, view) {
 			console.log("Shift selection ended.")
 		},
+
 		handleEventRender: function(event, element, view) {
 			// element.qtip({
 			// 	content: event.description
@@ -187,6 +183,33 @@ export default {
 			// element.addClass("event-styles")
 
 			// element.addClass("primary defaultEventTextColor--text")
+		},
+
+
+		populateShiftList(response) {
+
+		},
+
+		renderShifts: function() {
+			/*
+			private Integer id;
+		    private String title;
+		    private String start;
+		    private String end;
+		    private String campus;
+		    private String description;
+		    private boolean wasPresent;
+			*/
+
+			//get all shifts from this user and render it onto the calendar
+			axios.get('/api/users/' + this.loggedInUserId + 'shifts')
+			.then(this.populateShiftList)
+			.catch(function (error) {
+				console.log(error);
+			});
+
+
+			 $('#calendar').fullCalendar('renderEvent', event, true);
 		}
 	}
 }
