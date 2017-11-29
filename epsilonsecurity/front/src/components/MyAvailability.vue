@@ -449,13 +449,13 @@ export default {
 		//returns epoch seconds for next monday
 		getEpochNextWeekMonday: function() {
 			var epochNextMonday = moment(this.getNextWeekMondayMoment()).set({'hour': 0, 'minute': 0});
-			return epochNextMonday;
+			return moment(epochNextMonday).format("X");
 		},
 
 		//returns epoch seconds for next sunday
 		getEpochNextWeekSunday: function() {
 			var epochNextSunday = moment(this.getNextWeekSundayMoment()).set({'hour': 23, 'minute': 59});
-			return epochNextSunday;
+			return moment(epochNextSunday).format("X");
 		},
 
 
