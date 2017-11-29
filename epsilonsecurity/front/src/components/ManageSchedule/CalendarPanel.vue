@@ -14,7 +14,7 @@
                             v-bind:shiftTypes='shiftTypes'
                             v-bind:editMode='editMode'
                             @shiftsAdded=''
-                            @addClick='editMode = false'>
+                            @addClick='editMode == false'>
                             <!-- line 16: TODO, maybe when you want to rerender? -->
               </eventDialog>
           </v-flex>

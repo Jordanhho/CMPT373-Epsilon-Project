@@ -154,14 +154,12 @@
                             </v-flex>
                         </v-layout>
                     </v-container>
-
-
                 </v-card-text>
                 <v-card-actions>
                     <v-spacer></v-spacer>
                     <v-btn v-if='!editMode' color="blue darken-1" flat @click.native="createShift">Add</v-btn>
-                    <v-btn v-if='editMode' color="blue darken-1" flat @click.native="editShift">Edit</v-btn>
                     <v-btn v-if='editMode' color="blue darken-1" flat @click.native="deleteShift">Delete</v-btn>
+                    <v-btn v-if='editMode' color="blue darken-1" flat @click.native="editShift">Edit</v-btn>
                     <v-btn color="blue darken-1" flat @click.native="toggleDialog">Close</v-btn>
                 </v-card-actions>
             </v-card>
@@ -351,22 +349,6 @@
                     this.toggleDialog();
                 }
             },
-
-            //------------------- click add ----------------------
-            onClickAdd: function() {
-
-            },
-
-            //------------------- click delete ----------------------
-            onClickDelete: function() {
-
-            },
-
-            //------------------- click edit ----------------------
-            onClickEdit: function() {
-
-            },
-
 
             //------------------- axios ----------------------
 
