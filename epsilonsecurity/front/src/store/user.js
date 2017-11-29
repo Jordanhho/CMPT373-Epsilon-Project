@@ -1,4 +1,5 @@
 import axios from 'axios'
+import router from '../router'
 
 export default {
   state: {
@@ -50,6 +51,8 @@ export default {
 				const userInfo = response.data
 				console.log(JSON.stringify(userInfo, null, 2))
 				commit('setUser', userInfo)
+
+				router.push('/')
 			})
 			.catch(error => {
 				commit('setLoading', false)
@@ -60,6 +63,8 @@ export default {
 					// Hence, we manually log the user out here.
 					alert("Error: Authenticated CAS user not registered for this app.")
 					dispatch('signUserOut')
+				} else if (error.response && error.response.status == 500) {
+					console.log(JSON.stringify(error.response))
 				} else {
 					console.error(error)
 				}

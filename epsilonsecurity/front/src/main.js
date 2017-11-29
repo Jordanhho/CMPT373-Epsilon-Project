@@ -21,6 +21,7 @@ new Vue({
   },
 	created () {
 		console.log('main> app created!')
+		// alert('main> app created!')
 
 		// note: user is presumed authenticated by the time the SPA loads.
 		// so, fetch user info from backend.

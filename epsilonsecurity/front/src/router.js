@@ -102,7 +102,7 @@ router.beforeEach( (to, from, next) => {
 	const isLoggedIn = store.getters.isLoggedIn
 
 	if (pageRequiresAuth && !isLoggedIn) {
-			next("/login") //todo: signout to cas
+		next("/") //todo: signout to cas
 	} else {
 		next()
 	}
