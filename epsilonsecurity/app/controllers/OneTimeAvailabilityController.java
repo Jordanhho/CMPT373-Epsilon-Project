@@ -65,6 +65,11 @@ public class OneTimeAvailabilityController extends Controller {
         return ok(Json.toJson(dbOneTimeAvailabilityList));
     }
 
+    public Result readAllAvailabilitiesByUserId(Integer userId){
+        List<DbOneTimeAvailability> dbOneTimeAvailabilityList = DbOneTimeAvailabilityHelper.readAllDbOneTimeAvailabilityByUserId(userId);
+        return ok(Json.toJson(dbOneTimeAvailabilityList));
+    }
+
     public Result readOneTimeAvailabilityStatus(Integer userId, Integer teamId, Long timeStart, Long timeEnd) {
         Status status = ScheduleUtil.getOneTimeAvailStatus(userId, teamId, timeStart, timeEnd);
         return ok(Json.toJson(status));
