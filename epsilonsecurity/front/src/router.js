@@ -8,7 +8,7 @@ import ProfileView from './components/ManageUsers/ProfileView.vue';
 import MyProfile from './components/MyProfile.vue';
 // todo: import other components here
 import NotFound from './components/NotFound.vue';
-import store from './store/store'
+import { store } from './store'
 
 Vue.use(VueRouter)
 
@@ -33,41 +33,27 @@ const router = new VueRouter({
 			}
 		},
 		// this is a red flag -- everything about /manage-users should be in 1 subtree.
-         {
-              path: '/manage-users',
-							name: 'userManagementList',
-              component: ManageUsers,
-              meta: {
-                  requiresAuth: true,
-                  adminOnly: true
-              },
-							children: [
-								{
-									path: ':id',
-									name: 'userManagementProfile',
-									component: ProfileView,
-									props: true,
-									meta: {
-										requiresAuth: true,
-										adminOnly: true
-									}
-								}
-							]
-        		},
-        // {
-        //     path: '/manage-users/:id',
-        //     component: ManageUsers,
-        //     children: [
-        //         {
-        //             path: '',
-        //
-        //         }
-        //         ],
-        //     meta: {
-        //       requiresAuth: true,
-        //       adminOnly: true
-        //     }
-        // },
+		{
+			path: '/manage-users',
+			name: 'userManagementList',
+			component: ManageUsers,
+			meta: {
+				requiresAuth: true,
+				adminOnly: true
+			},
+			children: [
+				{
+					path: ':id',
+					name: 'userManagementProfile',
+					component: ProfileView,
+					props: true,
+					meta: {
+						requiresAuth: true,
+						adminOnly: true
+					}
+				}
+			]
+		},
 		{
 			path: '/manage-teams',
 			component: MySchedule, // todo: create component
@@ -94,6 +80,14 @@ const router = new VueRouter({
 				adminOnly: false
 			}
 		},
+		{
+			path: '/signout',
+			component: NotFound, //todo: is it needed?
+			beforeEnter: (to, from, next) => {
+				store.dispatch('signUserOut')
+				next(false)
+			}
+		},
 		// todo: other routes here
 		{
 			path: '*',
@@ -102,13 +96,13 @@ const router = new VueRouter({
 	]
 })
 
-router.beforeEach((to, from, next) => {
+router.beforeEach( (to, from, next) => {
 	// if this particular route requires an authenticated user
 	const pageRequiresAuth = to.matched.some(record => record.meta.requiresAuth)
 	const isLoggedIn = store.getters.isLoggedIn
 
 	if (pageRequiresAuth && !isLoggedIn) {
-			next("/login")
+		next("/") //todo: signout to cas
 	} else {
 		next()
 	}

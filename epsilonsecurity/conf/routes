@@ -1,15 +1,18 @@
 # allow requests for static assets
-GET           /assets/*file                                                                    controllers.Assets.versioned(path="/public", file: Asset)
+GET           /assets/*file                                                                            controllers.Assets.versioned(path="/public", file: Asset)
 
-GET           /test                                                                            controllers.TestController.testy()
+GET           /test                                                                                    controllers.TestController.testy()
 
-GET           /callback                                                                        @org.pac4j.play.CallbackController.callback()
+GET           /callback                                                                                @org.pac4j.play.CallbackController.callback()
+GET           /logout                                                                                  @org.pac4j.play.LogoutController.logout()
+GET           /centralLogout                                                                           controllers.CentralLogoutController.logout()
 
-GET           /ok                                                                              controllers.TestController.test()
+GET           /ok                                                                                      controllers.TestController.test()
 
-GET           /$p<(?!api).*>                                                                   controllers.HomeController.index(p: String)
+GET           /$p<(?!api).*>                                                                           controllers.HomeController.index(p: String)
 # ----------------------- USER APIs ----------------------
 
+GET           /api/authuser        controllers.HomeController.casUser()
 #
 # DbUser
 #
