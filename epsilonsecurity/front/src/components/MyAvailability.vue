@@ -278,10 +278,6 @@ export default {
 			availabilityStatus: "",
 			availabilitySubmitted: false,
 
-			//------------------- USER ---------------------------
-			//current user Id
-			loggedInUserId: 5,
-
 			// ----------------- MODALS --------------------------------
 			showEditorWindow: false, //editor window popup
 			showCreateOptions: false, //show the create button for the editor window
@@ -796,7 +792,7 @@ export default {
 				postData.userTeamId = this.getUserTeamIdFromTeamId(currAvail.teamId);
 				postData.timeStart = epochStart;
 				postData.timeEnd = epochEnd;
-				postData.userId = this.loggedInUserId;
+				postData.userId = loggedInUserId;
 				postData.status = "Submitted";
 
 				//send to database
@@ -815,7 +811,8 @@ export default {
 		},
 
 		addUserTeamId: function(targetTeamId) {
-			 axios.get('/api/users/' + this.loggedInUserId + '/teams/' + targetTeamId)
+			const loggedInUserId = store.getters.uid;
+			 axios.get('/api/users/' + loggedInUserId + '/teams/' + targetTeamId)
 			 .then(this.populateUserTeamId)
 			 .catch(function (error) {
 				 console.log(error);
@@ -834,6 +831,7 @@ export default {
 
 		//populate this user's team list
 		populateTeamList(response) {
+			const loggedInUserId = store.getters.uid;
 			var localTeamIdList = response.data.map(teamId => teamId.id);
 			var localTeamNameList = response.data.map(teamName => teamName.name);
 
@@ -856,21 +854,21 @@ export default {
 			}
 
 			//initialize the status of availability submission
-			axios.get('/api/users/' + this.loggedInUserId + '/teams/' + this.teamIdList[0] +'/onetimeavailabilites/' + this.getEpochNextWeekMonday() + "/" + this.getEpochNextWeekSunday())
+			axios.get('/api/users/' + loggedInUserId + '/teams/' + this.teamIdList[0] +'/onetimeavailabilites/' + this.getEpochNextWeekMonday() + "/" + this.getEpochNextWeekSunday())
 			.then(this.populateAvailabilityStatus)
 			.catch(function (error) {
 				console.log(error);
 			});
 
 			//initialize all existing availabilities for this user {
-			axios.get('/api/onetimeavailabilites/user/' + this.loggedInUserId)
+			axios.get('/api/onetimeavailabilites/user/' + loggedInUserId)
 			.then(this.populateExistingAvailabilities)
 			.catch(function (error) {
 				console.log(error);
 			});
 
 			//initialize the existing availabilities for this availabiity weekday
-			// axios.get('/api/users/' + this.loggedInUserId + '/onetimeavailabilites/' + this.getEpochNextWeekMonday() + "/" + this.getEpochNextWeekSunday())
+			// axios.get('/api/users/' + loggedInUserId + '/onetimeavailabilites/' + this.getEpochNextWeekMonday() + "/" + this.getEpochNextWeekSunday())
 			// 	.then(this.populateExistingAvailabilities)
 			// 	.catch(function (error) {
 			// 		console.log(error);
@@ -938,9 +936,9 @@ export default {
 
 
 	created: function() {
-
+		const loggedInUserId = store.getters.uid;
 		//initialize local list of teams the user belongs to
-		axios.get('/api/users/' + this.loggedInUserId + '/teams')
+		axios.get('/api/users/' + loggedInUserId + '/teams')
 		.then(this.populateTeamList)
 		.catch(function (error) {
 			console.log(error);
