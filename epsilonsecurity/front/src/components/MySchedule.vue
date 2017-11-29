@@ -198,10 +198,6 @@ export default {
 			// element.addClass("primary defaultEventTextColor--text")
 		},
 
-
-
-		//----------------------- team color ----------------------------
-
 		//returns the color string for the team colors
 		getCampusColor: function(teamName) {
 			if(teamName == "BURNABY") {
@@ -221,16 +217,12 @@ export default {
 			}
 		},
 
-
-		//--------------------- event Id assignment ------------------------------------------
-
 		//gets a new event id and increment the eventid counter
 		getNewEventId: function() {
 			var newEventId = this.assignEventId;
 			this.assignEventId = this.assignEventId + 1;
 			return newEventId;
 		},
-
 
 		populateShiftObjs(response) {
 			var titleList = response.data.map(shiftObj => shiftObj.title);
@@ -268,7 +260,6 @@ export default {
 			});
 		},
 	},
-
 	created: function() {
 		//renders shifts at startup
 		this.renderShifts();
