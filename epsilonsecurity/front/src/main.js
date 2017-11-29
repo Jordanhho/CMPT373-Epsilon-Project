@@ -17,20 +17,8 @@ new Vue({
 	created () {
 		console.log('main> app created!')
 
-		// note: user is presumed authenticated before the SPA loads.
+		// note: user is presumed authenticated by the time the SPA loads.
 		// so, fetch user info from backend.
-		// todo: fetch user info from backend
-		console.log('main> making request for auth user...')
-		axios.get('/api/auth-user')
-			.then(response => {
-				console.log(JSON.stringify(response, null, 2))
-			})
-		/*
-		if user is authenticated:
-			- get user info from backend
-			- store user info in store
-		else:
-			- go to the homepage => redirect to CAS
-		 */
+		this.$store.dispatch('fetchUserData')
 	}
 });

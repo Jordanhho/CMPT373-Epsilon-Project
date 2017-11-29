@@ -2,6 +2,7 @@ package models.databaseModel.helpers;
 
 
 import models.databaseModel.scheduling.DbUser;
+import org.junit.Assert;
 
 import java.util.List;
 
@@ -63,6 +64,16 @@ public final class DbUserHelper {
         List<DbUser> dbUserList = DbUser.find.all();
         dbUserList.removeIf(dbUser -> dbUser.getRoleId() == 1);
         return dbUserList;
+    }
+
+    //cherry picked from @nick
+    public static DbUser readDbUserByUsername(String username) {
+        Assert.assertNotNull(username);
+
+        String sfuEmail = username + "@sfu.ca";
+        DbUser dbUser = readDbUserBySfuEmail(sfuEmail);
+
+        return dbUser;
     }
 
 }

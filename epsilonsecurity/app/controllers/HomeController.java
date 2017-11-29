@@ -1,7 +1,11 @@
 package controllers;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import models.DummyDatabase.DummyDataBase;
+import models.databaseModel.helpers.DbUserHelper;
 import models.databaseModel.scheduling.DbUser;
+import org.junit.Assert;
 import org.pac4j.cas.profile.CasProxyProfile;
 import play.Environment;
 import play.mvc.*;
@@ -22,17 +26,14 @@ public class HomeController extends Controller {
 
     private final Environment env;
 
-    @Inject
-    private Config config;
-    @Inject
     private PlaySessionStore playSessionStore;
 
     @Inject
-    public HomeController(Environment env) {
+    public HomeController(Environment env, PlaySessionStore playSessionStore) {
         this.env = env;
+        this.playSessionStore = playSessionStore;
     }
 
-    //@Secure(clients = "AnonymousClient", authorizers = "csrfToken")
     public Result index(String id) {
         if(DbUser.find.query().findCount() == 0){
             new DummyDataBase();
@@ -46,20 +47,35 @@ public class HomeController extends Controller {
         return profileManager.getAll(true);
     }
 
-//    private Result protectedIndexView() {
-//        return status(200, Json.toJson( getProfiles() ));
-//    }
-
-//    @Secure(clients = "CasClient")
     public Result casUser() {
+
+        /*
+        // Get SFU username authenticated user
+        // Note: SFU CAS only returns username, no other valuable info like first and last name.
         final CommonProfile profile = getProfiles().get(0);
-//        final String service = "http://localhost:8080/proxiedService";
-//        String proxyTicket = null;
-//        if (profile instanceof CasProxyProfile) {
-//            final CasProxyProfile proxyProfile = (CasProxyProfile) profile;
-//            proxyTicket = proxyProfile.getProxyTicketFor(service);
-//        }
-//        return ok(views.html.casProtectedIndex.render(profile, service, proxyTicket));
-        return status(200, Json.toJson( profile ));
+        String sfuUsername = profile.getId();
+
+        // get user from database with the sfuUsername
+        DbUser user = DbUserHelper.readDbUserByUsername(sfuUsername);
+
+        if (!(user instanceof DbUser)) {
+            return status(404);
+        }
+
+        return status(200, Json.toJson(user));
+        */
+
+        // TODO: use the logic above to return a real user profile from the database
+
+        ObjectNode dummyUser = Json.newObject();
+        dummyUser.put("id", 123);
+        dummyUser.put("username", "jdoe");
+        dummyUser.put("email", "jdoe@sfu.ca");
+        dummyUser.put("firstName", "john");
+        dummyUser.put("lastName", "doe");
+        dummyUser.put("photo", "https://randomuser.me/api/portraits/men/83.jpg");
+        dummyUser.put("role", "admin");
+
+        return status(200, dummyUser);
     }
 }
