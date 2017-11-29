@@ -11,7 +11,9 @@
       <v-layout>
           <v-flex xs1 offset-xs11>
               <eventDialog  v-bind:teamId='teamId'
-                            v-bind:shiftTypes='shiftTypes'>
+                            v-bind:shiftTypes='shiftTypes'
+                            v-bind:editMode='editMode'
+                            @addClick='editMode = false'>
               </eventDialog>
           </v-flex>
       </v-layout>
@@ -44,6 +46,8 @@
                     teamId: -1,
                     shiftTypeId: -1,
                 },
+
+                editMode: true,
 
                 //-------------------- Campus selection -----------------------
                 //campus colors

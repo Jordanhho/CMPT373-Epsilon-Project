@@ -4,7 +4,8 @@
             <v-card-text
                 style="height: 1px;
                 position: relative;"
-                slot='activator'>
+                slot='activator'
+                @click='$emit("addClick")'>
                 <v-btn absolute dark fab top right color="blue" >
                     <v-icon> add </v-icon>
                 </v-btn>
@@ -158,7 +159,9 @@
                 </v-card-text>
                 <v-card-actions>
                     <v-spacer></v-spacer>
-                    <v-btn color="blue darken-1" flat @click.native="createShift">Add</v-btn>
+                    <v-btn v-if='!editMode' color="blue darken-1" flat @click.native="createShift">Add</v-btn>
+                    <v-btn v-if='editMode' color="blue darken-1" flat @click.native="editShift">Edit</v-btn>
+                    <v-btn v-if='editMode' color="blue darken-1" flat @click.native="deleteShift">Delete</v-btn>
                     <v-btn color="blue darken-1" flat @click.native="toggleDialog">Close</v-btn>
                 </v-card-actions>
             </v-card>
@@ -407,6 +410,10 @@
             shiftTypes: {
                 type: Array,
                 required: true,
+            },
+            editMode: {
+              type: Boolean,
+              required: true,
             },
         },
         watch: {
