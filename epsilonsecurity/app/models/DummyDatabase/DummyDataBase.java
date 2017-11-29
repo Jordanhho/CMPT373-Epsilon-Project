@@ -162,13 +162,15 @@ public class DummyDataBase {
         userList.add(new DbUser("Josh", "Vocal", "jvocal@sfu.ca", "example@email.ca", "(366)-920-4269", "https://randomuser.me/api/portraits/lego/6.jpg"));
         userList.add(new DbUser("Nicholas", "Fung","ncfung@sfu.ca", "example@email.ca", "(509)-499-0611", "https://randomuser.me/api/portraits/lego/5.jpg"));
         userList.add(new DbUser("Khang", "Bui","pkbui@sfu.ca", "khang.bui12@outlook.com", "6044444444", "https://randomuser.me/api/portraits/lego/4.jpg"));
+        userList.add(new DbUser("Jordan", "Ho","jhho@sfu.ca", "example@email.ca", "6044443434343", "https://randomuser.me/api/portraits/lego/7.jpg"));
 
-        //Burnaby 
+
+        //Burnaby
         userList.add(new DbUser("Gary", "Hernandez","employ1@sfu.ca", "example@email.ca", "(509)-499-0611", "https://www.PhotoUrl.ca"));
         userList.add(new DbUser("Deborah", "Kelly", "employ2@sfu.ca", "example@email.ca", "(509)-499-0611", "https://www.PhotoUrl.ca"));
         userList.add(new DbUser("Larry", "Ross", "volt2@sfu.ca", "example@email.ca", "(777)-685-2470", "https://www.PhotoUrl.ca"));
-    
-        //Surrey 
+
+        //Surrey
         userList.add(new DbUser("Jeremy", "Wright", "supervisor2@sfu.ca", "example@email.ca", "(730) 639-9920", "https://www.PhotoUrl.ca"));
         userList.add(new DbUser("Elizabeth", "Williams", "teamlead2@sfu.ca", "example@email.ca", "(484) 889-6654", "https://www.PhotoUrl.ca"));
         userList.add(new DbUser("Mildred", "Adams", "employ3@sfu.ca", "example@email.ca", "(135)-558-6155)", "https://www.PhotoUrl.ca"));
@@ -176,7 +178,7 @@ public class DummyDataBase {
         userList.add(new DbUser("Emily", "Mitchell", "volt3@sfu.ca", "example@email.ca", "(136)-989-6296", "https://www.PhotoUrl.ca"));
         userList.add(new DbUser("Virginia", "Hall", "volt4@sfu.ca", "example@email.ca", "(656) 978-2274", "https://www.PhotoUrl.ca"));
 
-        //Vancouver 
+        //Vancouver
         userList.add(new DbUser("Bob", "Builder", "supervisor3@sfu.ca", "example@email.ca", "(577) 732-7675", "https://www.PhotoUrl.ca"));
         userList.add(new DbUser("John", "Cena", "teamlead3@sfu.ca", "example@email.ca", " (901) 552-2492", "https://www.PhotoUrl.ca"));
         userList.add(new DbUser("Judy", "Rivera", "employ5@sfu.ca", "example@email.ca", " (462) 854-5281", "https://www.PhotoUrl.ca"));
@@ -262,6 +264,9 @@ public class DummyDataBase {
                 // Ken = Volunteer
                 Integer volId = roleList.get(4).getId();
                 userList.get(3).setRoleId(volId);
+
+                //Jordan = Supervisor
+                userList.get(4).setRoleId(supId);
             }
         }
     }
@@ -379,4 +384,3 @@ public class DummyDataBase {
         DbRolePermissionHelper.createDbRolePermission(alexRolePermission);
     }
 }
-    

@@ -7,9 +7,9 @@
                 <span id= "user-name">{{userName}}</span>
                 <div id = "contact-info">
                     <li v-for= "contact in contactInfo">
-                        {{contact}}    
+                        {{contact}}
                     </li>
-                </div> 
+                </div>
             </div>
         </div>
         <div id = "personal-info">
@@ -27,7 +27,7 @@
                             </div>
                             <div id = "content">
                                 <li v-for= "content in tabContent">
-                                    {{content}}                                
+                                    {{content}}
                                 </li>
                             </div>
                         </v-layout>
@@ -38,8 +38,8 @@
                             <div id= "hours">
                                 <div id = "hours-info">
                                     <span id= "hours-number">{{hoursNumber}}</span>
-                                    <span id= "hours-text">HOURS</span>    
-                                </div>    
+                                    <span id= "hours-text">HOURS</span>
+                                </div>
                                 <v-btn id = "hours-btn"  color = "primary" dark @click.stop= "graphDspl = true">
                                     Detailed Hours
                                 </v-btn>
@@ -54,7 +54,7 @@
                 <h1 class = "header">
                     Qualification
                 </h1>
-                <div id = "q-body">        
+                <div id = "q-body">
                     <v-container grid-list-sm test-xs-center>
                         <v-layout v-bind="binding">
                             <v-flex v-for ="qualification in qualificationNames" :key="qualification">
@@ -110,7 +110,6 @@ export default {
     },
     methods: {
         populateUserData(userData){
-            alert(JSON.stringify(userData.data, null, 2));
             this.userName = userData.data.firstName + " " + userData.data.lastName;
             this.contactInfo = [userData.data.contactEmail, userData.data.phoneNumber];
             this.tabContent.splice(0, 0, userData.data.sfuEmail);
@@ -127,10 +126,10 @@ export default {
             for(var i = 0; i < listLength; i++){
                 teamList += teamData.data[i].name;
                 if(i != listLength - 1){
-                    teamList += ", ";    
+                    teamList += ", ";
                 }
             }
-            this.tabContent.splice(1, 0, teamList);        
+            this.tabContent.splice(1, 0, teamList);
         },
         populateQualificationData(qualificationData){
             var listLength = qualificationData.data.length;
@@ -203,7 +202,7 @@ export default {
         flex-flow: column nowrap;
         width: 100%;
         height: 100%;
-        overflow: auto; 
+        overflow: auto;
         border-style: groove;
         padding-top: 5%;
         height: 80em;
@@ -213,7 +212,7 @@ export default {
         flex-flow: row nowrap;
         display: flex;
         padding: 1% 0% 1% 7%;
-        background: lightgrey; 
+        background: lightgrey;
     }
     #user-photo{
         width: 15em;
@@ -227,18 +226,18 @@ export default {
     }
     #user-name{
         font-size: 4.5em;
-        text-align: left;        
+        text-align: left;
     }
     #contact-info{
         list-style-type: none;
         text-align: left;
         font-size: 2.5em;
     }
-    
+
     #personal-info{
         margin-top: 1.5%;
     }
-    #tab{        
+    #tab{
         list-style-type: none;
         text-align: right;
         font-size: 2.3em;
@@ -291,9 +290,9 @@ export default {
         display: flex;
     }
     .header{
-        font-size: 2.5em;  
+        font-size: 2.5em;
         text-align: left;
-        margin: 1% 0% 1.5% 3%;      
+        margin: 1% 0% 1.5% 3%;
         border-bottom-style: ridge;
     }
     #pie-chart{
@@ -302,4 +301,3 @@ export default {
         padding-bottom: 1.5em;
     }
 </style>
-

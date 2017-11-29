@@ -317,12 +317,23 @@
                     //send axio request for every user and add it to a list of objects to send the calendar
                     for (var i = 0; i < this.selectedUsers.length; i++) {
 
+
+                        var newShiftObj = {
+                            date: moment(momentStartObj).format("X"),
+                            timeStart: moment(momentStartObj).format("X"),
+                            timeEnd: moment(momentEndObj).format("X"),
+                            shiftTypeId: this.shiftObj.shiftTypeId,
+                            teamId: this.shiftObj.teamId,
+                            userId: this.selectedUsers[i],
+                            description: "",
+                        }
+                        //(Integer shiftTypeId, Long timeStart, Long timeEnd)
                         //set post shift data -> create a shift
                         var postShiftData = {};
-                        postShiftData.shiftTypeId = this.shiftObj.ShiftTypeId;
-                        postShiftData.timeStart = this.shiftObj.timeStart;
-                        postShiftData.timeEnd =this.shiftObj.timeEnd;
-                        postShiftData.description= "TODO description";
+                        postShiftData.shiftTypeId = this.shiftObj.shiftTypeId;
+                        postShiftData.timeStart = newShiftObj.timeStart;
+                        postShiftData.timeEnd = newShiftObj.timeEnd;
+                        postShiftData.description = "TODO description";
 
                         //set post userShift data -> assign the user to a shift
 
@@ -330,15 +341,7 @@
                         ///api/users/:userId/shifts/:shiftId
 
 
-                        var newShiftObj = {
-                            date: moment(momentStartObj).format("X"),
-                            timeStart: moment(momentStartObj).format("X"),
-                            timeEnd: moment(momentEndObj).format("X"),
-                            shiftTypeId: this.shiftObj.ShiftTypeId,
-                            teamId: this.shiftObj.teamId,
-                            userId: this.selectedUsers[i],
-                            description: "",
-                        }
+
 
 
 
@@ -363,14 +366,14 @@
                         //     });
 
                         //add to list
-                        this.shiftObjList.push(newShiftObj);
-                        alert(JSON.stringify(newShiftObj));
+                        //this.shiftObjList.push(newShiftObj);
+                        alert(JSON.stringify(postShiftData));
 
                         //create a shift
-                        // axios.post('/api/shifts', newShiftObj)
-                        // .catch(function (error) {
-                        //     console.log(error);
-                        // });
+                        axios.post('/api/shifts',postShiftData)
+                        .catch(function (error) {
+                            console.log(error);
+                        });
                         //
                         // ///api/users/:userId/teams/:teamId
                         // axios.post('/api/users/' + this.loggedInUserId + '/teams/' + )
@@ -381,7 +384,7 @@
 
                     }
 
-                    //this.$emit('shiftsAdded', this.shiftObjList);
+                    this.$emit('shiftsAdded');
                     //close window
                     this.toggleDialog();
                 }
