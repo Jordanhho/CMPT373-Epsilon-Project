@@ -278,9 +278,7 @@ export default {
 			availabilityStatus: "",
 			availabilitySubmitted: false,
 
-			//------------------- USER ---------------------------
-			//current user Id
-			loggedInUserId: 5,
+			loggedInUserId: -1,
 
 			// ----------------- MODALS --------------------------------
 			showEditorWindow: false, //editor window popup
@@ -938,7 +936,7 @@ export default {
 
 
 	created: function() {
-		 this.loggedInUserId = store.getters.uid;
+		this.loggedInUserId = this.$store.getters.uid;
 		//initialize local list of teams the user belongs to
 		axios.get('/api/users/' + this.loggedInUserId + '/teams')
 		.then(this.populateTeamList)
