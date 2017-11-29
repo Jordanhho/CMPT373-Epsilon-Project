@@ -7,6 +7,7 @@ import models.databaseModel.qualification.DbUserQualification;
 import models.databaseModel.roles.*;
 import models.databaseModel.scheduling.*;
 import models.queries.TimeUtil;
+import play.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -139,6 +140,9 @@ public class DummyDataBase {
         for(DbOneTimeAvailability itr: oneTimeAvailList) {
             DbOneTimeAvailabilityHelper.createDbOneTimeAvailability(itr);
         }
+
+
+        initAlex();
     }
 
     private void initRoles() {
@@ -753,11 +757,14 @@ public class DummyDataBase {
     }
 
     private void initAlex() {
-        DbUser alex = new DbUser("Alex", "Popov", "apa53@sfu.ca", "hello@alexpopov.ca", "(123) 456-7890", "http://http.cat/404")
+        Logger.debug("Initializing Alex");
+        DbUser alex = new DbUser("Alex", "Popov", "apa53@sfu.ca", "hello@alexpopov.ca", "(123) 456-7890", "http://http.cat/404");
+        alex.setRoleId(roleList.get(4).getId());
         DbUserHelper.createDbUser(alex);
-        DbPermission userListPermission = DbPermissionHelper.readDbPermissionByName(AuthDSL.USER_LIST);
-        DbRole alexRolePermission = new DbRolePermission(0, 0, userListPermission.getId(), AccessLevel.READ);
-        DbRoleHelper.createDbRole();
+        DbRolePermission alexRolePermission = new DbRolePermission(teamList.get(0).getId(),
+                                                                   alex.getRoleId(),
+                                                                   PERMISSION_USERLIST_ID, AccessLevel.READ);
+        DbRolePermissionHelper.createDbRolePermission(alexRolePermission);
     }
 }
     

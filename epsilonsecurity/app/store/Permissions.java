@@ -5,10 +5,7 @@ import models.databaseModel.roles.AccessLevel;
 import models.databaseModel.roles.DbPermission;
 import models.databaseModel.roles.DbRolePermission;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class Permissions {
@@ -24,19 +21,28 @@ public class Permissions {
             Optional<String> encodedPermissionName = permissionNameForEncodedPermission(encodedPermission);
             Optional<AccessLevel> encodedPermissionAccessLevel = accessLevelForEncodedPermission(encodedPermission);
             // could not decode permission; play it safe
-            if (encodedPermissionName.isPresent() == false) { return false; }
+            if (encodedPermissionName.isPresent() == false) {
+                return false;
+            }
             // could not decode access level; play it safe
-            if (encodedPermissionAccessLevel.isPresent() == false) { return false; }
+            if (encodedPermissionAccessLevel.isPresent() == false) {
+                return false;
+            }
             AccessLevel accessLevelToMeet = encodedPermissionAccessLevel.get();
             String permissionName = encodedPermissionName.get();
-            Permission userPermission = userPermissions.get(permissionName);
-            if (userPermission == null) {
-                return false; // early return; permission missing
+            if (userPermissions.containsKey(permissionName) == false) {
+                return false;
             }
+            Permission userPermission = userPermissions.get(permissionName);
             // non-null permission; check if access level matches or exceeds
             if (isAccessLevelMet(userPermission.getAccessLevel(), accessLevelToMeet)) {
                 continue;
             } else {
+                System.out.println("User does not have permission to "
+                                           + accessLevelToMeet.toString()
+                                           + " in "
+                                           + userPermission.getName()
+                                           + " because they can only " + userPermission.getAccessLevel());
                 // a single mismatch is an early return
                 return false;
             }
@@ -59,22 +65,27 @@ public class Permissions {
     }
 
 
-        protected static List<Permission> wrap(List<DbPermission> dbPermissions, List<DbRolePermission> dbRolePermissions) {
+    protected static List<Permission> wrap(List<DbPermission> dbPermissions, List<DbRolePermission> dbRolePermissions) {
         // We use a map so that ordering does not have to be guaranteed on input
         // this also provides the convenience that the output is ordered the same way
         // as the input
         Map<Integer, DbRolePermission> rolePermissionMap = new HashMap<>(dbRolePermissions.size());
-        dbRolePermissions.forEach(rolePermission -> rolePermissionMap.put(rolePermission.getId(), rolePermission));
-        return dbPermissions.stream()
-            .map(permission -> {
-                AccessLevel accessLevel = rolePermissionMap.get(permission.getId()).getAccessLevel();
-                return new Permission(permission, accessLevel);
-            })
-            .collect(Collectors.toList());
+        dbRolePermissions.forEach(rolePermission -> rolePermissionMap.put(rolePermission.getPermissionId(), rolePermission));
+        List<Permission> permissions = dbPermissions.stream()
+                .map(permission -> {
+                    if (rolePermissionMap.containsKey(permission.getId()) == false) {
+                        return new Permission(permission, AccessLevel.NONE);
+                    }
+                    AccessLevel accessLevel = rolePermissionMap.get(permission.getId()).getAccessLevel();
+                    return new Permission(permission, accessLevel);
+                })
+                .collect(Collectors.toList());
+        return permissions;
     }
 
     private static boolean isAccessLevelMet(AccessLevel candidate, AccessLevel toMatch) {
-        return accessLevelValue(candidate) >= accessLevelValue(toMatch);
+        boolean isAccessLevelMet = accessLevelValue(candidate) >= accessLevelValue(toMatch);
+        return isAccessLevelMet;
     }
 
     private static Optional<AccessLevel> accessLevelForEncodedPermission(String encoded) {
@@ -86,10 +97,10 @@ public class Permissions {
     }
 
     private static Optional<String> permissionNameForEncodedPermission(String encoded) {
-        String[] splitEncoding = encoded.split(encodingDelimiter);
+        List<String> splitEncoding = Arrays.asList(encoded.split(encodingDelimiter));
         // pretty bad if we don't have both
-        if (splitEncoding.length != 2) { return Optional.empty(); }
-        return Optional.of(splitEncoding[1]);
+        if (splitEncoding.size() != 2) { return Optional.empty(); }
+        return Optional.of(splitEncoding.get(1));
     }
 
 

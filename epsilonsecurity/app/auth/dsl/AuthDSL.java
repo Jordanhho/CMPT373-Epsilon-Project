@@ -11,7 +11,6 @@ public class AuthDSL {
     public final static String DELETE = "DELETE";
 
     // Please, for the love of everything, change both
-    public final static String IN = "|";
-    public final static String ENCODING_DELEMITER = "|";
+    public final static String IN = "%";
 
 }

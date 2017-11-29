@@ -6,7 +6,6 @@ import org.pac4j.cas.profile.CasProfile;
 import org.pac4j.core.profile.ProfileManager;
 import org.pac4j.play.PlayWebContext;
 import org.pac4j.play.store.PlaySessionStore;
-import play.Logger;
 import play.mvc.Action;
 import play.mvc.Http;
 import play.mvc.Result;
@@ -30,12 +29,12 @@ public class AuthenticatedAction extends Action<AuthenticationAnnotation> {
 
     @Override
     public CompletionStage<Result> call(Http.Context ctx) {
-        Logger.debug("Hit the Authentication Action");
         if (hasPermission(ctx)) {
             return delegate.call(ctx);
         } else {
             CompletableFuture<Result> future = new CompletableFuture<>();
-            future.complete(forbidden("Nope"));
+            // TODO: redirect to a nice forbidden page
+            future.complete(forbidden("You do not have permission to access this content."));
             return future;
         }
     }
@@ -50,25 +49,30 @@ public class AuthenticatedAction extends Action<AuthenticationAnnotation> {
     private Optional<AuthToken> extractToken(Http.Context ctx) {
         PlayWebContext context = new PlayWebContext(ctx, sessionStore);
         ProfileManager<CasProfile> profileManager = new ProfileManager<CasProfile>(context);
-        return profileManager.get(true)
-            .map(CasProfile::getEmail)
+        Optional<AuthToken> token = profileManager.get(true)
+            .map(CasProfile::getId)
             .map(AuthToken::new);
+        return token;
     }
 
     private Optional<PermissionedUser> userForToken(AuthToken token) {
+        Optional<PermissionedUser> maybeUser;
         UserStore store = UserStore.getInstance();
         try {
             PermissionedUser user = store.getUserForAuthToken(token)
                 .thenCompose(store::getPermissionedUserForId)
                 .get();
-            return Optional.of(user);
+            maybeUser = Optional.of(user);
         } catch (InterruptedException e) {
             // if we encountered an execution/interrupted exception
             // we have bigger problems than returning nothing
-            return Optional.empty();
+            e.printStackTrace();
+            maybeUser = Optional.empty();
         } catch (ExecutionException e) {
-            return Optional.empty();
+            e.printStackTrace();
+            maybeUser = Optional.empty();
         }
+        return maybeUser;
     }
 
     private Boolean areAllPermissionsPresent(PermissionedUser user) {

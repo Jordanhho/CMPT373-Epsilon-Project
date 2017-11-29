@@ -73,7 +73,7 @@ public class UserStore extends DataStore {
         return getUserWithUserId(userId)
             .thenCompose(user ->
                 getRole(user)
-                    .thenApply(role -> new PermissionedUser(user, role))
+                        .thenApply(role -> new PermissionedUser(user, role))
             );
     }
 
