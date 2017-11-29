@@ -31,7 +31,8 @@
         name: 'my-feed',
         data() {
             return {
-                scheduleReminders: []
+                scheduleReminders: [],
+                loggedInUserId: this.$store.getters.id
             }
         },
         components: {
@@ -47,7 +48,8 @@
             }
         },
         created: function () {
-            axios.get('/api/users/' + 2 + '/reminders')
+            this.loggedInUserId = this.$store.getters.uid;
+            axios.get('/api/users/' + this.loggedInUserId + '/reminders')
                 .then(this.populateScheduleReminder)
                 .catch(function (error) {
                     console.log(error)

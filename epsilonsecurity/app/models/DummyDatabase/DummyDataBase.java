@@ -153,13 +153,13 @@ public class DummyDataBase {
 //        userList.add(new DbUser("Admin", "God", "admin@sfu.ca", "example@email.ca", "(846) 794-8623", "https://www.PhotoUrl.ca"));
 
         userList.add(new DbUser("Uzziah", "Eyee", "ueyee@sfu.ca", "example@email.ca", "(123)-654-7878", "https://randomuser.me/api/portraits/men/91.jpg"));
-        userList.add(new DbUser("Josh", "Vocal", "jvocal@sfu.ca", "example@email.ca", "(366)-920-4269", "https://randomuser.me/api/portraits/lego/6.jpg"));
+        userList.add(new DbUser("Sandra", "Perez", "teamlead@sfu.ca", "example@email.ca", "(366)-920-4269", "https://www.PhotoUrl.ca"));
         userList.add(new DbUser("Nicholas", "Fung","ncfung@sfu.ca", "example@email.ca", "(509)-499-0611", "https://randomuser.me/api/portraits/lego/5.jpg"));
         userList.add(new DbUser("Khang", "Bui","pkbui@sfu.ca", "khang.bui12@outlook.com", "6044444444", "https://randomuser.me/api/portraits/lego/4.jpg"));
 
         //Burnaby 
         userList.add(new DbUser("Theresa", "Henderson", "supervisor@sfu.ca", "example@email.ca", "(123)-654-7878", "https://www.PhotoUrl.ca"));
-        userList.add(new DbUser("Sandra", "Perez", "teamlead@sfu.ca", "example@email.ca", "(366)-920-4269", "https://www.PhotoUrl.ca"));
+        userList.add(new DbUser("Josh", "Vocal", "jvocal@sfu.ca", "example@email.ca", "(366)-920-4269", "https://randomuser.me/api/portraits/lego/6.jpg"));
         userList.add(new DbUser("Gary", "Hernandez","employ1@sfu.ca", "example@email.ca", "(509)-499-0611", "https://www.PhotoUrl.ca"));
         userList.add(new DbUser("Deborah", "Kelly", "employ2@sfu.ca", "example@email.ca", "(509)-499-0611", "https://www.PhotoUrl.ca"));
         userList.add(new DbUser("Scott", "King", "volt1@sfu.ca", "example@email.ca", "(553)-449-0771", "https://www.PhotoUrl.ca"));
@@ -251,7 +251,7 @@ public class DummyDataBase {
 
                 // Josh = Supervisor
                 Integer supId = roleList.get(1).getId();
-                userList.get(1).setRoleId(supId);
+                userList.get(4).setRoleId(supId);
 
                 // Nicholas = Team Lead
                 Integer leadId = roleList.get(2).getId();
