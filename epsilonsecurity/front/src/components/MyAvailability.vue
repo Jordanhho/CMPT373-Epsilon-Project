@@ -280,7 +280,7 @@ export default {
 
 			//------------------- USER ---------------------------
 			//current user Id
-			loggedInUserId: 2,
+			loggedInUserId: 5,
 
 			// ----------------- MODALS --------------------------------
 			showEditorWindow: false, //editor window popup
@@ -862,19 +862,26 @@ export default {
 				console.log(error);
 			});
 
-			//initialize the existing availabilities for this availabiity weekday {
-			axios.get('/api/users/' + this.loggedInUserId + '/onetimeavailabilites/' + this.getEpochNextWeekMonday() + "/" + this.getEpochNextWeekSunday())
-				.then(this.populateExistingAvailabilities)
-				.catch(function (error) {
-					console.log(error);
+			//initialize all existing availabilities for this user {
+			axios.get('/api/onetimeavailabilites/user/' + this.loggedInUserId)
+			.then(this.populateExistingAvailabilities)
+			.catch(function (error) {
+				console.log(error);
 			});
+
+			//initialize the existing availabilities for this availabiity weekday
+			// axios.get('/api/users/' + this.loggedInUserId + '/onetimeavailabilites/' + this.getEpochNextWeekMonday() + "/" + this.getEpochNextWeekSunday())
+			// 	.then(this.populateExistingAvailabilities)
+			// 	.catch(function (error) {
+			// 		console.log(error);
+			// });
 		},
 
 		//initialize this user's availabilty's status
 		populateAvailabilityStatus(response) {
 			this.availabilityStatus = response.data;
 			if(this.availabilityStatus == "Submitted") {
-				//this.availabilitySubmitted = true;
+				this.availabilitySubmitted = true;
 			}
 		},
 
