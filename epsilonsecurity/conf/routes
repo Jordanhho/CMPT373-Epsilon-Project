@@ -27,7 +27,7 @@ GET           /api/users/email/:sfuEmail                                        
 GET           /api/users                                                                       controllers.UserController.readAllUsers()
 
 # Read all shift reminders by userId
-GET           /api/users/:userId/reminders                                                             controllers.UserController.readAllScheduleRemindersByUserId(userId: Integer)
+GET           /api/users/:userId/reminders                                                     controllers.UserController.readAllScheduleRemindersByUserId(userId: Integer)
 
 # Update a user by sfuEmail
 PUT           /api/users/:userId                                                               controllers.UserController.updateUser(userId: Integer)
@@ -270,3 +270,6 @@ GET           /api/recurringavailabilites/:recurringAvailabilityId              
 
 # Delete recurring availability by recurringAvailabilityId
 DELETE        /api/recurringavailabilites/:recurringAvailabilityId                             controllers.RecurringAvailabilityController.deleteRecurringAvailability(recurringAvailabilityId: Integer)
+
+#Dummy Database
+GET           /api/dummy/db                                                                    controllers.UserController.createNewDummyDb()

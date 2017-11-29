@@ -92,7 +92,7 @@ export default {
     data(){
         return {
             userName: '',
-            userPhoto: 'http://lorempixel.com/100/100/people',
+            userPhoto: this.$store.getters.userPhoto,
             contactInfo: [],
             tabs: [
                 {text: 'Sfu Email: '},
@@ -104,12 +104,13 @@ export default {
             graphDspl: false,
             chartData: [],
             qualificationNames: [],
-            loggedInUserId: 15,
+            loggedInUserId: this.$store.getters.id,
             roleId: '',
         }
     },
     methods: {
         populateUserData(userData){
+            alert(JSON.stringify(userData.data, null, 2));
             this.userName = userData.data.firstName + " " + userData.data.lastName;
             this.contactInfo = [userData.data.contactEmail, userData.data.phoneNumber];
             this.tabContent.splice(0, 0, userData.data.sfuEmail);
@@ -138,7 +139,6 @@ export default {
             }
         },
         populateRoleName(roleData){
-            //alert(JSON.stringify(roleData.data, null, 2));
             this.tabContent.splice(3, 0 , roleData.data.name);
         },
         populateHourData(hourData){
@@ -156,6 +156,7 @@ export default {
         Chart
     },
     created: function () {
+        this.loggedInUserId = this.$store.getters.uid;
         axios.get('/api/users/' + this.loggedInUserId)
         .then(this.populateUserData)
         .catch(function(error){

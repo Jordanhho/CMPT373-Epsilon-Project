@@ -1,5 +1,6 @@
 package controllers;
 
+import models.DummyDatabase.DummyDataBase;
 import models.databaseModel.helpers.DbUserHelper;
 import models.databaseModel.scheduling.DbUser;
 import models.queries.ScheduleReminder;
@@ -90,6 +91,12 @@ public class UserController extends Controller {
     public Result deleteUserBySfuEmail(String sfuEmail) {
         DbUser dbUserToDelete = DbUserHelper.readDbUserBySfuEmail(sfuEmail);
         DbUserHelper.deleteDbUser(dbUserToDelete);
+
+        return ok();
+    }
+
+    public Result createNewDummyDb(){
+        DummyDataBase dummyDataBase = new DummyDataBase();
 
         return ok();
     }
