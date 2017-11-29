@@ -13,7 +13,7 @@
               <eventDialog  v-bind:teamId='teamId'
                             v-bind:shiftTypes='shiftTypes'
                             v-bind:editMode='editMode'
-                            @shiftsAdded=''
+                            @shiftsAdded='renderShifts'
                             @addClick='editMode == false'>
                             <!-- line 16: TODO, maybe when you want to rerender? -->
               </eventDialog>
@@ -115,15 +115,15 @@
 
             //returns the color string for the team colors
             getCampusColor: function(teamName) {
-                if(teamName == "BURNABY") {
+                if(teamName == 1) {
                     return this.burnabyCampus;
                 }
                 //blue for surrey
-                else if(teamName == "SURREY") {
+                else if(teamName == 2) {
                     return this.surreyCampus;
                 }
                 //Yellow for vancouver
-                else if(teamName == "VANCOUVER") {
+                else if(teamName == 3) {
                     return this.vancouverCampus;
                 }
                 //purple if not specified -> for debug
@@ -148,7 +148,11 @@
 
                 //TODO pass this information back to the event dialog emit shiftObj back to event dialog
 
-    			//TODO close event Dialog
+    			//TODO open event Dialog
+
+                this.editMode  = true;
+                this.$refs.eventDialog.setShift(shiftObj);
+                this.$refs.eventDialog.toggleDialog();
     		},
 
 
@@ -241,11 +245,12 @@
                 var wasPresentList = response.data.map(shiftObj => shiftObj.wasPresent);
 
                 //render all objects
-                for(var i = 0; i < response.data.length; i++) {
+                for (var i = 0; i < response.data.length; i++) {
                     //format timeStart, timeEnd
                     var startMomentObj = moment(timeStartList[i], ["X"]);
                     var endMomentObj  = moment(timeEndList[i], ["X"]);
 
+                    console.log("teamname: " + this.teamId);
                     //new event obj
                     var event = {
                        id: this.getNewEventId(),
@@ -253,7 +258,7 @@
                        end: endMomentObj,
                         title: titleList[i],
                         description: descriptionList[i],
-                        backgroundColor:  this.getCampusColor(campusList[i]),
+                        backgroundColor:  this.getCampusColor(this.teamId),
                         textColor:  "white",
                         borderColor: "black",
                     }
