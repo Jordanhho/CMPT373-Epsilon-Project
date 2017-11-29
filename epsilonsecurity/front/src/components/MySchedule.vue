@@ -16,11 +16,11 @@
           <v-container grid-list-md>
 						<v-layout wrap>
 							<v-flex xs12>
-								<p>{{shiftTitle}}</p>
-								<p>{{shiftDate}}</p>
-								<p>{{shiftTime}}</p>
-								<p>{{shiftCampus}}</p>
-								<p>{{shiftDescription}}</p>
+								<p>[Title]: {{shiftTitle}}</p>
+								<p>[Date]: {{shiftDate}}</p>
+								<p>[Time]: {{shiftTime}}</p>
+								<p>[Campus]: {{shiftCampus}}</p>
+								<p>[Description]: {{shiftDescription}}</p>
 							</v-flex>
 						</v-layout>
 					</v-container>
@@ -51,7 +51,16 @@ window.jQuery = window.$ = require('jquery') // we need jquery too
 export default {
 	data: function () {
     return {
-			loggedInUserId: 2;
+			loggedInUserId: 2,
+
+			//campus colors
+			burnabyCampus: "red",
+			surreyCampus: "blue",
+			vancouverCampus: "teal",
+			noCampus: "purple",
+
+			//event id assignment
+			assignEventId: 0,
 
 			config: {
 				// https://fullcalendar.io/docs/views/Available_Views/
@@ -80,62 +89,66 @@ export default {
 				eventClick: this.handleEventClick,
 				// triggered after a selection is made, i.e user stops dragging.
 				select: this.handleEventSelection,
+
+				firstDay: 1, //sets first day of week to monday
+				weekNumberCalculation: "ISO", //sets week number calculation to ISO
+				navLinks: true, //allows clicking on a day
 			},
 
 			eventSources: [
-				// 1st event source
-				{
-					events: function(start, end, timezone, callback) {
-						// todo: use userId when api is ready.
-						const userId = store.getters.currentUserId
-						axios.get(`/api/users/${userId}/shifts`)
-						.then(response => {
-							// console.log(JSON.stringify(response.data,null,2))
-							callback(response.data)
-						})
-						.catch(error => {
-							// use dummy events if backend fails.
-							const events = [
-								{
-									id: 1,
-									title: "Security Presence",
-									start: moment().weekday(0).hour(8).format(),
-									end: moment().weekday(0).hour(9).format(),
-									campus: 'Vancouver',
-									description: null
-								},
-								{
-									id: 2,
-									title: "Library Patrol",
-									start: moment().weekday(2).hour(13).format(),
-									end: moment().weekday(2).hour(15).format(),
-									campus: 'Burnaby',
-									description: "Take any unattended Macbook home, so that the owner learns a lesson."
-								},
-								{
-									id: 3,
-									title: "Parkade Patrol (Mock)",
-									start: moment().weekday(4).hour(16).format(),
-									end: moment().weekday(4).hour(16).add(30, 'minutes').format(),
-									campus: 'Surrey',
-									description: "If you see a nerd wearing a t-shirt with the number '42' inscribed, please bow respectfully."
-								},
-								{
-									id: 4,
-									title: "Bike Presence (Mock)",
-									start: moment().weekday(6).hour(12).format(),
-									end: moment().weekday(6).hour(14).format(),
-									campus: 'Burnaby',
-									description: "Lookout for a huge Sasquach, notorious for scaring people."
-								}
-							]
-							callback(events)
-							console.log(error)
-						})
-					},
-					color: "black",
-					textColor: "white"
-				}
+				// // 1st event source
+				// {
+				// 	events: function(start, end, timezone, callback) {
+				// 		// todo: use userId when api is ready.
+				// 		const userId = store.getters.currentUserId
+				// 		axios.get(`/api/users/${userId}/shifts`)
+				// 		.then(response => {
+				// 			// console.log(JSON.stringify(response.data,null,2))
+				// 			callback(response.data)
+				// 		})
+				// 		.catch(error => {
+				// 			// use dummy events if backend fails.
+				// 			const events = [
+				// 				{
+				// 					id: 1,
+				// 					title: "Security Presence",
+				// 					start: moment().weekday(0).hour(8).format(),
+				// 					end: moment().weekday(0).hour(9).format(),
+				// 					campus: 'Vancouver',
+				// 					description: null
+				// 				},
+				// 				{
+				// 					id: 2,
+				// 					title: "Library Patrol",
+				// 					start: moment().weekday(2).hour(13).format(),
+				// 					end: moment().weekday(2).hour(15).format(),
+				// 					campus: 'Burnaby',
+				// 					description: "Take any unattended Macbook home, so that the owner learns a lesson."
+				// 				},
+				// 				{
+				// 					id: 3,
+				// 					title: "Parkade Patrol (Mock)",
+				// 					start: moment().weekday(4).hour(16).format(),
+				// 					end: moment().weekday(4).hour(16).add(30, 'minutes').format(),
+				// 					campus: 'Surrey',
+				// 					description: "If you see a nerd wearing a t-shirt with the number '42' inscribed, please bow respectfully."
+				// 				},
+				// 				{
+				// 					id: 4,
+				// 					title: "Bike Presence (Mock)",
+				// 					start: moment().weekday(6).hour(12).format(),
+				// 					end: moment().weekday(6).hour(14).format(),
+				// 					campus: 'Burnaby',
+				// 					description: "Lookout for a huge Sasquach, notorious for scaring people."
+				// 				}
+				// 			]
+				// 			callback(events)
+				// 			console.log(error)
+				// 		})
+				// 	},
+				// 	color: "black",
+				// 	textColor: "white"
+				// }
 			],
 			dialog: false,
 			clickedShift: {}
@@ -186,31 +199,79 @@ export default {
 		},
 
 
-		populateShiftList(response) {
 
+		//----------------------- team color ----------------------------
+
+		//returns the color string for the team colors
+		getCampusColor: function(teamName) {
+			if(teamName == "BURNABY") {
+				return this.burnabyCampus;
+			}
+			//blue for surrey
+			else if(teamName == "SURREY") {
+				return this.surreyCampus;
+			}
+			//Yellow for vancouver
+			else if(teamName == "VANCOUVER") {
+				return this.vancouverCampus;
+			}
+			//purple if not specified -> for debug
+			else {
+				return this.noCampus;
+			}
+		},
+
+
+		//--------------------- event Id assignment ------------------------------------------
+
+		//gets a new event id and increment the eventid counter
+		getNewEventId: function() {
+			var newEventId = this.assignEventId;
+			this.assignEventId = this.assignEventId + 1;
+			return newEventId;
+		},
+
+
+		populateShiftObjs(response) {
+			var titleList = response.data.map(shiftObj => shiftObj.title);
+			var timeStartList = response.data.map(shiftObj => shiftObj.start);
+			var timeEndList = response.data.map(shiftObj => shiftObj.end);
+			var campusList = response.data.map(shiftObj => shiftObj.campus);
+			var descriptionList = response.data.map(shiftObj => shiftObj.description);
+			var wasPresentList = response.data.map(shiftObj => shiftObj.wasPresent);
+
+			//render all objects
+			for(var i = 0; i < response.data.length; i++) {
+				//new event obj
+				var event = {
+				   id: this.getNewEventId(),
+				   start: timeStartList[i],
+				   end: timeEndList[i],
+				   title: titleList[i],
+				   description: descriptionList[i],
+				   backgroundColor:  this.getCampusColor(campusList[i]),
+				   textColor:  "white",
+				   overlap: false,
+				   borderColor: "black",
+			   	}
+				//render events
+				 $('#calendar').fullCalendar('renderEvent', event, true);
+			}
 		},
 
 		renderShifts: function() {
-			/*
-			private Integer id;
-		    private String title;
-		    private String start;
-		    private String end;
-		    private String campus;
-		    private String description;
-		    private boolean wasPresent;
-			*/
-
 			//get all shifts from this user and render it onto the calendar
-			axios.get('/api/users/' + this.loggedInUserId + 'shifts')
-			.then(this.populateShiftList)
+			axios.get('/api/users/' + this.loggedInUserId + '/shifts')
+			.then(this.populateShiftObjs)
 			.catch(function (error) {
 				console.log(error);
 			});
+		},
+	},
 
-
-			 $('#calendar').fullCalendar('renderEvent', event, true);
-		}
+	created: function() {
+		//renders shifts at startup
+		this.renderShifts();
 	}
 }
 </script>
