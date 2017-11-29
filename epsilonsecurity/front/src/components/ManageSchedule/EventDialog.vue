@@ -195,6 +195,9 @@
 <script>
     import axios from 'axios';
     import moment from 'moment';
+    import AddButton from "./AddButton.vue";
+    import DeleteButton from "./DeleteButton.vue";
+    import EditButton from "./EditButton.vue";
 
     export default {
         data () {
@@ -248,7 +251,11 @@
             }
         },
 
-        components: {},
+        components: {
+            "add-button": AddButton,
+            "edit-button": EditButton,
+            "delete-button": DeleteButton
+        },
 
         methods: {
             //------------------- get Time methods -----------------------
@@ -264,10 +271,10 @@
                 return momentEndObj;
             },
 
-    		getTodayMoment: function() {
-    			var today = moment().format("YYYY-MM-DD");
-    			return today;
-    		},
+        		getTodayMoment: function() {
+        			var today = moment().format("YYYY-MM-DD");
+        			return today;
+        		},
 
             //------------------- modals ----------------------
 
@@ -282,21 +289,21 @@
                 var momentEndObj = moment(this.shiftObj.timeEnd, ["h:mma"]);
 
                 //compare if they are equal in minutes and hours
-    			if((moment(momentStartObj).get('hour') == moment(momentEndObj).get('hour')) && (moment(momentStartObj).get('minute') == moment(momentEndObj).get('minute'))) {
-    				this.showTimeError = true;
-    				this.timeErrorMessage = "INVALID TIME: The Time End is the same as Time Start";
-    				return false;
-    			}
+          			if((moment(momentStartObj).get('hour') == moment(momentEndObj).get('hour')) && (moment(momentStartObj).get('minute') == moment(momentEndObj).get('minute'))) {
+          				this.showTimeError = true;
+          				this.timeErrorMessage = "INVALID TIME: The Time End is the same as Time Start";
+          				return false;
+          			}
                 //compare if timeEnd is before timeStart
-    			else if(momentEndObj < momentStartObj) {
-    				this.showTimeError = true;
-    				this.timeErrorMessage = "INVALID TIME: The Time End is before Time Start";
-    				return false;
-    			}
-    			else {
-    				return true;
-    			}
-            },
+          			else if(momentEndObj < momentStartObj) {
+          				this.showTimeError = true;
+          				this.timeErrorMessage = "INVALID TIME: The Time End is before Time Start";
+          				return false;
+          			}
+          			else {
+          				return true;
+          			}
+                  },
 
             //------------------- create shift ----------------------
             createShift: function() {
@@ -343,6 +350,22 @@
                     this.toggleDialog();
                 }
             },
+
+            //------------------- click add ----------------------
+            onClickAdd: function() {
+
+            },
+
+            //------------------- click delete ----------------------
+            onClickDelete: function() {
+
+            },
+
+            //------------------- click edit ----------------------
+            onClickEdit: function() {
+
+            },
+
 
             //------------------- axios ----------------------
 
