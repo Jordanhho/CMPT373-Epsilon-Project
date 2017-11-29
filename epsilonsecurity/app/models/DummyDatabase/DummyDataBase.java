@@ -162,6 +162,8 @@ public class DummyDataBase {
         userList.add(new DbUser("Josh", "Vocal", "jvocal@sfu.ca", "example@email.ca", "(366)-920-4269", "https://randomuser.me/api/portraits/lego/6.jpg"));
         userList.add(new DbUser("Nicholas", "Fung","ncfung@sfu.ca", "example@email.ca", "(509)-499-0611", "https://randomuser.me/api/portraits/lego/5.jpg"));
         userList.add(new DbUser("Khang", "Bui","pkbui@sfu.ca", "khang.bui12@outlook.com", "6044444444", "https://randomuser.me/api/portraits/lego/4.jpg"));
+        userList.add(new DbUser("Jordan", "Ho","jhho@sfu.ca", "example@email.ca", "604444344", "https://randomuser.me/api/portraits/lego/7.jpg"));
+
 
         //Burnaby 
         userList.add(new DbUser("Gary", "Hernandez","employ1@sfu.ca", "example@email.ca", "(509)-499-0611", "https://www.PhotoUrl.ca"));
@@ -262,6 +264,9 @@ public class DummyDataBase {
                 // Ken = Volunteer
                 Integer volId = roleList.get(4).getId();
                 userList.get(3).setRoleId(volId);
+
+                //Jordan Supervisor
+                userList.get(4).setRoleId(supId);
             }
         }
     }
