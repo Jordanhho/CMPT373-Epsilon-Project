@@ -1,6 +1,7 @@
 # allow requests for static assets
 GET           /assets/*file                                                                            controllers.Assets.versioned(path="/public", file: Asset)
 
+GET           /test                                                                            controllers.TestController.test()
 
 GET           /callback                                                                                @org.pac4j.play.CallbackController.callback()
 GET           /logout                                                                                  @org.pac4j.play.LogoutController.logout()
@@ -21,6 +22,9 @@ POST          /api/users                                                        
 
 # Read a user by userId
 GET           /api/users/:userId                                                               controllers.UserController.readUserByUserId(userId: Integer)
+
+# Read user by sfuEmail
+GET           /api/users/email/:sfuEmail                                                               controllers.UserController.retrieveUser(sfuEmail: String)
 
 # Read all users
 GET           /api/users                                                                       controllers.UserController.readAllUsers()
@@ -84,6 +88,9 @@ DELETE        /api/users/:userId/teams                                          
 # Create a shift type
 POST          /api/shifttypes                                                                  controllers.ShiftTypeController.createShiftType()
 
+GET           /api/shifttypes                                                                          controllers.ShiftTypeController.getAllShiftTypes()
+
+
 # Delete a shift type by qualificationName
 DELETE        /api/shifttypes/:qualificationName                                               controllers.ShiftTypeController.deleteShiftTypeByName(qualificationName: String)
 
@@ -94,6 +101,9 @@ DELETE        /api/shifttypes/:qualificationName                                
 
 # List all teams in the database
 GET           /api/teams                                                                       controllers.TeamController.listAllTeams()
+
+# Get a team by id
+GET           /api/teams/:teamId                                                                       controllers.TeamController.getTeamById(teamId: Integer)
 
 # Create a team
 POST          /api/teams                                                                       controllers.TeamController.createTeam()

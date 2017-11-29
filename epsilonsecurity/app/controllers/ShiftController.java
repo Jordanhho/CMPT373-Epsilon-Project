@@ -47,8 +47,10 @@ public class ShiftController extends Controller {
         return ok();
     }
 
+    //returns all shifts from database
     public Result readShifts() {
-        return ok();
+        List<DbShift> dbShiftList = DbShiftHelper.readAllDbShift();
+        return ok(Json.toJson(dbShiftList));
     }
 
     //TODO: Refactor deleleShift and all related functions/routes.

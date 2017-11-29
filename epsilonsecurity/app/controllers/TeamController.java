@@ -66,4 +66,9 @@ public class TeamController extends Controller {
 
         return ok(Json.toJson(dbTeamList));
     }
+
+    public Result getTeamById(int teamId) {
+        DbTeam dbTeam = DbTeamHelper.readDbTeamById(teamId);
+        return ok(Json.toJson(dbTeam));
+    }
 }

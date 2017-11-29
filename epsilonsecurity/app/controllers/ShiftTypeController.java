@@ -4,10 +4,12 @@ import models.databaseModel.helpers.DbShiftTypeHelper;
 import models.databaseModel.scheduling.DbShiftType;
 import play.data.Form;
 import play.data.FormFactory;
+import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 
 import javax.inject.Inject;
+import java.util.List;
 
 public class ShiftTypeController extends Controller {
 
@@ -43,6 +45,11 @@ public class ShiftTypeController extends Controller {
         DbShiftType dbShiftTypeToDelete = DbShiftTypeHelper.readDbShiftTypeByName(name);
         DbShiftTypeHelper.deleteDbShiftType(dbShiftTypeToDelete);
         return ok();
+    }
+
+    public Result getAllShiftTypes() {
+        List<DbShiftType> allDbShiftTypes = DbShiftTypeHelper.readAllDbShiftTypes();
+        return ok(Json.toJson(allDbShiftTypes));
     }
 
 }
