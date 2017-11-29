@@ -10,7 +10,7 @@ import ManageSchedule from './components/ManageSchedule/ManageSchedule.vue'
 import CalendarPanel from './components/ManageSchedule/CalendarPanel.vue'
 // todo: import other components here
 import NotFound from './components/NotFound.vue';
-import store from './store/store'
+import { store } from './store'
 
 Vue.use(VueRouter)
 
@@ -34,27 +34,28 @@ const router = new VueRouter({
 				adminOnly: false
 			}
 		},
-         {
-              path: '/manage-users',
-							name: 'userManagementList',
-              component: ManageUsers,
-              meta: {
-                  requiresAuth: true,
-                  adminOnly: true
-              },
-							children: [
-								{
-									path: ':id',
-									name: 'userManagementProfile',
-									component: ProfileView,
-									props: true,
-									meta: {
-										requiresAuth: true,
-										adminOnly: true
-									}
-								}
-							]
-        		},
+		// this is a red flag -- everything about /manage-users should be in 1 subtree.
+		{
+			path: '/manage-users',
+			name: 'userManagementList',
+			component: ManageUsers,
+			meta: {
+				requiresAuth: true,
+				adminOnly: true
+			},
+			children: [
+				{
+					path: ':id',
+					name: 'userManagementProfile',
+					component: ProfileView,
+					props: true,
+					meta: {
+						requiresAuth: true,
+						adminOnly: true
+					}
+				}
+			]
+		},
 		{
 			path: '/manage-teams',
 			component: MySchedule, // todo: create component
@@ -81,7 +82,8 @@ const router = new VueRouter({
 				adminOnly: false
 			}
 		},
-		{
+
+        {
 			path: '/manage-schedules',
 			name: 'manage-schedules',
 			component: ManageSchedule,
@@ -103,6 +105,15 @@ const router = new VueRouter({
 			}
 		},
 
+		{
+			path: '/signout',
+			component: NotFound, //todo: is it needed?
+			beforeEnter: (to, from, next) => {
+				store.dispatch('signUserOut')
+				next(false)
+			}
+		},
+
 		// todo: other routes here
 		{
 			path: '*',
@@ -111,13 +122,13 @@ const router = new VueRouter({
 	]
 })
 
-router.beforeEach((to, from, next) => {
+router.beforeEach( (to, from, next) => {
 	// if this particular route requires an authenticated user
 	const pageRequiresAuth = to.matched.some(record => record.meta.requiresAuth)
 	const isLoggedIn = store.getters.isLoggedIn
 
 	if (pageRequiresAuth && !isLoggedIn) {
-			next("/login")
+		next("/") //todo: signout to cas
 	} else {
 		next()
 	}

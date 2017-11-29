@@ -149,8 +149,13 @@ public class DummyDataBase {
     }
 
     private void initUsers() {
-        
-        userList.add(new DbUser("Admin", "God", "admin@sfu.ca", "example@email.ca", "(846) 794-8623", "https://www.PhotoUrl.ca"));
+
+//        userList.add(new DbUser("Admin", "God", "admin@sfu.ca", "example@email.ca", "(846) 794-8623", "https://www.PhotoUrl.ca"));
+
+        userList.add(new DbUser("Uzziah", "Eyee", "ueyee@sfu.ca", "example@email.ca", "(123)-654-7878", "https://randomuser.me/api/portraits/men/91.jpg"));
+        userList.add(new DbUser("Josh", "Vocal", "jvocal@sfu.ca", "example@email.ca", "(366)-920-4269", "https://randomuser.me/api/portraits/lego/6.jpg"));
+        userList.add(new DbUser("Nicholas", "Fung","ncfung@sfu.ca", "example@email.ca", "(509)-499-0611", "https://randomuser.me/api/portraits/lego/5.jpg"));
+        userList.add(new DbUser("Khang", "Bui","pkbui@sfu.ca", "khang.bui12@outlook.com", "6044444444", "https://randomuser.me/api/portraits/lego/4.jpg"));
 
         //Burnaby 
         userList.add(new DbUser("Theresa", "Henderson", "supervisor@sfu.ca", "example@email.ca", "(123)-654-7878", "https://www.PhotoUrl.ca"));
@@ -236,6 +241,25 @@ public class DummyDataBase {
                     userList.get(i + campusTeamSize).setRoleId(roleId);
                     userList.get(i + campusTeamSize*2).setRoleId(roleId);
                 }
+
+                // give custom roles to our sample users
+                // 1 => admin, 2 => supervisor, 3 => team lead, 4 => employee, 5 => volunteer
+
+                // Uzziah = Admin
+                Integer adminId = roleList.get(0).getId();
+                userList.get(0).setRoleId(adminId);
+
+                // Josh = Supervisor
+                Integer supId = roleList.get(1).getId();
+                userList.get(1).setRoleId(supId);
+
+                // Nicholas = Team Lead
+                Integer leadId = roleList.get(2).getId();
+                userList.get(2).setRoleId(leadId);
+
+                // Ken = Volunteer
+                Integer volId = roleList.get(4).getId();
+                userList.get(3).setRoleId(volId);
             }
         }
     }

@@ -62,8 +62,6 @@ GET           /api/users/teams/:teamId                                          
 
 GET           /api/users/:userId/teams                                                         controllers.UserTeamController.readDbTeamByUserId(userId: Integer)
 
-GET           /api/userTeams/:userTeamId                                                        controllers.UserTeamController.
-
 # Assign a user to a list of teams
 POST          /api/users/:userId/teams                                                                controllers.UserTeamController.createUserTeamByUserIdAndTeamIdArray(userId: Integer)
 
