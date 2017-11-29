@@ -13,7 +13,7 @@
 
             <v-card>
                 <v-card-title>
-                    <span class="headline">edit event</span>
+                    <span class="headline">{{editMode ? "Edit":"Add"}} Event</span>
                 </v-card-title>
                 <v-card-text>
 
@@ -315,24 +315,16 @@
                     var momentStartObj = moment(this.shiftObj.date + " " + this.shiftObj.timeStart, ["YYYY-MM-DD h:mma"]);
                     var momentEndObj = moment(this.shiftObj.date + " " + this.shiftObj.timeEnd, ["YYYY-MM-DD h:mma"]);
 
-                    //save data to shiftObj as epoch time
-                    this.shiftObj.date = moment(momentStartObj).format("X");
-                    this.shiftObj.timeStart = moment(momentStartObj).format("X");
-                    this.shiftObj.timeEnd = moment(momentEndObj).format("X");
-
                     //send axio request for every user and add it to a list of objects to send the calendar
-                    for(var i = 0; i < this.selectedUsers.length; i++) {
-
-                        this.shiftObj.userId = this.selectedUsers[i];
-
+                    for (userId in this.selectedUsers) {
                         //create new shiftObj to add to list
                         var newShiftObj = {
-                            date: this.shiftObj.date,
-                            timeStart: this.shiftObj.timeStart,
-                            timeEnd: this.shiftObj.timeEnd,
+                            date: moment(momentStartObj).format("X"),
+                            timeStart: moment(momentStartObj).format("X"),
+                            timeEnd: moment(momentEndObj).format("X"),
                             shiftTypeId: this.shiftObj.ShiftTypeId,
                             teamId: this.shiftObj.teamId,
-                            userId: this.shiftObj.userId,
+                            userId: userId,
                         }
                         //Integer shiftTypeId, Long timeStart, Long timeEnd, String description
                         ///api/users/:userId/shifts/:shiftId
@@ -346,9 +338,15 @@
                         //add to list
                         this.shiftObjList.push(newShiftObj);
                         alert(JSON.stringify(newShiftObj));
-                    }
-                    //TODO send shiftObjlist to database
 
+                        //send shiftObjlist to database
+                        axios.post('/api/shifts/', newShiftObj)
+                        .catch(function (error) {
+                            console.log(error);
+                        });
+                    }
+
+                    this.$emit('shiftsAdded', this.shiftObjList);
                     //close window
                     this.toggleDialog();
                 }
