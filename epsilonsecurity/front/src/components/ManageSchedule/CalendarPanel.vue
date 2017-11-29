@@ -35,8 +35,6 @@
     export default {
         data: function() {
             return {
-                loggedInUserId: 2,
-
                 shiftObjList: [],
 
                 shift: {
