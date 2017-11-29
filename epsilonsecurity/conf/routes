@@ -26,6 +26,9 @@ GET           /api/users/email/:sfuEmail                                        
 # Read all users
 GET           /api/users                                                                       controllers.UserController.readAllUsers()
 
+# Read all shift reminders by userId
+GET           /api/users/:userId/reminders                                                             controllers.UserController.readAllScheduleRemindersByUserId(userId: Integer)
+
 # Update a user by sfuEmail
 PUT           /api/users/:userId                                                               controllers.UserController.updateUser(userId: Integer)
 
@@ -117,13 +120,13 @@ DELETE        /api/teams/:qualificationName                                     
 #
 
 # List all users within a team that are available for shifts in a time range
-GET           /api/users/teams/:teamId/shifts/:timeStart/:timeEnd                              controllers.ShiftController.readUsersAvailableForShift(teamId: Integer, timeStart: Long, timeEnd: Long)
+GET           /api/users/teams/:teamId/shiftType/:typeId/:timeStart/:timeEnd/                  controllers.ShiftController.readUsersAvailableForShift(teamId: Integer, typeId: Integer, timeStart: Long, timeEnd: Long)
 
 # List all shifts in the database
 GET           /api/shifts                                                                      controllers.ShiftController.readShifts()
 
 # List an user's total hours of working
-GET           /api/shifts/hours/:userId                                                        controllers.ShiftController.readHoursWithShiftTypeByUserId(userId: Integer)
+GET           /api/shifts/hours/:userId                                                        controllers.ShiftController.readHoursWorkingByUserId(userId: Integer)
 
 # List an user's all shift hours broken down by shift type
 GET           /api/shifts/hours/byType/:userId                                                 controllers.ShiftController.readHoursWithShiftTypeByUserId(userId: Integer)

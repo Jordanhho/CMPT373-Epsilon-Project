@@ -295,10 +295,6 @@ export default {
 			timeErrorMessage: "",
 			showTimeError: false,
 
-			//check if time conflicts/out of bounds
-			timeBoundsCheck: false,
-			timeConflictCheck: false,
-
 			//---------------- Time, Date ----------------------------
 			//ranged of allowed dates for date picker
 			allowedDates: null,
@@ -353,7 +349,7 @@ export default {
 			//--------------- calendar config ------------------------------
 			config: {
 				header: {
-					left: 'prev, today, next',
+					left: 'prev,today,next',
 					center: 'title',
 					right: 'month,agendaWeek,agendaDay'
 				},
@@ -369,16 +365,16 @@ export default {
 				weekNumberCalculation: "ISO", //sets week number calculation to ISO
 				navLinks: true, //allows clicking on a day
 
-				//----------------- selection of events --------------------------
+				//----------------- event click  --------------------------
 				editable: false, //allows resizing of events
-				selectable: true, //allows dragging on calendar.
-				selectHelper: true, //allows to make an event on calendar
-				selectOverlap: false, //do not allow event overlap selection
+				eventClick: this.availabilityClickEvent, //triggered with an event is clicked
 
+				//------------------ event drag selection
+				selectable: false, //allows dragging on calendar.
+				selectOverlap: false, //do not allow event overlap selection
+				selectHelper: true, //allows to make an event on calendar
 				selectMinDistance: 5, //minimum distance click has to move inorder to detect as event PREVENT MISCLICKS
 				selectLongPressDelay: 1000, //minimum miliseconds user holds down before it counts as a selectable
-
-				eventClick: this.availabilityClickEvent, //triggered with an event is clicked
 				select: this.availabilityCreateDrag, //triggered after a selection when user stops dragging.
 
 				//restrict selection of an event to maximxum one day
@@ -406,8 +402,12 @@ export default {
 		//------------------- initialize calendar -----------------------
 
 		//set the default viewed week for calendar
-		initializeCalendarView() {
+		defaultCalendarView: function() {
+			//move calendar to default date
 			$('#calendar').fullCalendar('gotoDate', this.getNextWeekMondayMoment());
+
+			//change calendar to default view
+			$('#calendar').fullCalendar('changeView', 'agendaWeek');
 		},
 
 		//------------------- get Time methods -----------------------
@@ -554,17 +554,14 @@ export default {
 			if((moment(momentStartObj).get('hour') == moment(momentEndObj).get('hour')) && (moment(momentStartObj).get('minute') == moment(momentEndObj).get('minute'))) {
 				this.showTimeError = true;
 				this.timeErrorMessage = "INVALID TIME: The Time End is the same as Time Start";
-				this.timeBoundsCheck = true;
 				return true;
 			}
 			else if(momentEndObj < momentStartObj) {
 				this.showTimeError = true;
 				this.timeErrorMessage = "INVALID TIME: The Time End is before Time Start";
-				this.timeBoundsCheck = true;
 				return true;
 			}
 			else {
-				this.timeBoundsCheck = false;
 				return false;
 			}
 		},
@@ -584,31 +581,27 @@ export default {
 			//parse/set the availability start and end moment object's date and time
 			var momentStartObj = moment(this.availability.date + " " + this.availability.timeStart, ["YYYY-MM-DD h:mma"]);
 			var momentEndObj = moment(this.availability.date + " " + this.availability.timeEnd, ["YYYY-MM-DD h:mma"]);
-			var currMomentStart = moment().set({'date': moment(momentStartObj).get('date'), 'hour': moment(momentStartObj).get('hour'), 'minute': moment(momentStartObj).get('minute')});
-			var currMomentEnd = moment().set({'date': moment(momentEndObj).get('date'), 'hour': moment(momentEndObj).get('hour'), 'minute': moment(momentEndObj).get('minute')});
 
-			//get local list of events
-			var eventList = $('#calendar').fullCalendar('clientEvents');
-			for(var i = 0; i < eventList.length; i++) {
-				var currEvent = eventList[i];
+			for(var i = 0; i <  this.availabilityList.length; i++) {
+				var currEvent = this.availabilityList[i];
 
 				//if same object only on edit
-				if((action == "edit") && (currEvent.id == this.availability.eventId)) {
+				if((action == "edit") && (currEvent.eventId == this.availability.eventId)) {
+					//console.log("same object, skip");
 					continue;
 				}
-				//if not same day, continue
-				if(moment(currEvent.start).get('day') != moment(currMomentStart).get('day')) {
+				//if not the same day, skip this object
+				if(moment(currEvent.timeStart).isSame(momentStartObj, 'day') == false) {
+					//console.log("not same day, skip");
 					continue;
 				}
 				//compare time in hours and minutes with current event object and currently selected availabilty
-				if((currEvent.start <= currMomentEnd) && (currEvent.end >= currMomentStart)) {
+				if(moment(currEvent.timeStart).isBefore(momentEndObj, 'minute') && moment(currEvent.timeEnd).isAfter(momentStartObj, 'minute')) {
 					this.showTimeError = true;
 					this.timeErrorMessage = "INVALID TIME: Time range conflicts with another availability";
-					this.timeConflictCheck = true;
 					return true;
 				}
 			}
-			this.timeConflictCheck = false;
 			return false;
 		},
 
@@ -632,30 +625,30 @@ export default {
 
 		//handle creation of an availability
 		availabilityCreate: function() {
-		    //override the local availability data
+			//override the local availability data
 		    var momentStartObj = moment(this.availability.date + " " + this.availability.timeStart, ["YYYY-MM-DD h:mma"]);
 		    var momentEndObj = moment(this.availability.date + " " + this.availability.timeEnd, ["YYYY-MM-DD h:mma"]);
-		    this.availability.date = moment(momentStartObj).format("YYYY-MM-DD");
-		    this.availability.timeStart = moment(momentStartObj).format("h:mma");
-		    this.availability.timeEnd = moment(momentEndObj).format("h:mma");
+
+			//sets local fields
+ 		    this.availability.date = moment(momentStartObj).format("YYYY-MM-DD");
+ 		    this.availability.timeStart = moment(momentStartObj).format("h:mma");
+ 		    this.availability.timeEnd = moment(momentEndObj).format("h:mma");
 
 		    //all conditions are met for creating this availability
 		    if(this.checkTimePickerBounds() == false && this.checkIfAvailabilityConflicts("create") == false) {
 		        //create new object for event with the newly created moment objects
-				var newEventId = this.getNewEventId();newEventId
+				var newEventId = this.getNewEventId();
 				this.availability.eventId = newEventId;
 			    var event = {
 		            id: newEventId,
 		            start: momentStartObj,
 		            end: momentEndObj,
 		            title: this.availability.teamName,
+					backgroundColor:  this.getCampusColor(this.availability.teamName),
+					textColor:  "white",
+					overlap: false,
+					borderColor: "black",
 		        }
-
-		        //change color for event based on team
-		        event.color = this.getCampusColor(this.availability.teamName);
-
-		        //change textcolor
-		        event.textColor = "white"
 
 		        //render event
 		        $('#calendar').fullCalendar('renderEvent', event, true);
@@ -671,7 +664,7 @@ export default {
 					teamId: this.getTeamIdFromTeamName(this.availability.teamName),
 				}
 
-				console.log("newAvailability=[eventId=" + newAvailability.eventId + "], date=[" + moment(newAvailability.date, ["YYYY-MM-DD"]).format("YYYY-MM-DD h:mma") + "], timeStart=[" + moment(newAvailability.timeStart, ["h:mma"]).format("YYYY-MM-DD h:mma") + "], timeEnd=[" + moment(newAvailability.timeEnd, ["h:mma"]).format("YYYY-MM-DD h:mma") + "], teamName=" + newAvailability.teamName + "], teamId=[" + newAvailability.teamId + "]");
+				//console.log("newAvailability=[eventId=" + newAvailability.eventId + "], date=[" + moment(newAvailability.date, ["YYYY-MM-DD"]).format("YYYY-MM-DD h:mma") + "], timeStart=[" + moment(newAvailability.timeStart, ["h:mma"]).format("YYYY-MM-DD h:mma") + "], timeEnd=[" + moment(newAvailability.timeEnd, ["h:mma"]).format("YYYY-MM-DD h:mma") + "], teamName=" + newAvailability.teamName + "], teamId=[" + newAvailability.teamId + "]");
 				this.availabilityList.push(newAvailability);
 
 		        //close window
@@ -701,6 +694,8 @@ export default {
 			//override the local availability data
 			var momentStartObj = moment(this.availability.date + " " + this.availability.timeStart, ["YYYY-MM-DD h:mma"]);
 			var momentEndObj = moment(this.availability.date + " " + this.availability.timeEnd, ["YYYY-MM-DD h:mma"]);
+
+			//set local data
 			this.availability.date = moment(momentStartObj).format("YYYY-MM-DD");
 			this.availability.timeStart = moment(momentStartObj).format("h:mma");
 			this.availability.timeEnd = moment(momentEndObj).format("h:mma");
@@ -726,6 +721,7 @@ export default {
 						this.availabilityList[i].teamName = this.availability.teamName;
 						this.availabilityList[i].eventObj = this.availability.eventObj;
 						this.availabilityList[i].teamId = this.getTeamIdFromTeamName(this.availability.teamName);
+						this.availabilityList[i].eventObj.backgroundColor = this.getCampusColor(this.availability.teamName);
 						break;
 					}
 				}
@@ -802,9 +798,9 @@ export default {
 				var currAvail = this.availabilityList[i];
 				var epochStart = moment(currAvail.timeStart).format("X");
 				var epochEnd = moment(currAvail.timeEnd).format("X");
-				console.log("newAvailability=[eventId=" + currAvail.eventId + "], date=[" + moment(currAvail.date, ["YYYY-MM-DD"]).format("YYYY-MM-DD h:mma") + "], timeStart=[" + moment(currAvail.timeStart, ["h:mma"]).format("YYYY-MM-DD h:mma") + "], timeEnd=[" + moment(currAvail.timeEnd, ["h:mma"]).format("YYYY-MM-DD h:mma") + "], teamName=" + currAvail.teamName + "], teamId=[" + currAvail.teamId + "]");
-				//data fields
+				//console.log("newAvailability=[eventId=" + currAvail.eventId + "], date=[" + moment(currAvail.date, ["YYYY-MM-DD"]).format("YYYY-MM-DD h:mma") + "], timeStart=[" + moment(currAvail.timeStart, ["h:mma"]).format("YYYY-MM-DD h:mma") + "], timeEnd=[" + moment(currAvail.timeEnd, ["h:mma"]).format("YYYY-MM-DD h:mma") + "], teamName=" + currAvail.teamName + "], teamId=[" + currAvail.teamId + "]");
 
+				//data fields
 				postData.userTeamId = this.getUserTeamIdFromTeamId(currAvail.teamId);
 				postData.timeStart = epochStart;
 				postData.timeEnd = epochEnd;
@@ -825,6 +821,7 @@ export default {
 
 		populateUserTeamId(response) {
 			//alert(JSON.stringify(response.data, null, 1));
+
 			this.userTeamIdList.push(response.data);
 		},
 
@@ -837,6 +834,15 @@ export default {
 			 });
 		},
 
+
+		getTeamIdFromUserTeamId: function(targetUserTeamId) {
+			for(var i = 0; i < this.userTeamIdList.length; i++) {
+				if(targetUserTeamId == this.userTeamIdList[i]) {
+					return this.teamIdList[i];
+				}
+			}
+			return -1;
+		},
 
 		//populate this user's team list
 		populateTeamList(response) {
@@ -869,12 +875,20 @@ export default {
 				console.log(error);
 			});
 
+			alert('/api/users/' + this.loggedInUserId + '/onetimeavailabilites/' + this.getEpochNextWeekMonday() + "/" + this.getEpochNextWeekSunday());
 			//TODO initialize the existing availabilities for this availabiity weekday {
 			axios.get('/api/users/' + this.loggedInUserId + '/onetimeavailabilites/' + this.getEpochNextWeekMonday() + "/" + this.getEpochNextWeekSunday())
 				.then(this.populateExistingAvailabilities)
 				.catch(function (error) {
 					console.log(error);
 			});
+
+			//DEBUG initailize all existing availabilties
+			// axios.get('/api/onetimeavailabilites')
+			// 	.then(this.populateExistingAvailabilities)
+			// 	.catch(function (error) {
+			// 		console.log(error);
+			// });
 		},
 
 		//initialize this user's availabilty's status
@@ -885,33 +899,38 @@ export default {
 
 		//initalize this user's availability list that exists for this availability week
 		populateExistingAvailabilities(response) {
-			//alert(JSON.stringify(response.data, null, 5));
+			alert(JSON.stringify(response.data, null, 5));
 			var localUserTeamIdList = response.data.map(userTeamId => userTeamId.userTeamId);
 			var localTimeStartList = response.data.map(timeStartItem => timeStartItem.timeStart);
 			var localTimeEndList = response.data.map(timeEndItem => timeEndItem.timeEnd);
 			var localTeamIdList = [];
-			//sets local list of teamIds
+			var localTeamNameList = [];
+			//sets local list of team id
 			for(var i = 0; i < localUserTeamIdList.length; i++) {
-				localTeamIdList.push(this.getTeamIdFromUserId(localUserTeamIdList[i]));
+				localTeamIdList.push(this.getTeamIdFromUserTeamId(localUserTeamIdList[i]));
 			}
 
 			//adds retrieved data to local availability list
 			for(var i = 0; i < response.data.length; i++) {
-
-				var newTeamName = this.getTeamNameFromTeamId(localUserTeamIdList[i]);
+				var newTeamName = this.getTeamNameFromTeamId(localTeamIdList[i]);
 				var newEventId = this.getNewEventId();
+
+				//format moment objects from epoch
+				var startMomentObj = moment(localTimeStartList[i], ["X"]);
+				var endMomentObj = moment(localTimeEndList[i], ["X"]);
+
 				var event = {
 				   id: newEventId,
-				   start: moment(localTimeStartList[i]),
-				   end: moment(localTimeEndList[i]),
+				   start: startMomentObj,
+				   end: endMomentObj,
 				   title: newTeamName,
 			   	}
 				var localAvailability = {
 					eventObj: event,
 					eventId: newEventId,
-					date: moment(localTimeStartList[i]).format("YYYY-MM-DD"),
-					timeStart: moment(localTimeStartList[i]).format("h:mma"),
-					timeEnd: moment(localTimeEndList[i]).format("h:mma"),
+					date: moment(startMomentObj).format("YYYY-MM-DD"),
+					timeStart: moment(startMomentObj).format("h:mma"),
+					timeEnd: moment(endMomentObj).format("h:mma"),
 					teamName: newTeamName,
 					teamId: localUserTeamIdList[i],
 				}
@@ -921,7 +940,7 @@ export default {
 				//render the event
 				 $('#calendar').fullCalendar('renderEvent', event, true);
 			}
-            //
+
 			// console.log("debug print list of availability locally");
 			// console.log("___________________________________________");
 			// for(var i = 0; i < this.availabilityList.length; i++) {
@@ -946,7 +965,7 @@ export default {
 
 	mounted () {
 		//initialize calendar view
-		this.initializeCalendarView();
+		this.defaultCalendarView();
 
 		//set the day restrictions
 		this.nextWeekRange.min = this.getNextWeekMondayDate();

@@ -3,12 +3,12 @@ package controllers;
 import models.databaseModel.helpers.DbTeamHelper;
 import models.databaseModel.scheduling.DbTeam;
 import models.databaseModel.scheduling.DbUser;
+import models.databaseModel.scheduling.DbUserTeam;
 import models.queries.TeamIdArrayForm;
 import play.data.Form;
 import play.data.FormFactory;
 import play.libs.Json;
 import play.mvc.*;
-import models.databaseModel.scheduling.DbUserTeam;
 import models.databaseModel.helpers.DbUserTeamHelper;
 
 import javax.inject.Inject;
