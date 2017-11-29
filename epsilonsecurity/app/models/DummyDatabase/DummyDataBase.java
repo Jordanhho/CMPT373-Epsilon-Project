@@ -154,7 +154,7 @@ public class DummyDataBase {
 //        userList.add(new DbUser("Admin", "God", "admin@sfu.ca", "example@email.ca", "(846) 794-8623", "https://www.PhotoUrl.ca"));
 
         userList.add(new DbUser("Uzziah", "Eyee", "ueyee@sfu.ca", "example@email.ca", "(123)-654-7878", "https://randomuser.me/api/portraits/men/91.jpg"));
-        userList.add(new DbUser("Josh", "Vocal", "jvocal@sfu.ca", "example@email.ca", "(366)-920-4269", "https://randomuser.me/api/portraits/lego/6.jpg"));
+        userList.add(new DbUser("Josh", "Vocal", "jhho@sfu.ca", "example@email.ca", "(366)-920-4269", "https://randomuser.me/api/portraits/lego/6.jpg"));
         userList.add(new DbUser("Nicholas", "Fung","ncfung@sfu.ca", "example@email.ca", "(509)-499-0611", "https://randomuser.me/api/portraits/lego/5.jpg"));
         userList.add(new DbUser("Khang", "Bui","pkbui@sfu.ca", "khang.bui12@outlook.com", "6044444444", "https://randomuser.me/api/portraits/lego/4.jpg"));
 
