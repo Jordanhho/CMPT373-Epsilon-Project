@@ -67,6 +67,17 @@ public class UserController extends Controller {
         return ok(Json.toJson(scheduleReminderList));
     }
 
+    public Result readUserByUsername(String username) {
+        String sfuEmail = username + "@sfu.ca";
+        DbUser targetUser = DbUserHelper.readDbUserBySfuEmail(sfuEmail);
+
+        if (targetUser == null) {
+            targetUser = new DbUser();
+        }
+
+        return ok(Json.toJson(targetUser));
+    }
+
     public Result updateUser(Integer userId) {
         DbUser dbUser = getDbUserFromForm();
         dbUser.setId(userId);
