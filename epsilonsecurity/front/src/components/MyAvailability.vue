@@ -278,9 +278,7 @@ export default {
 			availabilityStatus: "",
 			availabilitySubmitted: false,
 
-			//------------------- USER ---------------------------
-			//current user Id
-			loggedInUserId: store.getters.uid,
+			loggedInUserId: -1,
 
 			// ----------------- MODALS --------------------------------
 			showEditorWindow: false, //editor window popup
