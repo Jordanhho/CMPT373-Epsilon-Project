@@ -55,13 +55,17 @@
 			</v-flex>
 
 			<v-flex xs12 id="option-bar">
-				<v-card class="text-xs-center" dark color="white" >
-					<v-card-actions>
-						<v-btn color="primary" block @click.stop="showSubmitWindow = true" :disabled="availabilitySubmitted">
-							Submit
-						</v-btn>
-					</v-card-actions>
-				</v-card>
+				<center>
+					<v-flex xs10 class="text-xs-center">
+						<v-card class="text-xs-center" dark color="white">
+							<v-card-actions>
+								<v-btn color="primary" block @click.stop="showSubmitWindow = true" :disabled="availabilitySubmitted">
+									Submit
+								</v-btn>
+							</v-card-actions>
+						</v-card>
+					</v-flex>
+				</center>
 			</v-flex>
 		</v-layout>
 
@@ -186,15 +190,15 @@
 							</v-layout>
 						</v-container>
 						<v-card-actions>
+							<v-btn v-if="showEditOptions" color="primary" flat @click.stop="availabilityDelete" :disabled="availabilitySubmitted">
+								Delete
+							</v-btn>
 							<v-spacer></v-spacer>
 							<v-btn  v-if="showCreateOptions" color="primary" flat @click.stop="availabilityCreate" :disabled="availabilitySubmitted">
 								Create
 							</v-btn>
 							<v-btn v-if="showEditOptions" color="primary" flat @click.stop="availabilityEdit()" :disabled="availabilitySubmitted">
 								Edit
-							</v-btn>
-							<v-btn v-if="showEditOptions" color="primary" flat @click.stop="availabilityDelete" :disabled="availabilitySubmitted">
-								Delete
 							</v-btn>
 							<v-btn color="primary" flat @click.stop="hideEditor">
 								Close
@@ -276,7 +280,7 @@ export default {
 
 			//------------------- USER ---------------------------
 			//current user Id
-			loggedInUserId: 2,
+			loggedInUserId: 5,
 
 			// ----------------- MODALS --------------------------------
 			showEditorWindow: false, //editor window popup
@@ -449,13 +453,13 @@ export default {
 		//returns epoch seconds for next monday
 		getEpochNextWeekMonday: function() {
 			var epochNextMonday = moment(this.getNextWeekMondayMoment()).set({'hour': 0, 'minute': 0});
-			return epochNextMonday;
+			return moment(epochNextMonday).format("X");
 		},
 
 		//returns epoch seconds for next sunday
 		getEpochNextWeekSunday: function() {
 			var epochNextSunday = moment(this.getNextWeekSundayMoment()).set({'hour': 23, 'minute': 59});
-			return epochNextSunday;
+			return moment(epochNextSunday).format("X");
 		},
 
 
@@ -533,6 +537,8 @@ export default {
 		},
 
 		showEditorWithCreate: function() {
+			//go to default view
+			this.defaultCalendarView();
 			this.showCreateOptions = true;
 			this.showEditorWindow = true;
 		},
@@ -570,14 +576,6 @@ export default {
 		//compares the current availability to any preexisting availability if their time conflicts
 		checkIfAvailabilityConflicts(action) {
 
-			// console.log("debug print list of availability locally");
-			// console.log("___________________________________________");
-			// for(var i = 0; i < this.availabilityList.length; i++) {
-			// 	var avail = this.availabilityList[i];
-			// 	console.log("Availability=[eventId=" + avail.eventId + "], date=[" + moment(avail.date, ["YYYY-MM-DD"]).format("YYYY-MM-DD h:mma") + "], timeStart=[" + moment(avail.timeStart, ["h:mma"]).format("YYYY-MM-DD h:mma") + "], timeEnd=[" + moment(avail.timeEnd, ["h:mma"]).format("YYYY-MM-DD h:mma") + "], teamName=" + avail.teamName + "], teamId=[" + avail.teamId + "]");
-			// }
-			// console.log("___________________________________________");
-
 			//parse/set the availability start and end moment object's date and time
 			var momentStartObj = moment(this.availability.date + " " + this.availability.timeStart, ["YYYY-MM-DD h:mma"]);
 			var momentEndObj = moment(this.availability.date + " " + this.availability.timeEnd, ["YYYY-MM-DD h:mma"]);
@@ -587,12 +585,10 @@ export default {
 
 				//if same object only on edit
 				if((action == "edit") && (currEvent.eventId == this.availability.eventId)) {
-					//console.log("same object, skip");
 					continue;
 				}
 				//if not the same day, skip this object
 				if(moment(currEvent.timeStart).isSame(momentStartObj, 'day') == false) {
-					//console.log("not same day, skip");
 					continue;
 				}
 				//compare time in hours and minutes with current event object and currently selected availabilty
@@ -604,7 +600,6 @@ export default {
 			}
 			return false;
 		},
-
 
 		//---------------------create, delete, edit calendar operations ----------------------
 
@@ -622,9 +617,9 @@ export default {
 			}
 		},
 
-
 		//handle creation of an availability
 		availabilityCreate: function() {
+
 			//override the local availability data
 		    var momentStartObj = moment(this.availability.date + " " + this.availability.timeStart, ["YYYY-MM-DD h:mma"]);
 		    var momentEndObj = moment(this.availability.date + " " + this.availability.timeEnd, ["YYYY-MM-DD h:mma"]);
@@ -636,6 +631,7 @@ export default {
 
 		    //all conditions are met for creating this availability
 		    if(this.checkTimePickerBounds() == false && this.checkIfAvailabilityConflicts("create") == false) {
+
 		        //create new object for event with the newly created moment objects
 				var newEventId = this.getNewEventId();
 				this.availability.eventId = newEventId;
@@ -663,8 +659,7 @@ export default {
 					teamName: this.availability.teamName,
 					teamId: this.getTeamIdFromTeamName(this.availability.teamName),
 				}
-
-				//console.log("newAvailability=[eventId=" + newAvailability.eventId + "], date=[" + moment(newAvailability.date, ["YYYY-MM-DD"]).format("YYYY-MM-DD h:mma") + "], timeStart=[" + moment(newAvailability.timeStart, ["h:mma"]).format("YYYY-MM-DD h:mma") + "], timeEnd=[" + moment(newAvailability.timeEnd, ["h:mma"]).format("YYYY-MM-DD h:mma") + "], teamName=" + newAvailability.teamName + "], teamId=[" + newAvailability.teamId + "]");
+				//push to local avail list
 				this.availabilityList.push(newAvailability);
 
 		        //close window
@@ -690,7 +685,6 @@ export default {
 
 		//handle edit of availability
 		availabilityEdit: function() {
-
 			//override the local availability data
 			var momentStartObj = moment(this.availability.date + " " + this.availability.timeStart, ["YYYY-MM-DD h:mma"]);
 			var momentEndObj = moment(this.availability.date + " " + this.availability.timeEnd, ["YYYY-MM-DD h:mma"]);
@@ -793,12 +787,10 @@ export default {
 
 		createAvailabilityToDb: function() {
 			for(var i = 0; i < this.availabilityList.length; i++) {
-
 				var postData = {};
 				var currAvail = this.availabilityList[i];
 				var epochStart = moment(currAvail.timeStart).format("X");
 				var epochEnd = moment(currAvail.timeEnd).format("X");
-				//console.log("newAvailability=[eventId=" + currAvail.eventId + "], date=[" + moment(currAvail.date, ["YYYY-MM-DD"]).format("YYYY-MM-DD h:mma") + "], timeStart=[" + moment(currAvail.timeStart, ["h:mma"]).format("YYYY-MM-DD h:mma") + "], timeEnd=[" + moment(currAvail.timeEnd, ["h:mma"]).format("YYYY-MM-DD h:mma") + "], teamName=" + currAvail.teamName + "], teamId=[" + currAvail.teamId + "]");
 
 				//data fields
 				postData.userTeamId = this.getUserTeamIdFromTeamId(currAvail.teamId);
@@ -807,8 +799,7 @@ export default {
 				postData.userId = this.loggedInUserId;
 				postData.status = "Submitted";
 
-				//alert(JSON.stringify(postData, null, 5));
-
+				//send to database
 				axios.post('/api/onetimeavailabilites', postData)
 	                .catch(function (error) {
 	                    console.log(error);
@@ -820,13 +811,10 @@ export default {
 		//--------------------------- axios get -----------------------------
 
 		populateUserTeamId(response) {
-			//alert(JSON.stringify(response.data, null, 1));
-
 			this.userTeamIdList.push(response.data);
 		},
 
 		addUserTeamId: function(targetTeamId) {
-			//alert("userid: " + this.loggedInUserId + " teamid" + targetTeamId);
 			 axios.get('/api/users/' + this.loggedInUserId + '/teams/' + targetTeamId)
 			 .then(this.populateUserTeamId)
 			 .catch(function (error) {
@@ -846,7 +834,6 @@ export default {
 
 		//populate this user's team list
 		populateTeamList(response) {
-			//alert(JSON.stringify(response.data, null, 2));
 			var localTeamIdList = response.data.map(teamId => teamId.id);
 			var localTeamNameList = response.data.map(teamName => teamName.name);
 
@@ -875,16 +862,15 @@ export default {
 				console.log(error);
 			});
 
-			alert('/api/users/' + this.loggedInUserId + '/onetimeavailabilites/' + this.getEpochNextWeekMonday() + "/" + this.getEpochNextWeekSunday());
-			//TODO initialize the existing availabilities for this availabiity weekday {
-			axios.get('/api/users/' + this.loggedInUserId + '/onetimeavailabilites/' + this.getEpochNextWeekMonday() + "/" + this.getEpochNextWeekSunday())
-				.then(this.populateExistingAvailabilities)
-				.catch(function (error) {
-					console.log(error);
+			//initialize all existing availabilities for this user {
+			axios.get('/api/onetimeavailabilites/user/' + this.loggedInUserId)
+			.then(this.populateExistingAvailabilities)
+			.catch(function (error) {
+				console.log(error);
 			});
 
-			//DEBUG initailize all existing availabilties
-			// axios.get('/api/onetimeavailabilites')
+			//initialize the existing availabilities for this availabiity weekday
+			// axios.get('/api/users/' + this.loggedInUserId + '/onetimeavailabilites/' + this.getEpochNextWeekMonday() + "/" + this.getEpochNextWeekSunday())
 			// 	.then(this.populateExistingAvailabilities)
 			// 	.catch(function (error) {
 			// 		console.log(error);
@@ -893,18 +879,20 @@ export default {
 
 		//initialize this user's availabilty's status
 		populateAvailabilityStatus(response) {
-			//alert(JSON.stringify(response.data, null, 1));
 			this.availabilityStatus = response.data;
+			if(this.availabilityStatus == "Submitted") {
+				this.availabilitySubmitted = true;
+			}
 		},
 
 		//initalize this user's availability list that exists for this availability week
 		populateExistingAvailabilities(response) {
-			alert(JSON.stringify(response.data, null, 5));
 			var localUserTeamIdList = response.data.map(userTeamId => userTeamId.userTeamId);
 			var localTimeStartList = response.data.map(timeStartItem => timeStartItem.timeStart);
 			var localTimeEndList = response.data.map(timeEndItem => timeEndItem.timeEnd);
 			var localTeamIdList = [];
 			var localTeamNameList = [];
+
 			//sets local list of team id
 			for(var i = 0; i < localUserTeamIdList.length; i++) {
 				localTeamIdList.push(this.getTeamIdFromUserTeamId(localUserTeamIdList[i]));
@@ -924,7 +912,12 @@ export default {
 				   start: startMomentObj,
 				   end: endMomentObj,
 				   title: newTeamName,
+				   backgroundColor:  this.getCampusColor(newTeamName),
+				   textColor:  "white",
+				   overlap: false,
+				   borderColor: "black",
 			   	}
+
 				var localAvailability = {
 					eventObj: event,
 					eventId: newEventId,
@@ -940,15 +933,6 @@ export default {
 				//render the event
 				 $('#calendar').fullCalendar('renderEvent', event, true);
 			}
-
-			// console.log("debug print list of availability locally");
-			// console.log("___________________________________________");
-			// for(var i = 0; i < this.availabilityList.length; i++) {
-			// 	var avail = this.availabilityList[i];
-			// 	console.log("availability=[eventId=" + avail.eventId + "], date=[" + avail.date + "], timeStart=[" + avail.timeStart + "], timeEnd=[" + avail.timeEnd + "], teamName=" + avail.teamName + "], teamId=[" + avail.teamId + "]");
-			// 	console.log("next");
-			// }
-			// console.log("___________________________________________");
 		},
 	},
 

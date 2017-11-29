@@ -68,6 +68,12 @@ public final class DbUserHelper {
         return dbUserList;
     }
 
+    public static DbUser readDbUserByUsername(String username) {
+        String sfuEmail = username + "@sfu.ca";
+        DbUser dbUser = readDbUserBySfuEmail(sfuEmail);
+
+        return dbUser;
+    }
 
     public static List<ScheduleReminder> readAllScheduleReminderByUserId(Integer userId) {
         return getScheduleRemindersByUserId(userId);
