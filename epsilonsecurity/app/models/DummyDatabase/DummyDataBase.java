@@ -162,7 +162,7 @@ public class DummyDataBase {
         userList.add(new DbUser("Gary", "Hernandez","employ1@sfu.ca", "example@email.ca", "(509)-499-0611", "https://www.PhotoUrl.ca"));
         userList.add(new DbUser("Deborah", "Kelly", "employ2@sfu.ca", "example@email.ca", "(509)-499-0611", "https://www.PhotoUrl.ca"));
         userList.add(new DbUser("Larry", "Ross", "volt2@sfu.ca", "example@email.ca", "(777)-685-2470", "https://www.PhotoUrl.ca"));
-    
+
         //Surrey 
         userList.add(new DbUser("Jeremy", "Wright", "supervisor2@sfu.ca", "example@email.ca", "(730) 639-9920", "https://www.PhotoUrl.ca"));
         userList.add(new DbUser("Elizabeth", "Williams", "teamlead2@sfu.ca", "example@email.ca", "(484) 889-6654", "https://www.PhotoUrl.ca"));
@@ -313,8 +313,8 @@ public class DummyDataBase {
             int day = rand.nextInt(6) + 24;
             shiftList.add(new DbShift
                     (rand.nextInt(shiftTypeList.size()),
-                    TimeUtil.getEpochSecondsFromUserInput(2017, 11, day, rand.nextInt(3) + 13, 30),
-                    TimeUtil.getEpochSecondsFromUserInput(2017, 11, day, rand.nextInt(2) + 16, 30)
+                            TimeUtil.getEpochSecondsFromUserInput(2017, 11, day, rand.nextInt(3) + 13, 30),
+                            TimeUtil.getEpochSecondsFromUserInput(2017, 11, day, rand.nextInt(2) + 16, 30)
                     ));
         }
     }
@@ -322,8 +322,8 @@ public class DummyDataBase {
     private void initUserShift(Random rand) {
         for(DbUserTeam userTeam : userTeamList){
             userShiftList.add(new DbUserShift(userTeam.getId(), shiftList.get(
-                                                                rand.nextInt(shiftList.size())
-                                                                ).getId()));
+                    rand.nextInt(shiftList.size())
+            ).getId()));
         }
     }
 
@@ -332,9 +332,9 @@ public class DummyDataBase {
             int day = rand.nextInt(6) + 24;
             oneTimeAvailList.add(new DbOneTimeAvailability
                     (userTeamList.get(i).getId(),
-                    TimeUtil.getEpochSecondsFromUserInput(2017, 11, day, rand.nextInt(6) + 9, 30),
-                    TimeUtil.getEpochSecondsFromUserInput(2017, 11, day, rand.nextInt(3) + 15, 30)
-            ));
+                            TimeUtil.getEpochSecondsFromUserInput(2017, 11, day, rand.nextInt(6) + 9, 30),
+                            TimeUtil.getEpochSecondsFromUserInput(2017, 11, day, rand.nextInt(3) + 15, 30)
+                    ));
         }
     }
 
@@ -359,9 +359,8 @@ public class DummyDataBase {
     private void initShiftQualification(Random rand) {
         for(DbShiftType shiftType : shiftTypeList){
             shiftQualificationList.add(new DbShiftQualification(shiftType.getId(), qualificationList.get(
-                                                                                    rand.nextInt(qualificationList.size())
-                                                                                    ).getId()));
+                    rand.nextInt(qualificationList.size())
+            ).getId()));
         }
-    }    
+    }
 }
-    
