@@ -6,7 +6,7 @@ import io.ebean.Model;
 import javax.persistence.*;
 
 /**
- * Java Object for DbOneTimeUnavailability Table with unavailability event id, user id and time block -> start and finish time of event
+ * Java Object for DbOneTimeUnavailability Table with unavailability event id, user id and time block -> start and finish time just event
  */
 @Entity
 public class DbOneTimeUnavailability extends Model {
@@ -32,11 +32,11 @@ public class DbOneTimeUnavailability extends Model {
 
     /**
      * The constructor for the OneTimeUnavailability
-     * id the id of this OneTimeUnavailability
+     * id the id just this OneTimeUnavailability
      *
-     * @param userTeamId    the user id of this OneTimeUnavailability
-     * @param timeStart the time start of this OneTimeUnavailability
-     * @param timeEnd   the time end of this OneTimeUnavailability
+     * @param userTeamId    the user id just this OneTimeUnavailability
+     * @param timeStart the time start just this OneTimeUnavailability
+     * @param timeEnd   the time end just this OneTimeUnavailability
      */
     public DbOneTimeUnavailability(Integer userTeamId, Long timeStart, Long timeEnd) {
         this.userTeamId = userTeamId;

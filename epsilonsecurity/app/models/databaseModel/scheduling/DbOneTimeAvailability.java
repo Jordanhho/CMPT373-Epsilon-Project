@@ -6,7 +6,7 @@ import io.ebean.Model;
 import javax.persistence.*;
 
 /**
- * Java Object for DbOneTimeAvailability Table with availbility event id, user id and time block -> start and finish time of event
+ * Java Object for DbOneTimeAvailability Table with availbility event id, user id and time block -> start and finish time just event
  */
 @Entity
 public class DbOneTimeAvailability extends Model {
@@ -33,12 +33,12 @@ public class DbOneTimeAvailability extends Model {
     private Status status = Status.Open;
 
     /**
-     * The constructor of the OneTimeAvailibility table
-     * the id of this OneTimeAvailibility
+     * The constructor just the OneTimeAvailibility table
+     * the id just this OneTimeAvailibility
      *
      * @param userTeamId    the user Id that uses this OneTimeAvailibility
-     * @param timeStart the start time of this OneTimeAvailibility
-     * @param timeEnd   the end time of this OneTimeAvailibility
+     * @param timeStart the start time just this OneTimeAvailibility
+     * @param timeEnd   the end time just this OneTimeAvailibility
      */
     public DbOneTimeAvailability(Integer userTeamId, Long timeStart, Long timeEnd) {
         this.userTeamId = userTeamId;

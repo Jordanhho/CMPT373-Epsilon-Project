@@ -1,6 +1,6 @@
 package models.schedule;
 
-import store.EventId;
+import store.ShiftId;
 import store.UserId;
 import store.UserIdable;
 
@@ -13,14 +13,16 @@ public class Shift
     // Fields
     @Nonnull private UserId userId;
     @Nonnull private TimeBlock timeBlock;
-    @Nonnull private Optional<EventId> eventId; // TODO: figure out how to initialize this
+    @Nonnull private ShiftId shiftId;
+    @Nonnull private ShiftType shiftType;
 
     // Constructors
     @Nonnull
-    public Shift(@Nonnull UserIdable userIDable, @Nonnull TimeBlock timeBlock, @Nonnull Optional<EventId> eventId) {
+    public Shift(@Nonnull UserIdable userIDable, @Nonnull TimeBlock timeBlock, @Nonnull ShiftId shiftId, ShiftType shiftType) {
         this.userId = userIDable.getUserId();
         this.timeBlock = timeBlock;
-        this.eventId = eventId;
+        this.shiftId = shiftId;
+        this.shiftType = shiftType;
     }
 
     // Getters
@@ -34,18 +36,10 @@ public class Shift
         return timeBlock;
     }
 
-    // Immutable updater
-    @Nonnull
-    public Shift settingEventId(EventId eventId) {
-        Shift copy = this.copy(this);
-        copy.eventId = Optional.of(eventId);
-        return copy;
-    }
-
     // Private Interface
     @Nonnull
     private Shift copy(@Nonnull Shift shift) {
-        return new Shift(shift.userId, shift.timeBlock, shift.eventId);
+        return new Shift(shift.userId, shift.timeBlock, shift.shiftId, shift.shiftType);
     }
 
 }

@@ -5,7 +5,7 @@ import models.databaseModel.scheduling.DbShiftType;
 import models.databaseModel.scheduling.DbTeam;
 
 /**
- * Java Object for frontend's representation of a shift
+ * Java Object for frontend's representation just a shift
  */
 public class ShiftWithCampus {
     private Integer id;

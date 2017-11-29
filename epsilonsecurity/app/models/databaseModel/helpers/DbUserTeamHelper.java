@@ -24,6 +24,11 @@ public final class DbUserTeamHelper {
         dbUserTeam.delete();
     }
 
+    public static DbUserTeam readDbUserTeamById(Integer userTeamId) {
+      return DbUserTeam.find.byId(userTeamId);
+
+    }
+
     public static DbUserTeam readDbTeamByUserAndTeamId(Integer userId, Integer teamId) {
         DbUserTeam dbUserTeam = DbUserTeam.find
                 .query()
