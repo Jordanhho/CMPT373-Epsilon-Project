@@ -1,12 +1,16 @@
-import Vue from 'vue';
+import Vue from 'vue'
 import router from './router'
 import Vuetify from 'vuetify'
-import store from './store/store'
-// import './stylus/main.styl'
-import App from './components/App.vue';
-import Icon from 'vue-awesome/icons' //all the icons of font-awesome
+
+import { store } from './store'
+import App from './App'
+
+import Chartkick from 'chartkick'
+import VueChartkick from 'vue-chartkick'
 
 Vue.use(Vuetify)
+Vue.use(VueChartkick, { Chartkick })
+
 
 new Vue({
 	el: "#app-container",
@@ -14,21 +18,13 @@ new Vue({
 	store,
   render(h) {
     return h(App);
-  }
+  },
+	created () {
+		console.log('main> app created!')
+		// alert('main> app created!')
+
+		// note: user is presumed authenticated by the time the SPA loads.
+		// so, fetch user info from backend.
+		this.$store.dispatch('fetchUserData')
+	}
 });
-
-/* 
-If using this, ensure you're using the full variant
-of the core vue library with compiler+runtime.
-see: https://vuejs.org/v2/guide/installation.html#Runtime-Compiler-vs-Runtime-only
-*/
-// new Vue({
-// 	el: '#app-container',
-// 	router,
-// 	template: '<App/>',
-// 	components: { App }
-// })
-
-// TODO: make this work instead of including cdn link in index.scala.html
-// require('/path/to/node_modules/vuetify/dist/vuetify.min.css')
-// Keep in mind, you will need to ensure your webpack config contains a css-loader.

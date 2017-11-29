@@ -36,7 +36,7 @@ public class UserQualificationController extends Controller {
     }
 
     public Result readQualificationByUserId(Integer userId){
-        List<DbQualification> dbQualificationList = DbUserQualificationHelper.readAllDbQualificationsByUserId(userId);
+        List<DbQualification> dbQualificationList = DbUserQualificationHelper.readDbQualificationByUserId(userId);
         return ok(Json.toJson(dbQualificationList));
     }
 }
