@@ -75,9 +75,6 @@ public class ScheduleReminder {
         Date today = new Date(System.currentTimeMillis());
 
         Integer daysTil = Days.daysBetween(new DateTime(today), new DateTime(shiftStartTime)).getDays();
-//        System.out.println("EEEEEEEEEEE");
-//        System.out.println(Integer.toString(days));
-//        System.out.println("EEEEEEEEEEE");
 
         return Integer.toString(daysTil);
     }
