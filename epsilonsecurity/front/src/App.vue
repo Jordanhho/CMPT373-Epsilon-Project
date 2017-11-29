@@ -79,6 +79,7 @@
 					switch (this.userRole) {
 						case 'admin':
 							items = [
+								{ title: 'My Feed', url: '/', icon: 'notifications_none' },
 								{ title: 'Schedules', url: '/manage-schedules', icon: 'today' },
 								{ title: 'Users', url: '/manage-users', icon: 'person' },
 								{ title: 'Teams', url: '/todo', icon: 'group' },
