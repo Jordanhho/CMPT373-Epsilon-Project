@@ -4,12 +4,15 @@ import models.databaseModel.scheduling.DbUser;
 
 import javax.annotation.Nonnull;
 
-public class User implements UserIdable {
+public class User
+    implements UserIdable, RoleIdable {
+
     private UserId userId;
     private String contactEmail;
     private String sfuEmail;
     private String phoneNumber;
     private String photoUrl;
+    private RoleId roleId;
 
     protected User(DbUser dbUser) {
         this.userId = new UserId(dbUser.getId());
@@ -17,6 +20,7 @@ public class User implements UserIdable {
         this.sfuEmail = dbUser.getSfuEmail();
         this.phoneNumber = dbUser.getPhoneNumber();
         this.photoUrl = dbUser.getPhotoURL();
+        this.roleId = new RoleId(dbUser.getRoleId());
     }
 
     @Nonnull
@@ -39,5 +43,9 @@ public class User implements UserIdable {
 
     public String getPhotoUrl() {
         return photoUrl;
+    }
+
+    public RoleId getRoleId() {
+        return roleId;
     }
 }

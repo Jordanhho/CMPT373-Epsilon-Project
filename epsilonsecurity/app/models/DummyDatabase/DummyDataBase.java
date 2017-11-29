@@ -1,5 +1,6 @@
 package models.DummyDatabase;
 
+import auth.dsl.AuthDSL;
 import models.databaseModel.helpers.*;
 import models.databaseModel.qualification.*;
 import models.databaseModel.qualification.DbUserQualification;
@@ -178,10 +179,10 @@ public class DummyDataBase {
     }
 
     private void initPermission() {
-        permissionList.add(new DbPermission("Scheduling"));
-        permissionList.add(new DbPermission("User List"));
-        permissionList.add(new DbPermission("Statistic"));
-        permissionList.add(new DbPermission("Payroll"));
+        permissionList.add(new DbPermission(AuthDSL.SCHEDULING));
+        permissionList.add(new DbPermission(AuthDSL.USER_LIST));
+        permissionList.add(new DbPermission(AuthDSL.STATISTICS));
+        permissionList.add(new DbPermission(AuthDSL.PAYROLL));
     }
 
     private void initTeam() {
@@ -204,7 +205,6 @@ public class DummyDataBase {
     }
 
     private void initQualification() {
-
         qualificationList.add(new DbQualification("Customer Support Training"));
         qualificationList.add(new DbQualification("Transit traffic training"));
         qualificationList.add(new DbQualification("Security Training"));
@@ -750,6 +750,14 @@ public class DummyDataBase {
                                                                                     rand.nextInt(qualificationList.size())
                                                                                     ).getId()));
         }
-    }    
+    }
+
+    private void initAlex() {
+        DbUser alex = new DbUser("Alex", "Popov", "apa53@sfu.ca", "hello@alexpopov.ca", "(123) 456-7890", "http://http.cat/404")
+        DbUserHelper.createDbUser(alex);
+        DbPermission userListPermission = DbPermissionHelper.readDbPermissionByName(AuthDSL.USER_LIST);
+        DbRole alexRolePermission = new DbRolePermission(0, 0, userListPermission.getId(), AccessLevel.READ);
+        DbRoleHelper.createDbRole();
+    }
 }
     

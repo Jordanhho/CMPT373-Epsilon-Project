@@ -1,11 +1,15 @@
 package store;
 
-import models.databaseModel.helpers.DbUserShiftHelper;
-import models.databaseModel.helpers.DbUserTeamHelper;
+import models.AuthToken;
+import models.databaseModel.helpers.*;
+import models.databaseModel.roles.DbPermission;
+import models.databaseModel.roles.DbRole;
+import models.databaseModel.roles.DbRolePermission;
 import models.databaseModel.scheduling.DbUserShift;
+import org.javatuples.KeyValue;
+import org.javatuples.Pair;
 import store.TeamIdable;
 import store.UserIdable;
-import models.databaseModel.helpers.DbUserHelper;
 import models.databaseModel.scheduling.DbUser;
 import models.queries.ScheduleUtil;
 
@@ -47,6 +51,42 @@ public class UserStore extends DataStore {
                 .get(0);
             // TODO: check in on this; are we supposed to be getting multiple users in a single shift?
             return firstUser;
+        });
+    }
+
+    public CompletableFuture<User> getUserForSfuEmail(String email) {
+        return runAsync(() -> {
+            DbUser user = DbUserHelper.readDbUserBySfuEmail(email);
+            if (user == null) {
+                throw new StoreException(USER, ID_NOT_FOUND);
+            } else {
+                return new User(user);
+            }
+        });
+    }
+
+    public CompletableFuture<User> getUserForAuthToken(AuthToken authToken) {
+        return getUserForSfuEmail(authToken.getCasName() + "@sfu.ca");
+    }
+
+    public CompletableFuture<PermissionedUser> getPermissionedUserForId(UserIdable userId) {
+        return getUserWithUserId(userId)
+            .thenCompose(user ->
+                getRole(user)
+                    .thenApply(role -> new PermissionedUser(user, role))
+            );
+    }
+
+    public CompletableFuture<Role> getRole(RoleIdable roleId) {
+        return runAsync(() -> {
+            DbRole dbRole = DbRoleHelper.readDbRoleById(roleId.getRoleId().rawId);
+            List<DbRolePermission> rolePermissions = DbRolePermissionHelper
+                .readDbRolePermissionsByRoleId(dbRole.getId());
+            List<DbPermission> permissions = rolePermissions
+                .stream()
+                .map(rolePermission -> DbPermissionHelper.readDbPermissionById(rolePermission.getPermissionId()) )
+                .collect(Collectors.toList());
+            return new Role(dbRole, permissions, rolePermissions);
         });
     }
 

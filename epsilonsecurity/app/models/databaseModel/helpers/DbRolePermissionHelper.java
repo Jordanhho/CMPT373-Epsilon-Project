@@ -28,4 +28,12 @@ public final class DbRolePermissionHelper {
     public static List<DbRolePermission> readAllDbRolePermission() {
         return DbRolePermission.find.all();
     }
+
+    public static List<DbRolePermission> readDbRolePermissionsByRoleId(Integer roleId) {
+        return DbRolePermission.find
+            .query()
+            .where()
+            .eq(DbRolePermission.COLUMN_ROLE_ID, roleId)
+            .findList();
+    }
 }

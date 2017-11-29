@@ -1,17 +1,19 @@
 package controllers;
 
-import auth.AuthenticatedAction;
 import auth.AuthenticationAnnotation;
 import org.pac4j.play.java.Secure;
 import play.Logger;
 import play.mvc.Controller;
 import play.mvc.Result;
-import play.mvc.With;
+import auth.dsl.*;
+
+import static auth.dsl.AuthDSL.*;
+
 
 public class TestController extends Controller {
 
     @Secure
-    @AuthenticationAnnotation(permissions = {AuthenticationAnnotation.Permission.ALL})
+    @AuthenticationAnnotation(permissions = {READ+IN+USER_LIST, WRITE+IN+SCHEDULING})
     public Result testy() {
         Logger.debug("Testy was called");
         return ok("It worked this time!");

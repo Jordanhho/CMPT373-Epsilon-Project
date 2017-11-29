@@ -26,6 +26,14 @@ public final class DbPermissionHelper {
         return DbPermission.find.byId(id);
     }
 
+    public static DbPermission readDbPermissionByName(String name) {
+        return DbPermission.find
+            .query()
+            .where()
+            .eq(DbPermission.COLUMN_NAME, name)
+            .findOne();
+    }
+
     /**
      * returns a list just all DbPermission
      * @return

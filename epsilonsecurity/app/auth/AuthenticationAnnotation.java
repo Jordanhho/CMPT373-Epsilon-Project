@@ -1,7 +1,10 @@
 package auth;
 
+import models.databaseModel.roles.AccessLevel;
 import play.mvc.With;
+import store.Permission;
 
+import javax.persistence.Access;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -11,10 +14,6 @@ import java.lang.annotation.Target;
 @Target({ElementType.TYPE, ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface AuthenticationAnnotation {
-    Permission[] permissions() default {Permission.NONE};
+    String[] permissions() default {};
 
-    enum Permission {
-        NONE,
-        ALL
-    }
 }
