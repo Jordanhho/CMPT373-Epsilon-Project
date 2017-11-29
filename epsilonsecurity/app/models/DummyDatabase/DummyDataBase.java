@@ -1,11 +1,13 @@
 package models.DummyDatabase;
 
+import auth.dsl.AuthDSL;
 import models.databaseModel.helpers.*;
 import models.databaseModel.qualification.*;
 import models.databaseModel.qualification.DbUserQualification;
 import models.databaseModel.roles.*;
 import models.databaseModel.scheduling.*;
 import models.queries.TimeUtil;
+import play.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,17 +15,17 @@ import java.util.Random;
 
 
 // Create a database for testing and development purpose.
-// The database consists of 19 users, including one admin and
+// The database consists just 19 users, including one admin and
 // 18 users assigned to 3 campuses, and all their related info in other tables.
-// Each campus consists of 1 supervisor, 1 team lead, 2 employees and 2 volunteers.
-// Order of initialization: 
+// Each campus consists just 1 supervisor, 1 team lead, 2 employees and 2 volunteers.
+// Order just initialization:
 // - Role before User, and {Role, Permission} before RolePermission
 // - {User, Team} before UserTeam
 // - ShiftType before Shift
 // - {UserTeam, Shift} before UserShift
 // - {ShiftType, Qualification} before ShiftQualification
 // - {User, Qualification} before UserQualification
-// - UserTeam before all type of Availability (OneTime, Recurring, UnAvailablity) 
+// - UserTeam before all type just Availability (OneTime, Recurring, UnAvailablity)
 
 public class DummyDataBase {
 
@@ -139,6 +141,9 @@ public class DummyDataBase {
         for(DbOneTimeAvailability itr: oneTimeAvailList) {
             DbOneTimeAvailabilityHelper.createDbOneTimeAvailability(itr);
         }
+
+
+        initAlex();
     }
 
     private void initRoles() {
@@ -162,7 +167,7 @@ public class DummyDataBase {
         userList.add(new DbUser("Gary", "Hernandez","employ1@sfu.ca", "example@email.ca", "(509)-499-0611", "https://www.PhotoUrl.ca"));
         userList.add(new DbUser("Deborah", "Kelly", "employ2@sfu.ca", "example@email.ca", "(509)-499-0611", "https://www.PhotoUrl.ca"));
         userList.add(new DbUser("Larry", "Ross", "volt2@sfu.ca", "example@email.ca", "(777)-685-2470", "https://www.PhotoUrl.ca"));
-
+    
         //Surrey 
         userList.add(new DbUser("Jeremy", "Wright", "supervisor2@sfu.ca", "example@email.ca", "(730) 639-9920", "https://www.PhotoUrl.ca"));
         userList.add(new DbUser("Elizabeth", "Williams", "teamlead2@sfu.ca", "example@email.ca", "(484) 889-6654", "https://www.PhotoUrl.ca"));
@@ -181,10 +186,10 @@ public class DummyDataBase {
     }
 
     private void initPermission() {
-        permissionList.add(new DbPermission("Scheduling"));
-        permissionList.add(new DbPermission("User List"));
-        permissionList.add(new DbPermission("Statistic"));
-        permissionList.add(new DbPermission("Payroll"));
+        permissionList.add(new DbPermission(AuthDSL.SCHEDULING));
+        permissionList.add(new DbPermission(AuthDSL.USER_LIST));
+        permissionList.add(new DbPermission(AuthDSL.STATISTICS));
+        permissionList.add(new DbPermission(AuthDSL.PAYROLL));
     }
 
     private void initTeam() {
@@ -207,7 +212,6 @@ public class DummyDataBase {
     }
 
     private void initQualification() {
-
         qualificationList.add(new DbQualification("Customer Support Training"));
         qualificationList.add(new DbQualification("Transit traffic training"));
         qualificationList.add(new DbQualification("Security Training"));
@@ -313,8 +317,8 @@ public class DummyDataBase {
             int day = rand.nextInt(6) + 24;
             shiftList.add(new DbShift
                     (rand.nextInt(shiftTypeList.size()),
-                            TimeUtil.getEpochSecondsFromUserInput(2017, 11, day, rand.nextInt(3) + 13, 30),
-                            TimeUtil.getEpochSecondsFromUserInput(2017, 11, day, rand.nextInt(2) + 16, 30)
+                    TimeUtil.getEpochSecondsFromUserInput(2017, 11, day, rand.nextInt(3) + 13, 30),
+                    TimeUtil.getEpochSecondsFromUserInput(2017, 11, day, rand.nextInt(2) + 16, 30)
                     ));
         }
     }
@@ -322,8 +326,8 @@ public class DummyDataBase {
     private void initUserShift(Random rand) {
         for(DbUserTeam userTeam : userTeamList){
             userShiftList.add(new DbUserShift(userTeam.getId(), shiftList.get(
-                    rand.nextInt(shiftList.size())
-            ).getId()));
+                                                                rand.nextInt(shiftList.size())
+                                                                ).getId()));
         }
     }
 
@@ -332,9 +336,9 @@ public class DummyDataBase {
             int day = rand.nextInt(6) + 24;
             oneTimeAvailList.add(new DbOneTimeAvailability
                     (userTeamList.get(i).getId(),
-                            TimeUtil.getEpochSecondsFromUserInput(2017, 11, day, rand.nextInt(6) + 9, 30),
-                            TimeUtil.getEpochSecondsFromUserInput(2017, 11, day, rand.nextInt(3) + 15, 30)
-                    ));
+                    TimeUtil.getEpochSecondsFromUserInput(2017, 11, day, rand.nextInt(6) + 9, 30),
+                    TimeUtil.getEpochSecondsFromUserInput(2017, 11, day, rand.nextInt(3) + 15, 30)
+            ));
         }
     }
 
@@ -359,8 +363,20 @@ public class DummyDataBase {
     private void initShiftQualification(Random rand) {
         for(DbShiftType shiftType : shiftTypeList){
             shiftQualificationList.add(new DbShiftQualification(shiftType.getId(), qualificationList.get(
-                    rand.nextInt(qualificationList.size())
-            ).getId()));
+                                                                                    rand.nextInt(qualificationList.size())
+                                                                                    ).getId()));
         }
     }
+
+    private void initAlex() {
+        Logger.debug("Initializing Alex");
+        DbUser alex = new DbUser("Alex", "Popov", "apa53@sfu.ca", "hello@alexpopov.ca", "(123) 456-7890", "http://http.cat/404");
+        alex.setRoleId(roleList.get(4).getId());
+        DbUserHelper.createDbUser(alex);
+        DbRolePermission alexRolePermission = new DbRolePermission(teamList.get(0).getId(),
+                                                                   alex.getRoleId(),
+                                                                   PERMISSION_USERLIST_ID, AccessLevel.READ);
+        DbRolePermissionHelper.createDbRolePermission(alexRolePermission);
+    }
 }
+    

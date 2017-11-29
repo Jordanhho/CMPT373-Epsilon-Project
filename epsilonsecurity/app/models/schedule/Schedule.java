@@ -45,22 +45,25 @@ public class Schedule {
     }
 
     public Set<Shift> getShifts() {
-        Set<Shift> shifts = userTimeBlocks.entrySet()
-            .stream()
-            .map( x -> KeyValue.with(x.getKey(), x.getValue()))
-            .flatMap( keyValue -> {
-                return keyValue.getValue()
-                    .stream()
-                    .map( userId -> KeyValue.with(keyValue.getKey(), userId) );
-            })
-            .map( timeBlockUserId -> {
-                TimeBlock timeBlock = timeBlockUserId.getKey();
-                UserIdable user = timeBlockUserId.getValue();
-                return new Shift(user.getUserId(), timeBlock, Optional.empty());
-            })
-            .collect(Collectors.toSet());
-
-        return shifts;
+//        Set<Shift> shifts = userTimeBlocks.entrySet()
+//            .stream()
+//            .map( x -> KeyValue.with(x.getKey(), x.getValue()))
+//            .flatMap( keyValue -> {
+//                return keyValue.getValue()
+//                    .stream()
+//                    .map( userId -> KeyValue.with(keyValue.getKey(), userId) );
+//            })
+//            .map( timeBlockUserId -> {
+//                TimeBlock timeBlock = timeBlockUserId.getKey();
+//                UserIdable user = timeBlockUserId.getValue();
+//                return new Shift()
+//                return new Shift(user.getUserId(), timeBlock, Optional.empty());
+//            })
+//            .collect(Collectors.toSet());
+//
+//        return shifts;
+        // TODO: bring me back
+        return null;
     }
 
     private Set<UserIdable> getUsersForTimeBlock(TimeBlock timeBlock) {

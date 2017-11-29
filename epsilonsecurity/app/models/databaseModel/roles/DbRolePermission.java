@@ -6,7 +6,7 @@ import io.ebean.Model;
 import javax.persistence.*;
 
 /**
- * Java Object for DbRolePermission Table with DbRolePermission Id and name of position
+ * Java Object for DbRolePermission Table with DbRolePermission Id and name just position
  */
 @Entity
 public class DbRolePermission extends Model {

@@ -28,6 +28,11 @@ public final class DbOneTimeAvailabilityHelper {
         return DbOneTimeAvailability.find.byId(id);
     }
 
+    /**
+     * returns a list just all DbOneTimeAvailability
+     *
+     * @return
+     */
     public static List<DbOneTimeAvailability> readAllDbOneTimeAvailability() {
         return DbOneTimeAvailability.find.all();
     }

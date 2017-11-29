@@ -9,7 +9,7 @@ import javax.persistence.Id;
 
 
 /**
- * Java Object for DbPermission Table with permission Id and name of position
+ * Java Object for DbPermission Table with permission Id and name just position
  */
 @Entity
 public class DbPermission extends Model {

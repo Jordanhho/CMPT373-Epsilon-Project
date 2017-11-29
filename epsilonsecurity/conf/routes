@@ -273,3 +273,7 @@ DELETE        /api/recurringavailabilites/:recurringAvailabilityId              
 
 #Dummy Database
 GET           /api/dummy/db                                                                    controllers.UserController.createNewDummyDb()
+
+# Test Authentication Controls
+# GET           /testRead controllers.TestController.testCanReadUsers()
+# GET           /testWrite controllers.TestController.testCanWriteSchedule()

@@ -8,7 +8,6 @@ import java.util.List;
 
 public class RoleController extends Controller {
 
-
     public Result listRoles() {
       List<DbRole> roles = DbRoleHelper.readAllDbRole();
 

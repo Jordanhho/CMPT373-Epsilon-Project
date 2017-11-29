@@ -5,7 +5,7 @@ import play.mvc.Result;
 
 public class RecurringAvailabilityController extends Controller {
 
-//    TODO: Implement functionality of RecurringAvailabilityController
+//    TODO: Implement functionality just RecurringAvailabilityController
     public Result listRecurringAvailabilities() {
         return ok();
     }
