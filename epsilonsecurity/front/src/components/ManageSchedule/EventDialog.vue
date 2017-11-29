@@ -26,7 +26,7 @@
                                         <v-flex xs12>
                                             <v-text-field
                                                 label="Team"
-                                                :value="teamName"
+                                                :value="localTeamName"
                                                 disabled>
                                             </v-text-field>
                                         </v-flex>
@@ -231,7 +231,8 @@
                 timeErrorMessage: "",
 
                 //local data
-                teamName: "",
+                localTeamName: "",
+                localTeamId: -1,
                 shiftType: -1,
                 users: [],
                 selectedUsers: [],
@@ -314,16 +315,44 @@
                     var momentEndObj = moment(this.shiftObj.date + " " + this.shiftObj.timeEnd, ["YYYY-MM-DD h:mma"]);
 
                     //send axio request for every user and add it to a list of objects to send the calendar
-                    for (userId in this.selectedUsers) {
-                        //create new shiftObj to add to list
+                    for (var i = 0; i < this.selectedUsers.length; i++) {
+
+                        //set post shift data -> create a shift
+                        var postShiftData = {};
+                        postShiftData.shiftTypeId = this.shiftObj.ShiftTypeId;
+                        postShiftData.timeStart = this.shiftObj.timeStart;
+                        postShiftData.timeEnd =this.shiftObj.timeEnd;
+                        postShiftData.description= "TODO description";
+
+                        //set post userShift data -> assign the user to a shift
+
+
+                        ///api/users/:userId/shifts/:shiftId
+
+
                         var newShiftObj = {
                             date: moment(momentStartObj).format("X"),
                             timeStart: moment(momentStartObj).format("X"),
                             timeEnd: moment(momentEndObj).format("X"),
                             shiftTypeId: this.shiftObj.ShiftTypeId,
                             teamId: this.shiftObj.teamId,
-                            userId: userId,
+                            userId: this.selectedUsers[i],
+                            description: "",
                         }
+
+
+
+                        ///api/shifts
+
+
+                        /*
+                        this.shiftTypeId = shiftTypeId;
+                        this.timeStart = timeStart;
+                        this.timeEnd = timeEnd;
+                        this.wasPresent = true;
+                        this.description = description;
+                        */
+
                         //Integer shiftTypeId, Long timeStart, Long timeEnd, String description
                         ///api/users/:userId/shifts/:shiftId
                         ///api/shifttypes
@@ -337,14 +366,22 @@
                         this.shiftObjList.push(newShiftObj);
                         alert(JSON.stringify(newShiftObj));
 
-                        //send shiftObjlist to database
-                        axios.post('/api/shifts/', newShiftObj)
-                        .catch(function (error) {
-                            console.log(error);
-                        });
+                        //create a shift
+                        // axios.post('/api/shifts', newShiftObj)
+                        // .catch(function (error) {
+                        //     console.log(error);
+                        // });
+                        //
+                        // ///api/users/:userId/teams/:teamId
+                        // axios.post('/api/users/' + this.loggedInUserId + '/teams/' + )
+                        // .catch(function (error) {
+                        //     console.log(error);
+                        // });
+
+
                     }
 
-                    this.$emit('shiftsAdded', this.shiftObjList);
+                    //this.$emit('shiftsAdded', this.shiftObjList);
                     //close window
                     this.toggleDialog();
                 }
@@ -353,8 +390,11 @@
             //------------------- axios ----------------------
 
             setTeamName(response) {
-                this.teamName = response.data.name;
+                this.localTeamName = response.data.name;
+                this.localTeamId = response.data.id;
+                //alert(this.localTeamId);
             },
+
             populateUsers(response) {
                 console.log(JSON.stringify(response.data, null, 2));
                 this.users = response.data;

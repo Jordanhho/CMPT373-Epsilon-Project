@@ -49,7 +49,7 @@
                     shiftTypeId: -1,
                 },
 
-                editMode: true,
+                editMode: false,
 
                 //-------------------- Campus selection -----------------------
                 //campus colors
@@ -148,47 +148,127 @@
     			this.shiftObj.timeEnd = moment(event.end, ["h:mma"]).format("h:mma");
     			this.shiftObj.teamName = event.title;
 
-                //TODO pass this information back to the event dialog
+                //TODO pass this information back to the event dialog emit shiftObj back to event dialog
 
     			//TODO close event Dialog
     		},
 
 
             //re-renders the calendar everytime the filter function changes
-            reRenderCalendar: function() {
+            renderCalendar: function() {
 
             },
 
-            createShift: function() {
-                var newEventId = this.getNewEventId();
-                this.shiftObj.eventId = newEventId;
 
-                //TODO set the start, end, title to the passed in shiftObj from EventDialog
-                var event = {
-    	            id: newEventId,
-    	            start: null,
-    	            end: null,
-    	            title: null,
-                    color: this.getCampusColor(this.shiftObj.teamName),
-                    textColor: "white",
-    	        }
 
-                //$('#calendar').fullCalendar('renderEvent', event, true);
+            renderAvailabilities: function() {
+                //get all availabitiies from database and render it into the calendar
+                axios.get('//api/onetimeavailabilites')
+                .then(this.populateShiftObjs)
+                .catch(function (error) {
+                    console.log(error);
+                });
             },
 
 
-    		shiftEdit: function(eventId) {
-    			$('#calendar').fullCalendar('updateEvent', eventId);
+            //initalize this user's availability list that exists for this availability week
+            // populateAvailabilityObjs(response) {
+            //     var localUserTeamIdList = response.data.map(userTeamId => userTeamId.userTeamId);
+            //     var localTimeStartList = response.data.map(timeStartItem => timeStartItem.timeStart);
+            //     var localTimeEndList = response.data.map(timeEndItem => timeEndItem.timeEnd);
+            //     var localTeamIdList = [];
+            //     var localTeamNameList = [];
+            //
+            //     //sets local list of team id
+            //     for(var i = 0; i < localUserTeamIdList.length; i++) {
+            //         localTeamIdList.push(this.getTeamIdFromUserTeamId(localUserTeamIdList[i]));
+            //     }
+            //
+            //     //adds retrieved data to local availability list
+            //     for(var i = 0; i < response.data.length; i++) {
+            //         var newTeamName = this.getTeamNameFromTeamId(localTeamIdList[i]);
+            //         var newEventId = this.getNewEventId();
+            //
+            //         //format moment objects from epoch
+            //         var startMomentObj = moment(localTimeStartList[i], ["X"]);
+            //         var endMomentObj = moment(localTimeEndList[i], ["X"]);
+            //
+            //         var event = {
+            //            id: newEventId,
+            //            start: startMomentObj,
+            //            end: endMomentObj,
+            //            title: newTeamName,
+            //            backgroundColor:  this.getCampusColor(newTeamName),
+            //            textColor:  "white",
+            //            overlap: false,
+            //            borderColor: "black",
+            //         }
+            //
+            //         var localAvailability = {
+            //             eventObj: event,
+            //             eventId: newEventId,
+            //             date: moment(startMomentObj).format("YYYY-MM-DD"),
+            //             timeStart: moment(startMomentObj).format("h:mma"),
+            //             timeEnd: moment(endMomentObj).format("h:mma"),
+            //             teamName: newTeamName,
+            //             teamId: localUserTeamIdList[i],
+            //         }
+            //         //push local list
+            //         this.availabilityList.push(localAvailability);
+            //
+            //         //render the event
+            //          $('#calendar').fullCalendar('renderEvent', event, true);
+            //     }
+            // },
 
-    			//TODO close event Dialog
-    		},
+            renderShifts: function() {
+                //remove all events before rendering
+                $('#calendar').fullCalendar('removeEvents');
+
+                //get all shifts from database and render it into the calendar
+                axios.get('/api/shifts')
+                .then(this.populateShiftObjs)
+                .catch(function (error) {
+                    console.log(error);
+                });
+            },
 
 
-    		shiftDelete: function(eventId) {
-    			$('#calendar').fullCalendar('removeEvents', eventId);
-    			//TODO close event Dialog
-    		},
+            populateShiftObjs(response) {
+                //console.log(JSON.stringify(response.data, null, 6));
+                var titleList = response.data.map(shiftObj => shiftObj.title);
+                var timeStartList = response.data.map(shiftObj => shiftObj.timeStart);
+                var timeEndList = response.data.map(shiftObj => shiftObj.timeEnd);
+                var descriptionList = response.data.map(shiftObj => shiftObj.description);
+                var wasPresentList = response.data.map(shiftObj => shiftObj.wasPresent);
+
+                //render all objects
+                for(var i = 0; i < response.data.length; i++) {
+                    //format timeStart, timeEnd
+                    var startMomentObj = moment(timeStartList[i], ["X"]);
+                    var endMomentObj  = moment(timeEndList[i], ["X"]);
+
+                    //new event obj
+                    var event = {
+                       id: this.getNewEventId(),
+                       start: startMomentObj,
+                       end: endMomentObj,
+                        title: titleList[i],
+                        description: descriptionList[i],
+                        backgroundColor:  this.getCampusColor(campusList[i]),
+                        textColor:  "white",
+                        borderColor: "black",
+                    }
+
+                    //render events
+                    $('#calendar').fullCalendar('renderEvent', event, true);
+                }
+            },
         },
+        created: function() {
+    		//renders shifts at startup
+    		this.renderShifts();
+    	}
     }
 </script>
 
