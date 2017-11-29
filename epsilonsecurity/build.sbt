@@ -46,8 +46,8 @@ libraryDependencies ++= Seq(
 libraryDependencies += "junit" % "junit" % "4.12"
 libraryDependencies += "com.novocode" % "junit-interface" % "0.11" % "test"
 
-testOptions += Tests.Argument(TestFrameworks.JUnit, "-v", "-a")
-javaOptions in Test += "-Dconfig.file=conf/application.test.conf"
+//testOptions += Tests.Argument(TestFrameworks.JUnit, "-v", "-a")
+//javaOptions in Test += "-Dconfig.file=conf/application.test.conf"
 
 // [in dev-mode], Akka Http Server listens on this port.
 // https://www.playframework.com/documentation/2.5.x/ConfigFile#Using-with-the-run-command
