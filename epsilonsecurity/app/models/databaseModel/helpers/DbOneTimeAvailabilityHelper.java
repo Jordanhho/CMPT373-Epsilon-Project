@@ -2,7 +2,9 @@ package models.databaseModel.helpers;
 
 import io.ebean.Expr;
 import models.databaseModel.scheduling.DbOneTimeAvailability;
+import models.databaseModel.scheduling.DbUserTeam;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -30,6 +32,16 @@ public final class DbOneTimeAvailabilityHelper {
         return DbOneTimeAvailability.find.all();
     }
 
+    public static List<DbOneTimeAvailability> readAllDbOneTimeAvailabilityByUserId(Integer userId){
+        List<DbOneTimeAvailability> listOfAvailabilityByUser = new ArrayList<>();
+        List<DbUserTeam>  associatedUserTeam = DbUserTeamHelper.readAllDbUserTeamsByUserId(userId);
+        for(DbUserTeam userTeam : associatedUserTeam){
+            listOfAvailabilityByUser.addAll
+                    (DbOneTimeAvailabilityHelper.readDbOneTimeAvailabilityByUserTeamId(userTeam.getId()));
+        }
+        return listOfAvailabilityByUser;
+    }
+
     public static List<DbOneTimeAvailability> readDbOneTimeAvailabilityByUserTeamId(Integer userTeamId) {
         List<DbOneTimeAvailability> dbOneTimeAvailabilityList = DbOneTimeAvailability.find
                 .query()
@@ -53,4 +65,5 @@ public final class DbOneTimeAvailabilityHelper {
 
         return dbOneTimeAvailabilityList;
     }
+
 }

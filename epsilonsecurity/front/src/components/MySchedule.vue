@@ -19,8 +19,8 @@
 								<p>{{shiftTitle}}</p>
 								<p>{{shiftDate}}</p>
 								<p>{{shiftTime}}</p>
-								<p>{{shiftCampus}}</p>
-								<p>{{shiftDescription}}</p>
+								<p>{{shiftCampus}}</p> 
+								<p>{{shiftDescription}}</p> 
 							</v-flex>
 						</v-layout>
 					</v-container>
@@ -43,7 +43,7 @@ import Vue from 'vue'
 import FullCalendar from 'vue-full-calendar'
 import moment from 'moment'
 import axios from 'axios'
-import store from '../store/store'
+import { store } from '../store'
 
 Vue.use(FullCalendar) // add the vue-full-calendar plugin to Vue
 window.jQuery = window.$ = require('jquery') // we need jquery too
@@ -53,7 +53,7 @@ export default {
     return {
 			config: {
 				// https://fullcalendar.io/docs/views/Available_Views/
-				defaultView: 'agendaWeek',
+				defaultView: 'agendaWeek', 
 				// local timezone is very important
 				timezone: 'local',
 				header: {
@@ -92,7 +92,7 @@ export default {
 				{
 					events: function(start, end, timezone, callback) {
 						// todo: use userId when api is ready.
-						const userId = store.getters.currentUserId
+						const userId = store.getters.uid
 						axios.get(`/api/users/${userId}/shifts`)
 						.then(response => {
 							// console.log(JSON.stringify(response.data,null,2))

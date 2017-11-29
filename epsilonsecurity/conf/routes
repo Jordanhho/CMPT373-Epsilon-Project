@@ -1,15 +1,18 @@
 # allow requests for static assets
-GET           /assets/*file                                                                    controllers.Assets.versioned(path="/public", file: Asset)
+GET           /assets/*file                                                                            controllers.Assets.versioned(path="/public", file: Asset)
 
-GET           /test                                                                            controllers.TestController.testy()
+GET           /test                                                                                    controllers.TestController.testy()
 
-GET           /callback                                                                        @org.pac4j.play.CallbackController.callback()
+GET           /callback                                                                                @org.pac4j.play.CallbackController.callback()
+GET           /logout                                                                                  @org.pac4j.play.LogoutController.logout()
+GET           /centralLogout                                                                           controllers.CentralLogoutController.logout()
 
-GET           /ok                                                                              controllers.TestController.test()
+GET           /ok                                                                                      controllers.TestController.test()
 
-GET           /$p<(?!api).*>                                                                   controllers.HomeController.index(p: String)
+GET           /$p<(?!api).*>                                                                           controllers.HomeController.index(p: String)
 # ----------------------- USER APIs ----------------------
 
+GET           /api/authuser        controllers.HomeController.casUser()
 #
 # DbUser
 #
@@ -201,11 +204,14 @@ GET           /api/qualification/:userId                                        
 # List all one time availabilities in the database
 GET           /api/onetimeavailabilites                                                        controllers.OneTimeAvailabilityController.listOneTimeAvailabilities()
 
+# List all availabilities by a user id
+GET           /api/onetimeavailabilites/user/:userId                                           controllers.OneTimeAvailabilityController.readAllAvailabilitiesByUserId(userId: Integer)
+
 # List all one time availabilities in a time range
 GET           /api/onetimeavailabilites/:timeStart/:timeEnd                                    controllers.OneTimeAvailabilityController.readOneTimeAvailabilitiesByTimeRange(timeStart: Long, timeEnd: Long)
 
 # Get all one time availabilities in a time range from a specific user
-GET           /api/users/:userId/onetimeavailabilites/:timeStart/:timeEnd                     controllers.OneTimeAvailabilityController.readOneTimeAvailabilityByUserId(userId: Integer, timeStart: Long, timeEnd: Long)
+GET           /api/users/:userId/onetimeavailabilites/:timeStart/:timeEnd                      controllers.OneTimeAvailabilityController.readOneTimeAvailabilityByUserId(userId: Integer, timeStart: Long, timeEnd: Long)
 
 # Get the status of a week's set of one time availabilities
 GET           /api/users/:userId/teams/:teamId/onetimeavailabilites/:timeStart/:timeEnd        controllers.OneTimeAvailabilityController.readOneTimeAvailabilityStatus(userId: Integer, teamId: Integer, timeStart: Long, timeEnd: Long)
