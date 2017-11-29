@@ -31,12 +31,8 @@
         name: 'my-feed',
         data() {
             return {
-//                daysTilShift: '',
-//                shiftStartTime: '',
-//                shiftEndTime: '',
-//                shiftDate: '',
-//                shiftName: '',
-                scheduleReminders: []
+                scheduleReminders: [],
+                loggedInUserId: this.$store.getters.id
             }
         },
         components: {
@@ -44,7 +40,6 @@
         },
         methods: {
             populateScheduleReminder(scheduleReminder) {
-//                alert(JSON.stringify(scheduleReminder.data, null, 2))
                 var arrLength = scheduleReminder.data.length;
 
                 for (var i = 0; i < arrLength; i++) {
@@ -53,7 +48,8 @@
             }
         },
         created: function () {
-            axios.get('/api/users/' + 2 + '/reminders')
+            this.loggedInUserId = this.$store.getters.uid;
+            axios.get('/api/users/' + this.loggedInUserId + '/reminders')
                 .then(this.populateScheduleReminder)
                 .catch(function (error) {
                     console.log(error)
