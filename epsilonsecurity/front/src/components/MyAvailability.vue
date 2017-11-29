@@ -280,7 +280,7 @@ export default {
 
 			//------------------- USER ---------------------------
 			//current user Id
-			loggedInUserId: -1,
+			loggedInUserId: store.getters.uid,
 
 			// ----------------- MODALS --------------------------------
 			showEditorWindow: false, //editor window popup
