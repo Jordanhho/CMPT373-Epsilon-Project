@@ -938,7 +938,7 @@ export default {
 
 
 	created: function() {
-
+		 this.loggedInUserId = store.getters.uid;
 		//initialize local list of teams the user belongs to
 		axios.get('/api/users/' + this.loggedInUserId + '/teams')
 		.then(this.populateTeamList)
