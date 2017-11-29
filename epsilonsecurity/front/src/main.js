@@ -1,11 +1,16 @@
 import Vue from 'vue'
 import router from './router'
 import Vuetify from 'vuetify'
+
 import { store } from './store'
 import App from './App'
-import axios from 'axios'
+
+import Chartkick from 'chartkick'
+import VueChartkick from 'vue-chartkick'
 
 Vue.use(Vuetify)
+Vue.use(VueChartkick, { Chartkick })
+
 
 new Vue({
 	el: "#app-container",

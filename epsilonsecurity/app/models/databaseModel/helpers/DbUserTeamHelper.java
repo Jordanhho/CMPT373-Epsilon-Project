@@ -92,4 +92,12 @@ public final class DbUserTeamHelper {
 
         return userList;
     }
+
+    public static List<DbUserTeam> readDbUserTeamByTeamId(Integer teamId){
+        return DbUserTeam.find
+                .query()
+                .where()
+                .eq(DbUserTeam.COLUMN_TEAM_ID, teamId)
+                .findList();
+    }
 }

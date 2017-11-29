@@ -1,14 +1,14 @@
 <template>
 	<v-container fluid fill-height class="pa-0">
 	<!-- <div id="my-schedule"> -->
-		<full-calendar 
+		<full-calendar
 			:event-sources="eventSources"
 			:config="config"
 			id="calendar">
 		</full-calendar>
 
 		<v-dialog v-model="dialog">
-      <v-card> 
+      <v-card>
         <v-card-title>
 					<span class="headline">Shift Info</span>
 				</v-card-title>
